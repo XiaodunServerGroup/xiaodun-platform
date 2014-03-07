@@ -1,0 +1,512 @@
+// studio - views - assets
+// ====================
+
+.view-uploads {
+
+  .content-primary, .content-supplementary {
+    @include box-sizing(border-box);
+    float: left;
+  }
+
+  .content-primary {
+    width: flex-grid(9, 12);
+    margin-right: flex-gutter();
+  }
+
+  .content-supplementary {
+    width: flex-grid(3, 12);
+  }
+
+  .nav-actions {
+
+    .icon-cloud-upload {
+      @extend %t-copy;
+      vertical-align: bottom;
+      margin-right: ($baseline/5);
+    }
+
+  }
+
+  .no-asset-content {
+    @extend %ui-well;
+    padding: ($baseline*2);
+    background-color: $gray-l4;
+    text-align: center;
+    color: $gray;
+
+    .new-button {
+      @include font-size(14);
+      margin-left: $baseline;
+
+      [class^="icon-"] {
+        margin-right: ($baseline/2);
+      }
+    }
+  }
+
+  .asset-library {
+    @include clearfix;
+
+    .meta-wrap {
+      margin-bottom: $baseline;
+    }
+    .meta {
+      @extend %t-copy-sub2;
+      display: inline-block;
+      vertical-align: top;
+      width: flex-grid(9, 12);
+      color: $gray-l1;
+
+      .count-current-shown,
+      .count-total,
+      .sort-order {
+        font-weight: 700;
+      }
+    }
+
+    .pagination {
+      @include clearfix;
+      display: inline-block;
+      width: flex-grid(3, 12);
+
+      &.pagination-compact {
+        text-align: right;
+      }
+
+      &.pagination-full {
+        display: block;
+        width: flex-grid(4, 12);
+        margin: $baseline auto;
+      }
+
+      .nav-item {
+        position: relative;
+        display: inline-block;
+      }
+
+      .nav-link {
+        @include transition(all $tmg-f2 ease-in-out 0s);
+        display: block;
+        padding: ($baseline/4) ($baseline*0.75);
+
+        &.previous {
+          margin-right: ($baseline/2);
+        }
+
+        &.next {
+          margin-left: ($baseline/2);
+        }
+
+        &:hover {
+          background-color: $blue;
+          border-radius: 3px;
+          color: $white;
+        }
+
+        &.is-disabled {
+          background-color: transparent;
+          color: $gray-l2;
+          pointer-events: none;
+        }
+      }
+
+      .nav-label {
+        @extend .sr;
+      }
+
+      .pagination-form,
+      .current-page,
+      .page-divider,
+      .total-pages {
+        display: inline-block;
+      }
+
+      .current-page,
+      .page-number-input,
+      .total-pages {
+        @extend %t-copy-base;
+        width: ($baseline*2.5);
+        margin: 0 ($baseline*0.75);
+        padding: ($baseline/4);
+        text-align: center;
+        color: $gray;
+        font-weight: 600;
+      }
+
+      .current-page {
+        @extend %ui-depth1;
+        position: absolute;
+        left: -($baseline/4);
+      }
+
+      .page-divider {
+        @extend %t-title4;
+        vertical-align: middle;
+        color: $gray-l2;
+        font-weight: 400;
+      }
+
+
+      .pagination-form {
+        @extend %ui-depth2;
+        position: relative;
+
+        .page-number-label,
+        .submit-pagination-form {
+          @extend .sr;
+        }
+
+        .page-number-input {
+          @include transition(all $tmg-f2 ease-in-out 0s);
+          border: 1px solid transparent;
+          border-bottom: 1px dotted $gray-l2;
+          border-radius: 0;
+          box-shadow: none;
+          background: none;
+
+          &:hover {
+            background-color: $white;
+            opacity: 0.6;
+          }
+
+          &:focus {
+            // borrowing the base input focus styles to match overall app
+            @include linear-gradient($paleYellow, tint($paleYellow, 90%));
+            opacity: 1.0;
+            box-shadow: 0 0 3px $shadow-d1 inset;
+            background-color: $white;
+            border: 1px solid transparent;
+            border-radius: 3px;
+          }
+        }
+
+
+      }
+    }
+
+
+
+
+
+    table {
+      width: 100%;
+      word-wrap: break-word;
+
+      th {
+        @extend %t-copy-sub2;
+        background-color: $gray-l5;
+        padding: 0 ($baseline/2) ($baseline*0.75) ($baseline/2);
+        vertical-align: middle;
+        text-align: left;
+        color: $gray;
+
+        .column-sort-link {
+          cursor: pointer;
+          color: $blue;
+        }
+
+
+        .current-sort {
+          border-bottom: 1px solid $gray-l3;
+          font-weight: 700;
+        }
+
+        // CASE: embed column
+        &.embed-col {
+          padding-left: ($baseline*0.75);
+          padding-right: ($baseline*0.75);
+        }
+      }
+
+      td {
+        padding: ($baseline/2);
+        vertical-align: middle;
+        text-align: left;
+      }
+
+      tbody {
+        box-shadow: 0 2px 2px $shadow-l1;
+        border: 1px solid $gray-l4;
+        background: $white;
+
+        tr {
+          @include transition(all $tmg-f2 ease-in-out 0s);
+          border-top: 1px solid $gray-l4;
+
+          &:first-child {
+            border-top: none;
+          }
+
+          &:nth-child(odd) {
+            background-color: $gray-l6;
+          }
+
+          a {
+            color: $gray-d1;
+
+            &:hover {
+              color: $blue;
+            }
+          }
+
+          &.is-locked {
+            background-image: url('../img/bg-micro-stripes.png');
+            background-position: 0 0;
+            background-repeat: repeat;
+          }
+
+          &:hover {
+            background-color: $blue-l5;
+
+            .date-col,
+            .embed-col,
+            .embed-col .embeddable-xml-input {
+              color: $gray;
+            }
+          }
+        }
+
+      .thumb-col {
+        padding: ($baseline/2) $baseline;
+
+        .thumb {
+          width: 100px;
+        }
+
+          img {
+            width: 100%;
+          }
+        }
+
+
+        .name-col {
+
+          .title {
+            @extend %t-copy-sub1;
+            display: inline-block;
+            max-width: 200px;
+            overflow: hidden;
+          }
+        }
+
+        .date-col {
+          @include transition(all $tmg-f2 ease-in-out 0s);
+          @extend %t-copy-sub2;
+          color: $gray-l2;
+        }
+
+        .embed-col {
+          @include transition(all $tmg-f2 ease-in-out 0s);
+          padding-left: ($baseline*0.75);
+          color: $gray-l2;
+
+          .embeddable-xml-input {
+            @include transition(all $tmg-f2 ease-in-out 0s);
+            @extend %t-copy-sub2;
+            box-shadow: none;
+            border: 1px solid transparent;
+            background: none;
+            width: 100%;
+            color: $gray-l2;
+
+            &:focus {
+              background-color: $white;
+              box-shadow: 0 1px 5px $shadow-l1 inset;
+              border: 1px solid $gray-l3;
+            }
+          }
+        }
+
+        .actions-col {
+          padding: ($baseline/2);
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  // UI: assets - calls-to-action
+  .actions-list {
+    @extend %actions-header;
+
+    .action-item {
+      display: inline-block;
+      margin: ($baseline/4) 0 ($baseline/4) ($baseline/4);
+
+      .action-button {
+        padding: 0;
+        display: block;
+        width: ($baseline*1.5);
+        height: ($baseline*1.5);
+        color: $gray-l3;
+        }
+      }
+  }
+
+  // UI: assets - specific action styling
+  // TODO: this uses similar styling as unit.scss, static-pages.scss
+  .action-item {
+
+    [class^="icon-"] {
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+
+    &.action-lock {
+      position: relative;
+    }
+
+    &.action-lock label {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 30px;
+      width: 30px;
+
+      &:hover {
+        background-color: $blue;
+      }
+    }
+
+    &.action-lock .lock-checkbox {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 30px;
+      width: 30px;
+      opacity: 0;
+    }
+
+    &.action-lock .lock-checkbox:hover ~ .action-button {
+      background-color: $blue;
+      color: $gray-l6;
+    }
+
+    &.action-lock .lock-checkbox ~ .action-button {
+      .icon-lock {
+        display: none;
+      }
+
+      .icon-unlock-alt {
+        display: inline-block;
+      }
+    }
+
+    &.action-lock .lock-checkbox:checked ~ .action-button {
+      background-color: $gray;
+      color: $white;
+
+      .icon-lock {
+        display: inline-block;
+      }
+
+     .icon-unlock-alt {
+        display: none;
+      }
+    }
+
+  }
+
+  .show-xml {
+    @include blue-button;
+  }
+
+  .upload-modal {
+    display: none;
+    width: 640px !important;
+    margin-left: -320px !important;
+
+    .modal-body {
+      height: auto !important;
+      overflow-y: auto !important;
+      text-align: center;
+    }
+
+    .title {
+      @extend %t-title3;
+      float: none;
+      margin: ($baseline*2) 0 ($baseline*1.5);
+      font-weight: 300;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .choose-file-button {
+      @include blue-button;
+      padding: 10px 82px 12px;
+      font-size: 17px;
+    }
+
+    .progress-bar {
+      display: none;
+      width: ($baseline*15);
+      height: 35px;
+      margin: ($baseline) auto;
+      border: 1px solid $green;
+      border-radius: ($baseline*2);
+
+      &.loaded {
+        border-color: #66b93d;
+
+        .progress-fill {
+          background: #66b93d;
+        }
+      }
+    }
+
+    .progress-fill {
+      @extend %t-copy-sub1;
+      width: 0%;
+      height: ($baseline*1.5);
+      border-radius: ($baseline*2);
+      background: $green;
+      padding-top: ($baseline/4);
+      color: $white;
+    }
+
+    .close-button {
+      @include transition(color $tmg-f2 ease-in-out 0s);
+      position: absolute;
+      top: 0;
+      right: ($baseline*0.75);
+      border: none;
+      background: none;
+      padding: 0;
+
+      [class^="icon-"] {
+        @extend %t-action1;
+      }
+
+      &:hover {
+        background: none;
+        box-shadow: none;
+        color: $blue;
+      }
+    }
+
+    .embeddable {
+      display: none;
+      margin: ($baseline*1.5) 0 ($baseline*4);
+
+      label {
+        display: block;
+        margin-bottom: ($baseline/2);
+        font-weight: 700;
+      }
+    }
+
+    .embeddable-xml-input {
+      box-shadow: none;
+      width: ($baseline*20);
+    }
+
+    .copy-button {
+      @include white-button;
+      display: none;
+      margin-bottom: ($baseline*5);
+    }
+  }
+}

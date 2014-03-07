@@ -1,0 +1,69 @@
+from django.http import (HttpResponse, HttpResponseNotModified,
+    HttpResponseForbidden)
+from student.models import CourseEnrollment
+
+from xmodule.contentstore.django import contentstore
+from xmodule.contentstore.content import StaticContent, XASSET_LOCATION_TAG
+from xmodule.modulestore import InvalidLocationError
+from cache_toolbox.core import get_cached_content, set_cached_content
+from xmodule.exceptions import NotFoundError
+
+
+class StaticContentServer(object):
+    def process_request(self, request):
+        # look to see if the request is prefixed with 'c4x' tag
+        if request.path.startswith('/' + XASSET_LOCATION_TAG + '/'):
+            try:
+                loc = StaticContent.get_location_from_path(request.path)
+            except InvalidLocationError:
+                # return a 'Bad Request' to browser as we have a malformed Location
+                response = HttpResponse()
+                response.status_code = 400
+                return response
+
+            # first look in our cache so we don't have to round-trip to the DB
+            content = get_cached_content(loc)
+            if content is None:
+                # nope, not in cache, let's fetch from DB
+                try:
+                    content = contentstore().find(loc, as_stream=True)
+                except NotFoundError:
+                    response = HttpResponse()
+                    response.status_code = 404
+                    return response
+
+                # since we fetched it from DB, let's cache it going forward, but only if it's < 1MB
+                # this is because I haven't been able to find a means to stream data out of memcached
+                if content.length is not None:
+                    if content.length < 1048576:
+                        # since we've queried as a stream, let's read in the stream into memory to set in cache
+                        content = content.copy_to_in_mem()
+                        set_cached_content(content)
+            else:
+                # NOP here, but we may wish to add a "cache-hit" counter in the future
+                pass
+
+            # Check that user has access to content
+            if getattr(content, "locked", False):
+                if not hasattr(request, "user") or not request.user.is_authenticated():
+                    return HttpResponseForbidden('Unauthorized')
+                course_partial_id = "/".join([loc.org, loc.course])
+                if not request.user.is_staff and not CourseEnrollment.is_enrolled_by_partial(
+                        request.user, course_partial_id):
+                    return HttpResponseForbidden('Unauthorized')
+
+            # convert over the DB persistent last modified timestamp to a HTTP compatible
+            # timestamp, so we can simply compare the strings
+            last_modified_at_str = content.last_modified_at.strftime("%a, %d-%b-%Y %H:%M:%S GMT")
+
+            # see if the client has cached this content, if so then compare the
+            # timestamps, if they are the same then just return a 304 (Not Modified)
+            if 'HTTP_IF_MODIFIED_SINCE' in request.META:
+                if_modified_since = request.META['HTTP_IF_MODIFIED_SINCE']
+                if if_modified_since == last_modified_at_str:
+                    return HttpResponseNotModified()
+
+            response = HttpResponse(content.stream_data(), content_type=content.content_type)
+            response['Last-Modified'] = last_modified_at_str
+
+            return response

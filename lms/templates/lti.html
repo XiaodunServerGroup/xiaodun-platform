@@ -1,0 +1,33 @@
+<%! import json %>
+<%! from django.utils.translation import ugettext as _ %>
+
+<div
+    id="${element_id}"
+    class="${element_class}"
+>
+
+% if launch_url and launch_url !=  'http://www.example.com':
+    % if open_in_a_new_page:
+        <div class="wrapper-lti-link">
+            <h3 class="title">
+                ${display_name} (${_('External resource')})
+            </h3>
+            <p class="lti-link external"><a target="_blank" class="link_lti_new_window" href="${form_url}">
+                ${_('View resource in a new window')}
+                 <i class="icon-external-link"></i>
+            </a></p>
+        </div>
+    % else:
+        ## The result of the form submit will be rendered here.
+        <iframe
+            class="ltiLaunchFrame"
+            name="ltiFrame-${element_id}"
+            src="${form_url}"
+        ></iframe>
+    % endif
+% else:
+    <h3 class="error_message">
+        ${_('Please provide launch_url. Click "Edit", and fill in the required fields.')}
+    </h3>
+%endif
+</div>

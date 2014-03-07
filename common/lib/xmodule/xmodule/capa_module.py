@@ -1,0 +1,204 @@
+"""Implements basics of Capa, including class CapaModule."""
+import json
+import logging
+import sys
+
+from pkg_resources import resource_string
+
+from .capa_base import CapaMixin, CapaFields, ComplexEncoder
+from .progress import Progress
+from xmodule.x_module import XModule, module_attr
+from xmodule.raw_module import RawDescriptor
+from xmodule.exceptions import NotFoundError, ProcessingError
+
+log = logging.getLogger("edx.courseware")
+
+
+class CapaModule(CapaMixin, XModule):
+    """
+    An XModule implementing LonCapa format problems, implemented by way of
+    capa.capa_problem.LoncapaProblem
+
+    CapaModule.__init__ takes the same arguments as xmodule.x_module:XModule.__init__
+    """
+    icon_class = 'problem'
+
+    js = {'coffee': [resource_string(__name__, 'js/src/capa/display.coffee'),
+                     resource_string(__name__, 'js/src/collapsible.coffee'),
+                     resource_string(__name__, 'js/src/javascript_loader.coffee'),
+                     ],
+          'js': [resource_string(__name__, 'js/src/capa/imageinput.js'),
+                 resource_string(__name__, 'js/src/capa/schematic.js')
+                 ]}
+
+    js_module_name = "Problem"
+    css = {'scss': [resource_string(__name__, 'css/capa/display.scss')]}
+
+    def __init__(self, *args, **kwargs):
+        """
+        Accepts the same arguments as xmodule.x_module:XModule.__init__
+        """
+        super(CapaModule, self).__init__(*args, **kwargs)
+
+    def handle_ajax(self, dispatch, data):
+        """
+        This is called by courseware.module_render, to handle an AJAX call.
+
+        `data` is request.POST.
+
+        Returns a json dictionary:
+        { 'progress_changed' : True/False,
+          'progress' : 'none'/'in_progress'/'done',
+          <other request-specific values here > }
+        """
+        handlers = {
+            'problem_get': self.get_problem,
+            'problem_check': self.check_problem,
+            'problem_reset': self.reset_problem,
+            'problem_save': self.save_problem,
+            'problem_show': self.get_answer,
+            'score_update': self.update_score,
+            'input_ajax': self.handle_input_ajax,
+            'ungraded_response': self.handle_ungraded_response
+        }
+
+        _ = self.runtime.service(self, "i18n").ugettext
+
+        generic_error_message = _(
+            "We're sorry, there was an error with processing your request. "
+            "Please try reloading your page and trying again."
+        )
+
+        not_found_error_message = _(
+            "The state of this problem has changed since you loaded this page. "
+            "Please refresh your page."
+        )
+
+        if dispatch not in handlers:
+            return 'Error: {} is not a known capa action'.format(dispatch)
+
+        before = self.get_progress()
+
+        try:
+            result = handlers[dispatch](data)
+
+        except NotFoundError as err:
+            _, _, traceback_obj = sys.exc_info()  # pylint: disable=redefined-outer-name
+            raise ProcessingError, (not_found_error_message, err), traceback_obj
+
+        except Exception as err:
+            _, _, traceback_obj = sys.exc_info()  # pylint: disable=redefined-outer-name
+            raise ProcessingError, (generic_error_message, err), traceback_obj
+
+        after = self.get_progress()
+
+        result.update({
+            'progress_changed': after != before,
+            'progress_status': Progress.to_js_status_str(after),
+            'progress_detail': Progress.to_js_detail_str(after),
+        })
+
+        return json.dumps(result, cls=ComplexEncoder)
+
+
+class CapaDescriptor(CapaFields, RawDescriptor):
+    """
+    Module implementing problems in the LON-CAPA format,
+    as implemented by capa.capa_problem
+    """
+
+    module_class = CapaModule
+
+    has_score = True
+    template_dir_name = 'problem'
+    mako_template = "widgets/problem-edit.html"
+    js = {'coffee': [resource_string(__name__, 'js/src/problem/edit.coffee')]}
+    js_module_name = "MarkdownEditingDescriptor"
+    css = {
+        'scss': [
+            resource_string(__name__, 'css/editor/edit.scss'),
+            resource_string(__name__, 'css/problem/edit.scss')
+        ]
+    }
+
+    # Capa modules have some additional metadata:
+    # TODO (vshnayder): do problems have any other metadata?  Do they
+    # actually use type and points?
+    metadata_attributes = RawDescriptor.metadata_attributes + ('type', 'points')
+
+    # The capa format specifies that what we call max_attempts in the code
+    # is the attribute `attempts`. This will do that conversion
+    metadata_translations = dict(RawDescriptor.metadata_translations)
+    metadata_translations['attempts'] = 'max_attempts'
+
+    @classmethod
+    def filter_templates(cls, template, course):
+        """
+        Filter template that contains 'latex' from templates.
+
+        Show them only if use_latex_compiler is set to True in
+        course settings.
+        """
+        return (not 'latex' in template['template_id'] or course.use_latex_compiler)
+
+    def get_context(self):
+        _context = RawDescriptor.get_context(self)
+        _context.update({
+            'markdown': self.markdown,
+            'enable_markdown': self.markdown is not None,
+            'enable_latex_compiler': self.use_latex_compiler,
+        })
+        return _context
+
+    # VS[compat]
+    # TODO (cpennington): Delete this method once all fall 2012 course are being
+    # edited in the cms
+    @classmethod
+    def backcompat_paths(cls, path):
+        return [
+            'problems/' + path[8:],
+            path[8:],
+        ]
+
+    @property
+    def non_editable_metadata_fields(self):
+        non_editable_fields = super(CapaDescriptor, self).non_editable_metadata_fields
+        non_editable_fields.extend([
+            CapaDescriptor.due,
+            CapaDescriptor.graceperiod,
+            CapaDescriptor.force_save_button,
+            CapaDescriptor.markdown,
+            CapaDescriptor.text_customization,
+            CapaDescriptor.use_latex_compiler,
+        ])
+        return non_editable_fields
+
+    # Proxy to CapaModule for access to any of its attributes
+    answer_available = module_attr('answer_available')
+    check_button_name = module_attr('check_button_name')
+    check_problem = module_attr('check_problem')
+    choose_new_seed = module_attr('choose_new_seed')
+    closed = module_attr('closed')
+    get_answer = module_attr('get_answer')
+    get_problem = module_attr('get_problem')
+    get_problem_html = module_attr('get_problem_html')
+    get_state_for_lcp = module_attr('get_state_for_lcp')
+    handle_input_ajax = module_attr('handle_input_ajax')
+    handle_problem_html_error = module_attr('handle_problem_html_error')
+    handle_ungraded_response = module_attr('handle_ungraded_response')
+    is_attempted = module_attr('is_attempted')
+    is_correct = module_attr('is_correct')
+    is_past_due = module_attr('is_past_due')
+    is_submitted = module_attr('is_submitted')
+    lcp = module_attr('lcp')
+    make_dict_of_responses = module_attr('make_dict_of_responses')
+    new_lcp = module_attr('new_lcp')
+    publish_grade = module_attr('publish_grade')
+    rescore_problem = module_attr('rescore_problem')
+    reset_problem = module_attr('reset_problem')
+    save_problem = module_attr('save_problem')
+    set_state_from_lcp = module_attr('set_state_from_lcp')
+    should_show_check_button = module_attr('should_show_check_button')
+    should_show_reset_button = module_attr('should_show_reset_button')
+    should_show_save_button = module_attr('should_show_save_button')
+    update_score = module_attr('update_score')

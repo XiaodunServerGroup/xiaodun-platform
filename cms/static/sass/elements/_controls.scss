@@ -1,0 +1,341 @@
+// studio - elements - UI controls
+// ====================
+
+// gray primary button
+%btn-primary-gray {
+  @extend %ui-btn-primary;
+  background: $gray-l1;
+  border-color: $gray-l2;
+  color: $white;
+
+  &:hover, &:active {
+    border-color: $gray-l1;
+    background: $gray;
+  }
+
+  &.current, &.active {
+    background: $gray-d1;
+    color: $gray-l1;
+
+    &:hover, &:active {
+      background: $gray-d1;
+    }
+  }
+}
+
+// blue primary button
+%btn-primary-blue {
+  @extend %ui-btn-primary;
+  background: $blue;
+  border-color: $blue-s1;
+  color: $white;
+
+  &:hover, &:active {
+    background: $blue-s2;
+    border-color: $blue-s2;
+  }
+
+  &.current, &.active {
+    background: $blue-d1;
+    color: $blue-l4;
+    border-color: $blue-d2;
+
+    &:hover, &:active {
+      background: $blue-d1;
+    }
+  }
+}
+
+// green primary button
+%btn-primary-green {
+  @extend %ui-btn-primary;
+  background: $green;
+  border-color: $green;
+  color: $white;
+
+  &:hover, &:active {
+    background: $green-s1;
+    border-color: $green-s1;
+  }
+
+  &.current, &.active {
+    background: $green-d1;
+    color: $green-l4;
+    border-color: $green-d2;
+
+    &:hover, &:active {
+      background: $green-d1;
+    }
+  }
+}
+
+// gray secondary button
+%btn-secondary-gray {
+  @extend %ui-btn-secondary;
+  border-color: $gray-l3;
+  color: $gray-l1;
+
+  &:hover, &:active {
+    background: $gray-l3;
+    color: $gray-d2;
+  }
+
+  &.current, &.active {
+    background: $gray-d2;
+    color: $gray-l5;
+
+    &:hover, &:active {
+      background: $gray-d2;
+    }
+  }
+}
+
+// blue secondary button
+%btn-secondary-blue {
+  @extend %ui-btn-secondary;
+  border-color: $blue-l3;
+  color: $blue;
+
+  &:hover, &:active {
+    background: $blue-l4;
+    color: $blue-s2;
+  }
+
+  &.current, &.active {
+    border-color: $blue-l3;
+    background: $blue-l3;
+    color: $blue-d1;
+
+    &:hover, &:active {
+
+    }
+  }
+}
+
+// green secondary button
+%btn-secondary-green {
+  @extend %ui-btn-secondary;
+  border-color: $green-l4;
+  color: $green-l2;
+
+  &:hover, &:active {
+    background: $green-l4;
+    color: $green-s1;
+  }
+
+  &.current, &.active {
+    background: $green-s1;
+    color: $green-l4;
+
+    &:hover, &:active {
+      background: $green-s1;
+    }
+  }
+}
+
+// ====================
+
+// button elements
+.button {
+
+  [class^="icon-"] {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: ($baseline/4);
+  }
+}
+
+// ====================
+
+// simple dropdown button styling - should we move this elsewhere?
+%ui-btn-dd {
+  @extend %ui-btn;
+  @extend %ui-btn-pill;
+  padding:($baseline/4) ($baseline/2);
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  text-align: center;
+
+  &:hover, &:active {
+    @extend %ui-fake-link;
+    border-color: $gray-l3;
+  }
+
+  &.current, &.active, &.is-selected {
+    box-shadow: inset 0 1px 2px 1px $shadow-l1;
+    border-color: $gray-l3;
+  }
+}
+
+// layout-based buttons - nav dd
+%ui-btn-dd-nav-primary {
+  @extend %ui-btn-dd;
+  background: $white;
+  border-color: $white;
+  color: $gray-d1;
+
+  &:hover, &:active {
+    background: $white;
+    color: $blue-s1;
+  }
+
+  &.current, &.active {
+    background: $white;
+    color: $gray-d4;
+
+    &:hover, &:active {
+      color: $blue-s1;
+    }
+  }
+}
+
+// ====================
+
+// calls-to-action
+
+// ====================
+
+// specific buttons - view live
+%view-live-button {
+  @extend %t-action4;
+}
+
+// ====================
+
+// UI: element actions list
+%actions-header {
+  .actions-list {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+  .action-item {
+    display: inline-block;
+
+    .action-button {
+      border-radius: 3px;
+      padding: ($baseline/4) ($baseline/2);
+      height: ($baseline*1.5);
+      color: $gray-l1;
+
+      &:hover {
+        background-color: $blue;
+        color: $gray-l6;
+      }
+
+      .action-button-text {
+        padding-left: 1px;
+        text-transform: uppercase;
+      }
+
+      &.delete-button:hover {
+        background-color: $gray-l1;
+      }
+    }
+  }
+}
+
+// UI: elem is collapsible
+%expand-collapse {
+  @include transition(all $tmg-f2 linear 0s);
+  display: inline-block;
+  color: $gray-l2;
+  vertical-align: top;
+
+  &:hover {
+    color: $blue;
+  }
+
+  .ui-toggle-expansion {
+    @include transition(all $tmg-f2 ease-in-out 0s);
+    @include font-size(18);
+    display: inline-block;
+    margin-right: ($baseline/4);
+    color: $gray-l3;
+    vertical-align: middle;
+  }
+
+  &.expand .ui-toggle-expansion {
+    @include transform(rotate(-90deg));
+    @include transform-origin(50% 50%);
+  }
+}
+
+// UI: drag handles
+.drag-handle {
+
+  &:hover, &:focus {
+    cursor: move;
+  }
+}
+
+// UI: elem is draggable
+.is-draggable {
+  @include transition(border-color $tmg-f2 ease-in-out 0, box-shadow $tmg-f2 ease-in-out 0);
+  position: relative;
+
+  .draggable-drop-indicator {
+    @extend %ui-depth3;
+    @include transition(opacity $tmg-f2 linear 0s);
+    @include size(100%, auto);
+    position: absolute;
+    border-top: 1px solid $blue-l1;
+    opacity: 0.0;
+
+    *[class^="icon-caret"] {
+      @extend %t-icon5;
+      position: absolute;
+      top: -12px;
+      left: -($baseline/4);
+      color: $blue-s1;
+    }
+  }
+
+  .draggable-drop-indicator-before {
+    top: -($baseline/2);
+  }
+
+  .draggable-drop-indicator-after {
+    bottom: -($baseline/2);
+  }
+}
+
+// UI: drag state - is dragging
+.is-dragging {
+  @extend %ui-depth4;
+  left: -($baseline/4);
+  box-shadow: 0 1px 2px 0 $shadow-d1;
+  cursor: move;
+  opacity: 0.65;
+  border: 1px solid $gray-d3;
+
+  // UI: condition - valid drop
+  &.valid-drop {
+    border-color: $blue-s1;
+    box-shadow: 0 1px 2px 0 $blue-t2;
+  }
+}
+
+// UI: drag state - was dragging
+.was-dragging {
+  @include transition(transform $tmg-f2 ease-in-out 0);
+}
+
+// UI: drag target
+.drop-target {
+
+  &.drop-target-before {
+
+    > .draggable-drop-indicator-before {
+      opacity: 1.0;
+    }
+  }
+
+  &.drop-target-after {
+
+    > .draggable-drop-indicator-after {
+      opacity: 1.0;
+    }
+  }
+}
