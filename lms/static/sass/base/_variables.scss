@@ -46,7 +46,7 @@ $black-t1: rgba($black, 0.25);
 $black-t2: rgba($black, 0.5);
 $black-t3: rgba($black, 0.75);
 
-$blue: rgb(29,157,217);
+$blue: rgb(255,122,49);
 $pink: rgb(182,37,104);
 $yellow: rgb(255, 252, 221);
 $red: rgb(178, 6, 16);
@@ -58,7 +58,7 @@ $border-color: rgb(200, 200, 200);
 $sidebar-color: rgb(246, 246, 246);
 $outer-border-color: rgb(170, 170, 170);
 
-$green: rgb(37, 184, 90);
+$green: rgb(255,102,0);
 
 // COLORS: old variables
 $light-gray: #ddd;
@@ -88,16 +88,16 @@ $m-gray-t1: rgba($m-gray,0.25);
 $m-gray-t2: rgba($m-gray,0.50);
 $m-gray-t3: rgba($m-gray,0.75);
 
-$m-blue: #1AA1DE;
-$m-blue-l1: #2BACE6;
-$m-blue-l2: #42B5E9;
-$m-blue-l3: #59BEEC;
+$m-blue: #FF6600;
+$m-blue-l1: #FF6600;
+$m-blue-l2: #FF6600;
+$m-blue-l3: #FF6600;
 $m-blue-l4: tint($m-blue,90%);
 $m-blue-l5: tint($m-blue,95%);
-$m-blue-d1: #1790C7;
-$m-blue-d2: #1580B0;
-$m-blue-d3: #126F9A;
-$m-blue-d4: #0A4A67;
+$m-blue-d1: #FF6600;
+$m-blue-d2: #FF6600;
+$m-blue-d3: #FF6600;
+$m-blue-d4: #FF6600;
 $m-blue-t0: rgba($m-blue,0.125);
 $m-blue-t1: rgba($m-blue,0.25);
 $m-blue-t2: rgba($m-blue,0.50);
@@ -113,8 +113,8 @@ $m-pink-d1: #A0255B;
 $m-pink-d2: #8C204F;
 $m-pink-d3: #771C44;
 
-$m-green: rgb(0, 136, 1);
-$m-green-s1: rgb(96, 188, 97);
+$m-green: rgb(255,102,0);
+$m-green-s1: rgb(255,102,0);
 $m-green-l1: tint($m-green,20%);
 $m-green-l2: tint($m-green,40%);
 $m-green-l3: tint($m-green,60%);
@@ -302,7 +302,7 @@ $homepage__header--background: lighten($blue, 15%);
 // ====================
 
 // IMAGES: backgrounds
-$homepage-bg-image: none;
+$homepage-bg-image: url(../images/homepage-bg.jpg);
 
 $login-banner-image: url(../images/bg-banner-account.png);
 $register-banner-image: url(../images/bg-banner-account.png);
