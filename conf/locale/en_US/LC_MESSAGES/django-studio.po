@@ -1,0 +1,237 @@
+# edX translation file.
+# Copyright (C) 2014 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# EdX Team <info@edx.org>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: edx-platform\n"
+"Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+"POT-Creation-Date: 2014-03-10 09:11-0400\n"
+"PO-Revision-Date: 2014-02-27 13:51+0000\n"
+"Last-Translator: sarina <sarina@edx.org>\n"
+"Language-Team: openedx-translation <openedx-translation@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: cms/djangoapps/contentstore/course_info_model.py:69
+#: cms/djangoapps/contentstore/course_info_model.py:156
+msgid "Invalid course update id."
+msgstr "Invalid course update id."
+
+#: cms/djangoapps/contentstore/course_info_model.py:121
+msgid "Course update not found."
+msgstr "Course update not found."
+
+#: cms/djangoapps/contentstore/git_export_utils.py:34
+#, python-brace-format
+msgid ""
+"GIT_REPO_EXPORT_DIR not set or path {0} doesn't exist, please create it, or "
+"configure a different path with GIT_REPO_EXPORT_DIR"
+msgstr "GIT_REPO_EXPORT_DIR not set or path {0} doesn't exist, please create it, or configure a different path with GIT_REPO_EXPORT_DIR"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:37
+msgid ""
+"Non writable git url provided. Expecting something like: "
+"git@github.com:mitocw/edx4edx_lite.git"
+msgstr "Non writable git url provided. Expecting something like: git@github.com:mitocw/edx4edx_lite.git"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:39
+msgid ""
+"If using http urls, you must provide the username and password in the url. "
+"Similar to https://user:pass@github.com/user/course."
+msgstr "If using http urls, you must provide the username and password in the url. Similar to https://user:pass@github.com/user/course."
+
+#: cms/djangoapps/contentstore/git_export_utils.py:42
+msgid "Unable to determine branch, repo in detached HEAD mode"
+msgstr "Unable to determine branch, repo in detached HEAD mode"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:43
+msgid "Unable to update or clone git repository."
+msgstr "Unable to update or clone git repository."
+
+#: cms/djangoapps/contentstore/git_export_utils.py:44
+msgid "Unable to export course to xml."
+msgstr "Unable to export course to xml."
+
+#: cms/djangoapps/contentstore/git_export_utils.py:45
+msgid "Unable to configure git username and password"
+msgstr "Unable to configure git username and password"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:46
+msgid ""
+"Unable to commit changes. This is usually because there are no changes to be"
+" committed"
+msgstr "Unable to commit changes. This is usually because there are no changes to be committed"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:48
+msgid ""
+"Unable to push changes.  This is usually because the remote repository "
+"cannot be contacted"
+msgstr "Unable to push changes.  This is usually because the remote repository cannot be contacted"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:50
+msgid "Bad course location provided"
+msgstr "Bad course location provided"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:51
+msgid "Missing branch on fresh clone"
+msgstr "Missing branch on fresh clone"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:61
+msgid "Command was: {0!r}. Working directory was: {1!r}"
+msgstr "Command was: {0!r}. Working directory was: {1!r}"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:63
+msgid "Command output was: {0!r}"
+msgstr "Command output was: {0!r}"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:102
+msgid ""
+"Directory already exists, doing a git reset and pull instead of git clone."
+msgstr "Directory already exists, doing a git reset and pull instead of git clone."
+
+#: cms/djangoapps/contentstore/utils.py:26
+msgid "My Notes"
+msgstr "My Notes"
+
+#: cms/djangoapps/contentstore/management/commands/git_export.py:40
+msgid ""
+"Take the specified course and attempt to export it to a git repository\n"
+". Course directory must already be a git repository. Usage:  git_export <course_loc> <git_url>"
+msgstr "Take the specified course and attempt to export it to a git repository\n. Course directory must already be a git repository. Usage:  git_export <course_loc> <git_url>"
+
+#: cms/djangoapps/contentstore/views/assets.py:219
+msgid "Upload completed"
+msgstr "Upload completed"
+
+#: cms/djangoapps/contentstore/views/course.py:320
+#, python-brace-format
+msgid ""
+"Unable to create course '{name}'.\n"
+"\n"
+"{err}"
+msgstr "Unable to create course '{name}'.\n\n{err}"
+
+#: cms/djangoapps/contentstore/views/course.py:332
+msgid ""
+"There is already a course defined with the same organization, course number,"
+" and course run. Please change either organization or course number to be "
+"unique."
+msgstr "There is already a course defined with the same organization, course number, and course run. Please change either organization or course number to be unique."
+
+#: cms/djangoapps/contentstore/views/course.py:338
+#: cms/djangoapps/contentstore/views/course.py:342
+#: cms/djangoapps/contentstore/views/course.py:366
+#: cms/djangoapps/contentstore/views/course.py:369
+msgid ""
+"Please change either the organization or course number so that it is unique."
+msgstr "Please change either the organization or course number so that it is unique."
+
+#: cms/djangoapps/contentstore/views/course.py:362
+msgid ""
+"There is already a course defined with the same organization and course "
+"number. Please change at least one field to be unique."
+msgstr "There is already a course defined with the same organization and course number. Please change at least one field to be unique."
+
+#: cms/djangoapps/contentstore/views/export_git.py:45
+msgid "Course successfully exported to git repository"
+msgstr "Course successfully exported to git repository"
+
+#: cms/djangoapps/contentstore/views/import_export.py:82
+msgid "We only support uploading a .tar.gz file."
+msgstr "We only support uploading a .tar.gz file."
+
+#: cms/djangoapps/contentstore/views/import_export.py:119
+msgid "File upload corrupted. Please try again"
+msgstr "File upload corrupted. Please try again"
+
+#: cms/djangoapps/contentstore/views/import_export.py:207
+msgid "Could not find the course.xml file in the package."
+msgstr "Could not find the course.xml file in the package."
+
+#: cms/djangoapps/contentstore/views/item.py:442
+#, python-brace-format
+msgid "Duplicate of {0}"
+msgstr "Duplicate of {0}"
+
+#: cms/djangoapps/contentstore/views/item.py:444
+#, python-brace-format
+msgid "Duplicate of '{0}'"
+msgstr "Duplicate of '{0}'"
+
+#: cms/djangoapps/contentstore/views/transcripts_ajax.py:446
+msgid "Incoming video data is empty."
+msgstr "Incoming video data is empty."
+
+#: cms/djangoapps/contentstore/views/transcripts_ajax.py:451
+msgid "Can't find item by locator."
+msgstr "Can't find item by locator."
+
+#: cms/djangoapps/contentstore/views/transcripts_ajax.py:454
+msgid "Transcripts are supported only for \"video\" modules."
+msgstr "Transcripts are supported only for \"video\" modules."
+
+#: cms/djangoapps/contentstore/views/user.py:101
+msgid "Insufficient permissions"
+msgstr "Insufficient permissions"
+
+#: cms/djangoapps/contentstore/views/user.py:109
+#, python-brace-format
+msgid "Could not find user by email address '{email}'."
+msgstr "Could not find user by email address '{email}'."
+
+#: cms/djangoapps/contentstore/views/user.py:131
+#, python-brace-format
+msgid "User {email} has registered but has not yet activated his/her account."
+msgstr "User {email} has registered but has not yet activated his/her account."
+
+#: cms/djangoapps/contentstore/views/user.py:147
+msgid "`role` is required"
+msgstr "`role` is required"
+
+#: cms/djangoapps/contentstore/views/user.py:153
+msgid "Only instructors may create other instructors"
+msgstr "Only instructors may create other instructors"
+
+#: cms/djangoapps/contentstore/views/user.py:189
+msgid "You may not remove the last instructor from a course"
+msgstr "You may not remove the last instructor from a course"
+
+#: cms/djangoapps/course_creators/models.py:33
+msgid "unrequested"
+msgstr "unrequested"
+
+#: cms/djangoapps/course_creators/models.py:34
+msgid "pending"
+msgstr "pending"
+
+#: cms/djangoapps/course_creators/models.py:35
+msgid "granted"
+msgstr "granted"
+
+#: cms/djangoapps/course_creators/models.py:36
+msgid "denied"
+msgstr "denied"
+
+#: cms/djangoapps/course_creators/models.py:39
+msgid "Studio user"
+msgstr "Studio user"
+
+#: cms/djangoapps/course_creators/models.py:41
+msgid "The date when state was last updated"
+msgstr "The date when state was last updated"
+
+#: cms/djangoapps/course_creators/models.py:43
+msgid "Current course creator state"
+msgstr "Current course creator state"
+
+#: cms/djangoapps/course_creators/models.py:44
+msgid ""
+"Optional notes about this user (for example, why course creation access was "
+"denied)"
+msgstr "Optional notes about this user (for example, why course creation access was denied)"

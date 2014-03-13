@@ -1,0 +1,248 @@
+# edX translation file.
+# Copyright (C) 2014 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Bookman <bookman@vip.163.com>, 2013
+# focusheart <focusheart@gmail.com>, 2014
+# hanwentao <wentao.han@gmail.com>, 2013
+# harry75369 <harry75369@gmail.com>, 2014
+# Jerome Huang <canni3269@gmail.com>, 2014
+# Jie <jie.li@anu.edu.au>, 2013
+# liuyang <liuyang2011@tsinghua.edu.cn>, 2013
+# csc <am15501@163.com>, 2014
+# thinxer <me@thinxer.com>, 2013
+# vicapple22 <vicapple22@gmail.com>, 2013
+# xdsnet <xdsnet@gmail.com>, 2013
+# zibuyu <liuliudong@163.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: edx-platform\n"
+"Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+"POT-Creation-Date: 2014-03-10 09:11-0400\n"
+"PO-Revision-Date: 2014-03-06 10:20+0000\n"
+"Last-Translator: csc <am15501@163.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/edx-platform/language/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: cms/djangoapps/contentstore/course_info_model.py:69
+#: cms/djangoapps/contentstore/course_info_model.py:156
+msgid "Invalid course update id."
+msgstr "课程ID更新无效"
+
+#: cms/djangoapps/contentstore/course_info_model.py:121
+msgid "Course update not found."
+msgstr "课程更新没有找到"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:34
+#, python-brace-format
+msgid ""
+"GIT_REPO_EXPORT_DIR not set or path {0} doesn't exist, please create it, or "
+"configure a different path with GIT_REPO_EXPORT_DIR"
+msgstr "GIT_REPO_EXPORT_DIR 未被设置或者路径 {0} 不存在，请创建它，或者为 GIT_REPO_EXPORT_DIR 设置一个不同的路径。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:37
+msgid ""
+"Non writable git url provided. Expecting something like: "
+"git@github.com:mitocw/edx4edx_lite.git"
+msgstr "没有可写的Git地址。期待类似这样的地址：git@github.com:mitocw/edx4edx_lite.git"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:39
+msgid ""
+"If using http urls, you must provide the username and password in the url. "
+"Similar to https://user:pass@github.com/user/course."
+msgstr "如果使用HTTPS地址，您必须在地址里提供用户名和密码，类似于 https://user:pass@github.com/user/course 。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:42
+msgid "Unable to determine branch, repo in detached HEAD mode"
+msgstr "无法找到分支，源正处于分离HEAD模式。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:43
+msgid "Unable to update or clone git repository."
+msgstr "无法更新或者克隆Git源。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:44
+msgid "Unable to export course to xml."
+msgstr "无法导出课程那个到XML。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:45
+msgid "Unable to configure git username and password"
+msgstr "无法配置Git的用户名和密码。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:46
+msgid ""
+"Unable to commit changes. This is usually because there are no changes to be"
+" committed"
+msgstr "无法提交变更。这通常是因为没有什么好提交的。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:48
+msgid ""
+"Unable to push changes.  This is usually because the remote repository "
+"cannot be contacted"
+msgstr "无法上传变更。这通常是因为远程源无法连接。"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:50
+msgid "Bad course location provided"
+msgstr "提供了错误的课程地址"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:51
+msgid "Missing branch on fresh clone"
+msgstr "新鲜克隆里无分支"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:61
+msgid "Command was: {0!r}. Working directory was: {1!r}"
+msgstr "命令是：{0!r}。工作目录是：{1!r}"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:63
+msgid "Command output was: {0!r}"
+msgstr "命令输出是：{0!}"
+
+#: cms/djangoapps/contentstore/git_export_utils.py:102
+msgid ""
+"Directory already exists, doing a git reset and pull instead of git clone."
+msgstr "目录已经存在，正在执行git reset和git pull而非git clone。"
+
+#: cms/djangoapps/contentstore/utils.py:26
+msgid "My Notes"
+msgstr "我的笔记"
+
+#: cms/djangoapps/contentstore/management/commands/git_export.py:40
+msgid ""
+"Take the specified course and attempt to export it to a git repository\n"
+". Course directory must already be a git repository. Usage:  git_export <course_loc> <git_url>"
+msgstr "取得规定的课程然后尝试将其导出到一个Git源。\n课程目录必须已经是一个Git源。用法： git_export <course_loc> <git_url>"
+
+#: cms/djangoapps/contentstore/views/assets.py:219
+msgid "Upload completed"
+msgstr "上传完成"
+
+#: cms/djangoapps/contentstore/views/course.py:320
+#, python-brace-format
+msgid ""
+"Unable to create course '{name}'.\n"
+"\n"
+"{err}"
+msgstr "无法创建课程’{名称}‘。⏎\n⏎\n{错误}"
+
+#: cms/djangoapps/contentstore/views/course.py:332
+msgid ""
+"There is already a course defined with the same organization, course number,"
+" and course run. Please change either organization or course number to be "
+"unique."
+msgstr "已经有一个具有相同的组织、课程号的课程运行。请更改组织或者课程号以保证唯一。"
+
+#: cms/djangoapps/contentstore/views/course.py:338
+#: cms/djangoapps/contentstore/views/course.py:342
+#: cms/djangoapps/contentstore/views/course.py:366
+#: cms/djangoapps/contentstore/views/course.py:369
+msgid ""
+"Please change either the organization or course number so that it is unique."
+msgstr "请更改组织或者课程号以保证唯一。"
+
+#: cms/djangoapps/contentstore/views/course.py:362
+msgid ""
+"There is already a course defined with the same organization and course "
+"number. Please change at least one field to be unique."
+msgstr "已经有一个具有相同的组织、课程号的课程。请更改至少一项以保证唯一。"
+
+#: cms/djangoapps/contentstore/views/export_git.py:45
+msgid "Course successfully exported to git repository"
+msgstr "课程成功被导出到Git源"
+
+#: cms/djangoapps/contentstore/views/import_export.py:82
+msgid "We only support uploading a .tar.gz file."
+msgstr "我们仅支持上传.tar.gz格式文件。"
+
+#: cms/djangoapps/contentstore/views/import_export.py:119
+msgid "File upload corrupted. Please try again"
+msgstr "文件上传失败，请重试。"
+
+#: cms/djangoapps/contentstore/views/import_export.py:207
+msgid "Could not find the course.xml file in the package."
+msgstr "在包中不能找到course.xml文件。"
+
+#: cms/djangoapps/contentstore/views/item.py:442
+#, python-brace-format
+msgid "Duplicate of {0}"
+msgstr "'{0}'副本"
+
+#: cms/djangoapps/contentstore/views/item.py:444
+#, python-brace-format
+msgid "Duplicate of '{0}'"
+msgstr "'{0}'副本"
+
+#: cms/djangoapps/contentstore/views/transcripts_ajax.py:446
+msgid "Incoming video data is empty."
+msgstr "来源视频数据为空。"
+
+#: cms/djangoapps/contentstore/views/transcripts_ajax.py:451
+msgid "Can't find item by locator."
+msgstr "定位器无法找到它们。"
+
+#: cms/djangoapps/contentstore/views/transcripts_ajax.py:454
+msgid "Transcripts are supported only for \"video\" modules."
+msgstr "字幕只支持视频模块。"
+
+#: cms/djangoapps/contentstore/views/user.py:101
+msgid "Insufficient permissions"
+msgstr "没有足够的权限"
+
+#: cms/djangoapps/contentstore/views/user.py:109
+#, python-brace-format
+msgid "Could not find user by email address '{email}'."
+msgstr "无法通过邮件地址'{email}'找到用户。"
+
+#: cms/djangoapps/contentstore/views/user.py:131
+#, python-brace-format
+msgid "User {email} has registered but has not yet activated his/her account."
+msgstr "用户{email}已注册但尚未激活其账户。"
+
+#: cms/djangoapps/contentstore/views/user.py:147
+msgid "`role` is required"
+msgstr "需要 ‘岗位’"
+
+#: cms/djangoapps/contentstore/views/user.py:153
+msgid "Only instructors may create other instructors"
+msgstr "只有教师可以创建其他教师"
+
+#: cms/djangoapps/contentstore/views/user.py:189
+msgid "You may not remove the last instructor from a course"
+msgstr "您不可以删除课程的最后一个教师"
+
+#: cms/djangoapps/course_creators/models.py:33
+msgid "unrequested"
+msgstr "未请求的"
+
+#: cms/djangoapps/course_creators/models.py:34
+msgid "pending"
+msgstr "处理中"
+
+#: cms/djangoapps/course_creators/models.py:35
+msgid "granted"
+msgstr "已授权"
+
+#: cms/djangoapps/course_creators/models.py:36
+msgid "denied"
+msgstr "已否决"
+
+#: cms/djangoapps/course_creators/models.py:39
+msgid "Studio user"
+msgstr "Studio用户"
+
+#: cms/djangoapps/course_creators/models.py:41
+msgid "The date when state was last updated"
+msgstr "状态最后更新日期"
+
+#: cms/djangoapps/course_creators/models.py:43
+msgid "Current course creator state"
+msgstr "课程创建者目前状态"
+
+#: cms/djangoapps/course_creators/models.py:44
+msgid ""
+"Optional notes about this user (for example, why course creation access was "
+"denied)"
+msgstr "关于本用户的可选备注（例如，课程创建被拒绝的原因）"

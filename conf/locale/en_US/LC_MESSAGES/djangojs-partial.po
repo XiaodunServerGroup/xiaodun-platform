@@ -1,0 +1,1479 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-13 03:14+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: cms/static/coffee/src/main.js:35
+msgid ""
+"This may be happening because of an error with our server or your internet "
+"connection. Try refreshing the page or making sure you are online."
+msgstr ""
+
+#: cms/static/coffee/src/main.js:38
+msgid "Studio's having trouble saving your work"
+msgstr ""
+
+#: cms/static/coffee/src/views/module_edit.js:88
+#, c-format
+msgid "<em>Editing:</em> %s"
+msgstr ""
+
+#: cms/static/coffee/src/views/module_edit.js:159
+#: cms/static/coffee/src/views/tabs.js:67
+#: cms/static/coffee/src/views/unit.js:95
+#: cms/static/coffee/src/xblock/cms.runtime.v1.js:39
+#: cms/static/js/models/section.js:28 cms/static/js/views/asset.js:80
+#: cms/static/js/views/course_info_handout.js:59
+#: cms/static/js/views/course_info_update.js:80
+#: cms/static/js/views/overview.js:75 cms/static/js/views/overview.js.c:487
+msgid "Saving&hellip;"
+msgstr ""
+
+#: cms/static/coffee/src/views/tabs.js:106
+msgid "Delete Component Confirmation"
+msgstr ""
+
+#: cms/static/coffee/src/views/tabs.js:107
+msgid ""
+"Are you sure you want to delete this component? This action cannot be undone."
+msgstr ""
+
+#: cms/static/coffee/src/views/tabs.js:110
+#: cms/static/js/views/course_info_update.js:140
+#: common/static/coffee/src/discussion/utils.js:136
+msgid "OK"
+msgstr ""
+
+#: cms/static/coffee/src/views/tabs.js:121
+#: cms/static/coffee/src/views/unit.js:229 cms/static/js/base.js:279
+#: cms/static/js/views/course_info_update.js:148
+msgid "Deleting&hellip;"
+msgstr ""
+
+#: cms/static/coffee/src/views/tabs.js:135
+#: cms/static/coffee/src/views/unit.js:253 cms/static/js/base.js:294
+#: cms/static/js/views/asset.js:68
+#: cms/static/js/views/course_info_update.js:166
+#: cms/static/js/views/show_textbook.js:50
+#: cms/static/js/views/validation.js:115
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:92
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:204
+msgid "Cancel"
+msgstr ""
+
+#: cms/static/coffee/src/views/unit.js:175
+msgid "Adding&hellip;"
+msgstr ""
+
+#: cms/static/coffee/src/views/unit.js:191
+msgid "Duplicating&hellip;"
+msgstr ""
+
+#: cms/static/coffee/src/views/unit.js:220
+msgid "Delete this component?"
+msgstr ""
+
+#: cms/static/coffee/src/views/unit.js:221
+msgid "Deleting this component is permanent and cannot be undone."
+msgstr ""
+
+#: cms/static/coffee/src/views/unit.js:224
+msgid "Yes, delete this component"
+msgstr ""
+
+#: cms/static/js/base.js:70 lms/static/js/verify_student/photocapture.js:334
+msgid "This link will open in a new browser window/tab"
+msgstr ""
+
+#: cms/static/js/base.js:73
+msgid "This link will open in a modal window"
+msgstr ""
+
+#: cms/static/js/base.js:263
+msgid "Delete this "
+msgstr ""
+
+#: cms/static/js/base.js:264
+msgid "Deleting this "
+msgstr ""
+
+#: cms/static/js/base.js:267
+msgid "Yes, delete this "
+msgstr ""
+
+#: cms/static/js/index.js:88
+msgid "Please do not use any spaces in this field."
+msgstr ""
+
+#: cms/static/js/index.js:103
+msgid ""
+"The combined length of the organization, course number, and course run "
+"fields cannot be more than 65 characters."
+msgstr ""
+
+#: cms/static/js/index.js:138
+msgid "Required field."
+msgstr ""
+
+#: cms/static/js/sock.js:22
+msgid "Hide Studio Help"
+msgstr ""
+
+#: cms/static/js/sock.js:24
+msgid "Looking for Help with Studio?"
+msgstr ""
+
+#: cms/static/js/models/course.js:8 cms/static/js/models/section.js:10
+msgid "You must specify a name"
+msgstr ""
+
+#: cms/static/js/models/uploads.js:18
+msgid ""
+"Only <%= fileTypes %> files can be uploaded. Please select a file ending in <"
+"%= fileExtensions %> to upload."
+msgstr ""
+
+#: cms/static/js/models/uploads.js:43
+msgid "or"
+msgstr ""
+
+#: cms/static/js/models/settings/course_details.js:43
+msgid "The course must have an assigned start date."
+msgstr ""
+
+#: cms/static/js/models/settings/course_details.js:46
+msgid "The course end date cannot be before the course start date."
+msgstr ""
+
+#: cms/static/js/models/settings/course_details.js:49
+msgid "The course start date cannot be before the enrollment start date."
+msgstr ""
+
+#: cms/static/js/models/settings/course_details.js:52
+msgid "The enrollment start date cannot be after the enrollment end date."
+msgstr ""
+
+#: cms/static/js/models/settings/course_details.js:55
+msgid "The enrollment end date cannot be after the course end date."
+msgstr ""
+
+#: cms/static/js/models/settings/course_details.js:59
+msgid "Key should only contain letters, numbers, _, or -"
+msgstr ""
+
+#: cms/static/js/models/settings/course_grader.js:33
+msgid "There's already another assignment type with this name."
+msgstr ""
+
+#: cms/static/js/models/settings/course_grader.js:40
+msgid "Please enter an integer between 0 and 100."
+msgstr ""
+
+#: cms/static/js/models/settings/course_grader.js:55
+msgid "Please enter an integer greater than 0."
+msgstr ""
+
+#: cms/static/js/models/settings/course_grader.js:62
+msgid "Please enter non-negative integer."
+msgstr ""
+
+#: cms/static/js/models/settings/course_grader.js:68
+msgid "Cannot drop more <% attrs.types %> than will assigned."
+msgstr ""
+
+#: cms/static/js/models/settings/course_grading_policy.js:62
+msgid "Grace period must be specified in HH:MM format."
+msgstr ""
+
+#: cms/static/js/views/asset.js:48
+msgid "Delete File Confirmation"
+msgstr ""
+
+#: cms/static/js/views/asset.js:49
+msgid ""
+"Are you sure you wish to delete this item. It cannot be reversed!\n"
+"\n"
+"Also any content that links/refers to this item will no longer work (e.g. "
+"broken images and/or links)"
+msgstr ""
+
+#: cms/static/js/views/asset.js:52 cms/static/js/views/show_textbook.js:36
+msgid "Delete"
+msgstr ""
+
+#: cms/static/js/views/asset.js:59
+msgid "Your file has been deleted."
+msgstr ""
+
+#: cms/static/js/views/assets.js:16
+msgid "Name"
+msgstr ""
+
+#: cms/static/js/views/assets.js:17
+msgid "Date Added"
+msgstr ""
+
+#: cms/static/js/views/course_info_update.js:136
+msgid "Are you sure you want to delete this update?"
+msgstr ""
+
+#: cms/static/js/views/course_info_update.js:137
+msgid "This action cannot be undone."
+msgstr ""
+
+#: cms/static/js/views/edit_chapter.js:55
+msgid "Upload a new PDF to “<%= name %>”"
+msgstr ""
+
+#: cms/static/js/views/edit_textbook.js:63
+#: cms/static/js/views/overview_assignment_grader.js:71
+msgid "Saving"
+msgstr ""
+
+#: cms/static/js/views/import.js:141
+msgid "There was an error with the upload"
+msgstr ""
+
+#: cms/static/js/views/import.js:159
+msgid ""
+"File format not supported. Please upload a file with a <code>tar.gz</code> "
+"extension."
+msgstr ""
+
+#: cms/static/js/views/overview.js:14
+msgid "Collapse All Sections"
+msgstr ""
+
+#: cms/static/js/views/overview.js:16
+msgid "Expand All Sections"
+msgstr ""
+
+#: cms/static/js/views/overview.js:99
+msgid "Release date:"
+msgstr ""
+
+#: cms/static/js/views/overview.js:100
+msgid "{month}/{day}/{year} at {hour}:{minute} UTC"
+msgstr ""
+
+#: cms/static/js/views/overview.js:103
+msgid "Edit section release date"
+msgstr ""
+
+#: cms/static/js/views/overview_assignment_grader.js:3
+msgid "Not Graded"
+msgstr ""
+
+#: cms/static/js/views/paging.js:87
+msgid "ascending"
+msgstr ""
+
+#: cms/static/js/views/paging.js:89
+msgid "descending"
+msgstr ""
+
+#: cms/static/js/views/paging_header.js:42
+msgid ""
+"Showing %(current_span)s%(start)s-%(end)s%(end_span)s out of %(total_span)s"
+"%(total)s total%(end_span)s, sorted by %(order_span)s%(sort_order)s"
+"%(end_span)s %(sort_direction)s"
+msgstr ""
+
+#: cms/static/js/views/section_edit.js:50
+msgid "Your change could not be saved"
+msgstr ""
+
+#: cms/static/js/views/section_edit.js:54
+msgid "Return and resolve this issue"
+msgstr ""
+
+#: cms/static/js/views/show_textbook.js:31
+msgid "Delete “<%= name %>”?"
+msgstr ""
+
+#: cms/static/js/views/show_textbook.js:33
+msgid ""
+"Deleting a textbook cannot be undone and once deleted any reference to it in "
+"your courseware's navigation will also be removed."
+msgstr ""
+
+#: cms/static/js/views/show_textbook.js:40
+msgid "Deleting"
+msgstr ""
+
+#: cms/static/js/views/uploads.js:104
+msgid "We're sorry, there was an error"
+msgstr ""
+
+#: cms/static/js/views/validation.js:15
+msgid "You've made some changes"
+msgstr ""
+
+#: cms/static/js/views/validation.js:16
+msgid "Your changes will not take effect until you save your progress."
+msgstr ""
+
+#: cms/static/js/views/validation.js:17
+msgid "You've made some changes, but there are some errors"
+msgstr ""
+
+#: cms/static/js/views/validation.js:18
+msgid ""
+"Please address the errors on this page first, and then save your progress."
+msgstr ""
+
+#: cms/static/js/views/validation.js:106
+msgid "Save Changes"
+msgstr ""
+
+#: cms/static/js/views/validation.js:134
+msgid "Your changes have been saved."
+msgstr ""
+
+#: cms/static/js/views/settings/advanced.js:56
+msgid ""
+"Your changes will not take effect until you save your progress. Take care "
+"with key and value formatting, as validation is not implemented."
+msgstr ""
+
+#: cms/static/js/views/settings/advanced.js:105
+msgid "Your policy changes have been saved."
+msgstr ""
+
+#: cms/static/js/views/settings/advanced.js:106
+msgid ""
+"Please note that validation of your policy key and value pairs is not "
+"currently in place yet. If you are having difficulties, please review your "
+"policy pairs."
+msgstr ""
+
+#: cms/static/js/views/settings/main.js:262
+msgid "Upload your course image."
+msgstr ""
+
+#: cms/static/js/views/settings/main.js:263
+msgid "Files must be in JPEG or PNG format."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:220
+msgid "Show Annotations"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:222
+msgid "Hide Annotations"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:237
+msgid "Expand Instructions"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:239
+msgid "Collapse Instructions"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:327
+msgid "Commentary"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:338
+msgid "Reply to Annotation"
+msgstr ""
+
+#. Translators: %(earned)s is the number of points earned. %(total)s is the total number of points (examples: 0/1, 1/1, 2/3, 5/10). The total number of points will always be at least 1. We pluralize based on the total number of points (example: 0/1 point; 1/2 points);
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:117
+msgid "(%(earned)s/%(possible)s point)"
+msgid_plural "(%(earned)s/%(possible)s points)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %(num_points)s is the number of points possible (examples: 1, 3, 10). There will always be at least 1 point possible.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:127
+msgid "(%(num_points)s point possible)"
+msgid_plural "(%(num_points)s points possible)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: the word Answer here refers to the answer to a problem the student must solve.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:457
+msgid "Hide Answer(s)"
+msgstr ""
+
+#. Translators: the word Answer here refers to the answer to a problem the student must solve.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:468
+msgid "Show Answer(s)"
+msgstr ""
+
+#. Translators: the word unanswered here is about answering a problem the student must solve.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:589
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:627
+msgid "unanswered"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:619
+msgid "Status: unsubmitted"
+msgstr ""
+
+#. Translators: A "rating" is a score a student gives to indicate how well
+#. they feel they were graded on this problem
+#.
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:418
+msgid "You need to pick a rating before you can submit."
+msgstr ""
+
+#. Translators: this message appears when transitioning between openended grading
+#. types (i.e. self assesment to peer assessment). Sometimes, if a student
+#. did not perform well at one step, they cannot move on to the next one.
+#.
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:469
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:786
+msgid "Your score did not meet the criteria to move to the next step."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:473
+#: lms/static/coffee/src/staff_grading/staff_grading.js:477
+msgid "Submit"
+msgstr ""
+
+#. Translators: one clicks this button after one has finished filling out the grading
+#. form for an openended assessment
+#.
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:487
+msgid "Submit assessment"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:494
+msgid ""
+"Your response has been submitted. Please check back later for your grade."
+msgstr ""
+
+#. Translators: this button is clicked to submit a student's rating of
+#. an evaluator's assessment
+#.
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:510
+msgid "Submit post-assessment"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:553
+msgid "Answer saved, but not yet submitted."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:592
+msgid ""
+"Please confirm that you wish to submit your work. You will not be able to "
+"make any changes after submitting."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:618
+msgid ""
+"You are trying to upload a file that is too large for our system.  Please "
+"choose a file under 2MB or paste a link to it into the answer box."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:731
+msgid ""
+"Are you sure you want to remove your previous response to this question?"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:778
+msgid "Moved to next step."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:842
+msgid ""
+"File uploads are required for this question, but are not supported in your "
+"browser. Try the newest version of Google Chrome. Alternatively, if you have "
+"uploaded the image to another website, you can paste a link to it into the "
+"answer box."
+msgstr ""
+
+#. Translators: "Show Question" is some text that, when clicked, shows a question's
+#. content that had been hidden
+#.
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:877
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:954
+msgid "Show Question"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:890
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:946
+msgid "Hide Question"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/sequence/display.js:179
+msgid ""
+"Sequence error! Cannot navigate to tab %(tab_name)s in the current "
+"SequenceModule. Please contact the course staff."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:84
+msgid "Video slider"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:198
+msgid "Pause"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:210
+msgid "Play"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:236
+msgid "Fill browser"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:250
+msgid "Exit full browser"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/05_video_quality_control.js:76
+msgid "HD on"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/05_video_quality_control.js:82
+msgid "HD off"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:76
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:262
+msgid "Video position"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:258
+msgid "Video ended"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:277
+msgid "%(value)s hour"
+msgid_plural "%(value)s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:280
+msgid "%(value)s minute"
+msgid_plural "%(value)s minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:283
+msgid "%(value)s second"
+msgid_plural "%(value)s seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:97
+msgid "Volume"
+msgstr ""
+
+#. Translators: Volume level equals 0%.
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:242
+msgid "Muted"
+msgstr ""
+
+#. Translators: Volume level in range (0,20]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:245
+msgid "Very low"
+msgstr ""
+
+#. Translators: Volume level in range (20,40]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:248
+msgid "Low"
+msgstr ""
+
+#. Translators: Volume level in range (40,60]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:251
+msgid "Average"
+msgstr ""
+
+#. Translators: Volume level in range (60,80]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:254
+msgid "Loud"
+msgstr ""
+
+#. Translators: Volume level in range (80,100)%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:257
+msgid "Very loud"
+msgstr ""
+
+#. Translators: Volume level equals 100%.
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:261
+msgid "Maximum"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/09_video_caption.js:270
+msgid "Caption will be displayed when "
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/09_video_caption.js:739
+msgid "Turn on captions"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/video/09_video_caption.js:747
+msgid "Turn off captions"
+msgstr ""
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:84
+#: common/static/coffee/src/discussion/discussion_module_view.js:108
+msgid "Hide Discussion"
+msgstr ""
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:97
+msgid "Show Discussion"
+msgstr ""
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:116
+#: common/static/coffee/src/discussion/discussion_module_view.js:259
+#: common/static/coffee/src/discussion/utils.js:176
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:226
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:110
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:112
+#: common/static/coffee/src/discussion/views/response_comment_view.js:103
+msgid "Sorry"
+msgstr ""
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:116
+msgid "We had some trouble loading the discussion. Please try again."
+msgstr ""
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:259
+msgid ""
+"We had some trouble loading the threads you requested. Please try again."
+msgstr ""
+
+#: common/static/coffee/src/discussion/utils.js:10
+msgid "Loading content"
+msgstr ""
+
+#: common/static/coffee/src/discussion/utils.js:176
+msgid ""
+"We had some trouble processing your request. Please ensure you have copied "
+"any unsaved work and then reload the page."
+msgstr ""
+
+#: common/static/coffee/src/discussion/utils.js:224
+msgid "We had some trouble processing your request. Please try again."
+msgstr ""
+
+#: common/static/coffee/src/discussion/utils.js:371
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:406
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:412
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:415
+#: common/static/coffee/src/discussion/views/new_post_view.js:137
+#: common/static/coffee/src/discussion/views/new_post_view.js:143
+#: common/static/coffee/src/discussion/views/new_post_view.js:146
+msgid "…"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:84
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:88
+msgid "Close"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:84
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:88
+msgid "Open"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:304
+msgid "remove vote"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:304
+msgid "vote"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:305
+msgid ""
+"%(voteNum)s%(startSrSpan)s vote (click to remove your vote)%(endSrSpan)s"
+msgid_plural ""
+"%(voteNum)s%(startSrSpan)s votes (click to remove your vote)%(endSrSpan)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:305
+msgid "%(voteNum)s%(startSrSpan)s vote (click to vote)%(endSrSpan)s"
+msgid_plural "%(voteNum)s%(startSrSpan)s votes (click to vote)%(endSrSpan)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:175
+msgid "Load more"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:185
+msgid "Loading more threads"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:226
+msgid "We had some trouble loading more threads. Please try again."
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:247
+msgid "%(unread_count)s new comment"
+msgid_plural "%(unread_count)s new comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:555
+msgid "Loading thread list"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:96
+msgid "Click to remove report"
+msgstr ""
+
+#. Translators: The text between start_sr_span and end_span is not shown
+#. in most browsers but will be read by screen readers.
+#.
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:102
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:125
+msgid "Misuse Reported%(start_sr_span)s, click to remove report%(end_span)s"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:110
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:128
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:129
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:133
+msgid "Report Misuse"
+msgstr ""
+
+#. Translators: The text between start_sr_span and end_span is not shown
+#. in most browsers but will be read by screen readers.
+#.
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:127
+msgid "Pinned%(start_sr_span)s, click to unpin%(end_span)s"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:131
+msgid "Click to unpin"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:134
+msgid "Pinned"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:141
+msgid "Pin Thread"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:110
+msgid "We had some trouble loading responses. Please reload the page."
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:112
+msgid "We had some trouble loading more responses. Please try again."
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:121
+msgid "%(numResponses)s response"
+msgid_plural "%(numResponses)s responses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:128
+msgid "Showing all responses"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:128
+msgid "Showing first response"
+msgid_plural "Showing first %(numResponses)s responses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:135
+msgid "Load all responses"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:138
+msgid "Load next %(numResponses)s responses"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:320
+msgid "Are you sure you want to delete this post?"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:90
+msgid "anonymous"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:106
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:76
+msgid "staff"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:108
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:79
+msgid "Community TA"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:122
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:123
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:119
+msgid "Misuse Reported, click to remove report"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/response_comment_view.js:89
+msgid "Are you sure you want to delete this comment?"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/response_comment_view.js:103
+msgid "We had some trouble deleting this comment. Please try again."
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/thread_response_view.js:178
+msgid "Are you sure you want to delete this response?"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:2
+#, c-format
+msgid "%s ago"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:3
+#, c-format
+msgid "%s from now"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:4
+msgid "less than a minute"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:5
+msgid "about a minute"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:6
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/js/src/jquery.timeago.locale.js:7
+msgid "about an hour"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:8
+#, c-format
+msgid "about %d hour"
+msgid_plural "about %d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/js/src/jquery.timeago.locale.js:9
+msgid "a day"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:10
+#, c-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/js/src/jquery.timeago.locale.js:11
+msgid "about a month"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:12
+#, c-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/js/src/jquery.timeago.locale.js:13
+msgid "about a year"
+msgstr ""
+
+#: common/static/js/src/jquery.timeago.locale.js:14
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lms/static/admin/js/SelectFilter2.js:45
+#, c-format
+msgid "Available %s"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:46
+#, c-format
+msgid ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:53
+#, c-format
+msgid "Type into this box to filter down the list of available %s."
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:57
+msgid "Filter"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:61
+msgid "Choose all"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:61
+#, c-format
+msgid "Click to choose all %s at once."
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:67
+msgid "Choose"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:69
+msgid "Remove"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:75
+#, c-format
+msgid "Chosen %s"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:76
+#, c-format
+msgid ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:80
+msgid "Remove all"
+msgstr ""
+
+#: lms/static/admin/js/SelectFilter2.js:80
+#, c-format
+msgid "Click to remove all chosen %s at once."
+msgstr ""
+
+#: lms/static/admin/js/actions.js:18 lms/static/admin/js/actions.min.js:1
+msgid "%(sel)s of %(cnt)s selected"
+msgid_plural "%(sel)s of %(cnt)s selected"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lms/static/admin/js/actions.js:109 lms/static/admin/js/actions.min.js:5
+msgid ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
+msgstr ""
+
+#: lms/static/admin/js/actions.js:121 lms/static/admin/js/actions.min.js:6
+msgid ""
+"You have selected an action, but you haven't saved your changes to "
+"individual fields yet. Please click OK to save. You'll need to re-run the "
+"action."
+msgstr ""
+
+#: lms/static/admin/js/actions.js:123 lms/static/admin/js/actions.min.js:6
+msgid ""
+"You have selected an action, and you haven't made any changes on individual "
+"fields. You're probably looking for the Go button rather than the Save "
+"button."
+msgstr ""
+
+#. Translators: the names of months, keep the pipe (|) separators.
+#: lms/static/admin/js/calendar.js:27 lms/static/admin/js/dateparse.js:33
+msgid ""
+"January|February|March|April|May|June|July|August|September|October|November|"
+"December"
+msgstr ""
+
+#. Translators: abbreviations for days of the week, keep the pipe (|) separators.
+#: lms/static/admin/js/calendar.js:29
+msgid "S|M|T|W|T|F|S"
+msgstr ""
+
+#: lms/static/admin/js/collapse.js:8 lms/static/admin/js/collapse.js.c:19
+#: lms/static/admin/js/collapse.min.js:1
+msgid "Show"
+msgstr ""
+
+#: lms/static/admin/js/collapse.js:15 lms/static/admin/js/collapse.min.js:1
+msgid "Hide"
+msgstr ""
+
+#. Translators: the names of days, keep the pipe (|) separators.
+#: lms/static/admin/js/dateparse.js:35
+msgid "Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:49
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:85
+msgid "Now"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:53
+msgid "Clock"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:81
+msgid "Choose a time"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:86
+msgid "Midnight"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:87
+msgid "6 a.m."
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:88
+msgid "Noon"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:144
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:197
+msgid "Today"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:148
+msgid "Calendar"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:195
+msgid "Yesterday"
+msgstr ""
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:199
+msgid "Tomorrow"
+msgstr ""
+
+#: lms/static/coffee/src/calculator.js:38
+msgid "Open Calculator"
+msgstr ""
+
+#: lms/static/coffee/src/calculator.js:44
+msgid "Close Calculator"
+msgstr ""
+
+#: lms/static/coffee/src/customwmd.js:159
+msgid "Preview"
+msgstr ""
+
+#: lms/static/coffee/src/customwmd.js:160
+msgid "Post body"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:56
+msgid "Loading..."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:62
+msgid "Error getting student list."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:105
+msgid "Error retrieving grading configuration."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:121
+msgid "Error generating grades. Please try again."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:216
+msgid "File Name (Newest First)"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:217
+msgid ""
+"Links are generated on demand and expire within 5 minutes due to the "
+"sensitive nature of student grade information."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:357
+msgid "Successfully enrolled and sent email to the following students:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:368
+msgid "Successfully enrolled the following students:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:379
+msgid ""
+"Successfully sent enrollment emails to the following students. They will be "
+"allowed to enroll once they register:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:390
+msgid "These students will be allowed to enroll once they register:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:401
+msgid ""
+"Successfully sent enrollment emails to the following students. They will be "
+"enrolled once they register:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:412
+msgid "These students will be enrolled once they register:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:423
+msgid ""
+"Emails successfully sent. The following students are no longer enrolled in "
+"the course:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:434
+msgid "The following students are no longer enrolled in the course:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:445
+msgid ""
+"These students were not affliliated with the course so could not be "
+"unenrolled:"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:48
+msgid "Your message must have a subject."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:50
+msgid "Your message cannot be blank."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:52
+msgid "Your email was successfully queued for sending."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:55
+msgid "yourself"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:57
+msgid "everyone who is staff or instructor on this course"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:59
+msgid ""
+"ALL (everyone who is enrolled in this course as student, staff, or "
+"instructor)"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:60
+msgid ""
+"Your email was successfully queued for sending. Please note that for large "
+"classes, it may take up to an hour (or more, if other courses are "
+"simultaneously sending email) to send all emails."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:63
+msgid "You are about to send an email titled \""
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:80
+msgid "Error sending email."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:99
+msgid "There is no email history for this course."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:106
+msgid "There was an error obtaining email task history for this course."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:67
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:92
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:129
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:170
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:206
+msgid "Please enter a student email address or username."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:69
+msgid ""
+"Error getting student progress url for '<%= student_id %>'. Check that the "
+"student identifier is spelled correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:95
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:132
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:173
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:209
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:236
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:274
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:314
+msgid "Please enter a problem urlname."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:102
+msgid ""
+"Success! Problem attempts reset for problem '<%= problem_id %>' and student "
+"'<%= student_id %>'."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:103
+msgid ""
+"Error resetting problem attempts for problem '<%= problem_id %>' and student "
+"'<%= student_id %>'. Check that the problem and student identifiers are "
+"spelled correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:134
+msgid ""
+"Delete student '<%= student_id %>'s state on problem '<%= problem_id %>'?"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:145
+msgid ""
+"Error deleting student '<%= student_id %>'s state on problem '<%= problem_id "
+"%>'. Check that the problem and student identifiers are spelled correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:155
+msgid "Module state successfully deleted."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:179
+msgid ""
+"Started rescore problem task for problem '<%= problem_id %>' and student '<"
+"%= student_id %>'. Click the 'Show Background Task History for Student' "
+"button to see the status of the task."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:184
+msgid ""
+"Error starting a task to rescore problem '<%= problem_id %>' for student '<"
+"%= student_id %>'. Check that the problem and student identifiers are "
+"spelled correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:215
+msgid ""
+"Error getting task history for problem '<%= problem_id %>' and student '<%= "
+"student_id %>'. Check that the problem and student identifiers are spelled "
+"correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:238
+msgid "Reset attempts for all students on problem '<%= problem_id %>'?"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:247
+msgid ""
+"Successfully started task to reset attempts for problem '<%= problem_id %>'. "
+"Click the 'Show Background Task History for Problem' button to see the "
+"status of the task."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:251
+msgid ""
+"Error starting a task to reset attempts for all students on problem '<%= "
+"problem_id %>'. Check that the problem identifier is spelled correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:276
+msgid "Rescore problem '<%= problem_id %>' for all students?"
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:285
+msgid ""
+"Successfully started task to rescore problem '<%= problem_id %>' for all "
+"students. Click the 'Show Background Task History for Problem' button to see "
+"the status of the task."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:289
+msgid ""
+"Error starting a task to rescore problem '<%= problem_id %>'. Check that the "
+"problem identifier is spelled correctly."
+msgstr ""
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:324
+msgid "Error listing task history for this student and problem."
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:322
+msgid "Grades saved.  Fetching the next submission to grade."
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:374
+msgid "Problem Name"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:374
+msgid "Graded"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:374
+msgid "Available to Grade"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:374
+msgid "Required"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:374
+msgid "Progress"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:450
+msgid "Back to problem list"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:455
+msgid "Try loading again"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:459
+msgid "<%= num %> available "
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:462
+msgid "<%= num %> graded "
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:465
+msgid "<%= num %> more needed to start ML"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:481
+msgid "Re-check for submissions"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:483
+msgid "System got into invalid state: <%= state %>"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:500
+msgid "System got into invalid state for submission: "
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:508
+#: lms/static/coffee/src/staff_grading/staff_grading.js:517
+msgid "(Hide)"
+msgstr ""
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:512
+msgid "(Show)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:30
+msgid ""
+"<p><b>Insert Hyperlink</b></p><p>http://example.com/ \"optional title\"</p>"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:31
+msgid ""
+"<p><b>Insert Image (upload file or type url)</b></p><p>http://example.com/"
+"images/diagram.jpg \"optional title\"<br><br></p>"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:38
+msgid "Markdown Editing Help"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1447
+msgid "Bold (Ctrl+B)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1448
+msgid "Italic (Ctrl+I)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1450
+msgid "Hyperlink (Ctrl+L)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1453
+msgid "Blockquote (Ctrl+Q)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1454
+msgid "Code Sample (Ctrl+K)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1455
+msgid "Image (Ctrl+G)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1459
+msgid "Numbered List (Ctrl+O)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1462
+msgid "Bulleted List (Ctrl+U)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1465
+msgid "Heading (Ctrl+H)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1466
+msgid "Horizontal Rule (Ctrl+R)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1468
+msgid "Undo (Ctrl+Z)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1472
+msgid "Redo (Ctrl+Y)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1473
+msgid "Redo (Ctrl+Shift+Z)"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1540
+msgid "strong text"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1544
+msgid "emphasized text"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1747
+msgid "enter image description here"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1750
+msgid "enter link description here"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1831
+msgid "Blockquote"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:1988 lms/static/js/Markdown.Editor.js:2011
+msgid "enter code here"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:2105
+msgid "List item"
+msgstr ""
+
+#: lms/static/js/Markdown.Editor.js:2137
+msgid "Heading"
+msgstr ""
+
+#: lms/templates/class_dashboard/all_section_metrics.js:12
+#: lms/templates/class_dashboard/all_section_metrics.js:52
+msgid "Unable to retrieve data, please try again later."
+msgstr ""
+
+#: lms/templates/class_dashboard/d3_stacked_bar_graph.js:424
+msgid "Number of Students"
+msgstr ""

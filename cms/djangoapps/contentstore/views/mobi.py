@@ -56,7 +56,7 @@ from django.views.decorators.csrf import csrf_exempt
 from student.roles import CourseInstructorRole, CourseStaffRole, CourseCreatorRole, GlobalStaff
 from student import auth
 
-from microsite_configuration.middleware import MicrositeConfiguration
+#from microsite_configuration.middleware import MicrositeConfiguration
 
 # from .course import _get_locator_and_course
 

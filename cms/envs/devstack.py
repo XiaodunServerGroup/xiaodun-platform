@@ -7,6 +7,8 @@ from .aws import * # pylint: disable=wildcard-import, unused-wildcard-import
 DEBUG = True
 USE_I18N = True
 TEMPLATE_DEBUG = DEBUG
+TIME_ZONE = 'Asia/Shanghai'
+LANGUAGE_CODE = 'zh_CN'
 
 ################################ LOGGERS ######################################
 

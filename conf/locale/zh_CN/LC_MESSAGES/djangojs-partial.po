@@ -1,0 +1,1156 @@
+# edX translation file.
+# Copyright (C) 2014 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# csc <am15501@163.com>, 2014
+# Bookman <bookman@vip.163.com>, 2013
+# csc <am15501@163.com>, 2014
+# focusheart <focusheart@gmail.com>, 2014
+# focusheart <focusheart@gmail.com>, 2014
+# hanwentao <wentao.han@gmail.com>, 2013
+# harry75369 <harry75369@gmail.com>, 2014
+# Jerome Huang <canni3269@gmail.com>, 2014
+# liuyang <liuyang2011@tsinghua.edu.cn>, 2013
+# csc <am15501@163.com>, 2014
+# skyclass443 <cyx19920829@gmail.com>, 2014
+# thinxer <me@thinxer.com>, 2013
+# vicapple22 <vicapple22@gmail.com>, 2013
+# hanwentao <wentao.han@gmail.com>, 2013
+# xdsnet <xdsnet@gmail.com>, 2013
+# zibuyu <liuliudong@163.com>, 2013
+# liuyang <liuyang2011@tsinghua.edu.cn>, 2013
+# vicapple22 <vicapple22@gmail.com>, 2013
+# xdsnet <xdsnet@gmail.com>, 2013
+# c0710204 <c0710204@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: edx-platform\n"
+"Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+"POT-Creation-Date: 2014-03-10 09:11-0400\n"
+"PO-Revision-Date: 2014-03-13 02:00+0000\n"
+"Last-Translator: skyclass443 <cyx19920829@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/edx-platform/language/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: cms/static/coffee/src/views/tabs.js:101
+#: cms/static/js/views/course_info_update.js:140
+#: common/static/coffee/src/discussion/utils.js:134
+msgid "OK"
+msgstr "是的"
+
+#: cms/static/coffee/src/views/tabs.js:126
+#: cms/static/coffee/src/views/unit.js:230 cms/static/js/base.js:294
+#: cms/static/js/views/asset.js:68
+#: cms/static/js/views/course_info_update.js:166
+#: cms/static/js/views/show_textbook.js:50
+#: cms/static/js/views/validation.js:115
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:92
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:204
+msgid "Cancel"
+msgstr "取消"
+
+#: cms/static/js/base.js:70 lms/static/js/verify_student/photocapture.js:334
+msgid "This link will open in a new browser window/tab"
+msgstr "该链接将在新的浏览器窗口/标签打开"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:206
+msgid "Show Annotations"
+msgstr "显示注解"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:208
+msgid "Hide Annotations"
+msgstr "隐藏注解"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:223
+msgid "Expand Instructions"
+msgstr "展开说明"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:225
+msgid "Collapse Instructions"
+msgstr "折叠说明"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:313
+msgid "Commentary"
+msgstr "评注"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js:324
+msgid "Reply to Annotation"
+msgstr "回复注解"
+
+#. Translators: %(earned)s is the number of points earned. %(total)s is the
+#. total number of points (examples: 0/1, 1/1, 2/3, 5/10). The total number of
+#. points will always be at least 1. We pluralize based on the total number of
+#. points (example: 0/1 point; 1/2 points);
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:76
+msgid "(%(earned)s/%(possible)s point)"
+msgid_plural "(%(earned)s/%(possible)s points)"
+msgstr[0] ""
+
+#. Translators: %(num_points)s is the number of points possible (examples: 1,
+#. 3, 10). There will always be at least 1 point possible.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:86
+msgid "(%(num_points)s point possible)"
+msgid_plural "(%(num_points)s points possible)"
+msgstr[0] "%(num_points)s 是可能获得的分数(比如: 1, 3, 10). 这里默认至少有一分.;"
+
+#. Translators: the word Answer here refers to the answer to a problem the
+#. student must solve.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:417
+msgid "Hide Answer(s)"
+msgstr "隐藏答案"
+
+#. Translators: the word Answer here refers to the answer to a problem the
+#. student must solve.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:428
+msgid "Show Answer(s)"
+msgstr "显示答案"
+
+#. Translators: the word unanswered here is about answering a problem the
+#. student must solve.;
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:551
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:589
+msgid "unanswered"
+msgstr "未答复"
+
+#: common/lib/xmodule/xmodule/js/src/capa/display.js:581
+msgid "Status: unsubmitted"
+msgstr "状态：未提交的"
+
+#. Translators: A "rating" is a score a student gives to indicate how well
+#. they feel they were graded on this problem
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:332
+msgid "You need to pick a rating before you can submit."
+msgstr "你需要在提交前选择一个评价分数"
+
+#. Translators: this message appears when transitioning between openended
+#. grading
+#. types (i.e. self assesment to peer assessment). Sometimes, if a student
+#. did not perform well at one step, they cannot move on to the next one.
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:383
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:700
+msgid "Your score did not meet the criteria to move to the next step."
+msgstr "您的成绩达不到要求，不能进行下一步骤"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:387
+#: lms/static/coffee/src/staff_grading/staff_grading.js:452
+msgid "Submit"
+msgstr "提交"
+
+#. Translators: one clicks this button after one has finished filling out the
+#. grading
+#. form for an openended assessment
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:401
+msgid "Submit assessment"
+msgstr "提交评估"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:408
+msgid ""
+"Your response has been submitted. Please check back later for your grade."
+msgstr "您的"
+
+#. Translators: this button is clicked to submit a student's rating of
+#. an evaluator's assessment
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:424
+msgid "Submit post-assessment"
+msgstr "提交评估"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:467
+msgid "Answer saved, but not yet submitted."
+msgstr "答案已经保存，但尚未提交"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:506
+msgid ""
+"Please confirm that you wish to submit your work. You will not be able to "
+"make any changes after submitting."
+msgstr "请确认你的作业是否需要提交，提交之后就不能再做改变了"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:532
+msgid ""
+"You are trying to upload a file that is too large for our system.  Please "
+"choose a file under 2MB or paste a link to it into the answer box."
+msgstr "您上传的文件过大，请选择小于2M的文件上传，或者将文件链接复制到答案盒里。"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:645
+msgid ""
+"Are you sure you want to remove your previous response to this question?"
+msgstr "您确定要删除当前这个问题的回复吗？"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:692
+msgid "Moved to next step."
+msgstr "移到下一个步骤。"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:756
+msgid ""
+"File uploads are required for this question, but are not supported in your "
+"browser. Try the newest version of Google Chrome. Alternatively, if you have"
+" uploaded the image to another website, you can paste a link to it into the "
+"answer box."
+msgstr "这个问题需要文件上传，但您的浏览器不支持。尝试使用最新的谷歌浏览器版本。另外，如果你上传图像到另一个网站，你可以粘贴链接到答填写答案处。"
+
+#. Translators: "Show Question" is some text that, when clicked, shows a
+#. question's
+#. content that had been hidden
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:791
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:868
+msgid "Show Question"
+msgstr "显示问题"
+
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:804
+#: common/lib/xmodule/xmodule/js/src/combinedopenended/display.js:860
+msgid "Hide Question"
+msgstr "隐藏问题"
+
+#: common/lib/xmodule/xmodule/js/src/sequence/display.js:165
+msgid ""
+"Sequence error! Cannot navigate to tab %(tab_name)s in the current "
+"SequenceModule. Please contact the course staff."
+msgstr "序列错误！ 不能在当前序列模块中导航到%(tab_name)s页面。请联系课程工作人员。"
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:85
+msgid "Video slider"
+msgstr "视频滑块"
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:228
+msgid "Pause"
+msgstr "暂停"
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:240
+msgid "Play"
+msgstr "开始"
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:266
+msgid "Fill browser"
+msgstr "填写浏览器"
+
+#: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:273
+msgid "Exit full browser"
+msgstr "退出填充浏览"
+
+#: common/lib/xmodule/xmodule/js/src/video/05_video_quality_control.js:76
+msgid "HD on"
+msgstr "打开高清"
+
+#: common/lib/xmodule/xmodule/js/src/video/05_video_quality_control.js:82
+msgid "HD off"
+msgstr "关闭高清"
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:76
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:262
+msgid "Video position"
+msgstr "视频位置"
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:258
+msgid "Video ended"
+msgstr "视频结束"
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:277
+msgid "%(value)s hour"
+msgid_plural "%(value)s hours"
+msgstr[0] "%(value)s 小时"
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:280
+msgid "%(value)s minute"
+msgid_plural "%(value)s minutes"
+msgstr[0] "%(value)s 分钟"
+
+#: common/lib/xmodule/xmodule/js/src/video/06_video_progress_slider.js:283
+msgid "%(value)s second"
+msgid_plural "%(value)s seconds"
+msgstr[0] "%(value)s 秒"
+
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:97
+msgid "Volume"
+msgstr "音量"
+
+#. Translators: Volume level equals 0%.
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:242
+msgid "Muted"
+msgstr "静音"
+
+#. Translators: Volume level in range (0,20]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:245
+msgid "Very low"
+msgstr "很低"
+
+#. Translators: Volume level in range (20,40]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:248
+msgid "Low"
+msgstr "低"
+
+#. Translators: Volume level in range (40,60]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:251
+msgid "Average"
+msgstr "平均"
+
+#. Translators: Volume level in range (60,80]%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:254
+msgid "Loud"
+msgstr "大声"
+
+#. Translators: Volume level in range (80,100)%
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:257
+msgid "Very loud"
+msgstr "很大"
+
+#. Translators: Volume level equals 100%.
+#: common/lib/xmodule/xmodule/js/src/video/07_video_volume_control.js:261
+msgid "Maximum"
+msgstr "最大数值"
+
+#: common/lib/xmodule/xmodule/js/src/video/09_video_caption.js:266
+msgid "Caption will be displayed when "
+msgstr "当……将会显示字幕"
+
+#: common/lib/xmodule/xmodule/js/src/video/09_video_caption.js:735
+msgid "Turn on captions"
+msgstr "打开字幕"
+
+#: common/lib/xmodule/xmodule/js/src/video/09_video_caption.js:743
+msgid "Turn off captions"
+msgstr "关闭字幕"
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:68
+#: common/static/coffee/src/discussion/discussion_module_view.js:92
+msgid "Hide Discussion"
+msgstr "隐藏讨论"
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:81
+msgid "Show Discussion"
+msgstr "显示讨论"
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:100
+#: common/static/coffee/src/discussion/discussion_module_view.js:243
+#: common/static/coffee/src/discussion/utils.js:174
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:204
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:95
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:97
+#: common/static/coffee/src/discussion/views/response_comment_view.js:95
+msgid "Sorry"
+msgstr "很抱歉"
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:100
+msgid "We had some trouble loading the discussion. Please try again."
+msgstr "载入讨论时遇到问题，请重试。"
+
+#: common/static/coffee/src/discussion/discussion_module_view.js:243
+msgid ""
+"We had some trouble loading the threads you requested. Please try again."
+msgstr "载入讨论时遇到问题，请重试。"
+
+#: common/static/coffee/src/discussion/utils.js:9
+msgid "Loading content"
+msgstr "内容加载中"
+
+#: common/static/coffee/src/discussion/utils.js:174
+msgid ""
+"We had some trouble processing your request. Please ensure you have copied "
+"any unsaved work and then reload the page."
+msgstr "在处理您的请求时发生错误。请您在确保未保存的工作被复制，然后重新载入页面。"
+
+#: common/static/coffee/src/discussion/utils.js:222
+msgid "We had some trouble processing your request. Please try again."
+msgstr "处理请求遇到问题，请重试。"
+
+#: common/static/coffee/src/discussion/utils.js:369
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:384
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:390
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:393
+#: common/static/coffee/src/discussion/views/new_post_view.js:135
+#: common/static/coffee/src/discussion/views/new_post_view.js:141
+#: common/static/coffee/src/discussion/views/new_post_view.js:144
+msgid "…"
+msgstr "…"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:60
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:64
+msgid "Close"
+msgstr "关闭"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:60
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:64
+msgid "Open"
+msgstr "打开"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:280
+msgid "remove vote"
+msgstr "删除投票"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:280
+msgid "vote"
+msgstr "投票"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:281
+msgid ""
+"%(voteNum)s%(startSrSpan)s vote (click to remove your vote)%(endSrSpan)s"
+msgid_plural ""
+"%(voteNum)s%(startSrSpan)s votes (click to remove your vote)%(endSrSpan)s"
+msgstr[0] "%(voteNum)s%(startSrSpan)s 投票 (点击取消投票)%(endSrSpan)s"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js:281
+msgid "%(voteNum)s%(startSrSpan)s vote (click to vote)%(endSrSpan)s"
+msgid_plural "%(voteNum)s%(startSrSpan)s votes (click to vote)%(endSrSpan)s"
+msgstr[0] ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:153
+msgid "Load more"
+msgstr "载入更多"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:163
+msgid "Loading more threads"
+msgstr "载入更多的讨论"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:204
+msgid "We had some trouble loading more threads. Please try again."
+msgstr "载入讨论时遇到问题，请重试。"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:225
+msgid "%(unread_count)s new comment"
+msgid_plural "%(unread_count)s new comments"
+msgstr[0] "%(unread_count)条未读评论"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js:533
+msgid "Loading thread list"
+msgstr "载入讨论列表"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:84
+msgid "Click to remove report"
+msgstr "点击删除报告"
+
+#. Translators: The text between start_sr_span and end_span is not shown
+#. in most browsers but will be read by screen readers.
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:90
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:121
+msgid "Misuse Reported%(start_sr_span)s, click to remove report%(end_span)s"
+msgstr ""
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:98
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:120
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:121
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:129
+msgid "Report Misuse"
+msgstr "报告滥用"
+
+#. Translators: The text between start_sr_span and end_span is not shown
+#. in most browsers but will be read by screen readers.
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:115
+msgid "Pinned%(start_sr_span)s, click to unpin%(end_span)s"
+msgstr "%(start_sr_span)s 和%(end_span)s之间的文本在大多数浏览器上不被显示，但是能够被浏览者读出。"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:119
+msgid "Click to unpin"
+msgstr "单击拔掉"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:122
+msgid "Pinned"
+msgstr "已处理"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:129
+msgid "Pin Thread"
+msgstr "标记帖子"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:95
+msgid "We had some trouble loading responses. Please reload the page."
+msgstr "载入回复时遇到麻烦，请重试。"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:97
+msgid "We had some trouble loading more responses. Please try again."
+msgstr "载入回复时遇到麻烦，请重试。"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:106
+msgid "%(numResponses)s response"
+msgid_plural "%(numResponses)s responses"
+msgstr[0] "%(numResponses)s条回复"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:113
+msgid "Showing all responses"
+msgstr "显示所有的回复"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:113
+msgid "Showing first response"
+msgid_plural "Showing first %(numResponses)s responses"
+msgstr[0] "显示开始的%(numResponses)s条回复"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:120
+msgid "Load all responses"
+msgstr "载入所有的回复"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:123
+msgid "Load next %(numResponses)s responses"
+msgstr "加载下面的%(numResponses)s条回复"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js:305
+msgid "Are you sure you want to delete this post?"
+msgstr "您确定要删除这条发送信息？"
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:82
+msgid "anonymous"
+msgstr "匿名"
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:98
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:72
+msgid "staff"
+msgstr "员工"
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:100
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:75
+msgid "Community TA"
+msgstr "社区助教"
+
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:114
+#: common/static/coffee/src/discussion/views/response_comment_show_view.js:115
+#: common/static/coffee/src/discussion/views/thread_response_show_view.js:115
+msgid "Misuse Reported, click to remove report"
+msgstr "未确认报告，点击删除报告。"
+
+#: common/static/coffee/src/discussion/views/response_comment_view.js:81
+msgid "Are you sure you want to delete this comment?"
+msgstr "你确定要删除这条评论吗？"
+
+#: common/static/coffee/src/discussion/views/response_comment_view.js:95
+msgid "We had some trouble deleting this comment. Please try again."
+msgstr "我们早在删除这条评论时出错，请再试一遍。"
+
+#: common/static/coffee/src/discussion/views/thread_response_view.js:169
+msgid "Are you sure you want to delete this response?"
+msgstr "你确定要删除这个回复吗"
+
+#: common/static/js/src/jquery.timeago.locale.js:2
+#, c-format
+msgid "%s ago"
+msgstr "%s 以前"
+
+#: common/static/js/src/jquery.timeago.locale.js:3
+#, c-format
+msgid "%s from now"
+msgstr "%s 从现在开始"
+
+#: common/static/js/src/jquery.timeago.locale.js:4
+msgid "less than a minute"
+msgstr "少于一分钟"
+
+#: common/static/js/src/jquery.timeago.locale.js:5
+msgid "about a minute"
+msgstr "大约一分钟"
+
+#: common/static/js/src/jquery.timeago.locale.js:6
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d 分钟"
+
+#: common/static/js/src/jquery.timeago.locale.js:7
+msgid "about an hour"
+msgstr "大约一小时"
+
+#: common/static/js/src/jquery.timeago.locale.js:8
+#, c-format
+msgid "about %d hour"
+msgid_plural "about %d hours"
+msgstr[0] "大约 %d 小时"
+
+#: common/static/js/src/jquery.timeago.locale.js:9
+msgid "a day"
+msgstr "一天"
+
+#: common/static/js/src/jquery.timeago.locale.js:10
+#, c-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d 天"
+
+#: common/static/js/src/jquery.timeago.locale.js:11
+msgid "about a month"
+msgstr "大约一个月"
+
+#: common/static/js/src/jquery.timeago.locale.js:12
+#, c-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] "%d 个月"
+
+#: common/static/js/src/jquery.timeago.locale.js:13
+msgid "about a year"
+msgstr "大约一年"
+
+#: common/static/js/src/jquery.timeago.locale.js:14
+#, c-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d 年"
+
+#: lms/static/admin/js/SelectFilter2.js:45
+#, c-format
+msgid "Available %s"
+msgstr "可用 %s"
+
+#: lms/static/admin/js/SelectFilter2.js:46
+#, c-format
+msgid ""
+"This is the list of available %s. You may choose some by selecting them in "
+"the box below and then clicking the \"Choose\" arrow between the two boxes."
+msgstr "这是可用%s的列表。您可以在下面的方框中进行选择，然后点击两个方框中间的“选择”箭头。"
+
+#: lms/static/admin/js/SelectFilter2.js:53
+#, c-format
+msgid "Type into this box to filter down the list of available %s."
+msgstr "在方框中输入信息以过滤可用%s列表。"
+
+#: lms/static/admin/js/SelectFilter2.js:57
+msgid "Filter"
+msgstr "过滤"
+
+#: lms/static/admin/js/SelectFilter2.js:61
+msgid "Choose all"
+msgstr "全部选择"
+
+#: lms/static/admin/js/SelectFilter2.js:61
+#, c-format
+msgid "Click to choose all %s at once."
+msgstr "点击以一次选择全部%s"
+
+#: lms/static/admin/js/SelectFilter2.js:67
+msgid "Choose"
+msgstr "选择"
+
+#: lms/static/admin/js/SelectFilter2.js:69
+msgid "Remove"
+msgstr "移除"
+
+#: lms/static/admin/js/SelectFilter2.js:75
+#, c-format
+msgid "Chosen %s"
+msgstr "%s被选中"
+
+#: lms/static/admin/js/SelectFilter2.js:76
+#, c-format
+msgid ""
+"This is the list of chosen %s. You may remove some by selecting them in the "
+"box below and then clicking the \"Remove\" arrow between the two boxes."
+msgstr "这是被选中的%s的列表。您可以在下面的方框中选择需要移除的项，然后点击两个方框中间的“移除”箭头。"
+
+#: lms/static/admin/js/SelectFilter2.js:80
+msgid "Remove all"
+msgstr "全部移除"
+
+#: lms/static/admin/js/SelectFilter2.js:80
+#, c-format
+msgid "Click to remove all chosen %s at once."
+msgstr "点击以一次移除全部所选的%s"
+
+#: lms/static/admin/js/actions.js:18 lms/static/admin/js/actions.min.js:1
+msgid "%(sel)s of %(cnt)s selected"
+msgid_plural "%(sel)s of %(cnt)s selected"
+msgstr[0] "%(cnt)s的%(sel)s被选中"
+
+#: lms/static/admin/js/actions.js:109 lms/static/admin/js/actions.min.js:5
+msgid ""
+"You have unsaved changes on individual editable fields. If you run an "
+"action, your unsaved changes will be lost."
+msgstr "您在单独可编辑的字段有未保存的更改。如果您执行操作，这些未保存的更改将丢失。"
+
+#: lms/static/admin/js/actions.js:121 lms/static/admin/js/actions.min.js:6
+msgid ""
+"You have selected an action, but you haven't saved your changes to "
+"individual fields yet. Please click OK to save. You'll need to re-run the "
+"action."
+msgstr "您已经选择一个操作，但是并未保存对字段进行的更改。请点击“确定”来保存。您需要再次运行该操作。"
+
+#: lms/static/admin/js/actions.js:123 lms/static/admin/js/actions.min.js:6
+msgid ""
+"You have selected an action, and you haven't made any changes on individual "
+"fields. You're probably looking for the Go button rather than the Save "
+"button."
+msgstr "您已经选择了一个操作并且未对单独的域做任何更改。您可能是在尝试使用“继续”键而不是“保存”键。"
+
+#. Translators: the names of months, keep the pipe (|) separators.
+#: lms/static/admin/js/calendar.js:27 lms/static/admin/js/dateparse.js:33
+msgid ""
+"January|February|March|April|May|June|July|August|September|October|November|December"
+msgstr "一月|二月|三月|四月|五月|六月|七月|八月|九月|十月|十一月|十二月"
+
+#. Translators: abbreviations for days of the week, keep the pipe (|)
+#. separators.
+#: lms/static/admin/js/calendar.js:29
+msgid "S|M|T|W|T|F|S"
+msgstr "日|一|二|三|四|五|六"
+
+#: lms/static/admin/js/collapse.js:8 lms/static/admin/js/collapse.js.c:19
+#: lms/static/admin/js/collapse.min.js:1
+msgid "Show"
+msgstr "显示"
+
+#: lms/static/admin/js/collapse.js:15 lms/static/admin/js/collapse.min.js:1
+msgid "Hide"
+msgstr "隐藏"
+
+#. Translators: the names of days, keep the pipe (|) separators.
+#: lms/static/admin/js/dateparse.js:35
+msgid "Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday"
+msgstr "星期日|星期一|星期二|星期三|星期四|星期五|星期六"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:49
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:85
+msgid "Now"
+msgstr "现在"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:53
+msgid "Clock"
+msgstr "时钟"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:81
+msgid "Choose a time"
+msgstr "选择时间"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:86
+msgid "Midnight"
+msgstr "午夜"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:87
+msgid "6 a.m."
+msgstr "上午六点"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:88
+msgid "Noon"
+msgstr "中午"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:144
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:197
+msgid "Today"
+msgstr "今天"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:148
+msgid "Calendar"
+msgstr "日历"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:195
+msgid "Yesterday"
+msgstr "昨天"
+
+#: lms/static/admin/js/admin/DateTimeShortcuts.js:199
+msgid "Tomorrow"
+msgstr "明天"
+
+#: lms/static/coffee/src/calculator.js:36
+msgid "Open Calculator"
+msgstr "开放计算器"
+
+#: lms/static/coffee/src/calculator.js:42
+msgid "Close Calculator"
+msgstr "关闭计算器"
+
+#: lms/static/coffee/src/customwmd.js:158
+msgid "Preview"
+msgstr "预览"
+
+#: lms/static/coffee/src/customwmd.js:159
+msgid "Post body"
+msgstr "输入主体"
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:54
+msgid "Loading..."
+msgstr "载入中..."
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:60
+msgid "Error getting student list."
+msgstr "得到学生列表时错误"
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:103
+msgid "Error retrieving grading configuration."
+msgstr "取得评分标准时错误"
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:119
+msgid "Error generating grades. Please try again."
+msgstr "生成评分错误，请重试。"
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:213
+msgid "File Name (Newest First)"
+msgstr "文件名(最新优先)"
+
+#: lms/static/coffee/src/instructor_dashboard/data_download.js:214
+msgid ""
+"Links are generated on demand and expire within 5 minutes due to the "
+"sensitive nature of student grade information."
+msgstr "由于学生评价信息的敏感性，按照需求所产生的链接将会在5分钟后过期。"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:353
+msgid "Successfully enrolled and sent email to the following students:"
+msgstr "以下学生已注册成功，并向他们发送电子邮件"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:364
+msgid "Successfully enrolled the following students:"
+msgstr "下面这些学生已经成功注册"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:375
+msgid ""
+"Successfully sent enrollment emails to the following students. They will be "
+"allowed to enroll once they register:"
+msgstr "参与邮件已经成功发送至以下学生。当注册后他们即可参与其中。"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:386
+msgid "These students will be allowed to enroll once they register:"
+msgstr "这些学生一旦注册将允许他们报名参与"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:397
+msgid ""
+"Successfully sent enrollment emails to the following students. They will be "
+"enrolled once they register:"
+msgstr "参与邮件已经成功发送至以下学生。当他们注册后即被选中参与。"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:408
+msgid "These students will be enrolled once they register:"
+msgstr "这些学生将被登记一旦他们注册"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:419
+msgid ""
+"Emails successfully sent. The following students are no longer enrolled in "
+"the course:"
+msgstr "电子邮件发送成功，以下学生将不再参与这门课程的学习"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:430
+msgid "The following students are no longer enrolled in the course:"
+msgstr "以下学生将不再参加课程的学习"
+
+#: lms/static/coffee/src/instructor_dashboard/membership.js:441
+msgid ""
+"These students were not affliliated with the course so could not be "
+"unenrolled:"
+msgstr "这些学生并不属于该课程因而无法参与其中："
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:46
+msgid "Your message must have a subject."
+msgstr "您的消息必须有一个标题。"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:48
+msgid "Your message cannot be blank."
+msgstr "您的消息不能为空。"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:50
+msgid "Your email was successfully queued for sending."
+msgstr "你的电子邮件已成功加入发送队列。"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:53
+msgid "yourself"
+msgstr "您自己"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:55
+msgid "everyone who is staff or instructor on this course"
+msgstr "本课程是的所有员工和教师"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:57
+msgid ""
+"ALL (everyone who is enrolled in this course as student, staff, or "
+"instructor)"
+msgstr "所有参与这门课程的学生，工作人员，老师"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:58
+msgid ""
+"Your email was successfully queued for sending. Please note that for large "
+"classes, it may take up to an hour (or more, if other courses are "
+"simultaneously sending email) to send all emails."
+msgstr "你的电子邮件已成功加入发送队列。需要注意的是，对于大型课程，可能需要花费一小时以上(甚至更多，如果其他课程也在同时发送邮件)来发送所有邮件。"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:61
+msgid "You are about to send an email titled \""
+msgstr "你需要发送一个带标题的电子邮件"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:78
+msgid "Error sending email."
+msgstr "发送电子邮件错误"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:97
+msgid "There is no email history for this course."
+msgstr "在这门课当中，还没有发送过电子邮件记录"
+
+#: lms/static/coffee/src/instructor_dashboard/send_email.js:104
+msgid "There was an error obtaining email task history for this course."
+msgstr "获取该课程的邮件任务历史时发生错误。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:65
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:90
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:127
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:168
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:204
+msgid "Please enter a student email address or username."
+msgstr "请输入一个学生的电子邮件地址或用户名"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:67
+msgid ""
+"Error getting student progress url for '<%= student_id %>'. Check that the "
+"student identifier is spelled correctly."
+msgstr "获取学生进度URL '<%= student_id %>' 错误。检查学生标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:93
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:130
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:171
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:207
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:234
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:272
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:312
+msgid "Please enter a problem urlname."
+msgstr "请输入这个问题的url名字"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:100
+msgid ""
+"Success! Problem attempts reset for problem '<%= problem_id %>' and student "
+"'<%= student_id %>'."
+msgstr "成功！问题'<%= problem_id %>' 与学生'<%= student_id %>'的问题尝试重置了。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:101
+msgid ""
+"Error resetting problem attempts for problem '<%= problem_id %>' and student"
+" '<%= student_id %>'. Check that the problem and student identifiers are "
+"spelled correctly."
+msgstr " 问题'<%= problem_id %>' 与学生'<%= student_id %>' 的问题尝试重置发生错误。 检查问题和学生的标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:132
+msgid ""
+"Delete student '<%= student_id %>'s state on problem '<%= problem_id %>'?"
+msgstr "确认删除学生 '<%= student_id %>' 在问题 '<%= problem_id %>' 上的状态?"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:143
+msgid ""
+"Error deleting student '<%= student_id %>'s state on problem '<%= problem_id"
+" %>'. Check that the problem and student identifiers are spelled correctly."
+msgstr "删除学生 '<%= student_id %>' 在问题 '<%= problem_id %>'上的状态时发生错误。检查问题和学生的标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:153
+msgid "Module state successfully deleted."
+msgstr "已成功删除模块状态。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:177
+msgid ""
+"Started rescore problem task for problem '<%= problem_id %>' and student "
+"'<%= student_id %>'. Click the 'Show Background Task History for Student' "
+"button to see the status of the task."
+msgstr "已启动对问题 '<%= problem_id %>' 和学生 '<%= student_id %>'的重评问题任务。点击 '显示学生的背景任务历史' 按钮来查看任务状态。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:182
+msgid ""
+"Error starting a task to rescore problem '<%= problem_id %>' for student "
+"'<%= student_id %>'. Check that the problem and student identifiers are "
+"spelled correctly."
+msgstr "启动对问题 '<%= problem_id %>' 和学生 '<%= student_id %>'的重评问题任务时发生错误。检查问题和学生的标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:213
+msgid ""
+"Error getting task history for problem '<%= problem_id %>' and student '<%= "
+"student_id %>'. Check that the problem and student identifiers are spelled "
+"correctly."
+msgstr "获取对问题 '<%= problem_id %>' 和学生 '<%= student_id %>'的任务历史时失败。检查问题和学生的标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:236
+msgid "Reset attempts for all students on problem '<%= problem_id %>'?"
+msgstr "确认重置问题 '<%= problem_id %>' 的所有学生尝试？"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:245
+msgid ""
+"Successfully started task to reset attempts for problem '<%= problem_id %>'."
+" Click the 'Show Background Task History for Problem' button to see the "
+"status of the task."
+msgstr "成功启动重置问题 '<%= problem_id %>' 尝试次数的任务。点击 '显示问题的背景任务历史' 按钮来查看任务状态。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:249
+msgid ""
+"Error starting a task to reset attempts for all students on problem '<%= "
+"problem_id %>'. Check that the problem identifier is spelled correctly."
+msgstr "启动重置问题 '<%= problem_id %>' 的所有学生尝试次数的任务时失败。检查问题标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:274
+msgid "Rescore problem '<%= problem_id %>' for all students?"
+msgstr "确认重评所有学生回答的问题 '<%= problem_id %>' ？"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:283
+msgid ""
+"Successfully started task to rescore problem '<%= problem_id %>' for all "
+"students. Click the 'Show Background Task History for Problem' button to see"
+" the status of the task."
+msgstr "成功启动重评所有学生回答的问题  '<%= problem_id %>' 任务。点击 '显示问题背景任务历史' 按钮来查看任务状态。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:287
+msgid ""
+"Error starting a task to rescore problem '<%= problem_id %>'. Check that the"
+" problem identifier is spelled correctly."
+msgstr "启动重评问题  '<%= problem_id %>' 任务时失败。检查问题标识符是否拼写正确。"
+
+#: lms/static/coffee/src/instructor_dashboard/student_admin.js:322
+msgid "Error listing task history for this student and problem."
+msgstr "列表该名学生与问题的任务历史时发生错误。"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:297
+msgid "Grades saved.  Fetching the next submission to grade."
+msgstr "评价已保存。下一个待评价提交获取中。"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:349
+msgid "Problem Name"
+msgstr "问题名称"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:349
+msgid "Graded"
+msgstr "已评价"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:349
+msgid "Available to Grade"
+msgstr "可评价"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:349
+msgid "Required"
+msgstr "需要进行评价"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:349
+msgid "Progress"
+msgstr "进度"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:425
+msgid "Back to problem list"
+msgstr "返回问题列表"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:430
+msgid "Try loading again"
+msgstr "请重新加载"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:434
+msgid "<%= num %> available "
+msgstr "<%= num %> 可用"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:437
+msgid "<%= num %> graded "
+msgstr "<%= num %> 分数"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:440
+msgid "<%= num %> more needed to start ML"
+msgstr "<%= num %> 多需要开始ML"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:456
+msgid "Re-check for submissions"
+msgstr "提交前再次确认"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:458
+msgid "System got into invalid state: <%= state %>"
+msgstr "系统处于非正常状态：<%= state %>"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:475
+msgid "System got into invalid state for submission: "
+msgstr "系统对此提交处于无效的状态中："
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:483
+#: lms/static/coffee/src/staff_grading/staff_grading.js:492
+msgid "(Hide)"
+msgstr "(隐藏)"
+
+#: lms/static/coffee/src/staff_grading/staff_grading.js:487
+msgid "(Show)"
+msgstr "(显示)"
+
+#: lms/static/js/Markdown.Editor.js:30
+msgid ""
+"<p><b>Insert Hyperlink</b></p><p>http://example.com/ \"optional title\"</p>"
+msgstr "<p><b>插入超链接</b></p><p>http://example.com/ \"可选的标题\"</p>"
+
+#: lms/static/js/Markdown.Editor.js:31
+msgid ""
+"<p><b>Insert Image (upload file or type "
+"url)</b></p><p>http://example.com/images/diagram.jpg \"optional "
+"title\"<br><br></p>"
+msgstr "<p><b>插入图片（上传文件或输入地址）</b></p><p>http://example.com/images/diagram.jpg \"可选标题\"<br><br></p>"
+
+#: lms/static/js/Markdown.Editor.js:38
+msgid "Markdown Editing Help"
+msgstr "Markdown编辑帮助"
+
+#: lms/static/js/Markdown.Editor.js:1447
+msgid "Bold (Ctrl+B)"
+msgstr "粗体(Ctrl+B)"
+
+#: lms/static/js/Markdown.Editor.js:1448
+msgid "Italic (Ctrl+I)"
+msgstr "斜体(Ctrl+I)"
+
+#: lms/static/js/Markdown.Editor.js:1450
+msgid "Hyperlink (Ctrl+L)"
+msgstr "超链接(Ctrl+L)"
+
+#: lms/static/js/Markdown.Editor.js:1453
+msgid "Blockquote (Ctrl+Q)"
+msgstr "引用(Ctrl+Q)"
+
+#: lms/static/js/Markdown.Editor.js:1454
+msgid "Code Sample (Ctrl+K)"
+msgstr "代码示例(Ctrl+K)"
+
+#: lms/static/js/Markdown.Editor.js:1455
+msgid "Image (Ctrl+G)"
+msgstr "图片(Ctrl+G)"
+
+#: lms/static/js/Markdown.Editor.js:1459
+msgid "Numbered List (Ctrl+O)"
+msgstr "有序列表(Ctrl+O)"
+
+#: lms/static/js/Markdown.Editor.js:1462
+msgid "Bulleted List (Ctrl+U)"
+msgstr "符号列表(Ctrl+U)"
+
+#: lms/static/js/Markdown.Editor.js:1465
+msgid "Heading (Ctrl+H)"
+msgstr "标题(Ctrl+H)"
+
+#: lms/static/js/Markdown.Editor.js:1466
+msgid "Horizontal Rule (Ctrl+R)"
+msgstr "水平线(Ctrl+R)"
+
+#: lms/static/js/Markdown.Editor.js:1468
+msgid "Undo (Ctrl+Z)"
+msgstr "撤销(Ctrl+Z)"
+
+#: lms/static/js/Markdown.Editor.js:1472
+msgid "Redo (Ctrl+Y)"
+msgstr "重做(Ctrl+Y)"
+
+#: lms/static/js/Markdown.Editor.js:1473
+msgid "Redo (Ctrl+Shift+Z)"
+msgstr "重做(Ctrl+Shift+Z)"
+
+#: lms/static/js/Markdown.Editor.js:1540
+msgid "strong text"
+msgstr "重要文字"
+
+#: lms/static/js/Markdown.Editor.js:1544
+msgid "emphasized text"
+msgstr "强调文字"
+
+#: lms/static/js/Markdown.Editor.js:1747
+msgid "enter image description here"
+msgstr "此处输入图像的描述"
+
+#: lms/static/js/Markdown.Editor.js:1750
+msgid "enter link description here"
+msgstr "此处输入链接的描述"
+
+#: lms/static/js/Markdown.Editor.js:1831
+msgid "Blockquote"
+msgstr "引用"
+
+#: lms/static/js/Markdown.Editor.js:1988 lms/static/js/Markdown.Editor.js:2011
+msgid "enter code here"
+msgstr "此处输入代码"
+
+#: lms/static/js/Markdown.Editor.js:2105
+msgid "List item"
+msgstr "列表项"
+
+#: lms/static/js/Markdown.Editor.js:2137
+msgid "Heading"
+msgstr "标题"
+
+#: lms/templates/class_dashboard/all_section_metrics.js:12
+#: lms/templates/class_dashboard/all_section_metrics.js:52
+msgid "Unable to retrieve data, please try again later."
+msgstr "无法读取数据，请稍后再试试。"
+
+#: lms/templates/class_dashboard/d3_stacked_bar_graph.js:424
+msgid "Number of Students"
+msgstr "学生数目"
