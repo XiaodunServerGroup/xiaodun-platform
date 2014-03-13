@@ -10,7 +10,7 @@
 
     <div class="wrapper wrapper-l">
       ## "edX Studio" should not be translated
-      <h1 class="branding"><a href="/"><img src="${static.url("img/logo-edx-studio.png")}" alt="edX Studio" /></a></h1>
+      <h1 class="branding"><a href="/"><img src="${static.url("img/logo-xiaodun-studio.png")}" alt="edX Studio" /></a></h1>
 
       % if context_course:
       <%
@@ -130,14 +130,14 @@
             <div class="wrapper wrapper-nav-sub">
               <div class="nav-sub">
                 <ul>
-                  <li class="nav-item nav-help-documentation">
+                  <!--li class="nav-item nav-help-documentation">
                     <a href="http://files.edx.org/Getting_Started_with_Studio.pdf" title="${_("This is a PDF Document")}">${_("Studio Documentation")}</a>
                   </li>
                   <li class="nav-item nav-help-helpcenter">
                     <a href="http://help.edge.edx.org/" rel="external">${_("Studio Help Center")}</a>
-                  </li>
+                  </li-->
                   <li class="nav-item nav-help-feedback">
-                    <a href="http://help.edge.edx.org/discussion/new" class="show-tender" title="${_("Use our feedback tool, Tender, to share your feedback")}">${_("Contact Us")}</a>
+                    <a href="www.diandiyun.com" class="show-tender" title="${_("Use our feedback tool, Tender, to share your feedback")}">${_("Contact Us")}</a>
                   </li>
                 </ul>
               </div>
@@ -167,12 +167,12 @@
       <nav class="nav-not-signedin nav-pitch">
         <h2 class="sr">${_("You're not currently signed in")}</h2>
         <ol>
-          <li class="nav-item nav-not-signedin-hiw">
+          <!--li class="nav-item nav-not-signedin-hiw">
             <a href="/">${_("How Studio Works")}</a>
           </li>
           <li class="nav-item nav-not-signedin-help">
             <a href="http://help.edge.edx.org/" rel="external">${_("Studio Help")}</a>
-          </li>
+          </li-->
           <li class="nav-item nav-not-signedin-signup">
             <a class="action action-signup" href="${reverse('signup')}">${_("Sign Up")}</a>
           </li>

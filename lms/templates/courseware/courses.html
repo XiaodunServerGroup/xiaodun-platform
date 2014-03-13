@@ -21,18 +21,12 @@
   <header class="search">
     <div class="inner-wrapper main-search">
       <hgroup>
-        <div class="logo">
-          % if self.stanford_theme_enabled():
-            <img src="${static.url('themes/stanford/images/seal.png')}" alt="Stanford Seal Logo" />
-          % else:
-            <img src='${logo_file}' alt="${microsite.get_value('platform_name', settings.PLATFORM_NAME)} Logo" />
-          % endif
-        </div>
-        % if self.stanford_theme_enabled():
-          <h2>${_("Explore free courses from {university_name}.").format(university_name="Stanford University")}</h2>
-        % else:
-          <h2>${course_index_overlay_text}</h2>
-        % endif
+              <form class="search-container search" action="/courses" method="get" id="search-form">
+              <input id="search-query" name="query" placeholder="请输入关键字..."  type="text">
+                 <ul class="search-menu" style="display: none;">
+                 </ul>
+              <input value="搜索" type="submit">
+            </form>
       </hgroup>
     </div>
   </header>

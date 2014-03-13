@@ -1,62 +1,15 @@
 // studio - elements - global footer
 // ====================
 
-.wrapper-footer {
-  position: relative;
-  width: 100%;
-  margin: 0 0 $baseline 0;
-  padding: $baseline;
-
-  footer.primary {
-    @extend %t-copy-sub2;
-    @include clearfix();
-    max-width: $fg-max-width;
-    min-width: $fg-min-width;
-    width: flex-grid(12);
-    margin: 0 auto;
-    color: $gray-l1;
-
-    .colophon {
-      width: flex-grid(4, 12);
-      float: left;
-      margin-right: flex-gutter(2);
-    }
-
-    a {
-      color: $ui-link-color;
-
-      &:hover, &:active {
-        color: $ui-link-color-focus;
+/*edit-lisa*/
+.wrapper-footer{
+      position:relative;width:100%;margin:0 0 20px 0;padding:20px; FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#f0f0f0,endColorStr=#ffffff);
+      /*IE6*/background:-moz-linear-gradient(top,#f0f0f0,#ffffff);/*非IE6的其它*/background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0f0f0), to(#ffffff));
+      /*非IE6的其它*/ border-top:#fa6727 solid 3px;}
+.wrapper-footer footer.primary{
+      *zoom:1;max-width:1280px;min-width:900px;width:100%;margin:0 auto;color:#989898
       }
-    }
-
-    .nav-peripheral {
-      width: flex-grid(6, 12);
-      float: right;
-      text-align: right;
-
-      .nav-item {
-        display: inline-block;
-        margin-right: ($baseline/4);
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        a {
-          border-radius: 2px;
-          padding: ($baseline/2) ($baseline/2);
-          background: transparent;
-
-          [class^="icon-"] {
-            @include transition(top $tmg-f2 ease-in-out 0.25s);
-            @include font-size(15);
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: ($baseline/4);
-          }
-        }
+.wrapper-footer footer.primary:before,.wrapper-footer footer.primary:after{content:" ";display:table}
+.wrapper-footer footer.primary:after{
+      clear:both}.wrapper-footer footer.primary .colophon{width:100%;float:left;/*margin-right:14.28571%*/ text-align:center; line-height:24px;
       }
-    }
-  }
-}

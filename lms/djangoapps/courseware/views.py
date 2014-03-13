@@ -19,7 +19,7 @@ from markupsafe import escape
 
 from courseware import grades
 from courseware.access import has_access
-from courseware.courses import get_courses, get_course_with_access, sort_by_announcement
+from courseware.courses import get_courses, get_course_with_access, sort_by_announcement, get_courses_by_search
 import courseware.tabs as tabs
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
@@ -67,15 +67,26 @@ def user_groups(user):
     return group_names
 
 
-@ensure_csrf_cookie
-@cache_if_anonymous
+#@ensure_csrf_cookie
+#@cache_if_anonymous
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
     """
-    courses = get_courses(request.user, request.META.get('HTTP_HOST'))
-    courses = sort_by_announcement(courses)
+    q = request.GET.get('query', '')
 
+    courses_aa = get_courses_by_search(request.META.get('HTTP_HOST'))
+    courses_list = []
+    if q != "":
+        for course in courses_aa:
+            if  q in course.org or q in course.id or q in course.display_name_with_default:
+                courses_list.append(course)
+            else:
+                continue
+    else:
+       courses_list = courses_aa
+
+    courses = sort_by_announcement(courses_list)
     return render_to_response("courseware/courses.html", {'courses': courses})
 
 

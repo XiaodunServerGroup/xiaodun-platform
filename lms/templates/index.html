@@ -31,6 +31,12 @@
             % endif
             <h2>${_("For anyone, anywhere, anytime")}</h2>
           % endif
+            <form class="search-container search" action="/courses" method="get" id="search-form">
+              <input id="search-query" name="query" placeholder="请输入关键字..."  type="text">
+                 <ul class="search-menu" style="display: none;">
+                 </ul>
+              <input value="搜索" type="submit">
+            </form>
         </hgroup>
 
         ## Disable social buttons for non-edX sites

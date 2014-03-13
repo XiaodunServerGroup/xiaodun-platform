@@ -107,15 +107,18 @@ header.global {
     &.user {
       float: right;
       margin-top: 4px;
+      background: #ff6600;
 
       > li.primary {
         display: block;
         float: left;
         margin: 0px;
+        background:#ff7a31;
 
         > a {
           margin: 0px;
           @include border-right-radius(0px);
+          background:#ff7a31;
         }
 
         &:last-child {

@@ -3,8 +3,8 @@
   height: 35px;
   padding: 0 15px;
   border-radius: 3px;
-  border: 1px solid #2d81ad;
-  @include linear-gradient(top, #6dccf1, #38a8e5);
+  border: 1px solid #ff7a31;
+  @include linear-gradient(top, #ff7a31, #ff7a31);
   font-size: 13px;
   font-weight: 700;
   line-height: 32px;
@@ -13,8 +13,8 @@
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 1px rgba(0, 0, 0, .15);
 
   &:hover, &:focus {
-    border-color: #297095;
-    @include linear-gradient(top, #4fbbe4, #2090d0);
+    border-color: #ff6600;
+    @include linear-gradient(top, #ff6600, #ff6600);
   }
 }
 
@@ -114,7 +114,7 @@ body.discussion {
     display: none;
     background: $error-red;
     padding: 0;
-    border: 1px solid #333;
+    border: 1px solid #ff6600;
     list-style: none;
     color: $white;
     line-height: 1.6;
@@ -342,10 +342,6 @@ body.discussion {
 
   }
 
-  .comments .edit-post-form h1 {
-    @extend %t-title6;
-  }
-
   .new-post-form {
     width: 100%;
     margin-bottom: 20px;
@@ -408,7 +404,7 @@ body.discussion {
       margin-top: $baseline/2;
       padding-bottom: 2px;
       height: 37px;
-      border-color: #333;
+      border-color: #ff7a31;
 
       &:hover, &:focus {
         border-color: #222;
@@ -543,14 +539,13 @@ body.discussion {
     height: 20px;
     list-style: none;
     cursor: pointer;
-    background: none;
   }
 
   .wmd-button > span {
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-image: url('/static/images/wmd-buttons-transparent.png');
+    background-image: url('/static/images/wmd-buttons.png');
     background-position: 0px 0px;
     background-repeat: no-repeat;
   }
@@ -1088,9 +1083,9 @@ body.discussion {
       }
 
       &.active {
-        @include linear-gradient(top, #96e0fd, #61c7fc);
+        @include linear-gradient(top, #ff9933, #ff6600);
         border-color: #4697c1;
-        box-shadow: 0 1px 0 #4697c1, 0 -1px 0 #4697c1;
+        box-shadow: 0 1px 0 #ff6633, 0 -1px 0 #ff6633;
 
         .title {
           color: #333;
@@ -1106,7 +1101,7 @@ body.discussion {
 
         .votes-count,
         .comments-count {
-          @include linear-gradient(top, #3994c7, #4da7d3);
+          @include linear-gradient(top, #ff6600, #ff6600);
           color: $white;
 
           &:after {
@@ -1158,11 +1153,11 @@ body.discussion {
       }
 
       &.unread {
-        @include linear-gradient(top, #84d7fe, #60a8d6);
+        @include linear-gradient(top, #ff9933, #ff6600);
         color: #333;
 
         &:after {
-          color: #99e0fe;
+          color: #ff6633;
           background-position: 0 0px;
         }
       }
@@ -1571,7 +1566,7 @@ body.discussion {
       background: url(../images/vote-plus-icon.png) no-repeat;
       font-size: 18px;
       text-indent: -9999px;
-      color: #17b429;
+      color: #ff9933;
       overflow: hidden;
     }
 
@@ -1584,7 +1579,7 @@ body.discussion {
 
       .plus-icon {
         background-position: 0 -10px;
-        color: #336a39;
+        color: #ff6600;
         text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
       }
     }
@@ -1636,7 +1631,6 @@ body.discussion {
     > li {
       background: #f6f6f6;
       border-bottom: 1px solid #ddd;
-      padding: ($baseline/2) $baseline;
     }
 
     blockquote {
@@ -1673,7 +1667,7 @@ body.discussion {
 
     .response-body {
       font-size: 13px;
-      margin-bottom: $baseline/2;
+      padding: $baseline/2 $baseline;
 
       p + p {
         margin-top: 12px;
@@ -1681,6 +1675,7 @@ body.discussion {
     }
 
     .posted-details {
+      margin: 0 $baseline $baseline/2;
       font-size: 11px;
     }
 
@@ -1688,7 +1683,7 @@ body.discussion {
       margin-left: 2px;
       padding: 0 4px;
       border-radius: 2px;
-      background: #009FE2;
+      background: #ff6600;
       font-size: 9px;
       font-weight: 700;
       font-style: normal;
@@ -1701,7 +1696,7 @@ body.discussion {
     margin-left: 2px;
     padding: 0 4px;
     border-radius: 2px;
-    background: #449944;
+    background: #ff6600;
     font-size: 9px;
     font-weight: 700;
     font-style: normal;
@@ -1736,7 +1731,7 @@ body.discussion {
     @include transition(border-color .1s linear 0s);
 
     &:focus {
-      border-color: #4697c1;
+      border-color: #ff6600;
     }
   }
 
@@ -2136,7 +2131,7 @@ body.discussion {
         z-index: 1;
         padding: $baseline/2;
         @include box-sizing(border-box);
-        border: 1px solid #333;
+        border: 1px solid #ff7a31;
         border-radius: 3px 3px 0 0;
         background: $white;
         font-family: 'Monaco', monospace;
@@ -2163,7 +2158,7 @@ body.discussion {
         padding: 0 $baseline/2;
         @include box-sizing(border-box);
         border-radius: 3px;
-        border: 1px solid #333;
+        border: 1px solid #ff7a31;
         font-size: 16px;
         font-weight: 700;
         font-family: 'Open Sans', sans-serif;
@@ -2177,7 +2172,7 @@ body.discussion {
         height: 37px;
         margin-top: $baseline/2;
         padding-bottom: 2px;
-        border-color: #333;
+        border-color: #ff7a31;
 
         &:hover, &:focus {
           border-color: #222;
@@ -2471,16 +2466,17 @@ body.discussion {
       float:right;
       padding-right: 5px;
       font-style: italic;
+      cursor: pointer; 
       margin-right: $baseline/2;
       opacity: 0.8;
 
-      &.admin-pin {
+      span {
         cursor: pointer;
+      }
 
-        &:hover, &:focus {
-          @include transition(opacity .2s linear 0s);
-          opacity: 1.0;
-        }
+      &:hover, &:focus {
+        @include transition(opacity .2s linear 0s);
+        opacity: 1.0;
       }
     }
 
@@ -2519,6 +2515,8 @@ body.discussion {
 .pinned span {
   color: $pink;
   font-style: italic;
+  //cursor change is here since pins are read-only for inline discussions.
+  cursor: default;
 }
 
 .notpinned span {
@@ -2531,28 +2529,49 @@ body.discussion {
 display:none;
 }
 
-.discussion-flag-abuse, .discussion-delete-comment, .discussion-edit-comment {
+.discussion-flag-abuse, .discussion-delete-comment {
   font-size: 12px;
   float:right;
-  margin-left: $baseline/2;
+  padding-right: 5px;
   font-style: italic;
   cursor:pointer;
-  color: $dark-gray;
   opacity: 0.8;
 
   &:hover, &:focus {
     @include transition(opacity .2s linear 0s);
     opacity: 1.0;
   }
-
-  .flag-label {
-    font-style: italic;
-    margin-left: $baseline/4;
-  }
 }
 
-.flagged * {
+.notflagged .icon {
+  display: block;
+  color: #333;
+  float: left;
+  margin: 3px;
+  width: 10px;
+  height: 14px;
+  padding-right: 3px;
+}
+
+.flagged .icon
+{
+  display: block;
+  float: left;
+  margin: 3px;
+  width: 10px;
+  height: 14px;
+  padding-right: 3px;
   color: $pink;
+}
+
+.flagged span {
+  color: $pink;
+  font-style: italic;
+}
+
+.notflagged span {
+  color: #333;
+  font-style: italic;
 }
 
 .response-count {

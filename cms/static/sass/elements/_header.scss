@@ -189,15 +189,16 @@
 
     .nav-account-help {
 
-      .wrapper-nav-sub {
-        width: ($baseline*10);
-      }
+      .title {
+           @include blue-button;
+         }
+
     }
 
     .nav-account-user {
-
       .title {
         max-width: ($baseline*6.5);
+        @include blue-button;
 
         > .label {
           display: inline-block;
@@ -316,7 +317,7 @@
       }
 
       .action-signin {
-        @include white-button;
+        @include blue-button;
         @include font-size(14);
         padding: ($baseline/4) ($baseline/2);
         text-transform: uppercase;

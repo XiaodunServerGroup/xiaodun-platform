@@ -300,6 +300,17 @@ def get_courses(user, domain=None):
 
     return courses
 
+def get_courses_by_search(domain=None):
+    '''
+    Returns a list of courses available, sorted by course.number
+    '''
+    courses = branding.get_visible_courses()
+   # courses = [c for c in courses if has_access(user, c, 'see_exists')]
+
+    courses = sorted(courses, key=lambda course: course.number)
+
+    return courses
+
 
 def sort_by_announcement(courses):
     """
@@ -323,3 +334,4 @@ def get_cms_course_link(course):
         course.location.course_id, course.location, False, True
     )
     return "//" + settings.CMS_BASE + locator.url_reverse('course/', '')
+
