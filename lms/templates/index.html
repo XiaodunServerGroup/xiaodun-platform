@@ -27,9 +27,9 @@
             % if self.stanford_theme_enabled():
               <h1>${_("Free courses from <strong>{university_name}</strong>").format(university_name="Stanford")}</h1>
             % else:
-              <h1>${_("The Future of Online Education")}</h1>
+              <h1>${_("For anyone, anywhere, anytime")}</h1>
             % endif
-            <h2>${_("For anyone, anywhere, anytime")}</h2>
+
           % endif
             <form class="search-container search" action="/courses" method="get" id="search-form">
               <input id="search-query" name="query" placeholder="请输入关键字..."  type="text">
@@ -63,14 +63,6 @@
           </section>
           % endif
       </div>
-
-      % if show_homepage_promo_video:
-        <a href="#video-modal" class="media" rel="leanModal">
-          <div class="hero">
-            <div class="play-intro"></div>
-          </div>
-        </a>
-      % endif
     </div>
   </header>
   <section class="container">
@@ -92,7 +84,7 @@
   </section>
 </section>
 
-<section id="video-modal" class="modal home-page-video-modal video-modal">
+<!--section id="video-modal" class="modal home-page-video-modal video-modal">
   <div class="inner-wrapper">
     <%
       youtube_video_id = homepage_promo_video_youtube_id
@@ -101,7 +93,7 @@
     %>
     <iframe width="640" height="360" src="//www.youtube.com/embed/${youtube_video_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
   </div>
-</section>
+</section-->
 
 <%block name="js_extra">
    <script type="text/javascript">
