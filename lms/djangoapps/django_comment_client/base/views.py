@@ -5,11 +5,13 @@ import os.path
 import logging
 import urlparse
 import functools
+import dateutil.parser
 
 import lms.lib.comment_client as cc
 import django_comment_client.utils as utils
 import django_comment_client.settings as cc_settings
 
+import newrelic.agent
 
 from django.core import exceptions
 from django.contrib.auth.decorators import login_required
@@ -17,6 +19,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.views.decorators import csrf
 from django.core.files.storage import get_storage_class
 from django.utils.translation import ugettext as _
+from django.views.decorators.csrf import csrf_exempt
 
 from edxmako.shortcuts import render_to_string
 from courseware.courses import get_course_with_access, get_course_by_id
@@ -137,6 +140,150 @@ def create_thread(request, course_id, commentable_id):
         return JsonResponse(utils.safe_content(data))
 
 
+@login_required
+@csrf_exempt
+def mobi_thread_handler(request, course_id, thread_id, action=None):
+    print "--------------------------in handler-----------------------------------"
+    request_method = request.method
+    try:
+        if request_method == 'GET':
+            if action == 'replies':
+                return mobi_reply_list(request, course_id, thread_id)
+            else:
+                return mobi_discussion(request, course_id, thread_id)
+
+        if request_method == 'POST':
+            return mobi_create_comment(request, course_id, thread_id)
+
+        if request_method == 'DELETE':
+            return mobi_delete_thread(request, thread_id)
+    except:
+        return JsonResponse({"success": False, 'errmsg': 'errors occur!'})
+
+
+@require_POST
+@login_required
+# @permitted
+@csrf_exempt
+def mobi_create_thread(request, course_id, topic_id):
+    """
+    Given a course and commentable_id from mobile. create the thread
+    """
+    course_id = course_id.replace('.', '/')
+    log.debug("Creating new thread in %r, id %r", course_id, topic_id)
+    course = get_course_with_access(request.user, course_id, 'load')
+    post = request.POST
+
+    if course.allow_anonymous:
+        anonymous = post.get('anonymous', 'false').lower() == 'true'
+    else:
+        anonymous = False
+
+    if course.allow_anonymous_to_peers:
+        anonymous_to_peers = post.get('anonymous_to_peers', 'false').lower() == 'true'
+    else:
+        anonymous_to_peers = False
+
+    if 'title' not in post or not post['title'].strip():
+        return JsonError(_("Title can't be empty"))
+    if 'body' not in post or not post['body'].strip():
+        return JsonError(_("Body can't be empty"))
+
+    print(extract(post, ['body', 'title']))
+
+    thread = cc.Thread(**extract(post, ['body', 'title']))
+
+    thread.update_attributes(**{
+        'anonymous': anonymous,
+        'anonymous_to_peers': anonymous_to_peers,
+        'commentable_id': topic_id,
+        'course_id': course_id,
+        'user_id': request.user.id,
+    })
+
+    user = cc.User.from_django_user(request.user)
+
+    if is_commentable_cohorted(course_id, topic_id):
+        user_group_id = get_cohort_id(user, course_id)
+
+        # TODO (vshnayder): once we have more than just cohorts, we'll want to
+        # change this to a single get_group_for_user_and_commentable function
+        # that can do different things depending on the commentable_id
+        if cached_has_permission(request.user, "see_all_cohorts", course_id):
+            # admins can optionally choose what group to post as
+            group_id = post.get('group_id', user_group_id)
+        else:
+            # regular users always post with their own id.
+            group_id = user_group_id
+
+        if group_id:
+            thread.update_attributes(group_id=group_id)
+
+    thread.save()
+
+    if not 'pinned' in thread.attributes:
+        thread['pinned'] = False
+
+    if post.get('auto_subscribe', 'false').lower() == 'true':
+        user = cc.User.from_django_user(request.user)
+        user.follow(thread)
+
+    return JsonResponse({"success": True})
+
+
+# @require_POST
+@login_required
+# @permitted
+@csrf_exempt
+def mobi_delete_thread(request, thread_id):
+    """
+    given a course_id and thread_id, delete this thread
+    this is ajax only
+    """
+    try:
+        thread = cc.Thread.find(thread_id)
+    except:
+        return JsonResponse({"success": True, 'errmsg': "can not find a thread with " + thread_id + " id"})
+
+    thread.delete()
+
+    return JsonResponse({"success": True})
+
+
+@login_required
+# @permitted
+# @csrf_exempt
+def mobi_discussion(request, course_id, thread_id):
+    """
+    given a course_id and thread_id, delete this thread
+    this is ajax only
+    """
+    course_id = course_id.replace('.', '/')
+    try:
+        course = get_course_with_access(request.user, course_id, 'load')
+    except:
+        return JsonResponse({"success": False, "errmsg": "can not find a course with " + course_id + " id"})
+
+    print "-----------------------show discussion---------------------------"
+    try:
+        thread = cc.Thread.find(thread_id)
+    except:
+        return JsonResponse({"success": False, "errmsg": "can not find a thread with " + thread_id + " id"})
+
+    if thread:
+        return JsonResponse({
+            "id": thread.id,
+            "name": thread.title,
+            "text": thread.body,
+            "time": dateutil.parser.parse(thread.created_at).strftime("%Y-%m-%d %H:%M:%S")
+        })
+    else:
+        return JsonResponse({
+            "success": False,
+            'errmsg': ("Can not find the thread with id" + thread_id)
+        })
+
+
 @require_POST
 @login_required
 @permitted
@@ -209,6 +356,87 @@ def create_comment(request, course_id, thread_id):
         if cc_settings.MAX_COMMENT_DEPTH < 0:
             return JsonError(_("Comment level too deep"))
     return _create_comment(request, course_id, thread_id=thread_id)
+
+
+@require_POST
+@login_required
+# @permitted
+def mobi_create_comment(request, course_id, thread_id):
+    course_id = course_id.replace('.', '/')
+
+    if cc_settings.MAX_COMMENT_DEPTH is not None:
+        if cc_settings.MAX_COMMENT_DEPTH < 0:
+            return JsonResponse({'success': False, 'errmsg': 'Comment level too deep'})
+
+    post = request.POST
+
+    if 'body' not in post or not post['body'].strip():
+        return JsonResponse({"success": False, 'errmsg': 'Body can not be None'})
+    comment = cc.Comment(**extract(post, ['body']))
+
+    try:
+        course = get_course_with_access(request.user, course_id, 'load')
+    except:
+        return JsonResponse({"success": False, "errmsg": "can not find a course with " + course_id.replace("/", ".") + ' id'})
+    if course.allow_anonymous:
+        anonymous = post.get('anonymous', 'false').lower() == 'true'
+    else:
+        anonymous = False
+
+    if course.allow_anonymous_to_peers:
+        anonymous_to_peers = post.get('anonymous_to_peers', 'false').lower() == 'true'
+    else:
+        anonymous_to_peers = False
+
+    comment.update_attributes(**{
+        'anonymous': anonymous,
+        'anonymous_to_peers': anonymous_to_peers,
+        'user_id': request.user.id,
+        'course_id': course_id,
+        'thread_id': thread_id,
+    })
+
+    comment.save()
+    if post.get('auto_subscribe', 'false').lower() == 'true':
+        user = cc.User.from_django_user(request.user)
+        user.follow(comment.thread)
+
+    return JsonResponse({"success": True})
+
+
+@require_GET
+@login_required
+def mobi_reply_list(request, course_id, thread_id):
+    # nr_transaction = newrelic.agent.current_transaction()
+    # course = get_course_with_access(request.user, course_id, 'load_forum')
+    course_id = course_id.replace('.', '/')
+
+    cc_user = cc.User.from_django_user(request.user)
+    user_info = cc_user.to_dict()
+    try:
+        thread = cc.Thread.find(thread_id)
+    except:
+        return JsonResponse({"success": False, "errmsg": "can find a thread with " + thread_id + ' id'})
+
+    replies_list = []
+    try:
+        thread_children = thread.children
+    except:
+        thread_children = []
+
+    for child in thread_children:
+        if child:
+            child_info = {
+                "id": child["id"],
+                "name": child["username"],
+                "content": child["body"]
+            }
+
+            replies_list.append(child_info)
+        else:
+            continue
+
+    return JsonResponse({"replies_list": replies_list, "success": True})
 
 
 @require_POST

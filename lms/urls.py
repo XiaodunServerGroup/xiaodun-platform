@@ -73,8 +73,6 @@ urlpatterns = ('',  # nopep8
 urlpatterns += (
     url(r'^mobi/token($|/(?P<action>(login|logout))$)', 'student.views.mobi_token_handler', name='mobi_token_handler'),
     url(r'^mobi/change_enrollment$', 'student.views.mobi_change_enrollment', name='mobi_change_enrollment')
-    # url(r'^mobi/token', 'student.views.mobi_token', name="mobi_token"),
-    # url(r'^mobi/login_ajax', 'student.views.mobi_token_login', name="mobi_token_login"),
 )
 
 # if settings.FEATURES.get("MULTIPLE_ENROLLMENT_ROLES"):
@@ -238,6 +236,10 @@ if settings.COURSEWARE_ENABLED:
         url(r'^mktg/(?P<course_id>.*)$',
             'courseware.views.mktg_course_about', name="mktg_about_course"),
 
+        # mobile course info url
+        url(r'^mobi/courses-list/(?P<action>(homefalls|hot|latest|all|my|search))',
+            'courseware.views.courses_list_handler', name="courses_list_handler"),
+
         #Inside the course
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/$',
             'courseware.views.course_info', name="course_root"),
@@ -360,6 +362,29 @@ if settings.COURSEWARE_ENABLED:
             url(r'^notification_prefs/resubscribe/(?P<token>[a-zA-Z0-9-_=]+)/',
                 'notification_prefs.views.set_subscription', {'subscribe': True}, name="resubscribe_forum_update"),
         )
+
+        # mobile discusstion restfull api
+        urlpatterns += (
+            # thread CURD
+            url(r'^mobi/discussion/course-list',
+                'django_comment_client.forum.views.mobi_forum_course_list', name="mobi_forum_course_list"),
+
+            url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)/topics',
+                'django_comment_client.forum.views.mobi_get_topics', name="mobi_get_topics"),
+
+            url(r'^mobi/(?P<course_id>[\w\-~.:]+)/discussion/my',
+                'django_comment_client.forum.views.my_joined_courses', name="my_joined_courses"),
+
+            url(r'^mobi/(?P<course_id>[\w\-~.:]+)/discussion/search',
+                'django_comment_client.forum.views.mobi_disscussion_search', name="mobi_disscussion_search"),
+
+            url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)/discussion/(?P<thread_id>[\w\-]+)($|/(?P<action>(reply|replies)))',
+                'django_comment_client.base.views.mobi_thread_handler', name="mobi_thread_handler"),
+
+            url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)/(?P<topic_id>[\w\-]+)',
+                'django_comment_client.base.views.mobi_create_thread', name="mobi_create_thread"),
+        )
+
     urlpatterns += (
         # This MUST be the last view in the courseware--it's a catch-all for custom tabs.
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/(?P<tab_slug>[^/]+)/$',

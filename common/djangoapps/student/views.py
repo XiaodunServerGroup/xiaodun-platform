@@ -558,50 +558,44 @@ def mobi_change_enrollment(request):
         return HttpResponseBadRequest('Only supports json requests')
 
     user = request.user
+    print "-----------------------request body-----------------------------"
+    print request.body
+    params = eval(request.body)
+    print "------------------------params data------------------------------"
+    print params
 
-    action = request.POST.get("action")
-    print "--------------------params course_id-----------------------"
-    print request.POST.get("course_id")
-
-    try:
-        course_id_params = eval(request.POST.get("course_id"))
-    except:
-        course_id_params = [request.POST.get("course_id")]
-
-    if not course_id_params:
-        return JsonResponse({'success': False, 'errmsg': "Course id not specified"})
-
-    course_id_list = []
-    if isinstance(course_id_params, str):
-        course_id_list.append("/".join(course_id_params.split(".")))
-    elif isinstance(course_id_params, list):
-        for course_id in course_id_params:
-            course_id_list.append("/".join(course_id.split(".")))
+    if 'action' in params and 'courseid' in params:
+        action, course_id = params["action"], params['courseid']
     else:
-        return JsonResponse({"success": False, "errmsg": "params errors"})
+        return JsonResponse({"success": False, 'errmsg': 'Action and courseid must be included params'})
 
     if not user.is_authenticated():
-        return HttpResponseForbidden()
+        return JsonResponse({"success": False, 'errmsg': 'Authentication failed'})
 
+    if not isinstance(course_id, list):
+        course_ids_list = [course_id]
+    else:
+        course_ids_list = course_id
+
+    print "------------------------course id list--------------------------"
+    print course_ids_list
+
+    success_oper = []
     if action == 'enroll':
-        for c in course_id_list:
+        for c in course_ids_list:
+            c = c.replace('.', '/')
             try:
                 course = course_from_id(c)
             except ItemNotFoundError:
                 continue
-                # log.warning("User {0} tried to enroll in non-existent course {1}"
-                #             .format(user.username, course_id))
-                # return HttpResponseBadRequest(_("Course id is invalid"))
 
             if not has_access(user, course, 'enroll'):
                 continue
-                # return HttpResponseBadRequest(_("Enrollment is closed"))
 
             is_course_full = CourseEnrollment.is_course_full(course)
 
             if is_course_full:
                 continue
-                # return HttpResponseBadRequest(_("Course is full"))
 
             available_modes = CourseMode.modes_for_course(c)
             if len(available_modes) > 1:
@@ -620,16 +614,21 @@ def mobi_change_enrollment(request):
             )
 
             CourseEnrollment.enroll(user, course.id, mode=current_mode.slug)
+            success_oper.append(c)
 
-        return JsonResponse({"success": True})
+        return JsonResponse({"success": True, 'success_enrolled': success_oper})
     elif action == 'unenroll':
-        for c in course_id_list:
+        for c in course_ids_list:
+            print "-----------------course------------------------"
+            print course_id
+
+            c = c.replace('.', '/')
 
             if not CourseEnrollment.is_enrolled(user, c):
                 continue
-                # return HttpResponseBadRequest(_("You are not enrolled in this course"))
 
             CourseEnrollment.unenroll(user, c)
+            success_oper.append(c)
             course_id_dict = Location.parse_course_id(c)
             dog_stats_api.increment(
                 "common.student.unenrollment",
@@ -638,10 +637,10 @@ def mobi_change_enrollment(request):
                       u"run:{name}".format(**course_id_dict)]
             )
 
-        return JsonResponse({"success": True})
+        return JsonResponse({"success": True, 'success_unenrolled': success_oper})
 
     else:
-        return HttpResponseBadRequest(_("Enrollment action is invalid"))
+        return JsonResponse({"success": False, "errmsg": "error action"})
 
 
 @require_POST
