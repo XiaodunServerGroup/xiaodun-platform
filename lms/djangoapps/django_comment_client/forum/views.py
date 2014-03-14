@@ -1,6 +1,7 @@
 import json
 import logging
 import xml.sax.saxutils as saxutils
+import dateutil.parser
 
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -9,15 +10,25 @@ from django.contrib.auth.models import User
 from django.views.decorators.http import require_GET
 import newrelic.agent
 
+from xmodule.course_module import CourseDescriptor
+from xmodule.modulestore.exceptions import ItemNotFoundError
+from xmodule.modulestore.django import modulestore
+from student.models import CourseEnrollment
+
+from util.json_request import JsonResponse
+
 from edxmako.shortcuts import render_to_response
-from courseware.courses import get_course_with_access
+from courseware.courses import (get_course_with_access, course_image_url)
 from course_groups.cohorts import (is_course_cohorted, get_cohort_id, is_commentable_cohorted,
                                    get_cohorted_commentables, get_course_cohorts, get_cohort_by_id)
 from courseware.access import has_access
 
+#from microsite_configuration.middleware import MicrositeConfiguration
+
 from django_comment_client.permissions import cached_has_permission
 from django_comment_client.utils import (merge_dict, extract, strip_none, add_courseware_context)
 import django_comment_client.utils as utils
+from models.settings.course_metadata import CourseMetadata
 import lms.lib.comment_client as cc
 
 THREADS_PER_PAGE = 20
@@ -161,6 +172,40 @@ def inline_discussion(request, course_id, discussion_id):
 
 
 @login_required
+def mobi_get_topics(request, course_id):
+    """
+    Return course topics
+    """
+    course_id = course_id.replace('.', '/')
+    nr_transaction = newrelic.agent.current_transaction()
+    try:
+        course = get_course_with_access(request.user, course_id, "load_forum")
+    except:
+        return JsonResponse({"success": False, 'errmsg': "can not find a course with " + course_id.replace('/', '.') + " id"})
+
+
+    return JsonResponse({
+        "topic-list": CourseMetadata.fetch(course).pop("discussion_topics"),
+        "success": True
+    })
+
+
+    # with newrelic.agent.FunctionTrace(nr_transaction, "get_discussion_category_map"):
+    #     category_map = utils.get_discussion_category_map(course)
+    # topic_list = []
+    #
+    # for (k, v) in category_map['entries'].items():
+    #     cate = {}
+    #     cate[v["id"]] = k
+    #     topic_list.append(cate)
+    #
+    # return JsonResponse({
+    #     "topic-list": topic_list,
+    #     "success": True
+    # })
+
+
+@login_required
 def forum_form_discussion(request, course_id):
     """
     Renders the main Discussion page, potentially filtered by a search query
@@ -228,6 +273,59 @@ def forum_form_discussion(request, course_id):
         }
         # print "start rendering.."
         return render_to_response('discussion/index.html', context)
+
+
+@login_required
+def mobi_disscussion_search(request, course_id):
+    nr_transaction = newrelic.agent.current_transaction()
+
+    course_id = course_id.replace('.', '/')
+    try:
+        course = get_course_with_access(request.user, course_id, 'load_forum')
+    except:
+        return JsonResponse({"success": False, "errmsg": "can not find a course with " + course_id.replace('/', '.') + " id"})
+
+    with newrelic.agent.FunctionTrace(nr_transaction, "get_discussion_category_map"):
+        category_map = utils.get_discussion_category_map(course)
+
+    try:
+        unsafethreads, query_params = get_threads(request, course_id)   # This might process a search query
+        threads = [utils.safe_content(thread) for thread in unsafethreads]
+    except cc.utils.CommentClientMaintenanceError:
+        log.warning("Forum is in maintenance mode")
+        return render_to_response('discussion/maintenance.html', {})
+
+    user = cc.User.from_django_user(request.user)
+    user_info = user.to_dict()
+
+    with newrelic.agent.FunctionTrace(nr_transaction, "get_metadata_for_threads"):
+        annotated_content_info = utils.get_metadata_for_threads(course_id, threads, request.user, user_info)
+
+    with newrelic.agent.FunctionTrace(nr_transaction, "add_courseware_context"):
+        add_courseware_context(threads, course)
+
+    search_list = []
+
+    for thread in threads:
+        thread = cc.Thread.find(thread['id']).to_dict()
+        thread_info = {}
+        if thread:
+            thread_info['id'] = thread['id']
+            thread_info['name'] = thread['title']
+            thread_info['time'] = dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S")
+            thread_info['number'] = len(thread['children'])
+
+            search_list.append(thread_info)
+        else:
+            continue
+
+    page = request.GET.get('page') or 0
+    num_page = query_params['num_pages']
+
+    if int(page) > num_page:
+        search_list = []
+
+    return JsonResponse({'count': len(search_list), 'search-results': search_list, 'success': True})
 
 
 @require_GET
@@ -412,3 +510,150 @@ def followed_threads(request, course_id, user_id):
             return render_to_response('discussion/user_profile.html', context)
     except User.DoesNotExist:
         raise Http404
+
+
+def course_from_id(course_id):
+    """Return the CourseDescriptor corresponding to this course_id"""
+    course_loc = CourseDescriptor.id_to_location(course_id)
+    return modulestore().get_instance(course_id, course_loc)
+
+
+def get_course_enrollment_pairs(user, course_org_filter, org_filter_out_set):
+    """
+    Get the relevant set of (Course, CourseEnrollment) pairs to be displayed on
+    a student's dashboard.
+    """
+    for enrollment in CourseEnrollment.enrollments_for_user(user):
+        try:
+            course = course_from_id(enrollment.course_id)
+
+            # if we are in a Microsite, then filter out anything that is not
+            # attributed (by ORG) to that Microsite
+            if course_org_filter and course_org_filter != course.location.org:
+                continue
+            # Conversely, if we are not in a Microsite, then let's filter out any enrollments
+            # with courses attributed (by ORG) to Microsites
+            elif course.location.org in org_filter_out_set:
+                continue
+
+            yield (course, enrollment)
+        except ItemNotFoundError:
+            log.error("User {0} enrolled in non-existent course {1}"
+                      .format(user.username, enrollment.course_id))
+
+
+@login_required
+def mobi_forum_course_list(request):
+    '''
+    get all course what user has talked about
+    '''
+    nr_transaction = newrelic.agent.current_transaction()
+    user = request.user
+    course_org_filter = MicrositeConfiguration.get_microsite_configuration_value('course_org_filter')
+
+    # Let's filter out any courses in an "org" that has been declared to be
+    # in a Microsite
+    org_filter_out_set = MicrositeConfiguration.get_all_microsite_orgs()
+
+    # remove our current Microsite from the "filter out" list, if applicable
+    if course_org_filter:
+        org_filter_out_set.remove(course_org_filter)
+
+    # Build our (course, enrollment) list for the user, but ignore any courses that no
+    # longer exist (because the course IDs have changed). Still, we don't delete those
+    # enrollments, because it could have been a data push snafu.
+    course_enrollment_pairs = list(get_course_enrollment_pairs(user, course_org_filter, org_filter_out_set))
+
+    show_courseware_links_for = frozenset(course.id for course, _enrollment in course_enrollment_pairs
+                                          if has_access(request.user, course, 'load'))
+    user_info = cc.User.from_django_user(request.user).to_dict()
+    courselist = []
+    for course_id in show_courseware_links_for:
+        try:
+            user_id = user.id
+            profiled_user = cc.User(id=user_id, course_id=course_id)
+
+            query_params = {
+                'page': request.GET.get('page', 1),
+                'per_page': THREADS_PER_PAGE,   # more than threads_per_page to show more activities
+            }
+
+            threads, page, num_pages = profiled_user.active_threads(query_params)
+            query_params['page'] = page
+            query_params['num_pages'] = num_pages
+
+            with newrelic.agent.FunctionTrace(nr_transaction, "get_metadata_for_threads"):
+                annotated_content_info = utils.get_metadata_for_threads(course_id, threads, request.user, user_info)
+            if annotated_content_info:
+                courselist.append(course_id)
+        except User.DoesNotExist:
+            raise Http404
+    course_list = []
+    for newcourse in courselist:
+        course = course_from_id(newcourse)
+        courseid = course.id.replace('/', '.')
+        newdict = {
+            'imageurl': request.get_host() + course_image_url(course),
+            'id': courseid,
+            'name': course.display_name
+        }
+        course_list.append(newdict)
+
+    return JsonResponse({request.path: course_list})
+
+
+@login_required
+def my_joined_courses(request, course_id):
+    nr_transaction = newrelic.agent.current_transaction()
+    course_id = course_id.replace('.', '/')
+    try:
+        course = get_course_with_access(request.user, course_id, 'load_forum')
+    except:
+        return JsonResponse({"success": False, "errmsg": "can not find a course with " + course_id.replace('/', '.') + " id"})
+    user = cc.User.from_django_user(request.user)
+
+    try:
+        profiled_user = cc.User(id=user.id, course_id=course_id)
+
+        query_params = {
+            'page': request.GET.get('page', 1),
+            'per_page': THREADS_PER_PAGE,   # more than threads_per_page to show more activities
+            'sort_key': request.GET.get('sort_key', 'date'),
+            'sort_order': request.GET.get('sort_order', 'desc'),
+        }
+
+        threads, page, num_pages = profiled_user.subscribed_threads(query_params)
+        query_params['page'] = page
+        query_params['num_pages'] = num_pages
+        user_info = cc.User.from_django_user(request.user).to_dict()
+
+        with newrelic.agent.FunctionTrace(nr_transaction, "get_metadata_for_threads"):
+            annotated_content_info = utils.get_metadata_for_threads(course_id, threads, request.user, user_info)
+
+        launched_list = []
+
+        for thread in threads:
+            thread = cc.Thread.find(thread['id']).to_dict()
+
+            thread_info = {}
+            if thread:
+                thread_info['id'] = thread['course_id'].replace('/', '.')
+                thread_info['time'] = dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S")
+                thread_info['name'] = thread['title']
+                thread_info['number'] = len(thread['children'])
+
+                launched_list.append(thread_info)
+            else:
+                continue
+
+        page = request.GET.get('page') or 0
+
+        num_pages = query_params['num_pages']
+
+        if int(page) > num_pages:
+            launched_list = []
+
+        return JsonResponse({'joined_threads': launched_list, 'success': True})
+    except User.DoesNotExist:
+        return JsonResponse({"success": False, "errmsg": "user does not exist"})
+

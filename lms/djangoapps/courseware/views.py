@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
@@ -19,7 +19,8 @@ from markupsafe import escape
 
 from courseware import grades
 from courseware.access import has_access
-from courseware.courses import get_courses, get_course_with_access, sort_by_announcement, get_courses_by_search
+from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement,
+                                get_course_by_id, get_course, course_image_url, get_course_about_section, get_courses_by_search)
 import courseware.tabs as tabs
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
@@ -30,6 +31,8 @@ from course_modes.models import CourseMode
 from student.models import UserTestGroup, CourseEnrollment
 from student.views import course_from_id, single_course_reverification_info
 from util.cache import cache, cache_if_anonymous
+from util.json_request import JsonResponse
+
 from xblock.fragment import Fragment
 from xmodule.modulestore import Location
 from xmodule.modulestore.django import modulestore
@@ -88,6 +91,99 @@ def courses(request):
 
     courses = sort_by_announcement(courses_list)
     return render_to_response("courseware/courses.html", {'courses': courses})
+
+
+def return_fixed_courses(request, courses, user=AnonymousUser()):
+    default_length = 8
+
+    course_id = request.GET.get("course_id")
+    if course_id:
+        course_id = course_id.replace(".", '/')
+
+    try:
+        index_course = get_course_by_id(course_id)
+        course_index = (courses.index(index_course) + 1)
+    except:
+        course_index = 0
+
+    current_list = courses[course_index:]
+    if len(current_list) > default_length:
+        current_list = current_list[course_index:(course_index + 8)]
+
+    course_list = []
+    for course in current_list:
+        try:
+            course_info = {
+                'id': course.location.course_id.replace('/', '.'),
+                'register': registered_for_course(course, user),
+                'course_number': course.display_number_with_default,
+                'name': course.display_name_with_default,
+                'org': course.location.org,
+                'imgurl': request.get_host() + course_image_url(course),
+            }
+
+            course_list.append(course_info)
+        except:
+            continue
+
+    return JsonResponse({"count": len(courses), "course-list": course_list})
+
+
+def courses_list_handler(request, action):
+    """
+    Return courses based on request params
+    """
+    try:
+        user = request.user
+    except:
+        user = AnonymousUser()
+
+    if action not in ["homefalls", "all", "hot", "latest", "my", "search"]:
+        return JsonResponse({"success": False, "errmsg": "not support other actions except homefalls all hot latest and my"})
+
+    def get_courses_depend_action():
+        """
+        Return courses depend on action
+            action: [homefalls, hot, lastest, my]
+                homefalls: get all courses
+                hot: Number of attended people > ?
+                lastest: News last week
+                my: I registered
+                all: like 'homefalls'
+        """
+
+        courses = get_courses(user, request.META.get('HTTP_HOST'))
+        courses = sort_by_announcement(courses)
+        courses_list = []
+
+        if action == "latest":
+            default_count = 20
+            if len(courses_list) < default_count:
+                default_count = len(courses_list)
+
+            courses_list = courses[0:default_count]
+        elif action == "my":
+            # filter my registered courses
+            for course in courses:
+                if registered_for_course(course, user):
+                    courses_list.append(course)
+        elif action == 'search':
+            keyword = request.GET.get("keyword")
+
+            if keyword:
+                for c in courses:
+                    print (keyword in c.org or keyword in c.id or keyword in c.display_name_with_default)
+                    if keyword in c.org or keyword in c.id or keyword in c.display_name_with_default:
+                        courses_list.append(c)
+        else:
+            courses_list = courses
+
+        return courses_list
+
+    courses = get_courses_depend_action()
+    # get_courses_depend_action()
+
+    return return_fixed_courses(request, courses, user)
 
 
 def render_accordion(request, course, chapter, section, field_data_cache):
@@ -583,6 +679,23 @@ def course_about(request, course_id):
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
                                'is_course_full': is_course_full})
+
+
+def mobi_course_info(request, course_id):
+    try:
+        course = get_course_with_access(request.user, course_id, 'see_exists')
+    except:
+        JsonResponse({"success": False, 'errmsg': 'can not find a course with ' + course_id.replace('/', '.') + ' id'})
+
+    return JsonResponse({
+        "name": course.display_name_with_default,
+        "logo": request.get_host() + course_image_url(course),
+        "org": course.display_org_with_default,
+        "course_number": course.display_number_with_default,
+        "start_date": course.start_date_text,
+        "about": get_course_about_section(course, 'short_description'),
+        "category": course.category
+    })
 
 
 @ensure_csrf_cookie
