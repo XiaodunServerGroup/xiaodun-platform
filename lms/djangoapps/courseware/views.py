@@ -20,7 +20,7 @@ from markupsafe import escape
 from courseware import grades
 from courseware.access import has_access
 from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement,
-                                get_course_by_id, get_course, course_image_url, get_course_about_section)
+                                get_course_by_id, get_course, course_image_url, get_course_about_section, get_courses_by_search)
 import courseware.tabs as tabs
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
