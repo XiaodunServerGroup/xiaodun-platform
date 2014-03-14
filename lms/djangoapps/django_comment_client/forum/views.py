@@ -23,11 +23,12 @@ from course_groups.cohorts import (is_course_cohorted, get_cohort_id, is_comment
                                    get_cohorted_commentables, get_course_cohorts, get_cohort_by_id)
 from courseware.access import has_access
 
-from microsite_configuration.middleware import MicrositeConfiguration
+#from microsite_configuration.middleware import MicrositeConfiguration
 
 from django_comment_client.permissions import cached_has_permission
 from django_comment_client.utils import (merge_dict, extract, strip_none, add_courseware_context)
 import django_comment_client.utils as utils
+from models.settings.course_metadata import CourseMetadata
 import lms.lib.comment_client as cc
 
 THREADS_PER_PAGE = 20
@@ -182,20 +183,26 @@ def mobi_get_topics(request, course_id):
     except:
         return JsonResponse({"success": False, 'errmsg': "can not find a course with " + course_id.replace('/', '.') + " id"})
 
-    with newrelic.agent.FunctionTrace(nr_transaction, "get_discussion_category_map"):
-        category_map = utils.get_discussion_category_map(course)
-
-    topic_list = []
-
-    for (k, v) in category_map['entries'].items():
-        cate = {}
-        cate[v["id"]] = k
-        topic_list.append(cate)
 
     return JsonResponse({
-        "topic-list": topic_list,
+        "topic-list": CourseMetadata.fetch(course).pop("discussion_topics"),
         "success": True
     })
+
+
+    # with newrelic.agent.FunctionTrace(nr_transaction, "get_discussion_category_map"):
+    #     category_map = utils.get_discussion_category_map(course)
+    # topic_list = []
+    #
+    # for (k, v) in category_map['entries'].items():
+    #     cate = {}
+    #     cate[v["id"]] = k
+    #     topic_list.append(cate)
+    #
+    # return JsonResponse({
+    #     "topic-list": topic_list,
+    #     "success": True
+    # })
 
 
 @login_required
