@@ -30,125 +30,114 @@ from django.utils.translation import ugettext as _
 from pymongo import ASCENDING, DESCENDING
 from .access import has_course_access
 
-__all__ = ['assets_handler']
+__all__ = ['mobi_asset_handler']
 
 
 @login_required
 @ensure_csrf_cookie
-def assets_handler(request, tag=None, package_id=None, branch=None, version_guid=None, block=None, asset_id=None):
+def _get_location_and_assets(package_id=None, branch=None, version_guid=None, block=None, asset_id=None):
     """
-    The restful handler for assets.
-    It allows retrieval of all the assets (as an HTML page), as well as uploading new assets,
-    deleting assets, and changing the "locked" state of an asset.
-
-    GET
-        html: return an html page which will show all course assets. Note that only the asset container
-            is returned and that the actual assets are filled in with a client-side request.
-        json: returns a page of assets. The following parameters are supported:
-            page: the desired page of results (defaults to 0)
-            page_size: the number of items per page (defaults to 50)
-            sort: the asset field to sort by (defaults to "date_added")
-            direction: the sort direction (defaults to "descending")
-    POST
-        json: create (or update?) an asset. The only updating that can be done is changing the lock state.
-    PUT
-        json: update the locked state of an asset
-    DELETE
-        json: delete an asset
     """
-    print("88888888888888888")
     location = BlockUsageLocator(package_id=package_id, branch=branch, version_guid=version_guid, block_id=block)
-
-    print("====33333====")
     old_location = loc_mapper().translate_locator_to_location(location)
-    course_id = '.'.join([old_location.org, old_location.course, old_location.name])
-    print("===course_id==")
-    print(course_id)
-    print("===course_id==")
-    print("==1==")
-    print(old_location)
-    print(old_location.course)
-    print(old_location.name)
-    print(old_location.org)
-    print("==1==")
 
     assets_list=[]
     course_reference = StaticContent.compute_location(old_location.org, old_location.course, old_location.name)
     assets_list.append(contentstore().get_all_content_for_course(
         course_reference, start=0, maxresults=-1, sort=None))
 
-    print("ooooooo")
-    print(course_reference)
-    print(assets_list)
-    print("oooooo")
-
-    # var =[]
-    # for asseet in assets_list:
-    #     var.append(asseet)
-    #       except:
-    #         continue
-    #
-    #
-    # print("=====var====")
-    # print(var)
-    # print("=====var===")
-    #url_test = StaticContent().get_url_path_from_location(old_location)
-    # print("====test_url====")
-    # print(url_test)
-    # print("====test_url====")
-
-    course_module = modulestore().get_item(old_location)
-    print("==2==")
-    print(course_module)
-    print("==2==")
+    return  old_location,assets_list
 
 
-    img_url = request.get_host()
-    print("======imgurl==========")
-    print(img_url)
-    print("======imgurl==========")
- #   for course in course_module:
-  #      print course.displayname
-
-    if not has_course_access(request.user, location):
-        raise PermissionDenied()
-
-    response_format = request.REQUEST.get('format', 'html')
-    if response_format == 'json' or 'application/json' in request.META.get('HTTP_ACCEPT', 'application/json'):
-        if request.method == 'GET':
-            return _assets_json(request, location)
+def mobi_asset_handler(request, macheine, course_id, datatype=None):
+    """
+    """
+    if "application/json" not in request.META.get('HTTP_ACCEPT', 'application/json'):
+        return HttpResponseNotFound()
+    elif request.method == "GET":
+        if macheine in ["mobi", "ipad"]:
+            return mobi_macheine_version(request,macheine,course_id,datatype)
         else:
-            return _update_asset(request, location, asset_id)
-    elif request.method == 'GET':  # assume html
-        return _asset_index(request, location)
+            return mobi_default_assets(request,course_id,datatype)
     else:
         return HttpResponseNotFound()
 
 
-def _asset_index(request, location):
-    """
-    Display an editable asset library.
+def mobi_macheine_version(request, macheine, course_id, datatype):
+     """
+     """
+     old_location,assets_list = _get_location_and_assets(package_id=course_id, branch=None, version_guid=None, block=None, asset_id=None)
 
-    Supports start (0-based index into the list of assets) and max query parameters.
-    """
-    old_location = loc_mapper().translate_locator_to_location(location)
-    print("==11==")
-    print(old_location.course)
-    print(old_location.name)
-    print(old_location.org)
-    print("==11==")
+     if datatype == "cross" #"vertical"
+        if macheine == "mobi":
+            displayname = "logo-mobi-bg01.jpg"
 
-    course_module = modulestore().get_item(old_location)
-    print("==2==")
-    print(course_module)
-    print("==2==")
-    print("==URL==")
-    print(location.url_reverse('assets/', ''))
-    print("===URL==")
-    return render_to_response('asset_index.html', {
-        'context_course': course_module,
-        'asset_callback_url': location.url_reverse('assets/', '')
-    })
+
+            return JsonResponse({"errcode": 20000, "errmsg": 'param error'})
+        else:
+            # will fetch course list depend on version, developing
+            version = request.POST['ver']
+
+            courses = modulestore('direct').get_courses()
+
+            def course_filter(course):
+                """
+                filter courses which don't meet the conditions
+                """
+                common_filter_boolean = (course.location.course != 'templates'
+                                         and course.location.org != ''
+                                         and course.location.course != ''
+                                         and course.location.name != '')
+
+                # if datatype == "my":
+                #     return (has_course_access(request.user, course.location)
+                #             and common_filter_boolean)
+                # else:
+                #     return common_filter_boolean
+
+                return common_filter_boolean
+
+            courses = filter(course_filter, courses)
+
+            def format_course_info_for_json(course):
+                """
+                format data so as to return json
+                """
+                location = course.location
+                course_id = '.'.join([location.org, location.course, location.name])
+                locator, course_module = _get_locator_and_course(course_id, 'draft', None, location.name)
+                img_url = request.get_host() + utils.course_image_url(course_module)
+                pack_course = {
+                    "id": course_id,
+                    "imgid": ("-".join([course_id, course.course_image.encode("utf-8").split('.')[0]])),
+                    "name": course.display_name,
+                    "course_number": course.location.course,
+                    "org": course.location.org,
+                    "imgurl": img_url.encode("utf-8"),
+                    "price": 0,
+                    "progress": 20,
+                }
+                return pack_course
+
+            infos_list = []
+            for course in courses:
+                if not isinstance(course, ErrorDescriptor):
+                    try:
+                        infos_list.append(format_course_info_for_json(course))
+                    except:
+                        continue
+
+            return JsonResponse({datatype: infos_list})
+     else:
+        return JsonResponse({"errcode": 20001, "errmsg": "data error"})
+
+
+
+
+def mobi_default_assets(request, course_id=None):
+
+
+
 
 
 def _assets_json(request, location):
@@ -228,12 +217,11 @@ def _upload_asset(request, location):
     library, which will be supported by GridFS in MongoDB.
     '''
     old_location = loc_mapper().translate_locator_to_location(location)
-    print("------tttttt---")
+
     # Does the course actually exist?!? Get anything from it to prove its
     # existence
     try:
         modulestore().get_item(old_location)
-        print("----0000000000000000000000000000000000----")
     except:
         # no return it as a Bad Request response
         logging.error("Could not find course: %s", old_location)
