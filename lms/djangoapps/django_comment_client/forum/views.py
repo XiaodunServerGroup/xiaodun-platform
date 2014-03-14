@@ -23,7 +23,7 @@ from course_groups.cohorts import (is_course_cohorted, get_cohort_id, is_comment
                                    get_cohorted_commentables, get_course_cohorts, get_cohort_by_id)
 from courseware.access import has_access
 
-from microsite_configuration.middleware import MicrositeConfiguration
+//from microsite_configuration.middleware import MicrositeConfiguration
 
 from django_comment_client.permissions import cached_has_permission
 from django_comment_client.utils import (merge_dict, extract, strip_none, add_courseware_context)
