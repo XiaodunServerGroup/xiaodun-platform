@@ -16,10 +16,11 @@ from django_future.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import cache_control
 from django.db import transaction
 from markupsafe import escape
+import django.utils
 
 from courseware import grades
 from courseware.access import has_access
-from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement,
+from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement, get_course_info_section,
                                 get_course_by_id, get_course, course_image_url, get_course_about_section, get_courses_by_search)
 
 import courseware.tabs as tabs
@@ -43,9 +44,6 @@ from xmodule.course_module import CourseDescriptor
 import shoppingcart
 
 from microsite_configuration import microsite
-
-from contentstore.course_info_model import get_course_updates
-from contentstore.utils import get_modulestore
 
 log = logging.getLogger("edx.courseware")
 
@@ -193,23 +191,6 @@ def courses_list_handler(request, action):
     return return_fixed_courses(request, courses, user)
 
 
-def mobi_course_structure(request, course_id):
-    course_id = course_id.replace('.', '/')
-    user = request.user
-    if not user:
-        user = AnonymousUser()
-    try:
-        course = get_course_with_access(user, course_id, 'load', depth=2)
-    except:
-        return JsonResponse({"success": False, "errmsg": "can not find the course"})
-
-    registered = registered_for_course(course, user)
-    if not registered:
-        return JsonResponse({"success": False, "errmsg": "user who does not regitser the course can not fetch the structure of course!"})
-
-    return JsonResponse(_course_json(course, course.location.course_id))
-
-
 def _course_json(course, course_id):
     locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)
     is_container = course.has_children
@@ -224,6 +205,10 @@ def _course_json(course, course_id):
 
     if is_container:
         result['children'] = [_course_json(child, course_id) for child in course.get_children()]
+
+    category = result['category']
+    if result['category'] in ['problem', 'video', 'html', 'discussion']:
+        result[category + '-url'] = "http://player.youku.com/player.php/Type/Folder/Fid/21862553/Ob/1/sid/XNjg0Nzk4NjQ4/v.swf"
 
     return result
 
@@ -240,21 +225,70 @@ def mobi_course_info(request, course):
         "category": course.category
     })
 
+def _course_info_content(html_parsed):
+    """
+    Constructs the HTML for the course info update, not including the header.
+    """
+    if len(html_parsed) == 1:
+        # could enforce that update[0].tag == 'h2'
+        content = html_parsed[0].tail
+    else:
+        content = html_parsed[0].tail if html_parsed[0].tail is not None else ""
+        content += "\n".join([html.tostring(ele) for ele in html_parsed[1:]])
+    return content
+
+
+def parse_updates_html_str(html_str):
+    try:
+        course_html_parsed = html.fromstring(html_str)
+    except:
+        escaped = django.utils.html.eacape(html_str)
+        course_html_parsed = html.fromstring(escaped)
+
+    course_upd_collection = []
+    if course_html_parsed.tag == 'ol':
+        for index, update in enumerate(course_html_parsed):
+            if len(update) >0:
+                content = _course_info_content(update)
+
+                computer_id = len(course_html_parsed) - index
+
+                payload = {
+                    "id": computer_id,
+                    "date": update.findtext("h2"),
+                    "content": content
+                }
+
+                course_upd_collection.append(payload)
+
+    return course_upd_collection
+
 
 def mobi_course_action(request, course_id, action):
     try:
-        course_id = course_id.replace('.', '/')
-        course = get_course_with_access(request.user, course_id, 'load')
-        location = course.location
+        course_id_bak = course_id.replace('.', '/')
+        if action in ["updates", "handouts", "structure"]:
+            course = get_course_with_access(request.user, course_id_bak, 'load')
+            user = request.user
+            if not user:
+                user = AnonymousUser()
 
-        if action == "updates":
-            return JsonResponse(get_course_updates(location, None))
-        elif action == "handouts":
-            module = get_modulestore(location).get_item(location)
-            return JsonResponse({"handouts": getattr(module, 'data', '')})
-        elif action == "structure":
-            return mobi_course_structure(request, course_id)
+            registered = registered_for_course(course, user)
+            if not registered:
+                return JsonResponse({"success": False, "errmsg": "user who does not regitser the course can not fetch the structure of course!"})
+
+            if action == "updates":
+                course_updates = get_course_info_section(request, course, 'updates')
+                return JsonResponse(parse_updates_html_str(course_updates))
+            elif action == "handouts":
+                course_handouts = get_course_info_section(request, course, 'handouts')
+                return JsonResponse({"handouts": course_handouts})
+            elif action == "structure":
+                return JsonResponse(_course_json(course, course.location.course_id))
+            else:
+                raise Exception
         else:
+            course = get_course_with_access(request.user, course_id_bak, 'see_exists')
             return mobi_course_info(request, course)
     except:
         return JsonResponse({"success": False, "errmsg": "access denied!"})

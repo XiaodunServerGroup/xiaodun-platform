@@ -252,9 +252,6 @@ if settings.COURSEWARE_ENABLED:
         url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)($|/(?P<action>(updates|handouts|structure))$)',
             'courseware.views.mobi_course_action', name="mobi_course_action"),
 
-        url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)/structure$',
-            'courseware.views.mobi_course_structure', name="mobi_course_structure"),
-
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/book/(?P<book_index>\d+)/$',
             'staticbook.views.index', name="book"),
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/book/(?P<book_index>\d+)/(?P<page>\d+)$',
