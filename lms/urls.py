@@ -237,7 +237,7 @@ if settings.COURSEWARE_ENABLED:
             'courseware.views.mktg_course_about', name="mktg_about_course"),
 
         # mobile course info url
-        url(r'^mobi/courses-list/(?P<action>(homefalls|hot|latest|all|my|search))',
+        url(r'^mobi/courses-list/(?P<action>(homefalls|hot|latest|all|my|rolling|search))',
             'courseware.views.courses_list_handler', name="courses_list_handler"),
 
         #Inside the course
@@ -247,6 +247,13 @@ if settings.COURSEWARE_ENABLED:
             'courseware.views.course_info', name="info"),
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/syllabus$',
             'courseware.views.syllabus', name="syllabus"),   # TODO arjun remove when custom tabs in place, see courseware/courses.py
+
+        # mobile course info
+        url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)($|/(?P<action>(updates|handouts|structure))$)',
+            'courseware.views.mobi_course_action', name="mobi_course_action"),
+
+        url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)/structure$',
+            'courseware.views.mobi_course_structure', name="mobi_course_structure"),
 
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/book/(?P<book_index>\d+)/$',
             'staticbook.views.index', name="book"),
@@ -352,6 +359,9 @@ if settings.COURSEWARE_ENABLED:
     # discussion forums live within courseware, so courseware must be enabled first
     if settings.FEATURES.get('ENABLE_DISCUSSION_SERVICE'):
         urlpatterns += (
+            url(r'^courses/mobi/threads/(?P<thread_id>[\w\-]+)/delete$',
+                'django_comment_client.base.views.mobi_delete_thread'),
+
             url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/discussion/',
                 include('django_comment_client.urls')),
             url(r'^notification_prefs/enable/', 'notification_prefs.views.ajax_enable'),

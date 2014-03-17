@@ -15,10 +15,10 @@ from xmodule.modulestore.exceptions import ItemNotFoundError
 from xmodule.modulestore.django import modulestore
 from student.models import CourseEnrollment
 
-from util.json_request import JsonResponse
-
 from edxmako.shortcuts import render_to_response
-from courseware.courses import (get_course_with_access, course_image_url)
+from util.json_request import JsonResponse
+from courseware.courses import course_image_url
+from courseware.courses import get_course_with_access
 from course_groups.cohorts import (is_course_cohorted, get_cohort_id, is_commentable_cohorted,
                                    get_cohorted_commentables, get_course_cohorts, get_cohort_by_id)
 from courseware.access import has_access
@@ -293,7 +293,8 @@ def mobi_disscussion_search(request, course_id):
         threads = [utils.safe_content(thread) for thread in unsafethreads]
     except cc.utils.CommentClientMaintenanceError:
         log.warning("Forum is in maintenance mode")
-        return render_to_response('discussion/maintenance.html', {})
+        # return render_to_response('discussion/maintenance.html', {})
+        return JsonResponse({"success": False, "errmsg": "Forum is in maintenance mode"})
 
     user = cc.User.from_django_user(request.user)
     user_info = user.to_dict()
@@ -325,7 +326,7 @@ def mobi_disscussion_search(request, course_id):
     if int(page) > num_page:
         search_list = []
 
-    return JsonResponse({'count': len(search_list), 'search-results': search_list, 'success': True})
+    return JsonResponse({'count': len(search_list), 'search-results': search_list, 'success': True, 'page': page, 'num_pages': num_page})
 
 
 @require_GET
@@ -653,7 +654,6 @@ def my_joined_courses(request, course_id):
         if int(page) > num_pages:
             launched_list = []
 
-        return JsonResponse({'joined_threads': launched_list, 'success': True})
+        return JsonResponse({'joined_threads': launched_list, 'success': True, 'page': page, 'num_pages': num_pages})
     except User.DoesNotExist:
-        return JsonResponse({"success": False, "errmsg": "user does not exist"})
-
+        raise JsonResponse({"success": False, "errmsg": "user does not exist!"})

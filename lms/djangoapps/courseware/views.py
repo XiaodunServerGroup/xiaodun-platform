@@ -21,6 +21,7 @@ from courseware import grades
 from courseware.access import has_access
 from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement,
                                 get_course_by_id, get_course, course_image_url, get_course_about_section, get_courses_by_search)
+
 import courseware.tabs as tabs
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
@@ -35,13 +36,16 @@ from util.json_request import JsonResponse
 
 from xblock.fragment import Fragment
 from xmodule.modulestore import Location
-from xmodule.modulestore.django import modulestore
+from xmodule.modulestore.django import modulestore, loc_mapper
 from xmodule.modulestore.exceptions import InvalidLocationError, ItemNotFoundError, NoPathToItem
 from xmodule.modulestore.search import path_to_location
 from xmodule.course_module import CourseDescriptor
 import shoppingcart
 
 from microsite_configuration import microsite
+
+from contentstore.course_info_model import get_course_updates
+from contentstore.utils import get_modulestore
 
 log = logging.getLogger("edx.courseware")
 
@@ -138,13 +142,13 @@ def courses_list_handler(request, action):
     except:
         user = AnonymousUser()
 
-    if action not in ["homefalls", "all", "hot", "latest", "my", "search"]:
-        return JsonResponse({"success": False, "errmsg": "not support other actions except homefalls all hot latest and my"})
+    if action not in ["homefalls", "all", "hot", "latest", "my", "search", "rolling"]:
+        return JsonResponse({"success": False, "errmsg": "not support other actions except homefalls all hot latest rolling and my"})
 
     def get_courses_depend_action():
         """
         Return courses depend on action
-            action: [homefalls, hot, lastest, my]
+            action: [homefalls, hot, lastest, my, search]
                 homefalls: get all courses
                 hot: Number of attended people > ?
                 lastest: News last week
@@ -158,8 +162,8 @@ def courses_list_handler(request, action):
 
         if action == "latest":
             default_count = 20
-            if len(courses_list) < default_count:
-                default_count = len(courses_list)
+            if len(courses) < default_count:
+                default_count = len(courses)
 
             courses_list = courses[0:default_count]
         elif action == "my":
@@ -167,6 +171,9 @@ def courses_list_handler(request, action):
             for course in courses:
                 if registered_for_course(course, user):
                     courses_list.append(course)
+        elif action == "rolling":
+            default_count = 5
+            courses_list = courses[0:default_count]
         elif action == 'search':
             keyword = request.GET.get("keyword")
 
@@ -184,6 +191,73 @@ def courses_list_handler(request, action):
     # get_courses_depend_action()
 
     return return_fixed_courses(request, courses, user)
+
+
+def mobi_course_structure(request, course_id):
+    course_id = course_id.replace('.', '/')
+    user = request.user
+    if not user:
+        user = AnonymousUser()
+    try:
+        course = get_course_with_access(user, course_id, 'load', depth=2)
+    except:
+        return JsonResponse({"success": False, "errmsg": "can not find the course"})
+
+    registered = registered_for_course(course, user)
+    if not registered:
+        return JsonResponse({"success": False, "errmsg": "user who does not regitser the course can not fetch the structure of course!"})
+
+    return JsonResponse(_course_json(course, course.location.course_id))
+
+
+def _course_json(course, course_id):
+    locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)
+    is_container = course.has_children
+
+    result = {
+        'display_name': course.display_name,
+        'id': unicode(locator),
+        'category': course.category,
+        'is_draft': getattr(course, 'is_draft', False),
+        'is_container': is_container
+    }
+
+    if is_container:
+        result['children'] = [_course_json(child, course_id) for child in course.get_children()]
+
+    return result
+
+
+def mobi_course_info(request, course):
+    return JsonResponse({
+        "id": course.id.replace('/', '.'),
+        "name": course.display_name_with_default,
+        "logo": request.get_host() + course_image_url(course),
+        "org": course.display_org_with_default,
+        "course_number": course.display_number_with_default,
+        "start_date": course.start.strftime("%Y-%m-%d"),
+        "about": get_course_about_section(course, 'short_description'),
+        "category": course.category
+    })
+
+
+def mobi_course_action(request, course_id, action):
+    try:
+        course_id = course_id.replace('.', '/')
+        course = get_course_with_access(request.user, course_id, 'load')
+        location = course.location
+
+        if action == "updates":
+            return JsonResponse(get_course_updates(location, None))
+        elif action == "handouts":
+            module = get_modulestore(location).get_item(location)
+            return JsonResponse({"handouts": getattr(module, 'data', '')})
+        elif action == "structure":
+            return mobi_course_structure(request, course_id)
+        else:
+            return mobi_course_info(request, course)
+    except:
+        return JsonResponse({"success": False, "errmsg": "access denied!"})
 
 
 def render_accordion(request, course, chapter, section, field_data_cache):
@@ -681,23 +755,6 @@ def course_about(request, course_id):
                                'is_course_full': is_course_full})
 
 
-def mobi_course_info(request, course_id):
-    try:
-        course = get_course_with_access(request.user, course_id, 'see_exists')
-    except:
-        JsonResponse({"success": False, 'errmsg': 'can not find a course with ' + course_id.replace('/', '.') + ' id'})
-
-    return JsonResponse({
-        "name": course.display_name_with_default,
-        "logo": request.get_host() + course_image_url(course),
-        "org": course.display_org_with_default,
-        "course_number": course.display_number_with_default,
-        "start_date": course.start_date_text,
-        "about": get_course_about_section(course, 'short_description'),
-        "category": course.category
-    })
-
-
 @ensure_csrf_cookie
 @cache_if_anonymous
 def mktg_course_about(request, course_id):
@@ -816,6 +873,7 @@ def fetch_reverify_banner_info(request, course_id):
     if info:
         reverifications[info.status].append(info)
     return reverifications
+
 
 @login_required
 def submission_history(request, course_id, student_username, location):
