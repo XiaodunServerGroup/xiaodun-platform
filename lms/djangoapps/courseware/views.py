@@ -43,6 +43,7 @@ from xmodule.modulestore.django import modulestore, loc_mapper
 from xmodule.modulestore.exceptions import InvalidLocationError, ItemNotFoundError, NoPathToItem
 from xmodule.modulestore.search import path_to_location
 from xmodule.course_module import CourseDescriptor
+from xmodule.contentstore.content import StaticContent
 import shoppingcart
 
 from microsite_configuration import microsite
@@ -97,7 +98,7 @@ def courses(request):
     return render_to_response("courseware/courses.html", {'courses': courses})
 
 
-def return_fixed_courses(request, courses, user=AnonymousUser()):
+def return_fixed_courses(request, courses, user=AnonymousUser(), action=None):
     default_length = 8
 
     course_id = request.GET.get("course_id")
@@ -117,7 +118,9 @@ def return_fixed_courses(request, courses, user=AnonymousUser()):
     course_list = []
     for course in current_list:
         try:
-            course_list.append(mobi_course_info(request, course))
+            course_json = mobi_course_info(request, course, action)
+            course_json["registered"] = registered_for_course(course, user)
+            course_list.append(course_json)
         except:
             continue
 
@@ -181,7 +184,7 @@ def courses_list_handler(request, action):
     courses = get_courses_depend_action()
     # get_courses_depend_action()
 
-    return return_fixed_courses(request, courses, user)
+    return return_fixed_courses(request, courses, user, action)
 
 
 def _course_json(course, course_id):
@@ -206,7 +209,18 @@ def _course_json(course, course_id):
     return result
 
 
-def mobi_course_info(request, course):
+def mobi_course_info(request, course, action=None):
+    course_logo = course_image_url(course)
+    imgurl = course_logo
+    if action in ["homefalls", "all", "hot", "latest", "my", "search"]:
+        try:
+            course_mini_info = course.id.split('/')
+            asset_location = StaticContent.compute_location(course_mini_info[0], course_mini_info[1], 'mobi-logo-img.jpg')
+            imgurl = StaticContent.get_url_path_from_location(asset_location)
+        except:
+            print "=========================fail load mobi image==============================="
+            print "We will load this info to log"
+
     return {
         "id": course.id.replace('/', '.'),
         "name": course.display_name_with_default,
@@ -215,7 +229,8 @@ def mobi_course_info(request, course):
         "course_number": course.display_number_with_default,
         "start_date": course.start.strftime("%Y-%m-%d"),
         "about": get_course_about_section(course, 'short_description'),
-        "category": course.category
+        "category": course.category,
+        "imgurl": request.get_host() + imgurl
     }
 
 
@@ -262,20 +277,17 @@ def mobi_course_action(request, course_id, action):
     try:
         course_id_bak = course_id.replace('.', '/')
         if action in ["updates", "handouts", "structure"]:
-            course = get_course_with_access(request.user, course_id_bak, 'load')
+            course = get_course_with_access(request.user, course_id_bak, 'see_exists')
             user = request.user
             if not user:
                 user = AnonymousUser()
 
             registered = registered_for_course(course, user)
-            if not registered:
-                return JsonResponse({"success": False, "errmsg": "user who does not regitser the course can not fetch the structure of course!"})
 
-            if action == "updates":
+            if action == "updates" and registered:
                 course_updates = get_course_info_section(request, course, action)
-                print course_updates.encode('utf-8')
                 return JsonResponse(parse_updates_html_str(course_updates))
-            elif action == "handouts":
+            elif action == "handouts" and registered:
                 course_handouts = get_course_info_section(request, course, action)
                 return JsonResponse({"handouts": course_handouts})
             elif action == "structure":
@@ -477,7 +489,7 @@ def index(request, course_id, chapter=None, section=None,
             'masquerade': masq,
             'xqa_server': settings.FEATURES.get('USE_XQA_SERVER', 'http://xqa:server@content-qa.mitx.mit.edu/xqa'),
             'reverifications': fetch_reverify_banner_info(request, course_id),
-        }
+            }
 
         # Only show the chat if it's enabled by the course and in the
         # settings.

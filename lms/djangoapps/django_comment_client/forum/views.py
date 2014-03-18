@@ -24,6 +24,7 @@ from course_groups.cohorts import (is_course_cohorted, get_cohort_id, is_comment
 from courseware.access import has_access
 
 #from microsite_configuration.middleware import MicrositeConfiguration
+from microsite_configuration import microsite
 
 from django_comment_client.permissions import cached_has_permission
 from django_comment_client.utils import (merge_dict, extract, strip_none, add_courseware_context)
@@ -550,11 +551,11 @@ def mobi_forum_course_list(request):
     '''
     nr_transaction = newrelic.agent.current_transaction()
     user = request.user
-    course_org_filter = MicrositeConfiguration.get_microsite_configuration_value('course_org_filter')
+    course_org_filter = microsite.get_value('course_org_filter')
 
     # Let's filter out any courses in an "org" that has been declared to be
     # in a Microsite
-    org_filter_out_set = MicrositeConfiguration.get_all_microsite_orgs()
+    org_filter_out_set = microsite.get_all_orgs()
 
     # remove our current Microsite from the "filter out" list, if applicable
     if course_org_filter:
@@ -600,7 +601,7 @@ def mobi_forum_course_list(request):
         }
         course_list.append(newdict)
 
-    return JsonResponse({request.path: course_list})
+    return JsonResponse({"course-list": course_list})
 
 
 @login_required

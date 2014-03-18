@@ -1948,10 +1948,12 @@ def mobi_token_login(request):
 
         dog_stats_api.increment("common.student.successful_login")
         request.session.save()
+
         response = JsonResponse({
             "success": True,
             "access_token": request.session.session_key,
-            "expires": expires
+            "expires": expires,
+            "username": user.username
         })
 
         return response
