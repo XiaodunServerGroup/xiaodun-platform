@@ -1,6 +1,11 @@
 """
 Student Views
 """
+#encoding=utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import datetime
 import json
 import logging
