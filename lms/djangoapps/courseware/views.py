@@ -3,6 +3,8 @@ import urllib
 
 from collections import defaultdict
 
+from lxml import html
+
 from django.conf import settings
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
@@ -115,16 +117,7 @@ def return_fixed_courses(request, courses, user=AnonymousUser()):
     course_list = []
     for course in current_list:
         try:
-            course_info = {
-                'id': course.location.course_id.replace('/', '.'),
-                'register': registered_for_course(course, user),
-                'course_number': course.display_number_with_default,
-                'name': course.display_name_with_default,
-                'org': course.location.org,
-                'imgurl': request.get_host() + course_image_url(course),
-            }
-
-            course_list.append(course_info)
+            course_list.append(mobi_course_info(request, course))
         except:
             continue
 
@@ -214,7 +207,7 @@ def _course_json(course, course_id):
 
 
 def mobi_course_info(request, course):
-    return JsonResponse({
+    return {
         "id": course.id.replace('/', '.'),
         "name": course.display_name_with_default,
         "logo": request.get_host() + course_image_url(course),
@@ -223,7 +216,8 @@ def mobi_course_info(request, course):
         "start_date": course.start.strftime("%Y-%m-%d"),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category
-    })
+    }
+
 
 def _course_info_content(html_parsed):
     """
@@ -246,9 +240,9 @@ def parse_updates_html_str(html_str):
         course_html_parsed = html.fromstring(escaped)
 
     course_upd_collection = []
-    if course_html_parsed.tag == 'ol':
+    if course_html_parsed.tag == 'section':
         for index, update in enumerate(course_html_parsed):
-            if len(update) >0:
+            if len(update) > 0:
                 content = _course_info_content(update)
 
                 computer_id = len(course_html_parsed) - index
@@ -261,7 +255,7 @@ def parse_updates_html_str(html_str):
 
                 course_upd_collection.append(payload)
 
-    return course_upd_collection
+    return {"updates": course_upd_collection}
 
 
 def mobi_course_action(request, course_id, action):
@@ -278,10 +272,11 @@ def mobi_course_action(request, course_id, action):
                 return JsonResponse({"success": False, "errmsg": "user who does not regitser the course can not fetch the structure of course!"})
 
             if action == "updates":
-                course_updates = get_course_info_section(request, course, 'updates')
+                course_updates = get_course_info_section(request, course, action)
+                print course_updates.encode('utf-8')
                 return JsonResponse(parse_updates_html_str(course_updates))
             elif action == "handouts":
-                course_handouts = get_course_info_section(request, course, 'handouts')
+                course_handouts = get_course_info_section(request, course, action)
                 return JsonResponse({"handouts": course_handouts})
             elif action == "structure":
                 return JsonResponse(_course_json(course, course.location.course_id))
@@ -289,7 +284,7 @@ def mobi_course_action(request, course_id, action):
                 raise Exception
         else:
             course = get_course_with_access(request.user, course_id_bak, 'see_exists')
-            return mobi_course_info(request, course)
+            return JsonResponse(mobi_course_info(request, course))
     except:
         return JsonResponse({"success": False, "errmsg": "access denied!"})
 
@@ -482,7 +477,7 @@ def index(request, course_id, chapter=None, section=None,
             'masquerade': masq,
             'xqa_server': settings.FEATURES.get('USE_XQA_SERVER', 'http://xqa:server@content-qa.mitx.mit.edu/xqa'),
             'reverifications': fetch_reverify_banner_info(request, course_id),
-            }
+        }
 
         # Only show the chat if it's enabled by the course and in the
         # settings.
