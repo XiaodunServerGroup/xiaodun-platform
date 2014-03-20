@@ -1885,7 +1885,7 @@ def bs_sync_accounts(request):
             except:
                 continue
 
-            succ_add_ids.append(created_user.id)
+            succ_add_ids.append([idx, created_user.id])
 
     return JsonResponse({"staff": succ_add_ids})
 
