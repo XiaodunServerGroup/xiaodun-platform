@@ -1,8 +1,8 @@
 ---
 metadata:
-    display_name: Anonymous User ID
+    display_name: 匿名用户 ID
 data: |
-      <p>Your explanatory text here.</p>
+      <p>说明介绍.</p>
       <p><a href="https://YOUR_UNIVERSITY.qualtrics.com/SE/?SID=SV_###############&a=%%USER_ID%%" target="_blank">YOUR_LINK_TEXT</a></p>
       
       <!-- You can include %%USER_ID%% to include an anonymized user ID in your outside services so that you can relate them later.
@@ -13,7 +13,7 @@ data: |
           - Finally, replace "YOUR_LINK_TEXT" with your link text.
           - If you wish to embed your survey into the courseware instead of opening a new tab, replace the above HTML with what is provided below.
             
-            <p>Your explanatory text here.</p>
+            <p>说明介绍.</p>
             <iframe src="https://YOUR_UNIVERSITY.qualtrics.com/SE/?SID=SV_###############&a=%%USER_ID%%" height="1000" width="800" />
         
       -->

@@ -1,6 +1,6 @@
 ---
 metadata:
-    display_name: Custom Javascript Display and Grading
+    display_name: 自定义JavaScript显示和分级
     markdown: !!null
 data: |
       <problem display_name="webGLDemo">

@@ -1,11 +1,10 @@
 ---
 metadata:
-    display_name: Circuit Schematic Builder
+    display_name: 电路原理图生成器
     markdown: !!null
 data: |
       <problem >
-        Please make a voltage divider that splits the provided voltage evenly.
-    
+        请做一个分压器，拆分提供电压均匀。
       <schematicresponse>
       <center>
       <schematic height="500" width="600" parts="g,r" analyses="dc"
@@ -26,7 +25,7 @@ data: |
       </answer>
       </schematicresponse>
       <schematicresponse>
-      <p>Make a high pass filter</p>
+      <p>做一个高通滤波器</p>
       <center>
       <schematic height="500" width="600" parts="g,r,s,c" analyses="ac"
       submit_analyses="{&quot;ac&quot;:[[&quot;NodeA&quot;,1,9]]}"
