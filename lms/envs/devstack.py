@@ -55,7 +55,7 @@ DEBUG_TOOLBAR_PANELS = (
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': lambda _: True,
+    'SHOW_TOOLBAR_CALLBACK': lambda _: False,
 }
 
 ########################### PIPELINE #################################
