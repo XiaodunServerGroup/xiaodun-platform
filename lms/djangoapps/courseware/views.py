@@ -203,8 +203,10 @@ def _course_json(course, course_id):
         result['children'] = [_course_json(child, course_id) for child in course.get_children()]
 
     category = result['category']
-    if result['category'] in ['problem', 'video', 'html', 'discussion']:
-        result[category + '-url'] = "http://player.youku.com/player.php/Type/Folder/Fid/21862553/Ob/1/sid/XNjg0Nzk4NjQ4/v.swf"
+    if result['category'] == 'video':
+        result[category + '-url'] = "http://course.xiaodun.cn:81/static/586ac3e/xmodule_js/fixtures/test.mp4"
+    elif result['category'] == 'problem':
+        result[category + '-url'] = "http://music.163.com/"
 
     return result
 

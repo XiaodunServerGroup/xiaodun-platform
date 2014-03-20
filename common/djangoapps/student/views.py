@@ -1807,6 +1807,113 @@ def change_email_settings(request):
     return JsonResponse({"success": True})
 
 
+@csrf_exempt
+def bs_sync_accounts(request):
+    init_keys = ['name', 'passwd', 'email', 'gender', 'originPlace', 'address', 'education', 'birthday']
+    succ_add_ids = []
+    try:
+        sync_user_params = eval(request.body)['staff']
+    except:
+        sync_user_params = request.POST['staff']
+
+    def filter_and_init_keys(user_json):
+        filter_keys_json = {key: user_json[key] for key in user_json if key in init_keys}
+        ret_json = {}
+        for key, val in filter_keys_json.items():
+            if key == 'name':
+                ret_json['username'] = val
+
+            if key == 'passwd':
+                ret_json['password'] = val
+
+            if key == 'email' or key == 'gender':
+                ret_json[key] = val
+
+            if key in ('originPlace', 'address') and not ret_json['mailing_address']:
+                ret_json['mailing_address'] = filter_keys_json.get(key)
+
+            if key == 'education':
+                ret_json['level_of_education'] = val
+
+            if key == 'birthday':
+                ret_json['year_of_birth'] = val
+
+        return ret_json
+
+    def create_actived_user(user_params):
+        user = User(username=user_params['username'],
+                    email=user_params['email'],
+                    is_active=True)
+        user.set_password(user_params['password'])
+
+        try:
+            user.save()
+        except IntegrityError:
+            raise
+
+        profile = UserProfile(user=user)
+        profile.name = user_params['username']
+        profile.level_of_education = user_params.get('level_of_education')
+        profile.gender = user_params.get('gender')
+        profile.mailing_address = user_params.get('mailing_address')
+
+        try:
+            profile.year_of_birth = int(user_params['year_of_birth'])
+        except:
+            profile.year_of_birth = None
+
+        try:
+            profile.save()
+        except Exception:
+            raise
+
+        return user
+
+    for idx, staff in enumerate(sync_user_params):
+        if all(k in staff for k in ('name', 'passwd', 'email')):
+            # create a activated user account
+            params = filter_and_init_keys(staff)
+            try:
+                validate_email(params['email'])
+                validate_slug(params['username'])
+            except:
+                continue
+
+            # create a user
+            try:
+                created_user = create_actived_user(params)
+            except:
+                continue
+
+            succ_add_ids.append([idx, created_user.id])
+
+    return JsonResponse({"staff": succ_add_ids})
+
+
+@csrf_exempt
+def bs_ban_account(request, user_id):
+    uniform_re = {"success": False}
+    request_method = request.method
+    if request_method != 'POST':
+        uniform_re['errmsg'] = 'Only POST request support!'
+
+    try:
+        ban_user = User.objects.get(id=int(user_id))
+    except:
+        uniform_re['errmsg'] = 'Can not find the user with id ' + user_id
+        return JsonResponse(uniform_re)
+
+    ban_user.is_active = False
+    try:
+        ban_user.save()
+    except:
+        uniform_re['errmsg'] = 'Operation failed'
+        return JsonResponse({'success': False, 'errmsg': 'Operation failed'})
+
+    uniform_re['success'] = True
+    return JsonResponse(uniform_re)
+
+
 @login_required
 def token(request):
     '''
