@@ -1,22 +1,22 @@
 ---
 metadata:
-    display_name: Image Mapped Input
+    display_name: 图像映射输入
     markdown: !!null
 data: |
   <problem>
     <p>
-      An image mapped input problem presents an image for the student.
-      Input is given by the location of mouse clicks on the image.
-      Correctness of input can be evaluated based on expected dimensions of a rectangle.
+      图像映射输入的问题，呈现给学生一个图像.
+      通过鼠标点击图像上的特定位置.
+      输入的正确性可以基于一个矩形的预期尺寸进行评估.
     </p>
-    <p>Which animal shown below is a kitten?</p>
+    <p>下面显示的动物那个是小猫？</p>
     <imageresponse>
       <imageinput src="https://studio.edx.org/c4x/edX/DemoX/asset/Dog-and-Cat.jpg" width="640" height="400" rectangle="(385,98)-(600,337)"/>
     </imageresponse>
     <solution>
       <div class="detailed-solution">
-        <p>Explanation</p>
-        <p>The animal on the right is a kitten. The animal on the left is a puppy, not a kitten.</p>
+        <p>答案</p>
+        <p>右边的动物是一只小猫。在左侧的动物是小狗，不是小猫.</p>
       </div>
     </solution>
   </problem>

@@ -9,6 +9,7 @@ cms/envs/private.py
 
 ### Python artifacts
 *.pyc
+Gemfile.lock
 
 ### Editor and IDE artifacts
 *~

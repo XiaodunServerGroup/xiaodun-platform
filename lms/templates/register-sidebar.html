@@ -27,27 +27,27 @@ from django.core.urlresolvers import reverse
 ##       override in a more generalizable fashion.
 % if not stanford_theme_enabled():
   <div class="cta cta-welcome">
-    <h3>${_("Welcome to {platform_name}").format(platform_name=platform_name)}</h3>
-    <p>${_("Registering with {platform_name} gives you access to all of our current and future free courses. Not ready to take a course just yet? Registering puts you on our mailing list - we will update you as courses are added.").format(platform_name=platform_name)}</p>
+    <h3>欢迎来到校盾计划</h3>
+    <p>
+     在校盾注册使您可以访问所有我们现有的和将来的免费课程。即便您现在还不想马上参与课程？注册将会使得您在我们的邮箱列表中这样一旦有新的课程加入我们将即时通知您
+     </p>
   </div>
 % endif
 
 <div class="cta cta-nextsteps">
   <h3>${_("Next Steps")}</h3>
-  % if stanford_theme_enabled():
-    <p>${_("You will receive an activation email.  You must click on the activation link to complete the process.  Don't see the email?  Check your spam folder and mark emails from class.stanford.edu as 'not spam', since you'll want to be able to receive email from your courses.")}</p>
-  % else:
-    <p>${_("As part of joining {platform_name}, you will receive an activation email.  You must click on the activation link to complete the process.  Don't see the email?  Check your spam folder and mark {platform_name} emails as 'not spam'.  At {platform_name}, we communicate mostly through email.").format(platform_name=platform_name)}</p>
-  % endif
+  <p>
+      作为您加入校盾过程的一部分，您会收到一封激活邮件。您必须点击激活链接才能完成注册过程。如果没有看见邮件，请检查垃圾邮件夹并把来自校盾的邮件标记为”非垃圾邮件“。在校盾这里，我们大部分都通过电子邮件联系。
+  </p>
 </div>
 
 % if settings.MKTG_URL_LINK_MAP.get('FAQ'):
   <div class="cta cta-help">
     <h3>${_("Need Help?")}</h3>
-    <p>${_("Need help in registering with {platform_name}?").format(platform_name=platform_name)}
+    <p>在注册校盾时需要帮助?
       <a href="${marketing_link('FAQ')}">
           ${_("View our FAQs for answers to commonly asked questions.")}
       </a>
-      ${_("Once registered, most questions can be answered in the course specific discussion forums or through the FAQs.")}</p>
+       ${_("Once registered, most questions can be answered in the course specific discussion forums or through the FAQs.")}</p>
   </div>
 % endif

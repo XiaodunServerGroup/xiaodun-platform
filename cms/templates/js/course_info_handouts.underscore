@@ -1,6 +1,6 @@
-<a href="#" class="edit-button"><span class="edit-icon"></span>Edit</a>
+<a href="#" class="edit-button"><span class="edit-icon"></span>编辑</a>
 
-<h2 class="title">Course Handouts</h2>
+<h2 class="title">课程讲义</h2>
 <%if (model.get('data') != null) { %>
   <div class="handouts-content">
 
@@ -14,7 +14,7 @@
     <textarea class="handouts-content-editor text-editor"></textarea>
   </div>
   <div class="row">
-    <a href="#" class="save-button">Save</a>
-    <a href="#" class="cancel-button">Cancel</a>
+    <a href="#" class="save-button">保存</a>
+    <a href="#" class="cancel-button">取消</a>
   </div>
 </form>

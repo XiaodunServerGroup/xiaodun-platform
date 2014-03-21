@@ -153,7 +153,9 @@ require(["domReady", "jquery", "js/models/asset", "js/collections/asset",
         <aside class="content-supplementary" role="complimentary">
             <div class="bit">
                 <h3 class="title-3">${_("What files are listed here?")}</h3>
-            	<p>${_("In addition to the files you upload on this page, any files that you add to the course appear in this list. These files include your course image, textbook chapters, and files that appear on your Course Handouts sidebar.")}</p>
+            	<p>
+                 除了你在本页面上传的文件，你给该课程添加的任何文件都将会在这个列表中显示。这些文件包括了你的课程各种图片、课本章节、以及那些在课程讲义边栏中出现的文件。
+            	</p>
             </div>
             <div class="bit">
                 <h3 class="title-3">${_("File URLs")}</h3>
@@ -166,9 +168,20 @@ require(["domReady", "jquery", "js/models/asset", "js/collections/asset",
              <div class="bit">
                 <h3 class="title-3">${_("What can I do on this page?")}</h3>
                  <ul class="list-details">
-                    <li class="item-detail">${_("You can upload new files or view, download, or delete existing files. You can lock a file so that people who are not enrolled in your course cannot access that file.")}</li>
+                    <li class="item-detail">
+                      您可以上载新的文件，或者查看，下载，删除现有文件。你也可以锁住一个文件，这样其它未注册您的课程的人则不可以访问这个文件。
+                    </li>
                     
                 </ul>
+            </div>
+             <div class="bit">
+                <h3 class="title-3">上传课程logo图片须知</h3>
+                 <ul class="list-details">
+                    <li class="item-detail">
+                      您上传的课程将同时在ipad,mobi,ott显示，为了让更多的学生能了解到您的课程，您需要上传一张课程背景图片，名字为:mobi-logo-img.jpg
+                    </li>
+                </ul>
+            <br>
             </div>
         </aside>
     </section>

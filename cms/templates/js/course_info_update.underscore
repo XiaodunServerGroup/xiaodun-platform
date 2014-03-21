@@ -11,14 +11,14 @@
 		</div>
 		<div class="row">
 			<!-- cid rather than id b/c new ones have cid's not id's -->
-			<a href="#" class="save-button" name="<%= updateModel.cid %>">Save</a>
-			<a href="#" class="cancel-button" name="<%= updateModel.cid %>">Cancel</a>
+			<a href="#" class="save-button" name="<%= updateModel.cid %>">保存</a>
+			<a href="#" class="cancel-button" name="<%= updateModel.cid %>">取消</a>
 		</div>
 	</form>
 	<div class="post-preview">
 		<div class="post-actions">
-			<a href="#" class="edit-button" name="<%- updateModel.cid %>"><span class="edit-icon"></span>Edit</a>
-			<a href="#" class="delete-button" name="<%- updateModel.cid %>"><span class="delete-icon"></span>Delete</a>
+			<a href="#" class="edit-button" name="<%- updateModel.cid %>"><span class="edit-icon"></span>编辑</a>
+			<a href="#" class="delete-button" name="<%- updateModel.cid %>"><span class="delete-icon"></span>删除</a>
 		</div>
 		<h2>
 			<span class="calendar-icon"></span><span class="date-display"><%=

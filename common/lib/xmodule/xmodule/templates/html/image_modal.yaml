@@ -1,7 +1,7 @@
 ---
 metadata:
-    display_name: Full Screen Image
+    display_name: 全屏图片
 data: |
-        <h2>Full Screen Image</h2>
-        <p>Use the full screen image tool to allow students to open the image in the full screen, zoom in on the image, and drag the image within the screen.</p>
+        <h2>全屏图片</h2>
+        <p>使用全屏幕图像的工具，让学生在全屏打开图像，放大图像，并在屏幕中拖动图像.</p>
         <a href="http://static.class.stanford.edu/stanford-hills-big.jpg" class="modal-content"><img alt="The Stanford Hills" src="http://static.class.stanford.edu/stanford-hills-small.jpg" /></a>

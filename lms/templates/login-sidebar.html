@@ -17,12 +17,12 @@ from django.core.urlresolvers import reverse
 
 <div class="cta cta-help">
   <h3>${_("Not Enrolled?")}</h3>
-  <p><a href="${reverse('register_user')}">${_("Sign up for {platform_name} today!").format(platform_name=platform_name)}</a></p>
+  <p><a href="${reverse('register_user')}">现在注册加入校盾！</a></p>
 
   ## Disable help unless the FAQ marketing link is enabled
   % if settings.MKTG_URL_LINK_MAP.get('FAQ'):
     <h3>${_("Need Help?")}</h3>
-    <p>${_("Looking for help in logging in or with your {platform_name} account?").format(platform_name=platform_name)}
+    <p>寻找关于登录进入您校盾账户的帮助
     <a href="${marketing_link('FAQ')}">
         ${_("View our help section for answers to commonly asked questions.")}
     </a></p>
