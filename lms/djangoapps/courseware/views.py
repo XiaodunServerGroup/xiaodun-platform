@@ -204,7 +204,7 @@ def _course_json(course, course_id):
 
     category = result['category']
     if result['category'] == 'video':
-        result[category + '-url'] = "http://course.xiaodun.cn:81/static/586ac3e/xmodule_js/fixtures/test.mp4"
+        result[category + '-url'] = "http://www.diandiyun.com/Clip_480_5sec_6mbps_h264.mp4"
     elif result['category'] == 'problem':
         result[category + '-url'] = "http://music.163.com/"
 

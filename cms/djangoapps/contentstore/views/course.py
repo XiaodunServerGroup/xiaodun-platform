@@ -135,6 +135,7 @@ def _course_json(request, package_id, branch, version_guid, block):
     __, course = _get_locator_and_course(
         package_id, branch, version_guid, block, request.user, depth=None
     )
+
     return _xmodule_json(course, course.location.course_id)
 
 
@@ -302,7 +303,6 @@ def course_index(request, package_id, branch, version_guid, block):
 def create_new_course(request):
     """
     Create a new course.
-
     Returns the URL for the course overview page.
     """
     if not auth.has_access(request.user, CourseCreatorRole()):
@@ -311,6 +311,8 @@ def create_new_course(request):
     org = request.json.get('org')
     number = request.json.get('number')
     display_name = request.json.get('display_name')
+    course_category = request.json.get('course_category')
+    course_level = request.json.get('course_level')
     run = request.json.get('run')
 
     try:
@@ -372,10 +374,11 @@ def create_new_course(request):
 
     # instantiate the CourseDescriptor and then persist it
     # note: no system to pass
-    if display_name is None:
+    if display_name is None and course_category is None and course_level is None:
         metadata = {}
     else:
-        metadata = {'display_name': display_name}
+        metadata = {'display_name': display_name, 'course_category': course_category, 'course_level': course_level}
+
     modulestore('direct').create_and_save_xmodule(
         dest_location,
         metadata=metadata
@@ -387,6 +390,7 @@ def create_new_course(request):
         category='about',
         name='overview'
     )
+
     overview_template = AboutDescriptor.get_template('overview.yaml')
     modulestore('direct').create_and_save_xmodule(
         dest_about_location,

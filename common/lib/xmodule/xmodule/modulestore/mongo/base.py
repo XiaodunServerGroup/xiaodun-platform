@@ -657,13 +657,16 @@ class MongoModuleStore(ModuleStoreWriteBase):
                 select=self.xblock_select,
                 services=services,
             )
+
         xblock_class = system.load_block_type(location.category)
+
         if definition_data is None:
             if hasattr(xblock_class, 'data') and xblock_class.data.default is not None:
                 definition_data = xblock_class.data.default
             else:
                 definition_data = {}
         dbmodel = self._create_new_field_data(location.category, location, definition_data, metadata)
+
         xmodule = system.construct_xblock_from_class(
             xblock_class,
             # We're loading a descriptor, so student_id is meaningless
@@ -674,6 +677,7 @@ class MongoModuleStore(ModuleStoreWriteBase):
         )
         # decache any pending field settings from init
         xmodule.save()
+
         return xmodule
 
     def save_xmodule(self, xmodule):

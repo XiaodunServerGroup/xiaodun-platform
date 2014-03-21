@@ -1010,6 +1010,10 @@ msgstr "创建一个新课程的必要信息"
 msgid "Course Name"
 msgstr "课程名称"
 
+#: cms/templates/index.html
+msgid "Course Category"
+msgstr "课程分类"
+
 #: cms/templates/index.html:96
 msgid "e.g. Introduction to Computer Science"
 msgstr "例如，对计算机科学的介绍"

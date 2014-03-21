@@ -639,7 +639,8 @@ def my_joined_courses(request, course_id):
 
             thread_info = {}
             if thread:
-                thread_info['id'] = thread['course_id'].replace('/', '.')
+                thread_info['id'] = thread['id']
+                thread_info['course_id'] = thread['course_id'].replace('/', '.')
                 thread_info['time'] = dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S")
                 thread_info['name'] = thread['title']
                 thread_info['number'] = len(thread['children'])

@@ -1810,6 +1810,7 @@ def change_email_settings(request):
 @csrf_exempt
 def bs_sync_accounts(request):
     init_keys = ['name', 'passwd', 'email', 'gender', 'originPlace', 'address', 'education', 'birthday']
+
     succ_add_ids = []
     try:
         sync_user_params = eval(request.body)['staff']
@@ -1829,7 +1830,7 @@ def bs_sync_accounts(request):
             if key == 'email' or key == 'gender':
                 ret_json[key] = val
 
-            if key in ('originPlace', 'address') and not ret_json['mailing_address']:
+            if key in ('originPlace', 'address') and not ret_json.get('mailing_address'):
                 ret_json['mailing_address'] = filter_keys_json.get(key)
 
             if key == 'education':
@@ -1898,14 +1899,36 @@ def bs_ban_account(request, user_id):
         uniform_re['errmsg'] = 'Only POST request support!'
 
     try:
-        ban_user = User.objects.get(id=int(user_id))
+        active_status = eval(request.body).get('is_active').lower()
     except:
-        uniform_re['errmsg'] = 'Can not find the user with id ' + user_id
+        active_status = request.POST.get('is_active').lower()
+
+    if active_status is None:
+        uniform_re['errmsg'] = 'params error!'
         return JsonResponse(uniform_re)
 
-    ban_user.is_active = False
+    oper_active_user = User.objects.get(id=int(user_id))
+
+    if oper_active_user is None:
+        uniform_re['errmsg'] = 'can not find the user with id ' + user_id
+        return JsonResponse(uniform_re)
+
+    if active_status == 'yes':
+        active_status = True
+    elif active_status == 'no':
+        active_status = False
+    else:
+        uniform_re['errmsg'] = 'can not realize operation!'
+        return JsonResponse(uniform_re)
+
+    if active_status == oper_active_user.is_active:
+        uniform_re['errmsg'] = 'user has activated!' if oper_active_user.is_active else "user has been disabled!"
+        return JsonResponse(uniform_re)
+
+    oper_active_user.is_active = active_status
+
     try:
-        ban_user.save()
+        oper_active_user.save()
     except:
         uniform_re['errmsg'] = 'Operation failed'
         return JsonResponse({'success': False, 'errmsg': 'Operation failed'})
@@ -1977,9 +2000,6 @@ def mobi_token_login(request):
         })
 
     email, password = [request.POST['email'], request.POST['password']]
-
-    # test data
-    # email, password = "sgd@diandiyun.com", "123"
 
     try:
         user = User.objects.get(email=email)

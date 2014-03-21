@@ -141,6 +141,24 @@ class XModuleMixin(XBlockMixin):
         default=None
     )
 
+    course_category = String(
+        display_name="Course Category",
+        help="This name appears in the horizontal navigation at the top of the page.",
+        scope=Scope.settings,
+        # it'd be nice to have a useful default but it screws up other things; so,
+        # use display_name_with_default for those
+        default=None
+    )
+
+    course_level = String(
+        display_name="Course Level",
+        help="This name appears in the horizontal navigation at the top of the page.",
+        scope=Scope.settings,
+        # it'd be nice to have a useful default but it screws up other things; so,
+        # use display_name_with_default for those
+        default=None
+    )
+
     @property
     def system(self):
         """
@@ -197,15 +215,39 @@ class XModuleMixin(XBlockMixin):
             name = self.url_name.replace('_', ' ')
         return name
 
+    @property
+    def display_category_with_default(self):
+        """
+        Return a course category for the module: use course_category if defined
+        in metadata, otherwise return None
+        """
+        course_category = self.course_category
+
+        return course_category
+
+    @property
+    def display_level_with_default(self):
+        """
+        Return a course level for the module: use course_category if defined
+        in metadata, otherwise return P
+        """
+        course_level = self.course_level
+        if course_level is None:
+            course_level = 'P'
+
+        return course_level
+
     def get_explicitly_set_fields_by_scope(self, scope=Scope.content):
         """
         Get a dictionary of the fields for the given scope which are set explicitly on this xblock. (Including
         any set to None.)
         """
         result = {}
+
         for field in self.fields.values():
             if (field.scope == scope and field.is_set_on(self)):
                 result[field.name] = field.read_json(self)
+
         return result
 
     @property

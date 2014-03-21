@@ -1623,6 +1623,10 @@ msgstr "已加载课程 {0} {1} <br/> 错误："
 msgid "Course Name"
 msgstr "课程名称"
 
+#: cms/templates/index.html
+msgid "Course Category"
+msgstr "课程分类"
+
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "Directory/ID"
 msgstr "目录/ID"
@@ -7112,6 +7116,10 @@ msgstr "基本课程信息"
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Name:"
 msgstr "课程名称："
+
+#: cms/templates/index.html
+msgid "Course Category"
+msgstr "课程分类"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Display Name:"

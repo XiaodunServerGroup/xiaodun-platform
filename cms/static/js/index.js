@@ -5,7 +5,7 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
 
             // One final check for empty values
             var errors = _.reduce(
-                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run'],
+                ['.new-course-name', '.new-course-org', '.new-course-category', '.new-course-number', '.new-course-run'],
                 function (acc, ele) {
                     var $ele = $(ele);
                     var error = validateRequiredField($ele.val());
@@ -21,6 +21,8 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
 
             var $newCourseForm = $(this).closest('#create-course-form');
             var display_name = $newCourseForm.find('.new-course-name').val();
+            var course_category = $newCourseForm.find('.new-course-category').val();
+            var course_level = $newCourseForm.find('.new-course-level').val();
             var org = $newCourseForm.find('.new-course-org').val();
             var number = $newCourseForm.find('.new-course-number').val();
             var run = $newCourseForm.find('.new-course-run').val();
@@ -34,6 +36,8 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
 
             $.postJSON('/course', {
                     'org': org,
+                    'course_category': course_category,
+                    'course_level': course_level,
                     'number': number,
                     'display_name': display_name,
                     'run': run

@@ -189,9 +189,9 @@ def mobi_create_thread(request, course_id, topic_id):
     if 'body' not in post or not post['body'].strip():
         return JsonError(_("Body can't be empty"))
 
-    print(extract(post, ['body', 'title']))
-
     thread = cc.Thread(**extract(post, ['body', 'title']))
+
+    user = cc.User.from_django_user(request.user)
 
     thread.update_attributes(**{
         'anonymous': anonymous,
@@ -200,8 +200,6 @@ def mobi_create_thread(request, course_id, topic_id):
         'course_id': course_id,
         'user_id': request.user.id,
     })
-
-    user = cc.User.from_django_user(request.user)
 
     if is_commentable_cohorted(course_id, topic_id):
         user_group_id = get_cohort_id(user, course_id)
@@ -224,9 +222,9 @@ def mobi_create_thread(request, course_id, topic_id):
     if not 'pinned' in thread.attributes:
         thread['pinned'] = False
 
-    if post.get('auto_subscribe', 'false').lower() == 'true':
-        user = cc.User.from_django_user(request.user)
-        user.follow(thread)
+    # if post.get('auto_subscribe', 'false').lower() == 'true':
+    user = cc.User.from_django_user(request.user)
+    user.follow(thread)
 
     return JsonResponse({"success": True})
 
@@ -264,7 +262,6 @@ def mobi_discussion(request, course_id, thread_id):
     except:
         return JsonResponse({"success": False, "errmsg": "can not find a course with " + course_id + " id"})
 
-    print "-----------------------show discussion---------------------------"
     try:
         thread = cc.Thread.find(thread_id)
     except:
