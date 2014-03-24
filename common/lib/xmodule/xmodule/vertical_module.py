@@ -34,6 +34,25 @@ class VerticalModule(VerticalFields, XModule):
         }))
         return fragment
 
+    def mobi_student_view(self, context):
+        fragment = Fragment()
+        contents = []
+
+        for child in self.get_display_items():
+            rendered_child = child.render('mobi_student_view', context)
+            fragment.add_frag_resources(rendered_child)
+
+            contents.append({
+            'id': child.id,
+            'content': rendered_child.content
+            })
+
+        fragment.add_content(self.system.render_template('vert_module.html', {
+            'items': contents
+        }))
+        return fragment
+
+
     def get_progress(self):
         # TODO: Cache progress or children array?
         children = self.get_children()

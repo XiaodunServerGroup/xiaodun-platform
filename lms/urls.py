@@ -189,6 +189,16 @@ if settings.WIKI_ENABLED:
     )
 
 
+if settings.WECHAT_ENABLED:
+    urlpatterns += (
+        url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/courseware/(?P<chapter>[^/]*)/(?P<section>[^/]*)/(?P<position>[^/]*)/?$',
+            'wechat.views.mobi_index', name="courseware_unit"),
+
+        url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/courseware$','wechat.views.mobi_directory',name="mobi_info"),
+        url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/about$', 'wechat.mobile_views.mobile_course_about', name="mobile_about_course"),
+
+    )
+
 if settings.COURSEWARE_ENABLED:
     urlpatterns += (
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/jump_to/(?P<location>.*)$',
@@ -284,6 +294,7 @@ if settings.COURSEWARE_ENABLED:
             'courseware.views.index', name="courseware_section"),
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/courseware/(?P<chapter>[^/]*)/(?P<section>[^/]*)/(?P<position>[^/]*)/?$',
             'courseware.views.index', name="courseware_position"),
+
 
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/progress$',
             'courseware.views.progress', name="progress"),

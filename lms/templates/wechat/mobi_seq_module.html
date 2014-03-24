@@ -1,0 +1,36 @@
+<%! from django.utils.translation import ugettext as _ %>
+
+<div id="sequence_${element_id}" class="sequence" data-id="${item_id}" data-position="${position}" data-ajax-url="${ajax_url}" style="min-width: 20px">
+  <nav class="sequence-nav">
+
+      <ol role="tablist" aria-label="${_('Section Navigation')}" id="sequence-list">
+        % for idx, item in enumerate(items):
+        ## TODO (vshnayder): add item.progress_detail either to the title or somewhere else.
+        ## Make sure it gets updated after ajax calls.
+        ## implementation note: will need to figure out how to handle combining detail
+        ## statuses of multiple modules in js.
+        <li>
+
+        </li>
+        % endfor
+      </ol>
+
+  </nav>
+
+  % for idx, item in enumerate(items):
+  <div id="seq_contents_${idx}" 
+       aria-labelledby="tab_${idx}"
+       aria-hidden="true"
+       class="seq_contents tex2jax_ignore asciimath2jax_ignore">
+     ${item['content'] | h}
+  </div>
+  % endfor
+  <div id="seq_content" role="tabpanel"></div>
+</div>
+
+<script type="text/javascript">
+  var sequenceNav;
+  $(document).ready(function() {
+    sequenceNav = new SequenceNav($('.sequence-nav'));
+  });
+</script>

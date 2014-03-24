@@ -217,6 +217,13 @@ def xblock_view_handler(request, package_id, view_name, tag=None, branch=None, v
                 'html': html,
                 'resources': [],
             })
+        elif view_name == 'mobi_student_view':
+            fragment = get_preview_fragment(request, component)
+            fragment.content = render_to_string('component.html', {
+                'preview': fragment.content,
+                'label': component.display_name or component.scope_ids.block_type,
+            })
+
         elif view_name in ('student_view', 'container_preview'):
             is_container_view = (view_name == 'container_preview')
 

@@ -115,6 +115,47 @@ class SequenceModule(SequenceFields, XModule):
 
         return fragment
 
+    def mobi_student_view(self, context):
+        # If we're rendering this sequence, but no position is set yet,
+        # default the position to the first element
+        if self.position is None:
+            self.position = 1
+
+        ## Returns a set of all types of all sub-children
+        contents = []
+
+        fragment = Fragment()
+        for child in self.get_display_items():
+            progress = child.get_progress()
+            rendered_child = child.render('mobi_student_view', context)
+            fragment.add_frag_resources(rendered_child)
+
+            childinfo = {
+                'content': rendered_child.content,
+                'title': "\n".join(
+                    grand_child.display_name
+                    for grand_child in child.get_children()
+                    if grand_child.display_name is not None
+                ),
+                'progress_status': Progress.to_js_status_str(progress),
+                'progress_detail': Progress.to_js_detail_str(progress),
+                'type': child.get_icon_class(),
+                'id': child.id,
+            }
+            if childinfo['title'] == '':
+                childinfo['title'] = child.display_name_with_default
+            contents.append(childinfo)
+        params = {'items': contents,
+                  'element_id': self.location.html_id(),
+                  'item_id': self.id,
+                  'position': self.position,
+                  'tag': self.location.category,
+                  'ajax_url': self.system.ajax_url,
+                  }
+        fragment.add_content(self.system.render_template('wechat/mobi_seq_module.html', params))
+
+        return fragment
+
     def get_icon_class(self):
         child_classes = set(child.get_icon_class()
                             for child in self.get_children())

@@ -570,6 +570,17 @@ class XModule(XModuleMixin, HTMLSnippet, XBlock):  # pylint: disable=abstract-me
         """
         return Fragment(self.get_html())
 
+    def mobi_student_view(self, context):
+        """
+        Return a fragment with the html from this XModule
+
+        Doesn't yet add any of the javascript to the fragment, nor the css.
+        Also doesn't expect any javascript binding, yet.
+
+        Makes no use of the context parameter
+        """
+        return Fragment(self.get_html())
+
 
 def policy_key(location):
     """
@@ -916,6 +927,7 @@ class XModuleDescriptor(XModuleMixin, HTMLSnippet, ResourceTemplates, XBlock):
     handle_ajax = module_attr('handle_ajax')
     max_score = module_attr('max_score')
     student_view = module_attr('student_view')
+    mobi_student_view = module_attr('mobi_student_view')
     get_child_descriptors = module_attr('get_child_descriptors')
     xmodule_handler = module_attr('xmodule_handler')
 
@@ -1075,6 +1087,13 @@ class DescriptorSystem(ConfigurableFragmentWrapper, Runtime):  # pylint: disable
 
     def render(self, block, view_name, context=None):
         if view_name == 'student_view':
+            assert block.xmodule_runtime is not None
+            if isinstance(block, (XModule, XModuleDescriptor)):
+                to_render = block._xmodule
+            else:
+                to_render = block
+            return block.xmodule_runtime.render(to_render, view_name, context)
+        elif view_name == 'mobi_student_view':
             assert block.xmodule_runtime is not None
             if isinstance(block, (XModule, XModuleDescriptor)):
                 to_render = block._xmodule

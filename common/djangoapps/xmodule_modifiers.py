@@ -59,6 +59,9 @@ def wrap_xblock(runtime_class, block, view, frag, context, display_name_only=Fal
         if view == 'student_view':
             # The block is acting as an XModule
             css_classes.append('xmodule_display')
+        elif view == 'mobi_student_view':
+            # The block is acting as an XModule
+            css_classes.append('xmodule_display')
         elif view == 'studio_view':
             # The block is acting as an XModuleDescriptor
             css_classes.append('xmodule_edit')
