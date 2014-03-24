@@ -1,0 +1,426 @@
+"""
+Tests courseware views.py
+"""
+import unittest
+from datetime import datetime
+
+from mock import MagicMock, patch
+from pytz import UTC
+
+from django.test import TestCase
+from django.http import Http404
+from django.test.utils import override_settings
+from django.contrib.auth.models import User, AnonymousUser
+from django.test.client import RequestFactory
+
+from django.conf import settings
+from django.core.urlresolvers import reverse
+
+from student.models import CourseEnrollment
+from student.tests.factories import AdminFactory
+from edxmako.middleware import MakoMiddleware
+
+from xmodule.modulestore import Location
+from xmodule.modulestore.django import modulestore
+from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
+from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
+from student.tests.factories import UserFactory
+
+import courseware.views as views
+from courseware.tests.modulestore_config import TEST_DATA_MIXED_MODULESTORE
+from course_modes.models import CourseMode
+import shoppingcart
+
+from util.tests.test_date_utils import fake_ugettext, fake_pgettext
+
+
+@override_settings(MODULESTORE=TEST_DATA_MIXED_MODULESTORE)
+class TestJumpTo(TestCase):
+    """
+    Check the jumpto link for a course.
+    """
+
+    def setUp(self):
+        # Use toy course from XML
+        self.course_name = 'edX/toy/2012_Fall'
+
+    def test_jumpto_invalid_location(self):
+        location = Location('i4x', 'edX', 'toy', 'NoSuchPlace', None)
+        jumpto_url = '{0}/{1}/jump_to/{2}'.format('/courses', self.course_name, location)
+        response = self.client.get(jumpto_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_jumpto_from_chapter(self):
+        location = Location('i4x', 'edX', 'toy', 'chapter', 'Overview')
+        jumpto_url = '{0}/{1}/jump_to/{2}'.format('/courses', self.course_name, location)
+        expected = 'courses/edX/toy/2012_Fall/courseware/Overview/'
+        response = self.client.get(jumpto_url)
+        self.assertRedirects(response, expected, status_code=302, target_status_code=302)
+
+    def test_jumpto_id(self):
+        location = Location('i4x', 'edX', 'toy', 'chapter', 'Overview')
+        jumpto_url = '{0}/{1}/jump_to_id/{2}'.format('/courses', self.course_name, location.name)
+        expected = 'courses/edX/toy/2012_Fall/courseware/Overview/'
+        response = self.client.get(jumpto_url)
+        self.assertRedirects(response, expected, status_code=302, target_status_code=302)
+
+    def test_jumpto_id_invalid_location(self):
+        location = Location('i4x', 'edX', 'toy', 'NoSuchPlace', None)
+        jumpto_url = '{0}/{1}/jump_to_id/{2}'.format('/courses', self.course_name, location.name)
+        response = self.client.get(jumpto_url)
+        self.assertEqual(response.status_code, 404)
+
+
+@override_settings(MODULESTORE=TEST_DATA_MIXED_MODULESTORE)
+class ViewsTestCase(TestCase):
+    """
+    Tests for views.py methods.
+    """
+    def setUp(self):
+        self.user = User.objects.create(username='dummy', password='123456',
+                                        email='test@mit.edu')
+        self.date = datetime(2013, 1, 22, tzinfo=UTC)
+        self.course_id = 'edX/toy/2012_Fall'
+        self.enrollment = CourseEnrollment.enroll(self.user, self.course_id)
+        self.enrollment.created = self.date
+        self.enrollment.save()
+        self.location = ['tag', 'org', 'course', 'category', 'name']
+
+        self.request_factory = RequestFactory()
+        chapter = 'Overview'
+        self.chapter_url = '%s/%s/%s' % ('/courses', self.course_id, chapter)
+
+    @unittest.skipUnless(settings.FEATURES.get('ENABLE_SHOPPING_CART'), "Shopping Cart not enabled in settings")
+    @patch.dict(settings.FEATURES, {'ENABLE_PAID_COURSE_REGISTRATION': True})
+    def test_course_about_in_cart(self):
+        in_cart_span = '<span class="add-to-cart">'
+        # don't mock this course due to shopping cart existence checking
+        course = CourseFactory.create(org="new", number="unenrolled", display_name="course")
+        request = self.request_factory.get(reverse('about_course', args=[course.id]))
+        request.user = AnonymousUser()
+        response = views.course_about(request, course.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(in_cart_span, response.content)
+
+        # authenticated user with nothing in cart
+        request.user = self.user
+        response = views.course_about(request, course.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(in_cart_span, response.content)
+
+        # now add the course to the cart
+        cart = shoppingcart.models.Order.get_cart_for_user(self.user)
+        shoppingcart.models.PaidCourseRegistration.add_to_order(cart, course.id)
+        response = views.course_about(request, course.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(in_cart_span, response.content)
+
+    def test_user_groups(self):
+        # depreciated function
+        mock_user = MagicMock()
+        mock_user.is_authenticated.return_value = False
+        self.assertEquals(views.user_groups(mock_user), [])
+
+    def test_get_current_child(self):
+        self.assertIsNone(views.get_current_child(MagicMock()))
+        mock_xmodule = MagicMock()
+        mock_xmodule.position = -1
+        mock_xmodule.get_display_items.return_value = ['one', 'two']
+        self.assertEquals(views.get_current_child(mock_xmodule), 'one')
+        mock_xmodule_2 = MagicMock()
+        mock_xmodule_2.position = 3
+        mock_xmodule_2.get_display_items.return_value = []
+        self.assertIsNone(views.get_current_child(mock_xmodule_2))
+
+    def test_redirect_to_course_position(self):
+        mock_module = MagicMock()
+        mock_module.descriptor.id = 'Underwater Basketweaving'
+        mock_module.position = 3
+        mock_module.get_display_items.return_value = []
+        self.assertRaises(Http404, views.redirect_to_course_position,
+                          mock_module)
+
+    def test_registered_for_course(self):
+        self.assertFalse(views.registered_for_course('Basketweaving', None))
+        mock_user = MagicMock()
+        mock_user.is_authenticated.return_value = False
+        self.assertFalse(views.registered_for_course('dummy', mock_user))
+        mock_course = MagicMock()
+        mock_course.id = self.course_id
+        self.assertTrue(views.registered_for_course(mock_course, self.user))
+
+    def test_jump_to_invalid(self):
+        request = self.request_factory.get(self.chapter_url)
+        self.assertRaisesRegexp(Http404, 'Invalid location', views.jump_to,
+                                request, 'bar', ())
+        self.assertRaisesRegexp(Http404, 'No data*', views.jump_to, request,
+                                'dummy', self.location)
+
+    def test_no_end_on_about_page(self):
+        # Toy course has no course end date or about/end_date blob
+        self.verify_end_date('edX/toy/TT_2012_Fall')
+
+    def test_no_end_about_blob(self):
+        # test_end has a course end date, no end_date HTML blob
+        self.verify_end_date("edX/test_end/2012_Fall", "Sep 17, 2015")
+
+    def test_about_blob_end_date(self):
+        # test_about_blob_end_date has both a course end date and an end_date HTML blob.
+        # HTML blob wins
+        self.verify_end_date("edX/test_about_blob_end_date/2012_Fall", "Learning never ends")
+
+    def verify_end_date(self, course_id, expected_end_text=None):
+        request = self.request_factory.get("foo")
+        request.user = self.user
+
+        # TODO: Remove the dependency on MakoMiddleware (by making the views explicitly supply a RequestContext)
+        MakoMiddleware().process_request(request)
+
+        result = views.course_about(request, course_id)
+        if expected_end_text is not None:
+            self.assertContains(result, "Classes End")
+            self.assertContains(result, expected_end_text)
+        else:
+            self.assertNotContains(result, "Classes End")
+
+    def test_chat_settings(self):
+        mock_user = MagicMock()
+        mock_user.username = "johndoe"
+
+        mock_course = MagicMock()
+        mock_course.id = "a/b/c"
+
+        # Stub this out in the case that it's not in the settings
+        domain = "jabber.edx.org"
+        settings.JABBER_DOMAIN = domain
+
+        chat_settings = views.chat_settings(mock_course, mock_user)
+
+        # Test the proper format of all chat settings
+        self.assertEquals(chat_settings['domain'], domain)
+        self.assertEquals(chat_settings['room'], "a-b-c_class")
+        self.assertEquals(chat_settings['username'], "johndoe@%s" % domain)
+
+        # TODO: this needs to be changed once we figure out how to
+        #       generate/store a real password.
+        self.assertEquals(chat_settings['password'], "johndoe@%s" % domain)
+
+    def test_course_mktg_about_coming_soon(self):
+        # we should not be able to find this course
+        url = reverse('mktg_about_course', kwargs={'course_id': 'no/course/here'})
+        response = self.client.get(url)
+        self.assertIn('Coming Soon', response.content)
+
+    def test_course_mktg_register(self):
+        admin = AdminFactory()
+        self.client.login(username=admin.username, password='test')
+        url = reverse('mktg_about_course', kwargs={'course_id': self.course_id})
+        response = self.client.get(url)
+        self.assertIn('Register for', response.content)
+        self.assertNotIn('and choose your student track', response.content)
+
+    def test_course_mktg_register_multiple_modes(self):
+        admin = AdminFactory()
+        CourseMode.objects.get_or_create(mode_slug='honor',
+                                         mode_display_name='Honor Code Certificate',
+                                         course_id=self.course_id)
+        CourseMode.objects.get_or_create(mode_slug='verified',
+                                         mode_display_name='Verified Certificate',
+                                         course_id=self.course_id)
+        self.client.login(username=admin.username, password='test')
+        url = reverse('mktg_about_course', kwargs={'course_id': self.course_id})
+        response = self.client.get(url)
+        self.assertIn('Register for', response.content)
+        self.assertIn('and choose your student track', response.content)
+        # clean up course modes
+        CourseMode.objects.all().delete()
+
+    def test_submission_history_xss(self):
+        # log into a staff account
+        admin = AdminFactory()
+
+        self.client.login(username=admin.username, password='test')
+
+        # try it with an existing user and a malicious location
+        url = reverse('submission_history', kwargs={
+            'course_id': self.course_id,
+            'student_username': 'dummy',
+            'location': '<script>alert("hello");</script>'
+        })
+        response = self.client.get(url)
+        self.assertFalse('<script>' in response.content)
+
+        # try it with a malicious user and a non-existent location
+        url = reverse('submission_history', kwargs={
+            'course_id': self.course_id,
+            'student_username': '<script>alert("hello");</script>',
+            'location': 'dummy'
+        })
+        response = self.client.get(url)
+        self.assertFalse('<script>' in response.content)
+
+# setting TIME_ZONE_DISPLAYED_FOR_DEADLINES explicitly
+@override_settings(MODULESTORE=TEST_DATA_MIXED_MODULESTORE, TIME_ZONE_DISPLAYED_FOR_DEADLINES="UTC")
+class BaseDueDateTests(ModuleStoreTestCase):
+    """
+    Base class that verifies that due dates are rendered correctly on a page
+    """
+    __test__ = False
+
+    def get_text(self, course):  # pylint: disable=unused-argument
+        """Return the rendered text for the page to be verified"""
+        raise NotImplementedError
+
+    def set_up_course(self, **course_kwargs):
+        """
+        Create a stock course with a specific due date.
+
+        :param course_kwargs: All kwargs are passed to through to the :class:`CourseFactory`
+        """
+        course = CourseFactory(**course_kwargs)
+        chapter = ItemFactory(category='chapter', parent_location=course.location)  # pylint: disable=no-member
+        section = ItemFactory(category='sequential', parent_location=chapter.location, due=datetime(2013, 9, 18, 11, 30, 00))
+        vertical = ItemFactory(category='vertical', parent_location=section.location)
+        ItemFactory(category='problem', parent_location=vertical.location)
+
+        course = modulestore().get_instance(course.id, course.location)  # pylint: disable=no-member
+        self.assertIsNotNone(course.get_children()[0].get_children()[0].due)
+        return course
+
+    def setUp(self):
+        self.request_factory = RequestFactory()
+        self.user = UserFactory.create()
+        self.request = self.request_factory.get("foo")
+        self.request.user = self.user
+
+        self.time_with_tz = "due Sep 18, 2013 at 11:30 UTC"
+        self.time_without_tz = "due Sep 18, 2013 at 11:30"
+
+    def test_backwards_compatability(self):
+        # The test course being used has show_timezone = False in the policy file
+        # (and no due_date_display_format set). This is to test our backwards compatibility--
+        # in course_module's init method, the date_display_format will be set accordingly to
+        # remove the timezone.
+        course = self.set_up_course(due_date_display_format=None, show_timezone=False)
+        text = self.get_text(course)
+        self.assertIn(self.time_without_tz, text)
+        self.assertNotIn(self.time_with_tz, text)
+        # Test that show_timezone has been cleared (which means you get the default value of True).
+        self.assertTrue(course.show_timezone)
+
+    def test_defaults(self):
+        course = self.set_up_course()
+        text = self.get_text(course)
+        self.assertIn(self.time_with_tz, text)
+
+    def test_format_none(self):
+        # Same for setting the due date to None
+        course = self.set_up_course(due_date_display_format=None)
+        text = self.get_text(course)
+        self.assertIn(self.time_with_tz, text)
+
+    def test_format_plain_text(self):
+        # plain text due date
+        course = self.set_up_course(due_date_display_format="foobar")
+        text = self.get_text(course)
+        self.assertNotIn(self.time_with_tz, text)
+        self.assertIn("due foobar", text)
+
+    def test_format_date(self):
+        # due date with no time
+        course = self.set_up_course(due_date_display_format=u"%b %d %y")
+        text = self.get_text(course)
+        self.assertNotIn(self.time_with_tz, text)
+        self.assertIn("due Sep 18 13", text)
+
+    def test_format_hidden(self):
+        # hide due date completely
+        course = self.set_up_course(due_date_display_format=u"")
+        text = self.get_text(course)
+        self.assertNotIn("due ", text)
+
+    def test_format_invalid(self):
+        # improperly formatted due_date_display_format falls through to default
+        # (value of show_timezone does not matter-- setting to False to make that clear).
+        course = self.set_up_course(due_date_display_format=u"%%%", show_timezone=False)
+        text = self.get_text(course)
+        self.assertNotIn("%%%", text)
+        self.assertIn(self.time_with_tz, text)
+
+
+class TestProgressDueDate(BaseDueDateTests):
+    """
+    Test that the progress page displays due dates correctly
+    """
+    __test__ = True
+
+    def get_text(self, course):
+        """ Returns the HTML for the progress page """
+        return views.progress(self.request, course.id, self.user.id).content
+
+
+class TestAccordionDueDate(BaseDueDateTests):
+    """
+    Test that the accordion page displays due dates correctly
+    """
+    __test__ = True
+
+    def get_text(self, course):
+        """ Returns the HTML for the accordion """
+        return views.render_accordion(
+            self.request, course, course.get_children()[0].id, None, None
+        )
+
+
+@override_settings(MODULESTORE=TEST_DATA_MIXED_MODULESTORE)
+class StartDateTests(ModuleStoreTestCase):
+    """
+    Test that start dates are properly localized and displayed on the student
+    dashboard.
+    """
+
+    def setUp(self):
+        self.request_factory = RequestFactory()
+        self.user = UserFactory.create()
+        self.request = self.request_factory.get("foo")
+        self.request.user = self.user
+
+    def set_up_course(self):
+        """
+        Create a stock course with a specific due date.
+
+        :param course_kwargs: All kwargs are passed to through to the :class:`CourseFactory`
+        """
+        course = CourseFactory(start=datetime(2013, 9, 16, 7, 17, 28))
+        course = modulestore().get_instance(course.id, course.location)  # pylint: disable=no-member
+        return course
+
+    def get_about_text(self, course_id):
+        """
+        Get the text of the /about page for the course.
+        """
+        text = views.course_about(self.request, course_id).content
+        return text
+
+    @patch('util.date_utils.pgettext', fake_pgettext(translations={
+        ("abbreviated month name", "Sep"): "SEPTEMBER",
+    }))
+    @patch('util.date_utils.ugettext', fake_ugettext(translations={
+        "SHORT_DATE_FORMAT": "%Y-%b-%d",
+    }))
+    def test_format_localized_in_studio_course(self):
+        course = self.set_up_course()
+        text = self.get_about_text(course.id)
+        # The start date is set in the set_up_course function above.
+        self.assertIn("2013-SEPTEMBER-16", text)
+
+    @patch('util.date_utils.pgettext', fake_pgettext(translations={
+        ("abbreviated month name", "Jul"): "JULY",
+    }))
+    @patch('util.date_utils.ugettext', fake_ugettext(translations={
+        "SHORT_DATE_FORMAT": "%Y-%b-%d",
+    }))
+    def test_format_localized_in_xml_course(self):
+        text = self.get_about_text('edX/toy/TT_2012_Fall')
+        # The start date is set in common/test/data/two_toys/policies/TT_2012_Fall/policy.json
+        self.assertIn("2015-JULY-17", text)
