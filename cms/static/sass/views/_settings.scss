@@ -114,7 +114,7 @@
 
     // buttons
     .remove-item {
-      @include white-button;
+      @include blue-button;
       @extend %t-action3;
       font-weight: 400;
     }

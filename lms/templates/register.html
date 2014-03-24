@@ -210,7 +210,27 @@
               <select id="education-level" name="level_of_education" ${'required aria-required="true"' if settings.REGISTRATION_EXTRA_FIELDS['level_of_education'] == 'required' else ''}>
                 <option value="">--</option>
                 %for code, ed_level in UserProfile.LEVEL_OF_EDUCATION_CHOICES:
-                <option value="${code}">${ed_level}</option>
+                <option value="${code}">
+                    % if code == 'p':
+                        博士
+                    % elif code == 'm':
+                        硕士
+                    % elif code == 'b':
+                        学士
+                    % elif code == 'a':
+                        大专
+                    % elif code == 'hs':
+                        中专/高中
+                    % elif code == 'jhs':
+                        初中
+                    % elif code == 'el':
+                        小学
+                    % elif code == 'none':
+                        没有
+                    % else:
+                        其他
+                    % endif
+                </option>
                 %endfor
               </select>
             </div>
@@ -223,7 +243,15 @@
               <select id="gender" name="gender" ${'required aria-required="true"' if settings.REGISTRATION_EXTRA_FIELDS['gender'] == 'required' else ''}>
                 <option value="">--</option>
                 %for code, gender in UserProfile.GENDER_CHOICES:
-                <option value="${code}">${gender}</option>
+                <option value="${code}">
+                    % if code == 'm':
+                        男
+                    % elif code == 'f':
+                        女
+                    % else:
+                        其他
+                    % endif
+                </option>
                 %endfor
               </select>
             </div>
@@ -281,8 +309,8 @@
             % endif
 
             % if settings.REGISTRATION_EXTRA_FIELDS['honor_code'] != 'hidden':
-            <div class="field ${settings.REGISTRATION_EXTRA_FIELDS['honor_code']} checkbox" id="field-honorcode">
-              <input id="honorcode-yes" type="checkbox" name="honor_code" value="true" />
+            <div style="display:none;" class="field ${settings.REGISTRATION_EXTRA_FIELDS['honor_code']} checkbox" id="field-honorcode">
+              <input id="honorcode-yes" type="checkbox" name="honor_code" value="true" checked/>
               <%
                 ## TODO: provide a better way to override these links
                 if self.stanford_theme_enabled():

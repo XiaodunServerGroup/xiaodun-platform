@@ -113,6 +113,10 @@ site_status_msg = get_site_status_msg(course_id)
           </li>
         % endif
       </%block>
+    </ol>
+
+    <ol class="right nav-courseware">
+
       % if not settings.FEATURES['DISABLE_LOGIN_BUTTON']:
           % if course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
           <li class="nav-global-04">
@@ -124,9 +128,7 @@ site_status_msg = get_site_status_msg(course_id)
           </li>
           % endif
       % endif
-    </ol>
 
-    <ol class="right nav-courseware">
     <li class="nav-courseware-01">
       % if not settings.FEATURES['DISABLE_LOGIN_BUTTON']:
           % if course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:

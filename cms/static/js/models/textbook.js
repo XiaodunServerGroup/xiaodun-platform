@@ -60,13 +60,13 @@ define(["backbone", "underscore", "js/models/chapter", "js/collections/chapter",
         validate: function(attrs, options) {
             if (!attrs.name) {
                 return {
-                    message: "Textbook name is required",
+                    message: "教材名称必须填写",
                     attributes: {name: true}
                 };
             }
             if (attrs.chapters.length === 0) {
                 return {
-                    message: "Please add at least one chapter",
+                    message: "请至少添加一个章节",
                     attributes: {chapters: true}
                 };
             } else {
@@ -79,7 +79,7 @@ define(["backbone", "underscore", "js/models/chapter", "js/collections/chapter",
                 });
                 if(!_.isEmpty(invalidChapters)) {
                     return {
-                        message: "All chapters must have a name and asset",
+                        message: "所有的教材资料都有名称和源文件",
                         attributes: {chapters: invalidChapters}
                     };
                 }

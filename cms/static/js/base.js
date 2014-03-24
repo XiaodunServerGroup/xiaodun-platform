@@ -260,11 +260,11 @@ function deleteSection(e) {
 
 function _deleteItem($el, type) {
     var confirm = new PromptView.Warning({
-        title: gettext('Delete this ' + type + '?'),
-        message: gettext('Deleting this ' + type + ' is permanent and cannot be undone.'),
+        title: gettext('确定要删除这个章节？'),
+        message: gettext('删除是永久的，是不可恢复的.'),
         actions: {
             primary: {
-                text: gettext('Yes, delete this ' + type),
+                text: gettext('是的，我要删除 '),
                 click: function(view) {
                     view.hide();
 

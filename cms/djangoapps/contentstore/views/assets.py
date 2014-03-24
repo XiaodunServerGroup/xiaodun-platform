@@ -56,59 +56,8 @@ def assets_handler(request, tag=None, package_id=None, branch=None, version_guid
     DELETE
         json: delete an asset
     """
-    print("88888888888888888")
     location = BlockUsageLocator(package_id=package_id, branch=branch, version_guid=version_guid, block_id=block)
-
-    print("====33333====")
     old_location = loc_mapper().translate_locator_to_location(location)
-    course_id = '.'.join([old_location.org, old_location.course, old_location.name])
-    print("===course_id==")
-    print(course_id)
-    print("===course_id==")
-    print("==1==")
-    print(old_location)
-    print(old_location.course)
-    print(old_location.name)
-    print(old_location.org)
-    print("==1==")
-
-    assets_list=[]
-    course_reference = StaticContent.compute_location(old_location.org, old_location.course, old_location.name)
-    assets_list.append(contentstore().get_all_content_for_course(
-        course_reference, start=0, maxresults=-1, sort=None))
-
-    print("ooooooo")
-    print(course_reference)
-    print(assets_list)
-    print("oooooo")
-
-    # var =[]
-    # for asseet in assets_list:
-    #     var.append(asseet)
-    #       except:
-    #         continue
-    #
-    #
-    # print("=====var====")
-    # print(var)
-    # print("=====var===")
-    #url_test = StaticContent().get_url_path_from_location(old_location)
-    # print("====test_url====")
-    # print(url_test)
-    # print("====test_url====")
-
-    course_module = modulestore().get_item(old_location)
-    print("==2==")
-    print(course_module)
-    print("==2==")
-
-
-    img_url = request.get_host()
-    print("======imgurl==========")
-    print(img_url)
-    print("======imgurl==========")
- #   for course in course_module:
-  #      print course.displayname
 
     if not has_course_access(request.user, location):
         raise PermissionDenied()
@@ -132,19 +81,10 @@ def _asset_index(request, location):
     Supports start (0-based index into the list of assets) and max query parameters.
     """
     old_location = loc_mapper().translate_locator_to_location(location)
-    print("==11==")
-    print(old_location.course)
-    print(old_location.name)
-    print(old_location.org)
-    print("==11==")
 
     course_module = modulestore().get_item(old_location)
-    print("==2==")
     print(course_module)
-    print("==2==")
-    print("==URL==")
     print(location.url_reverse('assets/', ''))
-    print("===URL==")
     return render_to_response('asset_index.html', {
         'context_course': course_module,
         'asset_callback_url': location.url_reverse('assets/', '')
@@ -228,12 +168,10 @@ def _upload_asset(request, location):
     library, which will be supported by GridFS in MongoDB.
     '''
     old_location = loc_mapper().translate_locator_to_location(location)
-    print("------tttttt---")
     # Does the course actually exist?!? Get anything from it to prove its
     # existence
     try:
         modulestore().get_item(old_location)
-        print("----0000000000000000000000000000000000----")
     except:
         # no return it as a Bad Request response
         logging.error("Could not find course: %s", old_location)

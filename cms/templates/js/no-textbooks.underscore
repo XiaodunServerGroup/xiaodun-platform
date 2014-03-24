@@ -1,3 +1,3 @@
 <div class="no-textbook-content">
-    <p><%= gettext("You haven't added any textbooks to this course yet.") %><a href="#" class="button new-button"><i class="icon-plus"></i><%= gettext("Add your first textbook") %></a></p>
+    <p>在这门课中你还没有添加任何教材资料<a href="#" class="button new-button"><i class="icon-plus"></i>添加你的第一个教材资料</a></p>
 </div>

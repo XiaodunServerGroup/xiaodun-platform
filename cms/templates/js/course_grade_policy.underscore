@@ -1,32 +1,32 @@
 <li class="field-group course-grading-assignment-list-item">
   <div class="field text" id="field-course-grading-assignment-name">
-  	<label for="course-grading-assignment-name"><%= gettext("Assignment Type Name") %></label>
+  	<label for="course-grading-assignment-name">作业类型名称</label>
   	<input type="text" class="long" id="course-grading-assignment-name" value="<%= model.get('type') %>" />
-  	<span class="tip tip-stacked"><%= gettext("e.g. Homework, Midterm Exams") %></span>
+  	<span class="tip tip-stacked"><%= gettext("例如. 家庭作业, 其中测试") %></span>
   </div>
 
   <div class="field text" id="field-course-grading-assignment-shortname">
-    <label for="course-grading-assignment-shortname"><%= gettext("Abbreviation") %>:</label>
+    <label for="course-grading-assignment-shortname">简称:</label>
     <input type="text" class="short" id="course-grading-assignment-shortname" value="<%= model.get('short_label') %>" />
-    <span class="tip tip-inline"><%= gettext("e.g. HW, Midterm") %></span>
+    <span class="tip tip-inline"><%= gettext("e.g. 家庭作业, 其中测试") %></span>
   </div>
 
   <div class="field text" id="field-course-grading-assignment-gradeweight">
-    <label for="course-grading-assignment-gradeweight"><%= gettext("Weight of Total Grade") %></label>
+    <label for="course-grading-assignment-gradeweight">占总成绩百分比例</label>
     <input type="text" class="short" id="course-grading-assignment-gradeweight" value = "<%= model.get('weight') %>" />
-    <span class="tip tip-inline"><%= gettext("as a percent, e.g. 40") %></span>
+    <span class="tip tip-inline">例如: 40(40%)</span>
   </div>
 
   <div class="field text" id="field-course-grading-assignment-totalassignments">
-    <label for="course-grading-assignment-totalassignments"><%= gettext("Total Number") %></label>
+    <label for="course-grading-assignment-totalassignments">题目数量</label>
     <input type="text" class="short" id="course-grading-assignment-totalassignments" value = "<%= model.get('min_count') %>" />
-    <span class="tip tip-inline"><%= gettext("total exercises assigned") %></span>
+    <span class="tip tip-inline">总的练习题</span>
   </div>
 
   <div class="field text" id="field-course-grading-assignment-droppable">
-    <label for="course-grading-assignment-droppable"><%= gettext("Number of Droppable") %></label>
+    <label for="course-grading-assignment-droppable">不计分数题目</label>
     <input type="text" class="short" id="course-grading-assignment-droppable" value = "<%= model.get('drop_count') %>" />
-    <span class="tip tip-inline"><%= gettext("total exercises that won't be graded") %></span>
+    <span class="tip tip-inline">不计入分数的练习题目总数</span>
   </div>
 
   <div class="actions">

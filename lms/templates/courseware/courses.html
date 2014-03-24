@@ -20,18 +20,22 @@
 
   <header class="search">
     <div class="inner-wrapper main-search">
-      <hgroup>
-              <form class="search-container search" action="/courses" method="get" id="search-form">
-              <input id="search-query" name="query" placeholder="请输入关键字..."  type="text" width="340px">
-                 <ul class="search-menu" style="display: none;">
-                 </ul>
-              <input value="搜索" type="submit">
-            </form>
-      </hgroup>
     </div>
   </header>
 
   <section class="container">
+
+    <section>
+      <hgroup>
+              <form class="search-container search" action="/courses" method="get" id="search-form">
+              <input id="search-query" name="query" placeholder="请输入关键字..."  type="text" width="340px" class="search-query-10">
+                 <ul class="search-menu" style="display: none;">
+                 </ul>
+              <input value="搜索" type="submit" class="search-button-10">
+            </form>
+      </hgroup>
+
+    </section>
     <section class="courses">
       <ul class="courses-listing">
         %for course in courses:

@@ -152,7 +152,7 @@
 		.edit-button,
 		.delete-button{
 			float: left;
-			@include white-button;
+			@include blue-button;
 	    padding: 3px 10px 4px;
 	    margin-left: 7px;
 	    font-size: 12px;
@@ -183,7 +183,7 @@
 
 	.edit-button {
 		float: right;
-		@include white-button;
+		@include blue-button;
     padding: 3px 10px 4px;
     margin-left: 7px;
     font-size: 12px;

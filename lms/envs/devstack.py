@@ -12,6 +12,7 @@ SITE_NAME = 'localhost:8000'
 CELERY_ALWAYS_EAGER = True
 TIME_ZONE = 'Asia/Shanghai'
 LANGUAGE_CODE = 'zh-cn'
+PLATFORM_NAME = "xiaodun"
 
 ################################ LOGGERS ######################################
 

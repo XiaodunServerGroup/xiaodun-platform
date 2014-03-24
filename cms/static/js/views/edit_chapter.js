@@ -54,7 +54,7 @@ define(["js/views/baseview", "underscore", "underscore.string", "jquery", "gette
             var msg = new FileUploadModel({
                 title: _.template(gettext("Upload a new PDF to “<%= name %>”"),
                     {name: course.escape('name')}),
-                message: "Files must be in PDF format.",
+                message: "文件必须是pdf格式.",
                 mimeTypes: ['application/pdf']
             });
             var that = this;
