@@ -16,12 +16,12 @@
         <% ctx_loc = context_course.location %>
         ${context_course.display_name_with_default} |
         % endif
-        校盾计划工作平台
+        校盾工作平台
     </title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="path_prefix" content="${EDX_ROOT_URL}">
-
+    <link rel="icon" type="image/x-icon" href="${static.url('img/favicon.ico')}" />
     <%static:css group='style-vendor'/>
     <%static:css group='style-app'/>
     <%static:css group='style-app-extend1'/>

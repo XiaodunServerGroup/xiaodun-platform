@@ -115,7 +115,7 @@
 
       % if enrollment.mode != "verified":
         ## Translators: The course's name will be added to the end of this sentence.
-        <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id}" data-course-number="${course.number}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unregister from")}'; document.getElementById('refund-info').innerHTML=''">
+        <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id}" data-course-number="${course.number}" onclick="document.getElementById('track-info').innerHTML='你确定你想退出'; document.getElementById('refund-info').innerHTML=''">
           ${_('Unregister')}
         </a>
       % elif show_refund_option:
