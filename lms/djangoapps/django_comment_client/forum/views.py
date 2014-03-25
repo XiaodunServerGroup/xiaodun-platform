@@ -207,6 +207,61 @@ def mobi_get_topics(request, course_id):
 
 
 @login_required
+def mobi_forum_course_discussion(request, course_id):
+    """
+    mobile api
+    get all discussions about the course
+    """
+    course_id = course_id.replace('.', '/')
+    nr_transaction = newrelic.agent.current_transaction()
+
+    course = get_course_with_access(request.user, course_id, 'load_forum')
+    with newrelic.agent.FunctionTrace(nr_transaction, "get_discussion_category_map"):
+        category_map = utils.get_discussion_category_map(course)
+
+    try:
+        unsafethreads, query_params = get_threads(request, course_id)   # This might process a search query
+        threads = [utils.safe_content(thread) for thread in unsafethreads]
+    except cc.utils.CommentClientMaintenanceError:
+        return JsonResponse({'success': False, 'errmsg': 'errors occur!'})
+
+    user = cc.User.from_django_user(request.user)
+    user_info = user.to_dict()
+
+    with newrelic.agent.FunctionTrace(nr_transaction, "add_courseware_context"):
+        add_courseware_context(threads, course)
+
+    page = request.GET.get('page') or 0
+
+    num_pages = query_params['num_pages']
+    threads_list = []
+
+    if int(page) <= num_pages:
+        for th in threads:
+
+            def format_thread_info(thread_id):
+                thread = cc.Thread.find(thread_id).to_dict()
+
+                if thread:
+                    return {
+                        "id": thread['id'],
+                        "course_id": thread['course_id'].replace('/', '.'),
+                        "time": dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S"),
+                        "name": thread['title'],
+                        "number": len(thread['children'])
+                    }
+                else:
+                    raise Exception
+
+            try:
+                threads_list.append(format_thread_info(th['id']))
+            except:
+                continue
+
+    return JsonResponse({'course_threads': threads_list, "success": True, 'page': page, 'num_pages': num_pages})
+
+
+@login_required
 def forum_form_discussion(request, course_id):
     """
     Renders the main Discussion page, potentially filtered by a search query
@@ -308,26 +363,26 @@ def mobi_disscussion_search(request, course_id):
 
     search_list = []
 
-    for thread in threads:
-        thread = cc.Thread.find(thread['id']).to_dict()
-        thread_info = {}
-        if thread:
-            thread_info['id'] = thread['id']
-            thread_info['name'] = thread['title']
-            thread_info['time'] = dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S")
-            thread_info['number'] = len(thread['children'])
-
-            search_list.append(thread_info)
-        else:
-            continue
-
     page = request.GET.get('page') or 0
-    num_page = query_params['num_pages']
+    num_pages = query_params['num_pages']
+    if int(page) <= num_pages:
+        for thread in threads:
+            thread = cc.Thread.find(thread['id']).to_dict()
+            thread_info = {}
+            if thread:
+                thread_info['id'] = thread['id']
+                thread_info['course_id'] = thread['course_id'].replace('/', '.')
+                thread_info['name'] = thread['title']
+                thread_info['time'] = dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S")
+                thread_info['number'] = len(thread['children'])
 
-    if int(page) > num_page:
-        search_list = []
+                search_list.append(thread_info)
+            else:
+                continue
+    else:
+        page = 0
 
-    return JsonResponse({'count': len(search_list), 'search-results': search_list, 'success': True, 'page': page, 'num_pages': num_page})
+    return JsonResponse({'count': len(search_list), 'search-results': search_list, 'success': True, 'page': page, 'num_pages': num_pages})
 
 
 @require_GET

@@ -98,7 +98,7 @@ def courses(request):
     return render_to_response("courseware/courses.html", {'courses': courses})
 
 
-def return_fixed_courses(request, courses, user=AnonymousUser(), action=None):
+def return_fixed_courses(request, courses, action=None):
     default_length = 8
 
     course_id = request.GET.get("course_id")
@@ -112,14 +112,14 @@ def return_fixed_courses(request, courses, user=AnonymousUser(), action=None):
         course_index = 0
 
     current_list = courses[course_index:]
+
     if len(current_list) > default_length:
-        current_list = current_list[course_index:(course_index + 8)]
+        current_list = current_list[0:default_length]
 
     course_list = []
     for course in current_list:
         try:
             course_json = mobi_course_info(request, course, action)
-            course_json["registered"] = registered_for_course(course, user)
             course_list.append(course_json)
         except:
             continue
@@ -184,7 +184,7 @@ def courses_list_handler(request, action):
     courses = get_courses_depend_action()
     # get_courses_depend_action()
 
-    return return_fixed_courses(request, courses, user, action)
+    return return_fixed_courses(request, courses, action)
 
 
 def _course_json(course, course_id):
@@ -204,9 +204,9 @@ def _course_json(course, course_id):
 
     category = result['category']
     if result['category'] == 'video':
-        result[category + '-url'] = "http://www.diandiyun.com/Clip_480_5sec_6mbps_h264.mp4"
+        result[category + '_url'] = course.html5_sources[0] if len(course.html5_sources) > 0 else ""
     elif result['category'] == 'problem':
-        result[category + '-url'] = "http://music.163.com/"
+        result[category + '_url'] = "http://music.163.com/"
 
     return result
 
@@ -214,6 +214,7 @@ def _course_json(course, course_id):
 def mobi_course_info(request, course, action=None):
     course_logo = course_image_url(course)
     imgurl = course_logo
+
     if action in ["homefalls", "all", "hot", "latest", "my", "search"]:
         try:
             course_mini_info = course.id.split('/')
@@ -223,6 +224,11 @@ def mobi_course_info(request, course, action=None):
             print "=========================fail load mobi image==============================="
             print "We will load this info to log"
 
+    try:
+        user = request.user
+    except:
+        user = AnonymousUser()
+
     return {
         "id": course.id.replace('/', '.'),
         "name": course.display_name_with_default,
@@ -230,6 +236,7 @@ def mobi_course_info(request, course, action=None):
         "org": course.display_org_with_default,
         "course_number": course.display_number_with_default,
         "start_date": course.start.strftime("%Y-%m-%d"),
+        "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
         "imgurl": request.get_host() + imgurl
