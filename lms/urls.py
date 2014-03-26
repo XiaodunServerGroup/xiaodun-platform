@@ -189,6 +189,16 @@ if settings.WIKI_ENABLED:
     )
 
 
+if settings.WECHAT_ENABLED:
+    urlpatterns += (
+        url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/courseware/(?P<chapter>[^/]*)/(?P<section>[^/]*)/(?P<position>[^/]*)/?$',
+            'wechat.views.mobi_index', name="courseware_unit"),
+
+        url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/courseware$','wechat.views.mobi_directory',name="mobi_info"),
+        url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/about$', 'wechat.mobile_views.mobile_course_about', name="mobile_about_course"),
+        url(r'^mobile_change_enrollment$', 'wechat.mobile_views.mobile_change_enrollment', name="mobile_change_enrollment"),
+    )
+
 if settings.COURSEWARE_ENABLED:
     urlpatterns += (
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/jump_to/(?P<location>.*)$',

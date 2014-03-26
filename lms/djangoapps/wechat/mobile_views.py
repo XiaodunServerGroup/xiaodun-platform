@@ -3,7 +3,7 @@ import logging
 import urllib
 
 from collections import defaultdict
-
+from dogapi import dog_stats_api
 from lxml import html
 
 from django.conf import settings
@@ -12,7 +12,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect
 from edxmako.shortcuts import render_to_response, render_to_string
 from django_future.csrf import ensure_csrf_cookie
@@ -46,6 +46,7 @@ from xmodule.modulestore.search import path_to_location
 from xmodule.course_module import CourseDescriptor
 from xmodule.contentstore.content import StaticContent
 import shoppingcart
+from django.utils.translation import ugettext as _
 
 from microsite_configuration import microsite
 
@@ -110,3 +111,101 @@ def mobile_course_about(request, course_id):
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
                                'is_course_full': is_course_full})
+
+
+def mobile_change_enrollment(request):
+    """
+    Modify the enrollment status for the logged-in user.
+
+    The request parameter must be a POST request (other methods return 405)
+    that specifies course_id and enrollment_action parameters. If course_id or
+    enrollment_action is not specified, if course_id is not valid, if
+    enrollment_action is something other than "enroll" or "unenroll", if
+    enrollment_action is "enroll" and enrollment is closed for the course, or
+    if enrollment_action is "unenroll" and the user is not enrolled in the
+    course, a 400 error will be returned. If the user is not logged in, 403
+    will be returned; it is important that only this case return 403 so the
+    front end can redirect the user to a registration or login page when this
+    happens. This function should only be called from an AJAX request or
+    as a post-login/registration helper, so the error messages in the responses
+    should never actually be user-visible.
+    """
+    user = request.user
+
+    action = request.POST.get("enrollment_action")
+    course_id = request.POST.get("course_id")
+    if course_id is None:
+        return HttpResponseBadRequest(_("Course id not specified"))
+
+    if not user.is_authenticated():
+        return HttpResponseForbidden()
+
+    if action == "enroll":
+        # Make sure the course exists
+        # We don't do this check on unenroll, or a bad course id can't be unenrolled from
+        try:
+            course = course_from_id(course_id)
+        except ItemNotFoundError:
+            log.warning("User {0} tried to enroll in non-existent course {1}"
+                        .format(user.username, course_id))
+            return HttpResponseBadRequest(_("Course id is invalid"))
+
+        if not has_access(user, course, 'enroll'):
+            return HttpResponseBadRequest(_("Enrollment is closed"))
+
+        # see if we have already filled up all allowed enrollments
+        is_course_full = CourseEnrollment.is_course_full(course)
+
+        if is_course_full:
+            return HttpResponseBadRequest(_("Course is full"))
+
+        # If this course is available in multiple modes, redirect them to a page
+        # where they can choose which mode they want.
+        available_modes = CourseMode.modes_for_course(course_id)
+        if len(available_modes) > 1:
+            return HttpResponse(
+                reverse("course_modes_choose", kwargs={'course_id': course_id})
+            )
+
+        current_mode = available_modes[0]
+
+        course_id_dict = Location.parse_course_id(course_id)
+        dog_stats_api.increment(
+            "common.student.enrollment",
+            tags=[u"org:{org}".format(**course_id_dict),
+                  u"course:{course}".format(**course_id_dict),
+                  u"run:{name}".format(**course_id_dict)]
+        )
+
+        CourseEnrollment.enroll(user, course.id, mode=current_mode.slug)
+
+        return HttpResponse('about')
+
+    elif action == "add_to_cart":
+        # Pass the request handling to shoppingcart.views
+        # The view in shoppingcart.views performs error handling and logs different errors.  But this elif clause
+        # is only used in the "auto-add after user reg/login" case, i.e. it's always wrapped in try_change_enrollment.
+        # This means there's no good way to display error messages to the user.  So we log the errors and send
+        # the user to the shopping cart page always, where they can reasonably discern the status of their cart,
+        # whether things got added, etc
+
+        shoppingcart.views.add_course_to_cart(request, course_id)
+        return HttpResponse(
+            reverse("shoppingcart.views.show_cart")
+        )
+
+    elif action == "unenroll":
+        if not CourseEnrollment.is_enrolled(user, course_id):
+            return HttpResponseBadRequest(_("You are not enrolled in this course"))
+        CourseEnrollment.unenroll(user, course_id)
+        course_id_dict = Location.parse_course_id(course_id)
+        dog_stats_api.increment(
+            "common.student.unenrollment",
+            tags=[u"org:{org}".format(**course_id_dict),
+                  u"course:{course}".format(**course_id_dict),
+                  u"run:{name}".format(**course_id_dict)]
+        )
+        return HttpResponse()
+    else:
+        return HttpResponseBadRequest(_("Enrollment action is invalid"))
+

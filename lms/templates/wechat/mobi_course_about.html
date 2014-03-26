@@ -194,7 +194,7 @@
 
 %if not registered:
 <div style="display: none;">
-    <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
+    <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('mobile_change_enrollment')}">
         <fieldset class="enroll_fieldset">
             <input name="course_id" type="hidden" value="${course.id}">
             <input name="enrollment_action" type="hidden" value="enroll">
