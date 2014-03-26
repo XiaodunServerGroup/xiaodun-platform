@@ -236,6 +236,8 @@ def mobi_course_info(request, course, action=None):
         "org": course.display_org_with_default,
         "course_number": course.display_number_with_default,
         "start_date": course.start.strftime("%Y-%m-%d"),
+        "course_category": course.course_category,
+        "course_level": course.course_level,
         "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
