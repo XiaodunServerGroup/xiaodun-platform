@@ -18,12 +18,10 @@ def page_title_breadcrumbs(*crumbs, **kwargs):
     """
     separator = kwargs.get("separator", " | ")
     if crumbs:
-#fix title to chinese
-#        return u'{}{}{}'.format(separator.join(crumbs), separator, platform_name())
-      return u'{}{}'.format(separator.join(crumbs), separator)
+        return u'{}{}{}'.format(separator.join(crumbs), separator, platform_name())
     else:
-#        return platform_name()
-      return None
+        return platform_name()
+
 @register.simple_tag(name="page_title_breadcrumbs", takes_context=True)
 def page_title_breadcrumbs_tag(context, *crumbs):
     """
