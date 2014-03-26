@@ -52,8 +52,10 @@
     // welcome content
     .wrapper-content-header {
       @include linear-gradient($blue-l1,$blue,$blue-d1);
+      background-image: $homepage-bg-image;
       padding-bottom: ($baseline*4);
-      padding-top: ($baseline*4);
+      padding-top: 200px;
+      margin-top:-5px;
     }
 
     .content-header {

@@ -197,7 +197,6 @@
 
     .nav-account-user {
       .title {
-        max-width: ($baseline*6.5);
         @include blue-button;
 
         > .label {
@@ -297,10 +296,10 @@
     }
 
     .nav-pitch {
-      top: ($baseline/4);
+      top: 0;
 
       .nav-item {
-        margin-right: ($baseline/2);
+        margin-right: 0;
 
         &:last-child {
           margin-right: 0;
@@ -310,7 +309,6 @@
       .action-signup {
         @include blue-button;
         @include font-size(14);
-        padding: ($baseline/4) ($baseline/2);
         text-transform: uppercase;
         font-weight: 600;
       }
@@ -318,7 +316,6 @@
       .action-signin {
         @include blue-button;
         @include font-size(14);
-        padding: ($baseline/4) ($baseline/2);
         text-transform: uppercase;
         font-weight: 600;
       }
