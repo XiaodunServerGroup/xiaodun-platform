@@ -382,7 +382,7 @@ def mobi_disscussion_search(request, course_id):
     else:
         page = 0
 
-    return JsonResponse({'count': len(search_list), 'search-results': search_list, 'success': True, 'page': page, 'num_pages': num_pages})
+    return JsonResponse({'count': len(search_list), 'search_results': search_list, 'success': True, 'page': page, 'num_pages': num_pages})
 
 
 @require_GET
@@ -520,6 +520,56 @@ def user_profile(request, course_id, user_id):
             return render_to_response('discussion/user_profile.html', context)
     except User.DoesNotExist:
         raise Http404
+
+
+@login_required
+def mobi_user_discussion(request, course_id):
+    nr_transaction = newrelic.agent.current_transaction()
+    course_id = course_id.replace('.', '/')
+
+    re_info = {'success': False}
+
+    try:
+        course = get_course_with_access(request.user, course_id, 'load_forum')
+    except:
+        re_info['errmsg'] = 'can not find the course with id ' + course_id.replace('/', '.')
+        return JsonResponse(re_info)
+
+    try:
+        profiled_user = cc.User(id=str(request.user.id), course_id=course_id)
+
+        query_params = {
+            'page': request.GET.get('page', 1),
+            'per_page': THREADS_PER_PAGE,   # more than threads_per_page to show more activities
+        }
+
+        threads, page, num_pages = profiled_user.active_threads(query_params)
+        query_params['page'] = page
+        query_params['num_pages'] = num_pages
+
+        threads_list = []
+        if int(page) <= num_pages:
+            for thread in threads:
+                thread = cc.Thread.find(thread['id']).to_dict()
+
+                thread_info = {}
+                if thread:
+                    thread_info['id'] = thread['id']
+                    thread_info['course_id'] = thread['course_id'].replace('/', '.')
+                    thread_info['name'] = thread['title']
+                    thread_info['time'] = dateutil.parser.parse(thread['created_at']).strftime("%Y-%m-%d %H:%M:%S")
+                    thread_info['number'] = len(thread['children'])
+
+                    threads_list.append(thread_info)
+                else:
+                    continue
+        else:
+            page = 0
+
+        return JsonResponse({'success': True, 'threads_list': threads_list, 'page': page, 'num_pages': num_pages})
+    except:
+        re_info['errmsg'] = 'error occur!'
+        return JsonResponse(re_info)
 
 
 @login_required

@@ -389,6 +389,9 @@ if settings.COURSEWARE_ENABLED:
             url(r'^mobi/(?P<course_id>[\w\-~.:]+)/discussion/all',
                 'django_comment_client.forum.views.mobi_forum_course_discussion', name="mobi_forum_course_discussion"),
 
+            url(r'^mobi/(?P<course_id>[\w\-~.:]+)/user/discussions$',
+                'django_comment_client.forum.views.mobi_user_discussion', name="mobi_user_discussion"),
+
             url(r'^mobi/(?P<course_id>[\w\-~.:]+)/discussion/search',
                 'django_comment_client.forum.views.mobi_disscussion_search', name="mobi_disscussion_search"),
 

@@ -264,6 +264,7 @@ def parse_updates_html_str(html_str):
         course_html_parsed = html.fromstring(escaped)
 
     course_upd_collection = []
+
     if course_html_parsed.tag == 'section':
         for index, update in enumerate(course_html_parsed):
             if len(update) > 0:
@@ -286,11 +287,11 @@ def mobi_course_action(request, course_id, action):
     try:
         course_id_bak = course_id.replace('.', '/')
         if action in ["updates", "handouts", "structure"]:
-            course = get_course_with_access(request.user, course_id_bak, 'see_exists')
             user = request.user
             if not user:
                 user = AnonymousUser()
 
+            course = get_course_with_access(user, course_id_bak, 'load')
             registered = registered_for_course(course, user)
 
             if action == "updates" and registered:
