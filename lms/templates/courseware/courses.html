@@ -18,24 +18,35 @@
     'course_index_overlay_logo_file', settings.STATIC_URL + 'images/edx_bw.png')
 %>
 
+<style type="text/css">
+#search-form{
+    align: center;
+}
+#search-form input[type=text]{
+    width: 370px;
+}
+</style>
+<script type="text/javascript">
+$("#search-form").submit(function(){
+    $("#search-query").val($.trim($("#search-query").val()))
+})
+</script>
+
   <header class="search">
     <div class="inner-wrapper main-search">
     </div>
   </header>
 
   <section class="container">
-
-    <section>
-      <hgroup>
-              <form class="search-container search" action="/courses" method="get" id="search-form">
-              <input id="search-query" name="query" placeholder="请输入关键字..."  type="text" width="340px" class="search-query-10">
-                 <ul class="search-menu" style="display: none;">
-                 </ul>
-              <input value="搜索" type="submit" class="search-button-10">
-            </form>
-      </hgroup>
-
+    <section class="filter" style="z-index:150;">
+       <nav>
+        <form class="search-container search" id="search-form" action="/courses" method="get">
+          <input type="text" id="search-query" name="query" placeholder="请输入关键字..." value="">
+          <input type="submit" value="搜索">
+        </form>
+       </nav>
     </section>
+
     <section class="courses">
       <ul class="courses-listing">
         %for course in courses:
@@ -45,5 +56,6 @@
         %endfor
       </ul>
     </section>
+
   </section>
 </section>
