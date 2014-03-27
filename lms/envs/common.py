@@ -31,7 +31,6 @@ import json
 from path import path
 
 from .discussionsettings import *
-
 from lms.lib.xblock.mixin import LmsBlockMixin
 from xmodule.modulestore.inheritance import InheritanceMixin
 from xmodule.x_module import XModuleMixin, prefer_xmodules
@@ -234,6 +233,12 @@ FEATURES = {
     # Turn on/off Microsites feature
     'USE_MICROSITES': False,
 }
+
+########### course fields #############
+CONFIG_ROOT = path(__file__).abspath().dirname()
+with open(CONFIG_ROOT / "course_extend_fields.json") as course_extend_fields_file:
+    COURSE_EXTEND_FIELDS = json.load(course_extend_fields_file)
+
 
 # Used for A/B testing
 DEFAULT_GROUPS = []

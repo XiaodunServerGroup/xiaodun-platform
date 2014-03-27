@@ -18,6 +18,7 @@ from xblock.fields import Scope, List, String, Dict, Boolean, Integer
 from .fields import Date
 from xmodule.modulestore.locator import CourseLocator
 from django.utils.timezone import UTC
+from django.conf import settings
 
 
 log = logging.getLogger(__name__)
@@ -423,7 +424,18 @@ class CourseFields(object):
                                        default=False,
                                        scope=Scope.settings)
 
-class CourseDescriptor(CourseFields, SequenceDescriptor):
+
+
+#config CourseFields in course_extend_fields.json, able to override or extend, for chinese some settings.
+class CourseExtendFields(CourseFields):
+    grading_policy = Dict(help=settings.COURSE_EXTEND_FIELDS['grading_policy']['help'],
+                          default=settings.COURSE_EXTEND_FIELDS['grading_policy']['default'],
+                          scope=Scope.content)
+    checklists = List(scope=Scope.settings,
+                      default=settings.COURSE_EXTEND_FIELDS['checklists']['default'])
+    info_sidebar_name = String(scope=Scope.settings, default=settings.COURSE_EXTEND_FIELDS['info_sidebar_name']['default'])
+
+class CourseDescriptor(CourseExtendFields, SequenceDescriptor):
     module_class = SequenceModule
 
     def __init__(self, *args, **kwargs):
