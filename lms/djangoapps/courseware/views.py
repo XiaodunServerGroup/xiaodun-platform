@@ -187,26 +187,39 @@ def courses_list_handler(request, action):
     return return_fixed_courses(request, courses, action)
 
 
-def _course_json(course, course_id):
+def _course_json(course, course_id, url_name, position=0):
     locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)
     is_container = course.has_children
+
+    category = course.category
 
     result = {
         'display_name': course.display_name,
         'id': unicode(locator),
-        'category': course.category,
+        'category': category,
         'is_draft': getattr(course, 'is_draft', False),
         'is_container': is_container
     }
 
-    if is_container:
-        result['children'] = [_course_json(child, course_id) for child in course.get_children()]
+    if category == 'problem':
+        print result.encode('utf-8')
 
-    category = result['category']
-    if result['category'] == 'video':
+    if category in ['sequential', 'chapter']:
+        url_name = url_name + '/' + course.url_name
+    elif category == "vertical":
+        result['unit_url'] = url_name + '/' + str(position)
+    elif category == "video":
         result[category + '_url'] = course.html5_sources[0] if len(course.html5_sources) > 0 else ""
-    elif result['category'] == 'problem':
-        result[category + '_url'] = "http://music.163.com/"
+
+    if is_container:
+        children = []
+        for idx, child in enumerate(course.get_children()):
+            try:
+                children.append(_course_json(child, course_id, url_name, (idx + 1)))
+            except:
+                continue
+
+        result['children'] = children
 
     return result
 
@@ -259,13 +272,17 @@ def _course_info_content(html_parsed):
 
 
 def parse_updates_html_str(html_str):
+    course_upd_collection = []
+    if html_str == '':
+        return {"updates": course_upd_collection}
+
     try:
         course_html_parsed = html.fromstring(html_str)
     except:
         escaped = django.utils.html.eacape(html_str)
         course_html_parsed = html.fromstring(escaped)
 
-    course_upd_collection = []
+    print type(course_html_parsed)
 
     if course_html_parsed.tag == 'section':
         for index, update in enumerate(course_html_parsed):
@@ -303,7 +320,8 @@ def mobi_course_action(request, course_id, action):
                 course_handouts = get_course_info_section(request, course, action)
                 return JsonResponse({"handouts": course_handouts})
             elif action == "structure":
-                return JsonResponse(_course_json(course, course.location.course_id))
+                url_name = request.get_host() + '/m/courses/' + course_id_bak + '/courseware'
+                return JsonResponse(_course_json(course=course, course_id=course.location.course_id, url_name=url_name))
             else:
                 raise Exception
         else:
