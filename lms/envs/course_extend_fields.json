@@ -1,0 +1,209 @@
+{
+  "grading_policy": {
+    "help": "本课程定义的评分规则",
+    "default": {
+      "GRADER": [
+        {
+          "type": "家庭作业",
+          "min_count": 12,
+          "drop_count": 2,
+          "short_label": "HW",
+          "weight": 0.15
+        },
+        {
+          "type": "实验",
+          "min_count": 12,
+          "drop_count": 2,
+          "weight": 0.15
+        },
+        {
+          "type": "期中测验",
+          "short_label": "Midterm",
+          "min_count": 1,
+          "drop_count": 0,
+          "weight": 0.3
+        },
+        {
+          "type": "期末测验",
+          "short_label": "Final",
+          "min_count": 1,
+          "drop_count": 0,
+          "weight": 0.4
+        }
+      ],
+      "GRADE_CUTOFFS": {
+        "Pass": 0.5
+      }
+    }
+  },
+  "info_sidebar_name": {
+    "default": "课程讲义"
+  },
+  "checklists": {
+    "default": [
+    {
+      "short_description": "准备开始工作台(Studio)",
+      "items": [
+        {
+          "short_description": "添加课程队伍成员",
+          "long_description": "授予您的合作者权限编辑您的课程，实现协同合作。",
+          "is_checked": 0,
+          "action_url": "ManageUsers",
+          "action_text": "编辑课程队伍",
+          "action_external": 0
+        },
+        {
+          "short_description": "为您的课程设置主要日期",
+          "long_description": "在日程与细节节设置课程的学生入学与发布日期。",
+          "is_checked": 0,
+          "action_url": "SettingsDetails",
+          "action_text": "设置课程详细信息和日程",
+          "action_external": 0
+        },
+        {
+          "short_description": "起草课程评分标准",
+          "long_description": "设置您的任务类型和评分标准，即使你还没有创建所有的任务。",
+          "is_checked": 0,
+          "action_url": "SettingsGrading",
+          "action_text": "编辑评分设置",
+          "action_external": 0
+        },
+        {
+          "short_description": "探索其它工作台的检查表",
+          "long_description": "发现其他可用的课程制作工具，在你需要它时，得到帮助。",
+          "is_checked": 0,
+          "action_url": "",
+          "action_text": "",
+          "action_external": 0
+        }
+      ]
+    },
+    {
+      "short_description": "起草一份简略的课程大纲",
+      "items": [
+        {
+          "short_description": "创建第一个章节及其小节",
+          "long_description": "使用大纲来创建第一个章节及其小节。",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        },
+        {
+          "short_description": "设置章节发布日期",
+          "long_description": "为每个节指定的发布日期，并在发布日期对学生变成可见。",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        },
+        {
+          "short_description": "指明一个小节的评分类别",
+          "long_description": "设置一个评定的小节作为一个特定的任务类别。小节内作业算入学生的最终成绩。",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        },
+        {
+          "short_description": "重新安排课程内容",
+          "long_description": "使用拖放来重新安排您的课程。",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        },
+        {
+          "short_description": "课程章节重命名",
+          "long_description": "单击课程大纲的课程章节名进行重命名",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        },
+        {
+          "short_description": "删除课程内容",
+          "long_description": "删除任何不需要课程章节、节、和单元。删除之后不能恢复，请谨慎操作！",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        },
+        {
+          "short_description": "为你的大纲增加一个导师专用章节",
+          "long_description": "有些作者发现使用有用的一个章节为未排序的，进行中的工作。要做到这一点，创建一个章节，并设置发布日期在很久以后。",
+          "is_checked": 0,
+          "action_url": "CourseOutline",
+          "action_text": "编辑课程大纲",
+          "action_external": 0
+        }
+      ]
+    },
+    {
+      "short_description": "探索一些支持工具",
+      "items": [
+        {
+          "short_description": "探索工作台帮助论坛",
+          "long_description": "通过点击工作台中右上角您的名字来访问工作台帮助论坛",
+          "is_checked": 0,
+          "action_url": "http://help.edge.edx.org/",
+          "action_text": "访问工作台帮助",
+          "action_external": 1
+        },
+        {
+          "short_description": "报名参加Edx 101",
+          "long_description": "注册Edx 101、阅读课程创建的Edx 入门书",
+          "is_checked": 0,
+          "action_url": "https://edge.edx.org/courses/edX/edX101/How_to_Create_an_edX_Course/about",
+          "action_text": "注册Edx 101",
+          "action_external": 1
+        },
+        {
+          "short_description": "下载工作台相关文档",
+          "long_description": "以PDF格式搜索下载工作室的参考文档。",
+          "is_checked": 0,
+          "action_url": "http://files.edx.org/Getting_Started_with_Studio.pdf",
+          "action_text": "下载文档",
+          "action_external": 1
+        }
+      ]
+    },
+    {
+      "short_description": "起草关于课程页面",
+      "items": [
+        {
+          "short_description": "起草课程描述",
+          "long_description": "在Edx中的课程都有相关的页面，包含了该课程的视频、描述和其他信息。学生在您的课程报名前该仔细阅读该介绍。",
+          "is_checked": 0,
+          "action_url": "SettingsDetails",
+          "action_text": "编辑课程详细及日程页",
+          "action_external": 0
+        },
+        {
+          "short_description": "添加教师介绍",
+          "long_description": "显示导师信息给今后报名的学生是很有用的。包括关于页上教师介绍",
+          "is_checked": 0,
+          "action_url": "SettingsDetails",
+          "action_text": "编辑课程详细及日程页",
+          "action_external": 0
+        },
+        {
+          "short_description": "添加课程FAQ(常见问题及回答)",
+          "long_description": "包括一些经常被询问的关于课程的问题清单。",
+          "is_checked": 0,
+          "action_url": "SettingsDetails",
+          "action_text": "编辑课程详细及日程页",
+          "action_external": 0
+        },
+        {
+          "short_description": "添加课程要求",
+          "long_description": "让学生了解在报名课程之前，需要掌握的知识或者技术",
+          "is_checked": 0,
+          "action_url": "SettingsDetails",
+          "action_text": "编辑课程详细及日程页",
+          "action_external": 0
+        }
+      ]
+    }
+  ]}
+}
