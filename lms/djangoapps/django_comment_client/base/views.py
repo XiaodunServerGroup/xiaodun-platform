@@ -185,9 +185,9 @@ def mobi_create_thread(request, course_id, topic_id):
         anonymous_to_peers = False
 
     if 'title' not in post or not post['title'].strip():
-        return JsonError(_("Title can't be empty"))
+        return JsonResponse({'success': False, 'errmsg': "Title can't be empty"})
     if 'body' not in post or not post['body'].strip():
-        return JsonError(_("Body can't be empty"))
+        return JsonResponse({'success': False, 'errmsg': "Body can't be empty"})
 
     thread = cc.Thread(**extract(post, ['body', 'title']))
 
