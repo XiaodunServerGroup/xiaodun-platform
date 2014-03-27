@@ -25,9 +25,10 @@ Longer TODO:
 # pylint: disable=W0401, W0611, W0614
 
 import sys
+import json
 import lms.envs.common
 from lms.envs.common import (
-    USE_TZ, TECH_SUPPORT_EMAIL, PLATFORM_NAME, BUGS_EMAIL, DOC_STORE_CONFIG, ALL_LANGUAGES
+    USE_TZ, TECH_SUPPORT_EMAIL, PLATFORM_NAME, BUGS_EMAIL, DOC_STORE_CONFIG, ALL_LANGUAGES, COURSE_EXTEND_FIELDS
 )
 from path import path
 
@@ -90,6 +91,9 @@ FEATURES = {
 }
 ENABLE_JASMINE = False
 
+
+########### course fields #############
+COURSE_EXTEND_FIELDS = lms.envs.common.COURSE_EXTEND_FIELDS
 
 ############################# SET PATH INFORMATION #############################
 PROJECT_ROOT = path(__file__).abspath().dirname().dirname()  # /edx-platform/cms
