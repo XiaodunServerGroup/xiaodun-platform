@@ -295,14 +295,14 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
         <h3 class="title title-3">${_('Need help?')}</h3>
         <p>如果您对校盾不了解，同时开始使用时遇到困难，那么这些东西可能对您有所帮助。</p>
 
-        <!--ol class="list-actions">
+        <ol class="list-actions">
           <li class="action-item">
-            <a href="http://files.edx.org/Getting_Started_with_Studio.pdf" title="This is a PDF Document">${_('Get started by reading Studio\'s Documentation')}</a>
+            <a href="http://mooc.xiaodun.cn/faq.html" title="xiaodunbangzhu">常见问题</a>
           </li>
-          <li class="action-item">
+          <!--li class="action-item">
             <a href="http://help.edge.edx.org/discussion/new" class="show-tender" title="Use our feedback tool, Tender, to request help">${_('Request help with Studio')}</a>
-          </li>
-        </ol-->
+          </li-->
+        </ol>
       </div>
 
       % if course_creator_status=='disallowed_for_this_site' and settings.FEATURES.get('STUDIO_REQUEST_EMAIL',''):

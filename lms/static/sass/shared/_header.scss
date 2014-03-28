@@ -1,8 +1,8 @@
 header.global {
-  border-bottom: 1px solid $m-gray;
+  border-bottom: 1px solid #8A8C8F;
   box-shadow: 0 1px 5px 0 rgba(0,0,0, 0.1);
-  background: $header-bg;
-  height: 76px;
+  background: none repeat scroll 0 0 #FFFFFF;
+  height: 100px;
   position: relative;
   width: 100%;
   z-index: 10;
@@ -24,6 +24,10 @@ header.global {
     a {
       display: block;
     }
+  }
+
+  h1.logo img{
+    width:413px;
   }
 
   ol {

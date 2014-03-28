@@ -174,7 +174,7 @@
           </span>
         %else:
           <a href="#" class="register">
-            ${_("Register for {course.display_number_with_default}").format(course=course) | h}
+            ${_("加入 {course.display_number_with_default}").format(course=course) | h}
           </a>
           <div id="register_error"></div>
         %endif
@@ -261,12 +261,12 @@
                     )
                 ).replace(" ", "%20")
               %>
-              <a href="${tweet_action}" class="share">
+              <!--a href="${tweet_action}" class="share">
                 <img src="${static.url('images/social/twitter-sharing.png')}" alt="Tweet that you've registered for this course">
               </a>
               <a href="${facebook_link}" class="share">
                 <img src="${static.url('images/social/facebook-sharing.png')}" alt="Post a Facebook message to say you've registered for this course">
-              </a>
+              </a-->
               <a href="${email_subject}" class="share">
                 <img src="${static.url('images/social/email-sharing.png')}" alt="Email someone to say you've registered for this course">
               </a>

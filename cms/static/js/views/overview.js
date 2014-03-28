@@ -110,6 +110,7 @@ define(["domReady", "jquery", "jquery.ui", "underscore", "gettext", "js/views/fe
                     saving.hide();
                     closeModalNew();
                 });
+        location.reload();
         };
 
         var addNewSection = function (e) {
@@ -133,6 +134,10 @@ define(["domReady", "jquery", "jquery.ui", "underscore", "gettext", "js/views/fe
             var parent = $saveButton.data('parent');
             var category = $saveButton.data('category');
             var display_name = $(this).find('.new-section-name').val();
+            if(display_name == ''){
+               alert("章节名字不能为空,请返回填写");
+            return false;
+            }
 
             analytics.track('Created a Section', {
                 'course': course_location_analytics,
