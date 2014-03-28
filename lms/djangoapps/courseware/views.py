@@ -28,7 +28,7 @@ from courseware.courses import (get_courses, get_course_with_access, sort_by_ann
 import courseware.tabs as tabs
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
-from .module_render import toc_for_course, get_module_for_descriptor
+from .module_render import toc_for_course, get_module_for_descriptor, get_module
 from courseware.models import StudentModule, StudentModuleHistory
 from course_modes.models import CourseMode
 
@@ -201,9 +201,6 @@ def _course_json(course, course_id, url_name, position=0):
         'is_container': is_container
     }
 
-    if category == 'problem':
-        print result.encode('utf-8')
-
     if category in ['sequential', 'chapter']:
         url_name = url_name + '/' + course.url_name
     elif category == "vertical":
@@ -314,8 +311,19 @@ def mobi_course_action(request, course_id, action):
             registered = registered_for_course(course, user)
 
             if action == "updates" and registered:
-                course_updates = get_course_info_section(request, course, action)
-                return JsonResponse(parse_updates_html_str(course_updates))
+                # course_updates = get_course_info_section(request, course, action)
+                loc = Location(course.location.tag, course.location.org, course.location.course, 'course_info', action)
+                field_data_cache = FieldDataCache([], course.id, request.user)
+                course_module = get_module(
+                    user,
+                    request,
+                    loc,
+                    field_data_cache,
+                    course.id,
+                    wrap_xmodule_display=False,
+                    static_asset_path=course.static_asset_path
+                )
+                return JsonResponse({'updates': course_module.items})
             elif action == "handouts" and registered:
                 course_handouts = get_course_info_section(request, course, action)
                 return JsonResponse({"handouts": course_handouts})
