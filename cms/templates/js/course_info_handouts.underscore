@@ -8,7 +8,7 @@
 <% } else {%>
   <p>${_("You have no handouts defined")}</p>
 <% } %>
-<form class="edit-handouts-form" style="display: block;">
+<form class="edit-handouts-form" style="display: none;">
   <div class="message message-status error" name="handout_html_error" id="handout_error"><%=gettext("There is invalid code in your content. Please check to make sure it is valid HTML.")%></div>
   <div class="row">
     <textarea class="handouts-content-editor text-editor"></textarea>

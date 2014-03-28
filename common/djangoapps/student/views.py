@@ -563,11 +563,7 @@ def mobi_change_enrollment(request):
         return HttpResponseBadRequest('Only supports json requests')
 
     user = request.user
-    print "-----------------------request body-----------------------------"
-    print request.body
     params = eval(request.body)
-    print "------------------------params data------------------------------"
-    print params
 
     if 'action' in params and 'courseid' in params:
         action, course_id = params["action"], params['courseid']
@@ -582,13 +578,10 @@ def mobi_change_enrollment(request):
     else:
         course_ids_list = course_id
 
-    print "------------------------course id list--------------------------"
-    print course_ids_list
-
     success_oper = []
     if action == 'enroll':
         for c in course_ids_list:
-            c = c.replace('.', '/')
+            c = unicode(c.replace('.', '/'))
             try:
                 course = course_from_id(c)
             except ItemNotFoundError:
@@ -624,9 +617,6 @@ def mobi_change_enrollment(request):
         return JsonResponse({"success": True, 'success_enrolled': success_oper})
     elif action == 'unenroll':
         for c in course_ids_list:
-            print "-----------------course------------------------"
-            print course_id
-
             c = c.replace('.', '/')
 
             if not CourseEnrollment.is_enrolled(user, c):

@@ -223,26 +223,17 @@ def _course_json(course, course_id, url_name, position=0):
 
 def mobi_course_info(request, course, action=None):
     course_logo = course_image_url(course)
-    imgurl = course_logo
-
-    if action in ["homefalls", "all", "hot", "latest", "my", "search"]:
-        try:
-            course_mini_info = course.id.split('/')
-            asset_location = StaticContent.compute_location(course_mini_info[0], course_mini_info[1], 'mobi-logo-img.jpg')
-            imgurl = StaticContent.get_url_path_from_location(asset_location)
-        except:
-            print "=========================fail load mobi image==============================="
-            print "We will load this info to log"
+    host = request.get_host()
 
     try:
         user = request.user
     except:
         user = AnonymousUser()
 
-    return {
+    result = {
         "id": course.id.replace('/', '.'),
         "name": course.display_name_with_default,
-        "logo": request.get_host() + course_image_url(course),
+        "logo": host + course_logo,
         "org": course.display_org_with_default,
         "course_number": course.display_number_with_default,
         "start_date": course.start.strftime("%Y-%m-%d"),
@@ -251,8 +242,22 @@ def mobi_course_info(request, course, action=None):
         "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
-        "imgurl": request.get_host() + imgurl
     }
+
+    def compute_action_imgurl(imgname):
+        course_mini_info = course.id.split('/')
+        asset_location = StaticContent.compute_location(course_mini_info[0], course_mini_info[1], imgname)
+
+        return host + StaticContent.get_url_path_from_location(asset_location)
+
+
+    for imgname in ['mobi', 'mobi_r', 'ott_r']:
+        try:
+            result[imgname] = compute_action_imgurl(imgname + '_logo.jpg')
+        except:
+            result[imgname] = host + course_logo
+
+    return result
 
 
 def _course_info_content(html_parsed):

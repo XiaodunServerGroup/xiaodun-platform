@@ -5,7 +5,6 @@ define(["backbone", "js/models/course_update"], function(Backbone, CourseUpdateM
     */
     var CourseUpdateCollection = Backbone.Collection.extend({
         // instantiator must set url
-
         model : CourseUpdateModel
     });
     return CourseUpdateCollection;
