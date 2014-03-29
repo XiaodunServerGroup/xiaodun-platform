@@ -254,6 +254,9 @@ if settings.COURSEWARE_ENABLED:
         url(r'^mobi/courses-list/(?P<action>(homefalls|hot|latest|all|my|rolling|search))',
             'courseware.views.courses_list_handler', name="courses_list_handler"),
 
+        url(r'^mobi/courses-list/category/(?P<course_category>(M|T))($|/level/(?P<course_level>(J|M|S))$)',
+            'courseware.views.course_attr_list_handler', name="course_attr_list_handler"),
+
         #Inside the course
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/$',
             'courseware.views.course_info', name="course_root"),
