@@ -235,10 +235,10 @@ FEATURES = {
 }
 
 ########### course fields #############
-CONFIG_ROOT = path(__file__).abspath().dirname()
-with open(CONFIG_ROOT / "course_extend_fields.json") as course_extend_fields_file:
-    COURSE_EXTEND_FIELDS = json.load(course_extend_fields_file)
-
+# CONFIG_ROOT = path(__file__).abspath().dirname()
+# with open(CONFIG_ROOT / "course_extend_fields.json") as course_extend_fields_file:
+#     COURSE_EXTEND_FIELDS = json.load(course_extend_fields_file)
+# print COURSE_EXTEND_FIELDS
 
 # Used for A/B testing
 DEFAULT_GROUPS = []

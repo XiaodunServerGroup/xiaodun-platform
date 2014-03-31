@@ -28,7 +28,7 @@ import sys
 import json
 import lms.envs.common
 from lms.envs.common import (
-    USE_TZ, TECH_SUPPORT_EMAIL, PLATFORM_NAME, BUGS_EMAIL, DOC_STORE_CONFIG, ALL_LANGUAGES, COURSE_EXTEND_FIELDS
+    USE_TZ, TECH_SUPPORT_EMAIL, PLATFORM_NAME, BUGS_EMAIL, DOC_STORE_CONFIG, ALL_LANGUAGES
 )
 from path import path
 
@@ -93,7 +93,7 @@ ENABLE_JASMINE = False
 
 
 ########### course fields #############
-COURSE_EXTEND_FIELDS = lms.envs.common.COURSE_EXTEND_FIELDS
+# COURSE_EXTEND_FIELDS = lms.envs.common.COURSE_EXTEND_FIELDS
 
 ############################# SET PATH INFORMATION #############################
 PROJECT_ROOT = path(__file__).abspath().dirname().dirname()  # /edx-platform/cms
