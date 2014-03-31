@@ -126,19 +126,42 @@ def toc_for_course(user, request, course, active_chapter, active_section, field_
                          'active': chapter.url_name == active_chapter})
     return chapters
 
-def mobi_toc_for_course(user, request, course):
+def mobi_toc_for_course(user, request, course, active_chapter=None, active_section=None, field_data_cache=None):
 
-    course_module = get_module_for_descriptor(user, request, course, '', course.id)
+    course_module = get_module_for_descriptor(user, request, course, field_data_cache, course.id)
     if course_module is None:
         return None
+    show_url = list()
     chapters = list()
     for chapter in course_module.get_display_items():
+        chapter_descriptor = course.get_child_by(lambda m: m.url_name == chapter.url_name)
+        chapter_module = course_module.get_child_by(lambda m: m.url_name == chapter.url_name)
         sections = list()
-        for section in chapter.get_display_items():
-            units = list()
+        for section in chapter_module.get_display_items():
             i = 0
-            for unit in section.get_display_items():
-                i = i + 1
+            section_descriptor = chapter_descriptor.get_child_by(lambda m: m.url_name == section.url_name)
+
+            section_descriptor = modulestore().get_instance(course.id, section_descriptor.location, depth=None)
+
+            section_field_data_cache = FieldDataCache.cache_for_descriptor_descendents(
+                course.id, user, section_descriptor, depth=None)
+
+            section_module = get_module_for_descriptor(request.user,
+                request,
+                section_descriptor,
+                section_field_data_cache,
+                course.id,
+                i
+            )
+
+            units = list()
+            for unit in section_module.get_display_items():
+                for child in unit.get_display_items():
+                    if child.get_icon_class()=='video':
+                        if child.source:
+                            show_url.append(child.source)
+                        elif child.html5_sources:
+                            show_url.append(child.html5_sources[0])
                 units.append({'display_name': unit.display_name_with_default,
                               'location': i,
                               'type': unit.get_icon_class()})
@@ -146,13 +169,17 @@ def mobi_toc_for_course(user, request, course):
                              'url_name': section.url_name,
                              'format': section.format if section.format is not None else '',
                              'due': get_extended_due_date(section),
+                             'active': False,
                              'graded': section.graded,
                              'units': units
                             })
         chapters.append({'display_name': chapter.display_name_with_default,
                          'url_name': chapter.url_name,
-                         'sections': sections,})
+                         'sections': sections,
+                         'show_url': show_url})
     return chapters
+
+
 
 def get_module(user, request, location, field_data_cache, course_id,
                position=None, not_found_ok=False, wrap_xmodule_display=True,

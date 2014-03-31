@@ -71,14 +71,30 @@ ${page_title_breadcrumbs(course_name())}
 <script type="text/template" id="image-modal-tpl">
   <%static:include path="js/imageModal.underscore" />
 </script>
-
 </%block>
 
-% if accordion:
-  <%include file="/dashboard/_dashboard_prompt_midcourse_reverify.html" />
-% endif
-
+ <script type="text/javascript" src="${static.url('js/jwplayer/jwplayer.js')}"></script>
+   <script type="text/javascript">
+       $(document).ready(function(){
+           $( window ).scroll(function() {
+              $( "#show_context" ).css( "top", document.body.scrollTop + 20);
+           });
+       });
+    </script>
 <div class="container" style="min-width: 20px">
+          <input type="hidden" id="show_url" value="${show_url}"/>
+           <script type="text/javascript">
+            var strJson = document.getElementById("show_url")
+           </script>
+          <div id="myElement" style="position: absolute;z-index: 1;">Loading the player...</div>
+            <script type="text/javascript">
+                jwplayer("myElement").setup({
+                    file: strJson.value,
+                    width: '100%',
+					aspectratio: '16:6'
+                });
+            </script>
+  <a href="/m/show_video/?showurl=${show_url}" style="position: absolute;left: 0px;top: 20px;" target="_blank"><img src="${static.url('images/remote_play_button.jpg')}" id="show_context" style="position:relative;z-index:2;left: 0px;top: 20px;width: 90px; height: 100px" /></a>
   <div class="course-wrapper">
 
 % if accordion:
@@ -97,5 +113,4 @@ ${page_title_breadcrumbs(course_name())}
 
   </div>
 </div>
-
 
