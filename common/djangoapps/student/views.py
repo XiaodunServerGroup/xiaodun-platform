@@ -612,7 +612,7 @@ def mobi_change_enrollment(request):
             )
 
             CourseEnrollment.enroll(user, course.id, mode=current_mode.slug)
-            success_oper.append(c)
+            success_oper.append(c.replace('/', '.'))
 
         return JsonResponse({"success": True, 'success_enrolled': success_oper})
     elif action == 'unenroll':
@@ -623,7 +623,7 @@ def mobi_change_enrollment(request):
                 continue
 
             CourseEnrollment.unenroll(user, c)
-            success_oper.append(c)
+            success_oper.append(c.replace('/', '.'))
             course_id_dict = Location.parse_course_id(c)
             dog_stats_api.increment(
                 "common.student.unenrollment",
