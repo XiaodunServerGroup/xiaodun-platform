@@ -424,16 +424,6 @@ class CourseFields(object):
                                        default=False,
                                        scope=Scope.settings)
 
-    def __init__(self,p):
-        grading_policy = Dict(help=settings.COURSE_EXTEND_FIELDS['grading_policy']['help'],
-                          default=settings.COURSE_EXTEND_FIELDS['grading_policy']['default'],
-                          scope=Scope.content)
-        checklists = List(scope=Scope.settings,
-                      default=settings.COURSE_EXTEND_FIELDS['checklists']['default'])
-        info_sidebar_name = String(scope=Scope.settings, default=settings.COURSE_EXTEND_FIELDS['info_sidebar_name']['default'])
-
-
-
 
 class CourseDescriptor(CourseFields, SequenceDescriptor):
     module_class = SequenceModule
