@@ -47,6 +47,12 @@ define(["js/views/baseview", "underscore", "codemirror", "js/views/feedback_noti
             // parse this.$preview.html()
 //            this.$codeMirror = CourseInfoHelper.editWithCodeMirror(
 //                self.model, 'data', self.options['base_asset_url'], this.$editor.get(0));
+
+            // clear input
+            $.each($('#add_handout_item_input').children('input'), function(idx, item){
+                $(item).val("");
+            });
+            
             var insert_trs = ""
             this.$table = $('.handouts-content-show,text-talbe');
             this.$table.html('')
