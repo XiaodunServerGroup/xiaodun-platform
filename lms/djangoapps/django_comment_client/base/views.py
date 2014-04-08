@@ -249,6 +249,37 @@ def mobi_delete_thread(request, thread_id):
 
 
 @login_required
+@csrf_exempt
+def mobi_batch_threads_delete(request):
+    """
+    given a list of thread_ids, and delete them
+    """
+    if request.method != "DELETE":
+        return JsonResponse({'success': False, 'errmsg': "only support delete method!"})
+
+    try:
+        thread_ids_hash = eval(request.body)
+    except:
+        return JsonResponse({'success': False, "errmsg": "params error!"})
+
+    if not isinstance(thread_ids_hash["delete_ids"], list):
+        return JsonResponse({"success": False, "errmsg": "only supports list!"})
+
+    suc_del_arr = []
+
+    for thread_id in thread_ids_hash['delete_ids']:
+        try:
+            thread = cc.Thread.find(thread_id)
+            thread.delete()
+        except:
+            continue
+
+        suc_del_arr.append(thread_id)
+
+    return JsonResponse({"success": True, "suc_deleted_arr": suc_del_arr})
+
+
+@login_required
 # @permitted
 # @csrf_exempt
 def mobi_discussion(request, course_id, thread_id):

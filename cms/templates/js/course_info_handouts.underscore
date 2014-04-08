@@ -20,7 +20,7 @@
     <span id='add_handout_item_input' style="display: none">
         <input type="textfield" name='handout_title'/>
         <input type="textfield" name="handout_url" />
-        <a href="#" onclick='add_handout_item(this)'>添加</a>
+        <a href="#" onclick='add_handout_item(this)' class='save_handout_item'>添加</a>
     </span>
   </div>
   <div class="row">

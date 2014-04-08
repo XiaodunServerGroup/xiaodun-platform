@@ -4479,7 +4479,7 @@ msgstr "寻找关于登录进入您的 {platform_name} 账户的帮助？"
 
 #: lms/templates/login-sidebar.html
 msgid "View our help section for answers to commonly asked questions."
-msgstr "查看我们的帮助区以寻找常见问题解答。"
+msgstr "【查看帮助】"
 
 #: lms/templates/login.html
 msgid "Log into your {platform_name} Account"

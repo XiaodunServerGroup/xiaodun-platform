@@ -374,9 +374,8 @@ if settings.COURSEWARE_ENABLED:
     # discussion forums live within courseware, so courseware must be enabled first
     if settings.FEATURES.get('ENABLE_DISCUSSION_SERVICE'):
         urlpatterns += (
-            url(r'^courses/mobi/threads/(?P<thread_id>[\w\-]+)/delete$',
-                'django_comment_client.base.views.mobi_delete_thread'),
-
+            # url(r'^courses/mobi/threads/(?P<thread_id>[\w\-]+)/delete$',
+            #     'django_comment_client.base.views.mobi_delete_thread'),
             url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/discussion/',
                 include('django_comment_client.urls')),
             url(r'^notification_prefs/enable/', 'notification_prefs.views.ajax_enable'),
@@ -408,6 +407,8 @@ if settings.COURSEWARE_ENABLED:
 
             url(r'^mobi/(?P<course_id>[\w\-~.:]+)/discussion/search',
                 'django_comment_client.forum.views.mobi_disscussion_search', name="mobi_disscussion_search"),
+
+            url(r'^mobi/threads/batch/delete$', 'django_comment_client.base.views.mobi_batch_threads_delete', name='mobi_batch_threads_delete'),
 
             url(r'^mobi/courses/(?P<course_id>[\w\-~.:]+)/discussion/(?P<thread_id>[\w\-]+)($|/(?P<action>(reply|replies)))',
                 'django_comment_client.base.views.mobi_thread_handler', name="mobi_thread_handler"),
