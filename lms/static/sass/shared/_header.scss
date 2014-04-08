@@ -33,6 +33,8 @@ header.global {
   ol {
     &.left {
       float: left;
+      margin-left: -200px;
+      margin-top: 30px;
     }
 
     &.guest {

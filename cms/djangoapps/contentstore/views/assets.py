@@ -83,8 +83,6 @@ def _asset_index(request, location):
     old_location = loc_mapper().translate_locator_to_location(location)
 
     course_module = modulestore().get_item(old_location)
-    print(course_module)
-    print(location.url_reverse('assets/', ''))
     return render_to_response('asset_index.html', {
         'context_course': course_module,
         'asset_callback_url': location.url_reverse('assets/', '')

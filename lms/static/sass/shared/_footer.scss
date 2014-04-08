@@ -1,26 +1,10 @@
-
 .wrapper-footer{
-   position:relative;width:100%;margin:0 0 20px 0;padding:20px; FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#f0f0f0,endColorStr=#ffffff);
-   /*IE6*/background:-moz-linear-gradient(top,#f0f0f0,#ffffff);
-   /*非IE6的其它*/background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0f0f0), to(#ffffff));
-   /*非IE6的其它*/ border-top:#fa6727 solid 3px;}
+      position:relative;width:100%;padding:20px 0; FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#f0f0f0,endColorStr=#ffffff);
+      /*IE6*/background:-moz-linear-gradient(top,#f0f0f0,#ffffff);/*非IE6的其它*/background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#f0f0f0), to(#ffffff));
+      border-top:#fa6727 solid 3px;}
 .wrapper-footer footer.primary{
-   *zoom:1;max-width:1280px;min-width:900px;width:100%;margin:0 auto;color:#989898
-   }
-.wrapper-footer footer.primary:before,.wrapper-footer footer.primary:after{
-   content:" ";display:table
-   }
-.wrapper-footer footer.primary:after{
-   clear:both}.wrapper-footer footer.primary .colophon{
-   width:100%;float:left;/*margin-right:14.28571%*/ text-align:center; line-height:24px;
-   }
-.wrapper-footer footer.primary a{color:#2392c3}
-.wrapper-footer footer.primary a:hover,.wrapper-footer footer.primary a:active{color:#009fe6}
-.wrapper-footer footer.primary .nav-peripheral{width:48.93617%;float:right;text-align:right}
-.wrapper-footer footer.primary .nav-peripheral .nav-item{display:inline-block;margin-right:5px}
-.wrapper-footer footer.primary .nav-peripheral .nav-item:last-child{margin-right:0}
-.wrapper-footer footer.primary .nav-peripheral .nav-item a{border-radius:2px;padding:10px 10px;background:transparent}
-.wrapper-footer footer.primary .nav-peripheral .nav-item a [class^="icon-"]{
-   -webkit-transition:top 0.25s ease-in-out 0.25s;-moz-transition:top 0.25s ease-in-out 0.25s;transition:top 0.25s ease-in-out 0.25s;font-size:
-   15px;font-size:1.5rem;display:inline-block;vertical-align:middle;margin-right:5px}.wrapper-sock{*zoom:1;position:relative;margin:40px 0 0 0;border-top:1px solid #e5e5e5;width:100%
-   }
+      *zoom:1;max-width:1280px;min-width:900px;width:100%;margin:0 auto;color:#989898
+      }
+.wrapper-footer footer.primary:before,.wrapper-footer footer.primary:after{content:" ";display:table}
+.wrapper-footer footer.primary:after{clear:both}
+.wrapper-footer footer.primary .colophon{width:100%;float:left; text-align:center; line-height:24px;font-size:13px;}

@@ -763,6 +763,12 @@ def mobi_directory(request, course_id):
     course = get_course_with_access(user, course_id, 'load', depth=2)
     staff_access = has_access(user, course, 'staff')
     registered = registered_for_course(course, user)
+
+    motoc = mobi_toc_for_course(user, request, course)
+    show_list = list()
+    for toc in motoc:
+        videolist = toc['show_url'][0]
+        show_list.append(videolist)
     if not registered:
         # TODO (vshnayder): do course instructors need to be registered to see course?
         log.debug(u'User %s tried to view course %s but is not enrolled', user, course.location.url())
@@ -790,6 +796,7 @@ def mobi_directory(request, course_id):
             'masquerade': masq,
             'xqa_server': settings.FEATURES.get('USE_XQA_SERVER', 'http://xqa:server@content-qa.mitx.mit.edu/xqa'),
             'reverifications': fetch_reverify_banner_info(request, course_id),
+            'show_url': show_list[0],
             }
         result = render_to_response('wechat/mobi_directory.html', context)
     except Exception as e:
@@ -814,6 +821,7 @@ def mobi_directory(request, course_id):
                 log.exception("Error while rendering courseware-error page")
                 raise
     return result
+
 
 def mobi_render_accordion(request, course):
     user = User.objects.prefetch_related("groups").get(id=request.user.id)
@@ -1183,3 +1191,7 @@ def submission_history(request, course_id, student_username, location):
     }
 
     return render_to_response('courseware/submission_history.html', context)
+
+def show_video(request):
+    showurl = request.GET.get("showurl","")
+    return render_to_response('wechat/mobi_video.html',{"showurl":showurl})

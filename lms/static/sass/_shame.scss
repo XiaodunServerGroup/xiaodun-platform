@@ -56,11 +56,18 @@
 }
 
 // primary button
+// edit for xiaodun primary
 %m-btn-primary {
-  @extend %m-btn-base;
-  box-shadow: 0 2px 1px 0 $action-primary-shadow;
-  background: $action-primary-bg;
-  color: $action-primary-fg;
+    @extend %m-btn-base;
+    box-shadow: 0 2px 1px 0 $action-primary-shadow;
+    background-color: #FF6600;
+    border: 1px solid #CC5100;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    margin: 0 0 0 10px;
+    height: 30px;
+    line-height: 10px;
 
   &:hover, &:active, &:focus {
     background: $action-primary-focused-bg;
