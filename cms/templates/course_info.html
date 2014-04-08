@@ -38,8 +38,62 @@ require(["domReady!", "jquery", "js/collections/course_update", "js/models/modul
         handouts : course_handouts
         })
     });
+
     editor.render();
-});
+  });
+
+    function remove_tr_item(obj) {
+        var parent_tr = $(obj).parents('tr');
+        if (parent_tr != null) {
+            $(parent_tr).remove();
+
+            sync_table_handout()
+        }
+    }
+
+    function sync_table_handout(){
+        var replace_str = "<ol>";
+        $.each($('.handouts-content-show.text-talbe').find('tr'), function(idx, item){
+            var item_data = []
+            $(item).children('td').map(function(){
+                item_data.push($(this).html());
+            });
+            replace_str += "<li><a href='" + item_data[1] + "'>" + item_data[0] + "</a></li>"
+        });
+        replace_str += "</ol>"
+
+        $('.handouts-content-editor.text-editor').val(replace_str);
+    }
+
+    function show_add_handout_item(obj){
+        $('#add_handout_item_input').show();
+    }
+
+    function add_handout_item(obj){
+        var inputs = $($(obj).parent('span')).children('input');
+        console.log(inputs);
+        var append_str = "<tr>"
+        $.each(inputs, function(idx, item){
+            var ival = $(item).val();
+            var name = $(item).attr('name');
+            if (ival == ''){
+                alert(name + 'can not be empty!');
+                return false;
+            }
+            append_str += ("<td>" + ival + "</td>");
+        });
+
+        append_str += ("<td><a href='#' onclick='remove_tr_item(this)'>-</a></td>" + "</tr>");
+
+        var last_tr = $('.handouts-content-show.text-talbe').find('tr').last()[0];
+        if (last_tr == null) {
+            $('.handouts-content-show.text-talbe').append(append_str)
+        } else {
+            $(last_tr).after(append_str)
+        }
+
+        sync_table_handout()
+    }
   </script>
 </%block>
 
@@ -55,7 +109,7 @@ require(["domReady!", "jquery", "js/collections/course_update", "js/models/modul
         <h3 class="sr">${_('Page Actions')}</h3>
         <ul>
           <li class="nav-item">
-            <a href="#" class=" button new-button new-update-button"><i class="icon-plus"></i> ${_('New Update')}</a>
+            <a href="#" class="button new-button new-update-button"><i class="icon-plus"></i> ${_('New Update')}</a>
           </li>
         </ul>
       </nav>

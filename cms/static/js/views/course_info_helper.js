@@ -2,6 +2,7 @@ define(["codemirror", 'js/utils/handle_iframe_binding', "utility"],
     function(CodeMirror, IframeBinding) {
         var editWithCodeMirror = function(model, contentName, baseAssetUrl, textArea) {
             var content = rewriteStaticLinks(model.get(contentName), baseAssetUrl, '/static/');
+
             model.set(contentName, content);
             var $codeMirror = CodeMirror.fromTextArea(textArea, {
                 mode: "text/html",
@@ -14,6 +15,11 @@ define(["codemirror", 'js/utils/handle_iframe_binding', "utility"],
             $codeMirror.setValue(content);
             $codeMirror.clearHistory();
             return $codeMirror;
+        };
+
+        var editWithoutCodeMirror = function(model, contentName, baseAssetUrl, textArea) {
+            var content = rewriteStaticLinks(model.get(contentName), baseAssetUrl, '/static/');
+            model.set(contentName, content);
         };
 
         var changeContentToPreview = function (model, contentName, baseAssetUrl) {

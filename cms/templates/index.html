@@ -99,18 +99,20 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                 </li>
                 <li class="field text required" id="field-course-category">
                     <label for="new-course-category">课程分类</label>
-                    <select class="new-course-category" id="new-course-category" name="new-course-category" aria-required="false" placeholder="课程分类">
-                        <option value="T">技术</option>
-                        <option value="M">管理</option>
-                    </select>
+                    <!--<select class="new-course-category" id="new-course-category" name="new-course-category" aria-required="false" placeholder="课程分类">-->
+                        <!--<option value="T">技术</option>-->
+                        <!--<option value="M">管理</option>-->
+                    <!--</select>-->
+                    <script src="${settings.XIAODUN_BACK_HOST}/ossFront/dictionaryRs.jsp?divid=field-course-category&code=course_category&selectname=new-course-category"></script>
                 </li>
                 <li class="field text required" id="field-course-level">
                     <label for="new-course-level">课程级别</label>
-                    <select class="new-course-level" id="new-course-level" name="new-course-category" aria-required="false" placeholder="课程分类">
-                        <option value="J">初级</option>
-                        <option value="M">中级</option>
-                        <option value="S">高级</option>
-                    </select>
+                    <!--<select class="new-course-level" id="new-course-level" name="new-course-level" aria-required="false" placeholder="课程分类">-->
+                        <!--<option value="J">初级</option>-->
+                        <!--<option value="M">中级</option>-->
+                        <!--<option value="S">高级</option>-->
+                    <!--</select>-->
+                    <script src="${settings.XIAODUN_BACK_HOST}/ossFront/dictionaryRs.jsp?divid=field-course-level&code=course_level&selectname=new-course-level"></script>
                 </li>
                 <li class="field text required" id="field-organization">
                   <label for="new-course-org">${_("Organization")}</label>
@@ -118,7 +120,6 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                   <span class="tip">${_("The name of the organization sponsoring the course.")}  <strong>${_("Note: This is part of your course URL, so no spaces or special characters are allowed.")}</strong> ${_("This cannot be changed, but you can set a different display name in Advanced Settings later.")}</span>
                   <span class="tip tip-error is-hiding"></span>
                 </li>
-
                 <li class="field text required" id="field-course-number">
                   <label for="new-course-number">${_("Course Number")}</label>
                   <input class="new-course-number" id="new-course-number" type="text" name="new-course-number" aria-required="true" placeholder="${_('e.g. CS101')}" />

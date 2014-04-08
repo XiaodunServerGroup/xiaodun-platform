@@ -12,6 +12,16 @@
   <div class="message message-status error" name="handout_html_error" id="handout_error"><%=gettext("There is invalid code in your content. Please check to make sure it is valid HTML.")%></div>
   <div class="row">
     <textarea class="handouts-content-editor text-editor"></textarea>
+    <table class="handouts-content-show text-talbe">
+    </table>
+  </div>
+  <div class="row">
+    <span onclick='show_add_handout_item(this)'>+</span><br/>
+    <span id='add_handout_item_input' style="display: none">
+        <input type="textfield" name='handout_title'/>
+        <input type="textfield" name="handout_url" />
+        <a href="#" onclick='add_handout_item(this)'>添加</a>
+    </span>
   </div>
   <div class="row">
     <a href="#" class="save-button">保存</a>
