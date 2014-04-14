@@ -20,13 +20,12 @@ metadata:
         [explanation]
 data: |
   <problem>
-  <p>Dropdown problems give a limited set of options for students to respond with, and present those options
-  in a format that encourages them to search for a specific answer rather than being immediately presented with options from which to recognize the correct answer.</p>
+  <p>下拉菜单的问题给出了一组有限的选项让学生回复，并且以某种形式呈现这些选项，帮助他们寻找一个明确的答案，而不是即刻呈现的选项。</p>
 
   <p>
-  The answer options and the identification of the correct answer is defined in the <b>optioninput</b> tag. 
+  答案选项和正确答案的标识以<b>optioninput</b>标签定义。
   </p>
-  <p>Translation between Dropdown and __________ is extremely straightforward:
+  <p>下拉菜单和__________之间的转换是非常简单的：
       
   <optionresponse>
         <optioninput options="('Multiple Choice','Text Input','Numerical Input','External Response','Image Response')" correct="Multiple Choice" label="Translation between Dropdown and __________ is extremely straightforward"></optioninput>

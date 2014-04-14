@@ -166,7 +166,7 @@ msgstr "课件"
 #: common/lib/xmodule/xmodule/course_module.py
 #: lms/djangoapps/instructor/views/instructor_dashboard.py
 msgid "Course Info"
-msgstr "课程信息"
+msgstr "更新"
 
 #. Translators: "Discussion" is the title of the course forum page
 #. Translators: "Discussion" is the title of the course forum page
@@ -184,7 +184,7 @@ msgstr "讨论"
 #: common/lib/xmodule/xmodule/course_module.py
 #: lms/djangoapps/course_wiki/views.py lms/templates/wiki/base.html
 msgid "Wiki"
-msgstr "维基"
+msgstr "资料"
 
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: "Progress" is the title of the student's grade information
@@ -1382,11 +1382,11 @@ msgstr "课程网页已经自动创建"
 
 #: lms/djangoapps/course_wiki/views.py
 msgid "Welcome to the edX Wiki"
-msgstr "欢迎访问edX Wiki"
+msgstr "欢迎访问校盾资料站"
 
 #: lms/djangoapps/course_wiki/views.py
 msgid "Visit a course wiki to add an article."
-msgstr "浏览课程维基添加课程标题"
+msgstr "浏览课程资料添加课程标题"
 
 #. Translators: 'Course Content' refers to the tab in the courseware
 #. that leads to the content of a course
@@ -1622,10 +1622,6 @@ msgstr "已加载课程 {0} {1} <br/> 错误："
 #: cms/templates/index.html cms/templates/settings.html
 msgid "Course Name"
 msgstr "课程名称"
-
-#: cms/templates/index.html
-msgid "Course Category"
-msgstr "课程分类"
 
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "Directory/ID"
@@ -3001,7 +2997,7 @@ msgstr "关闭模式"
 
 #: lms/templates/wiki/edit.html
 msgid "Wiki Preview"
-msgstr "Wiki预览"
+msgstr "文章预览"
 
 #. #-#-#-#-#  mako.po (edx-platform)  #-#-#-#-#
 #. Translators: this text gives status on if the modal interface (a menu or
@@ -3573,6 +3569,14 @@ msgstr "保存"
 #: lms/templates/verify_student/face_upload.html
 msgid "Cancel"
 msgstr "取消"
+
+#: lms/templates/wiki/includes/breadcrumbs.html
+msgid "clear"
+msgstr "清空"
+
+#: lms/templates/wiki/includes/breadcrumbs.html
+msgid "There are no articles in this level"
+msgstr "没有文章"
 
 #. Translators: this is a verb describing the action of viewing more details
 #: cms/templates/container_xblock_component.html
@@ -5831,7 +5835,7 @@ msgstr "搜索学生"
 
 #: lms/templates/courseware/info.html
 msgid "{course_number} Course Info"
-msgstr "{course_number} 课程信息"
+msgstr "{course_number} 更新"
 
 #: lms/templates/courseware/info.html lms/templates/courseware/info.html
 #: lms/templates/courseware/welcome-back.html
@@ -7116,10 +7120,6 @@ msgstr "基本课程信息"
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Name:"
 msgstr "课程名称："
-
-#: cms/templates/index.html
-msgid "Course Category"
-msgstr "课程分类"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Display Name:"
@@ -9379,7 +9379,7 @@ msgstr "使用课程更新来通知学生重要的日期或者考试，突出论
 #: cms/templates/edit-tabs.html cms/templates/export.html
 #: cms/templates/widgets/header.html
 msgid "Static Pages"
-msgstr "静态页面"
+msgstr "简介"
 
 #: cms/templates/edit-tabs.html
 msgid "New Page"
@@ -9413,7 +9413,7 @@ msgstr "预览课程的静态页面"
 msgid ""
 "The names of your Static Pages appear in your course's main navigation bar, "
 "along with Courseware, Course Info, Discussion, Wiki, and Progress."
-msgstr "您的静态页面名字将会在课程主页导航栏中显示，与课件，课程信息，讨论，维基和进度一起。"
+msgstr "您的静态页面名字将会在课程主页导航栏中显示，与课件，课程信息，讨论，资料和进度一起。"
 
 #: cms/templates/edit-tabs.html cms/templates/howitworks.html
 #: cms/templates/howitworks.html cms/templates/howitworks.html
@@ -10105,6 +10105,10 @@ msgstr "创建一个新课程"
 #: cms/templates/index.html
 msgid "Required Information to Create a New Course"
 msgstr "创建一个新课程的必要信息"
+
+#: cms/templates/index.html
+msgid "Course Category"
+msgstr "课程分类"
 
 #: cms/templates/index.html
 msgid "e.g. Introduction to Computer Science"
@@ -10847,7 +10851,7 @@ msgstr "删除当前视频"
 
 #: cms/templates/settings.html
 msgid "Enter your YouTube video's ID (along with any restriction parameters)"
-msgstr "请输入您的YouTube视频编号(以及任何必要的限制参数)"
+msgstr "请输入您的视频地址(目前只支持mp4格式视频播放)"
 
 #: cms/templates/settings.html
 msgid "Requirements"
@@ -11388,7 +11392,7 @@ msgstr "创建"
 
 #: wiki/forms.py
 msgid "Only localhost... muahahaha"
-msgstr "只有localhost……哇哈哈哈"
+msgstr "没有结果"
 
 #: wiki/forms.py
 msgid "Initial title of the article. May be overridden with revision titles."
@@ -11442,7 +11446,7 @@ msgid ""
 "This will be the address where your article can be found. Use only "
 "alphanumeric characters and - or _. Note that you cannot change the slug "
 "after creating the article."
-msgstr ""
+msgstr "这是找到您的文章的地址。只能使用字母数字字符和 – 或者_。请注意，您不能创建文章后更改地址。"
 
 #: wiki/forms.py
 msgid "Write a brief message for the article's history log."
@@ -11473,7 +11477,7 @@ msgid ""
 "Purge the article: Completely remove it (and all its contents) with no undo."
 " Purging is a good idea if you want to free the slug such that users can "
 "create new articles in its place."
-msgstr ""
+msgstr "清除文章：彻底删除和文章所有的内容，无法恢复。如果你想释放空间，使得用户可以在其位置创建新的文章，那么彻底删除是一个好主意。"
 
 #: wiki/forms.py wiki/plugins/attachments/forms.py
 #: wiki/plugins/images/forms.py
@@ -11490,7 +11494,7 @@ msgstr "锁定文章"
 
 #: wiki/forms.py
 msgid "Deny all users access to edit this article."
-msgstr ""
+msgstr "拒绝所有用户访问编辑这篇文章."
 
 #: wiki/forms.py
 msgid "Permissions"
@@ -11510,21 +11514,21 @@ msgstr "（空）"
 
 #: wiki/forms.py
 msgid "Inherit permissions"
-msgstr ""
+msgstr "继承权限"
 
 #: wiki/forms.py
 msgid ""
 "Check here to apply the above permissions recursively to articles under this"
 " one."
-msgstr ""
+msgstr "选中此处，以后创建的文章将使用以上权限。"
 
 #: wiki/forms.py
 msgid "Permission settings for the article were updated."
-msgstr ""
+msgstr "文章访问权限已经更改"
 
 #: wiki/forms.py
 msgid "Your permission settings were unchanged, so nothing saved."
-msgstr ""
+msgstr "这篇文章的权限设置没有更改，无法保存。"
 
 #: wiki/forms.py
 msgid "No user with that username"
@@ -11577,7 +11581,7 @@ msgstr ""
 
 #: wiki/models/article.py
 msgid "group"
-msgstr ""
+msgstr "小组"
 
 #: wiki/models/article.py
 msgid ""
@@ -11587,19 +11591,19 @@ msgstr ""
 
 #: wiki/models/article.py
 msgid "group read access"
-msgstr ""
+msgstr "小组的读取权限"
 
 #: wiki/models/article.py
 msgid "group write access"
-msgstr ""
+msgstr "小组的写入权限"
 
 #: wiki/models/article.py
 msgid "others read access"
-msgstr ""
+msgstr "其他访问者的读取权限"
 
 #: wiki/models/article.py
 msgid "others write access"
-msgstr ""
+msgstr "其他访问者的写入权限"
 
 #: wiki/models/article.py
 msgid "Article without content (%(id)d)"
@@ -11679,7 +11683,7 @@ msgstr ""
 
 #: wiki/models/urlpath.py
 msgid "slug"
-msgstr ""
+msgstr "来源"
 
 #: wiki/models/urlpath.py
 msgid "(root)"
@@ -11883,7 +11887,7 @@ msgstr "当这篇文章被编辑"
 
 #: wiki/plugins/notifications/forms.py
 msgid "Also receive emails about article edits"
-msgstr ""
+msgstr "也会收到关于编辑文章的电子邮件"
 
 #: wiki/plugins/notifications/forms.py
 msgid "Your notification settings were updated."
@@ -11891,7 +11895,7 @@ msgstr "这篇文章里有一个错误"
 
 #: wiki/plugins/notifications/forms.py
 msgid "Your notification settings were unchanged, so nothing saved."
-msgstr ""
+msgstr "这篇文章的设置没有更改，无法保存。"
 
 #: wiki/plugins/notifications/models.py
 msgid "%(user)s subscribing to %(article)s (%(type)s)"

@@ -12,7 +12,7 @@
       create_article_root = None
     %>
     %for ancestor in urlpath.cached_ancestors:
-      <li><a href="${reverse('wiki:get', kwargs={'path' : ancestor.path})}">${ancestor.article.current_revision.title}</a></li>
+      <li><a href="${reverse('wiki:get', kwargs={'path' : ancestor.path})}">${_(ancestor.article.current_revision.title)}</a></li>
       <% 
         if not create_article_root and ancestor.article.can_write(user):
           create_article_root = ancestor

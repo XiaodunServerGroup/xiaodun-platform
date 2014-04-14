@@ -8,20 +8,42 @@
 <% } else {%>
   <p>${_("You have no handouts defined")}</p>
 <% } %>
-<form class="edit-handouts-form" style="display: none;">
+<form class="edit-handouts-form" style="display: none; width: 50%;">
+  <style>
+      .save_handout_item {background-color: #FF6600;
+          background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+          border: 1px solid #CC5100;
+          border-radius: 3px;
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 0 0 rgba(0, 0, 0, 0);
+          color: #FFFFFF;
+          display: inline-block;
+          font-size: 1.2rem;
+          font-weight: 700;
+          margin-top: 0;
+          padding: 0px 10px 0px;
+          transition: background-color 0.15s ease 0s, box-shadow 0.15s ease 0s;
+      }            
+      .save_handout_item:hover{ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 1px rgba(0, 0, 0, 0.15); color:#ffffff;}
+      table.handouts-content-show {table-layout: fixed; width: 100%; word-break: break-all; word-wrap: break-all;}
+      table.handouts-content-show tbody tr {text-align: left; height: 40px;}
+      table.handouts-content-show tbody tr td{padding-left:40px; min-width: 180px; border-bottom: solid 1px #000; vertical-align: middle;}
+      table.handouts-content-show tbody tr td img{width:16px; height:16px; vertical-align:middle;}
+  </style>
   <div class="message message-status error" name="handout_html_error" id="handout_error"><%=gettext("There is invalid code in your content. Please check to make sure it is valid HTML.")%></div>
   <div class="row">
-    <textarea class="handouts-content-editor text-editor"></textarea>
+    <textarea class="handouts-content-editor text-editor" style='display: none;'></textarea>
+    <div class="message message-status error" id='add_handout_item_error'></div>
     <table class="handouts-content-show text-talbe">
     </table>
   </div>
   <div class="row">
-    <span onclick='show_add_handout_item(this)'>+</span><br/>
+    <span onclick='show_add_handout_item(this)'><img src='/static//img/ture_03.gif' style="height: 16px;"></span><br/>
     <span id='add_handout_item_input' style="display: none">
-        <input type="textfield" name='handout_title'/>
-        <input type="textfield" name="handout_url" />
-        <a href="#" onclick='add_handout_item(this)' class='save_handout_item'>添加</a>
+        <input type="textfield" name='handout_title' style="display: inline-block;" placeholder="讲义名称"/>
+        <input type="textfield" name="handout_url" style="display: inline-block;" placeholder="讲义URL"/>
+        <a href="#" onclick='add_handout_item(this)' class='save_handout_item' style="float: right;margin-right: 135px;">添加</a>
     </span>
+    <span style="clear: both;"></span>
   </div>
   <div class="row">
     <a href="#" class="save-button">保存</a>

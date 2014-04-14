@@ -45,7 +45,7 @@
 
           % endif
             <form class="search-container search" action="/courses" method="get" id="search-form">
-              <input id="search-query" name="query" placeholder="请输入关键字..."  type="text" width="340px">
+              <input id="search-query" name="query" onfocus="if (value =='请输入关键字...'){value =''}" onblur="if (value ==''){value='请输入关键字...'}" value="请输入关键字..."  type="text" width="340px">
                  <ul class="search-menu" style="display: none;">
                  </ul>
               <input value="搜索" type="submit">

@@ -72,18 +72,37 @@ require(["domReady!", "jquery", "js/collections/course_update", "js/models/modul
   function add_handout_item(obj){
       var inputs = $($(obj).parent('span')).children('input');
       var append_str = "<tr>"
+
+      $('#add_handout_item_error').hide();
+      var return_boolean = false;
+      var message = "";
       $.each(inputs, function(idx, item){
           var ival = $(item).val();
           var name = $(item).attr('name');
           if (ival == ''){
-              alert(name + 'can not be empty!');
-              return false;
+              return_boolean = true;
+              if (name == "handout_title"){
+                message += "讲义标题不能为空！"
+              } else if (name == "handout_url"){
+                message += "讲义链接不能为空！"
+              } else {
+                messgae += "添加出现错误，请刷新页面再继续操作！"
+              }
           }
-          append_str += ("<td>" + ival + "</td>");
+
+          append_str += ("<td " + "title='" + ival + "'>" + show_substring(ival) + "</td>")
+
           $(item).val("")
       });
 
-      append_str += ("<td><a href='#' onclick='remove_tr_item(this)'>-</a></td>" + "</tr>");
+      if (return_boolean) {
+        $('#add_handout_item_error').html(message);
+        $('#add_handout_item_error').show();
+
+        return false;
+      }
+
+      append_str += ("<td><a href='#' onclick='remove_tr_item(this)'><img src='/static//img/cancle.gif'></a></td>" + "</tr>");
 
       var last_tr = $('.handouts-content-show.text-talbe').find('tr').last()[0];
       if (last_tr == null) {
@@ -93,6 +112,18 @@ require(["domReady!", "jquery", "js/collections/course_update", "js/models/modul
       }
 
       sync_table_handout();
+  }
+
+  function show_substring(str){
+    if (str == undefined) {
+      return "";
+    }
+
+    if (str.length > 20){
+      str = (str.substring(0, 17) + "...");
+    }
+
+    return str;
   }
   </script>
 </%block>

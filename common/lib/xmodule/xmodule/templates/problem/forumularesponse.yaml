@@ -5,30 +5,24 @@ metadata:
 data: |
   <problem>
   <p>
-  A math expression input problem accepts a line of text representing a mathematical expression from the
-  student, and evaluates the input for equivalence to a mathematical expression provided by the 
-  grader. Correctness is based on numerical sampling of the symbolic expressions.
+  数学表达式输入问题接受一条线代表从学生的数学表达式的文本，由年级学生提供一个数学表达式进行评估。正确性是基于符号表达式的数字采样。
   </p>
   <p>
-  The answer is correct if both the student provided response and the grader's mathematical
-  expression are equivalent to specified numerical tolerance, over a specified range of values for each
-  variable.
+  如果学生提供的响应和年级的数学表达式都是等价于指定数值的公差，在每个变量值的指定范围，答案是正确的。
   </p>
 
-  <p>This kind of response checking can handle symbolic expressions, but places an extra burden
-  on the problem author to specify the allowed variables in the expression, and the
-  numerical ranges over which the variables must be sampled in order to test for correctness.</p>
+  <p>这种反应检查可以处理符号表达式，但放置一个额外的负担问题，以指定在表达式中允许的变量和数值范围超过该变量必须是为了测试的正确性进行采样。</p>
 
   <script type="loncapa/python">
   VoVi = "(R_1*R_2)/R_3"
   </script>
-  <p>Give an equation for the relativistic energy of an object with mass m.  Explicitly indicate multiplication with a <tt>*</tt> symbol.</p>
+  <p>举一个方程对象一个质量为m的相对论能量。明确表示乘法有*<tt>*</tt> 符号。</p>
   <formularesponse type="cs" samples="m,c@1,2:3,4#10" answer="m*c^2">
       <responseparam type="tolerance" default="0.00001"/>
       <br/><text>E =</text> <formulaequationinput size="40" />
   </formularesponse>
 
-  <p>The answer to this question is (R_1*R_2)/R_3. </p>
+  <p>回答问题：（R_1* R_2）/ R_3。 </p>
 
   <formularesponse type="ci" samples="R_1,R_2,R_3@1,2,3:3,4,5#10" answer="$VoVi">
       <responseparam type="tolerance" default="0.00001"/> 

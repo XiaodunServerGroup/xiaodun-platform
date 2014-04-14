@@ -3,9 +3,9 @@ metadata:
     display_name: 图像放大缩小处理
 data: |
       <h2>图像放大缩小处理</h2>
-      <p>Some edX classes use extremely large, extremely detailed graphics. To make it easier to understand we can offer two versions of those graphics, with the zoomed section showing when you click on the main view.</p>
-      <p>The example below is from <a href="https://www.edx.org/course/mit/7-00x/introduction-biology-secret-life/1014" target="_blank">7.00x: Introduction to Biology</a> and shows a subset of the biochemical reactions that cells carry out. </p>
-      <p>You can view the chemical structures of the molecules by clicking on them. The magnified view also lists the enzymes involved in each step.</p>
+      <p>一些EDX使用非常大的，非常详细的图形。为了便于理解，我们可以提供两个版本的图像，用来显示当你点击主视图的缩放的部分。</p>
+      <p>下面的例子是从 <a href="https://www.edx.org/course/mit/7-00x/introduction-biology-secret-life/1014" target="_blank">7.00倍: 介绍生物学</a> 及示出了生化反应的细胞进行的一个子集.</p>
+      <p>您可以通过点击查看该分子的化学结构。放大视图还列出了每一步的酶。</p>
 
       <div class="zooming-image-place" style="position: relative;">
         <a class="loupe" href="https://studio.edx.org/c4x/edX/DemoX/asset/pathways_detail_01.png">
@@ -23,4 +23,3 @@ data: |
       });
       // ]]></script>
       <div id="ap_listener_added"></div>
-

@@ -60,7 +60,7 @@ msgstr "课件"
 #: common/lib/xmodule/xmodule/course_module.py:473
 #: lms/djangoapps/instructor/views/instructor_dashboard.py:113
 msgid "Course Info"
-msgstr "课程信息"
+msgstr "更新"
 
 #. Translators: "Discussion" is the title of the course forum page
 #. Translators: "Discussion" is the title of the course forum page
@@ -78,7 +78,7 @@ msgstr "讨论"
 #: common/lib/xmodule/xmodule/course_module.py:490
 #: lms/djangoapps/course_wiki/views.py:129 lms/templates/wiki/base.html:4
 msgid "Wiki"
-msgstr "维基"
+msgstr "资料"
 
 #. Translators: "Progress" is the title of the student's grade information
 #. page
@@ -1312,11 +1312,11 @@ msgstr "课程网页已经自动创建"
 
 #: lms/djangoapps/course_wiki/views.py:124
 msgid "Welcome to the edX Wiki"
-msgstr "欢迎访问edX Wiki"
+msgstr "欢迎访问校盾资料站"
 
 #: lms/djangoapps/course_wiki/views.py:126
 msgid "Visit a course wiki to add an article."
-msgstr "浏览课程维基添加课程标题"
+msgstr "浏览课程资料添加课程标题"
 
 #. Translators: 'Course Content' refers to the tab in the courseware
 #. that leads to the content of a course
@@ -2832,7 +2832,7 @@ msgstr "关闭模式"
 
 #: lms/templates/wiki/edit.html:51
 msgid "Wiki Preview"
-msgstr "Wiki预览"
+msgstr "文章预览"
 
 #: lms/templates/wiki/edit.html:51 lms/templates/wiki/history.html:207
 #: lms/templates/wiki/history.html:238

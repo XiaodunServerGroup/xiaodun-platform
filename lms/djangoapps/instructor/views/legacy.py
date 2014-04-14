@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 """
 Instructor Views
 """
@@ -114,8 +115,9 @@ def instructor_dashboard(request, course_id):
     # assemble some course statistics for output to instructor
     def get_course_stats_table():
         datatable = {
-            'header': ['Statistic', 'Value'],
-            'title': _u('Course Statistics At A Glance'),
+            'header': ['统计', '统计值'],
+            # 'title': _u('Course Statistics At A Glance'),
+            'title': _u('课程统计'),
         }
         data = [['# Enrolled', enrollment_number]]
         data += [['Date', timezone.now().isoformat()]]

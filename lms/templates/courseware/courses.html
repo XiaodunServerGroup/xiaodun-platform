@@ -6,6 +6,18 @@
 <%block name="pagetitle">${_("Courses")}</%block>
 <%! from microsite_configuration import microsite %>
 
+<link rel="stylesheet" href="/static/css/header/header.css" />
+<div class="header-navigation">
+    <div class="header-wall">
+       <a class="line" href="http://www.xiaodun.cn/index1.html">首页</a>
+       <a class="line" href="http://www.xiaodun.cn/course.html">课程</a>
+       <a class="line" href="http://www.xiaodun.cn/base.html">基地</a>
+       <a class="line" href="http://www.xiaodun.cn/announcement.html">公告</a>
+       <a class="line" href="http://www.xiaodun.cn/service.html">服务</a>
+       <a class="none" href="http://www.xiaodun.cn/about.html">关于</a>
+    </div>
+</div>
+
 <section class="find-courses">
 
 <%
@@ -41,7 +53,7 @@ $("#search-form").submit(function(){
     <section class="filter" style="z-index:150;">
        <nav>
         <form class="search-container search" id="search-form" action="/courses" method="get">
-          <input type="text" id="search-query" name="query" placeholder="请输入关键字..." value="">
+          <input type="text" id="search-query" name="query"  onfocus="if (value =='请输入关键字...'){value =''}" onblur="if (value ==''){value='请输入关键字...'}" value="请输入关键字...">
           <input type="submit" value="搜索">
         </form>
        </nav>

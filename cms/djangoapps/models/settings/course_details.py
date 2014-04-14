@@ -72,8 +72,9 @@ class CourseDetails(object):
 
         temploc = temploc.replace(name='video')
         try:
-            raw_video = get_modulestore(temploc).get_item(temploc).data
-            course.intro_video = CourseDetails.parse_video_tag(raw_video)
+            # raw_video = get_modulestore(temploc).get_item(temploc).data
+            # course.intro_video = CourseDetails.parse_video_tag(raw_video)
+            course.intro_video = get_modulestore(temploc).get_item(temploc).data
         except ItemNotFoundError:
             pass
 
@@ -160,8 +161,8 @@ class CourseDetails(object):
         for about_type in ['syllabus', 'overview', 'effort', 'short_description']:
             cls.update_about_item(course_old_location, about_type, jsondict[about_type], descriptor, user)
 
-        recomposed_video_tag = CourseDetails.recompose_video_tag(jsondict['intro_video'])
-        cls.update_about_item(course_old_location, 'video', recomposed_video_tag, descriptor, user)
+        # recomposed_video_tag = CourseDetails.recompose_video_tag(jsondict['intro_video'])
+        cls.update_about_item(course_old_location, 'video', jsondict['intro_video'], descriptor, user)
 
         # Could just return jsondict w/o doing any db reads, but I put the reads in as a means to confirm
         # it persisted correctly
@@ -193,7 +194,9 @@ class CourseDetails(object):
         # the right thing
         result = None
         if video_key:
-            result = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + \
+            # result = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + \
+            #     video_key + '?autoplay=1&rel=0" frameborder="0" allowfullscreen=""></iframe>'
+            result = '<iframe width="560" height="315" src="' + \
                 video_key + '?autoplay=1&rel=0" frameborder="0" allowfullscreen=""></iframe>'
         return result
 

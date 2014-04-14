@@ -25,7 +25,7 @@ var GradingView = ValidatingView.extend({
         this.gradeCutoffTemplate = _.template('<li class="grade-specific-bar" style="width:<%= width %>%"><span class="letter-grade" contenteditable="true">' +
                 '<%= descriptor %>' +
                 '</span><span class="range"></span>' +
-                '<% if (removable) {%><a href="#" class="remove-button">remove</a><% ;} %>' +
+                '<% if (removable) {%><a href="#" class="remove-button">删除</a><% ;} %>' +
         '</li>');
 
         this.setupCutoffs();

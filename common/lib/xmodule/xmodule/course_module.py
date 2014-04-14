@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 import logging
 from cStringIO import StringIO
 from math import exp
@@ -189,39 +190,75 @@ class CourseFields(object):
                  scope=Scope.settings)
     end = Date(help="Date that this class ends", scope=Scope.settings)
     advertised_start = String(help="Date that this course is advertised to start", scope=Scope.settings)
+    # grading_policy = Dict(help="Grading policy definition for this class",
+    #                       default={"GRADER": [
+    #                           {
+    #                               "type": "Homework",
+    #                               "min_count": 12,
+    #                               "drop_count": 2,
+    #                               "short_label": "HW",
+    #                               "weight": 0.15
+    #                           },
+    #                           {
+    #                               "type": "Lab",
+    #                               "min_count": 12,
+    #                               "drop_count": 2,
+    #                               "weight": 0.15
+    #                           },
+    #                           {
+    #                               "type": "Midterm Exam",
+    #                               "short_label": "Midterm",
+    #                               "min_count": 1,
+    #                               "drop_count": 0,
+    #                               "weight": 0.3
+    #                           },
+    #                           {
+    #                               "type": "Final Exam",
+    #                               "short_label": "Final",
+    #                               "min_count": 1,
+    #                               "drop_count": 0,
+    #                               "weight": 0.4
+    #                           }
+    #                       ],
+    #                           "GRADE_CUTOFFS": {
+    #                               "Pass": 0.5
+    #                           }},
+    #                       scope=Scope.content)
     grading_policy = Dict(help="Grading policy definition for this class",
-                          default={"GRADER": [
+                          default={
+                            "GRADER": [
                               {
-                                  "type": "Homework",
-                                  "min_count": 12,
-                                  "drop_count": 2,
-                                  "short_label": "HW",
-                                  "weight": 0.15
+                                "type": "家庭作业",
+                                "min_count": 12,
+                                "drop_count": 2,
+                                "short_label": "HW",
+                                "weight": 0.15
                               },
                               {
-                                  "type": "Lab",
-                                  "min_count": 12,
-                                  "drop_count": 2,
-                                  "weight": 0.15
+                                "type": "实验",
+                                "min_count": 12,
+                                "drop_count": 2,
+                                "weight": 0.15
                               },
                               {
-                                  "type": "Midterm Exam",
-                                  "short_label": "Midterm",
-                                  "min_count": 1,
-                                  "drop_count": 0,
-                                  "weight": 0.3
+                                "type": "期中测验",
+                                "short_label": "Midterm",
+                                "min_count": 1,
+                                "drop_count": 0,
+                                "weight": 0.3
                               },
                               {
-                                  "type": "Final Exam",
-                                  "short_label": "Final",
-                                  "min_count": 1,
-                                  "drop_count": 0,
-                                  "weight": 0.4
+                                "type": "期末测验",
+                                "short_label": "Final",
+                                "min_count": 1,
+                                "drop_count": 0,
+                                "weight": 0.4
                               }
-                          ],
-                              "GRADE_CUTOFFS": {
-                                  "Pass": 0.5
-                              }},
+                            ],
+                            "GRADE_CUTOFFS": {
+                              "Pass": 0.5
+                            }
+                          },
                           scope=Scope.content)
     show_calculator = Boolean(help="Whether to show the calculator in this course", default=False, scope=Scope.settings)
     display_name = String(help="Display name for this module", default="Empty", display_name="Display Name", scope=Scope.settings)
@@ -243,122 +280,293 @@ class CourseFields(object):
     allow_anonymous_to_peers = Boolean(scope=Scope.settings, default=False)
     advanced_modules = List(help="Beta modules used in your course", scope=Scope.settings)
     has_children = True
+    # checklists = List(scope=Scope.settings,
+    #                   default=[
+    #                       {"short_description": "Getting Started With Studio",
+    #                        "items": [{"short_description": "Add Course Team Members",
+    #                                   "long_description": "Grant your collaborators permission to edit your course so you can work together.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "ManageUsers",
+    #                                   "action_text": "Edit Course Team",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Set Important Dates for Your Course",
+    #                                   "long_description": "Establish your course's student enrollment and launch dates on the Schedule and Details page.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "SettingsDetails",
+    #                                   "action_text": "Edit Course Details &amp; Schedule",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Draft Your Course's Grading Policy",
+    #                                   "long_description": "Set up your assignment types and grading policy even if you haven't created all your assignments.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "SettingsGrading",
+    #                                   "action_text": "Edit Grading Settings",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Explore the Other Studio Checklists",
+    #                                   "long_description": "Discover other available course authoring tools, and find help when you need it.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "",
+    #                                   "action_text": "",
+    #                                   "action_external": False}]},
+    #                       {"short_description": "Draft a Rough Course Outline",
+    #                        "items": [{"short_description": "Create Your First Section and Subsection",
+    #                                   "long_description": "Use your course outline to build your first Section and Subsection.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Set Section Release Dates",
+    #                                   "long_description": "Specify the release dates for each Section in your course. Sections become visible to students on their release dates.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Designate a Subsection as Graded",
+    #                                   "long_description": "Set a Subsection to be graded as a specific assignment type. Assignments within graded Subsections count toward a student's final grade.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Reordering Course Content",
+    #                                   "long_description": "Use drag and drop to reorder the content in your course.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Renaming Sections",
+    #                                   "long_description": "Rename Sections by clicking the Section name from the Course Outline.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Deleting Course Content",
+    #                                   "long_description": "Delete Sections, Subsections, or Units you don't need anymore. Be careful, as there is no Undo function.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Add an Instructor-Only Section to Your Outline",
+    #                                   "long_description": "Some course authors find using a section for unsorted, in-progress work useful. To do this, create a section and set the release date to the distant future.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "CourseOutline",
+    #                                   "action_text": "Edit Course Outline",
+    #                                   "action_external": False}]},
+    #                       {"short_description": "Explore edX's Support Tools",
+    #                        "items": [{"short_description": "Explore the Studio Help Forum",
+    #                                   "long_description": "Access the Studio Help forum from the menu that appears when you click your user name in the top right corner of Studio.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "http://help.edge.edx.org/",
+    #                                   "action_text": "Visit Studio Help",
+    #                                   "action_external": True},
+    #                                  {"short_description": "Enroll in edX 101",
+    #                                   "long_description": "Register for edX 101, edX's primer for course creation.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "https://edge.edx.org/courses/edX/edX101/How_to_Create_an_edX_Course/about",
+    #                                   "action_text": "Register for edX 101",
+    #                                   "action_external": True},
+    #                                  {"short_description": "Download the Studio Documentation",
+    #                                   "long_description": "Download the searchable Studio reference documentation in PDF form.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "http://files.edx.org/Getting_Started_with_Studio.pdf",
+    #                                   "action_text": "Download Documentation",
+    #                                   "action_external": True}]},
+    #                       {"short_description": "Draft Your Course About Page",
+    #                        "items": [{"short_description": "Draft a Course Description",
+    #                                   "long_description": "Courses on edX have an About page that includes a course video, description, and more. Draft the text students will read before deciding to enroll in your course.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "SettingsDetails",
+    #                                   "action_text": "Edit Course Schedule &amp; Details",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Add Staff Bios",
+    #                                   "long_description": "Showing prospective students who their instructor will be is helpful. Include staff bios on the course About page.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "SettingsDetails",
+    #                                   "action_text": "Edit Course Schedule &amp; Details",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Add Course FAQs",
+    #                                   "long_description": "Include a short list of frequently asked questions about your course.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "SettingsDetails",
+    #                                   "action_text": "Edit Course Schedule &amp; Details",
+    #                                   "action_external": False},
+    #                                  {"short_description": "Add Course Prerequisites",
+    #                                   "long_description": "Let students know what knowledge and/or skills they should have before they enroll in your course.",
+    #                                   "is_checked": False,
+    #                                   "action_url": "SettingsDetails",
+    #                                   "action_text": "Edit Course Schedule &amp; Details",
+    #                                   "action_external": False}]}
+    #     ])
+    # info_sidebar_name = String(scope=Scope.settings, default='Course Handouts')
+
     checklists = List(scope=Scope.settings,
                       default=[
-                          {"short_description": "Getting Started With Studio",
-                           "items": [{"short_description": "Add Course Team Members",
-                                      "long_description": "Grant your collaborators permission to edit your course so you can work together.",
-                                      "is_checked": False,
+                                {
+                                  "short_description": "准备开始工作台(Studio)",
+                                  "items": [
+                                    {
+                                      "short_description": "添加课程队伍成员",
+                                      "long_description": "授予您的合作者权限编辑您的课程，实现协同合作。",
+                                      "is_checked": 0,
                                       "action_url": "ManageUsers",
-                                      "action_text": "Edit Course Team",
-                                      "action_external": False},
-                                     {"short_description": "Set Important Dates for Your Course",
-                                      "long_description": "Establish your course's student enrollment and launch dates on the Schedule and Details page.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程队伍",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "为您的课程设置主要日期",
+                                      "long_description": "在日程与细节节设置课程的学生入学与发布日期。",
+                                      "is_checked": 0,
                                       "action_url": "SettingsDetails",
-                                      "action_text": "Edit Course Details &amp; Schedule",
-                                      "action_external": False},
-                                     {"short_description": "Draft Your Course's Grading Policy",
-                                      "long_description": "Set up your assignment types and grading policy even if you haven't created all your assignments.",
-                                      "is_checked": False,
+                                      "action_text": "设置课程详细信息和日程",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "起草课程评分标准",
+                                      "long_description": "设置您的任务类型和评分标准，即使你还没有创建所有的任务。",
+                                      "is_checked": 0,
                                       "action_url": "SettingsGrading",
-                                      "action_text": "Edit Grading Settings",
-                                      "action_external": False},
-                                     {"short_description": "Explore the Other Studio Checklists",
-                                      "long_description": "Discover other available course authoring tools, and find help when you need it.",
-                                      "is_checked": False,
+                                      "action_text": "编辑评分设置",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "探索其它工作台的检查表",
+                                      "long_description": "发现其他可用的课程制作工具，在你需要它时，得到帮助。",
+                                      "is_checked": 0,
                                       "action_url": "",
                                       "action_text": "",
-                                      "action_external": False}]},
-                          {"short_description": "Draft a Rough Course Outline",
-                           "items": [{"short_description": "Create Your First Section and Subsection",
-                                      "long_description": "Use your course outline to build your first Section and Subsection.",
-                                      "is_checked": False,
+                                      "action_external": 0
+                                    }
+                                  ]
+                                },
+                                {
+                                  "short_description": "起草一份简略的课程大纲",
+                                  "items": [
+                                    {
+                                      "short_description": "创建第一个章节及其小节",
+                                      "long_description": "使用大纲来创建第一个章节及其小节。",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False},
-                                     {"short_description": "Set Section Release Dates",
-                                      "long_description": "Specify the release dates for each Section in your course. Sections become visible to students on their release dates.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "设置章节发布日期",
+                                      "long_description": "为每个节指定的发布日期，并在发布日期对学生变成可见。",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False},
-                                     {"short_description": "Designate a Subsection as Graded",
-                                      "long_description": "Set a Subsection to be graded as a specific assignment type. Assignments within graded Subsections count toward a student's final grade.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "指明一个小节的评分类别",
+                                      "long_description": "设置一个评定的小节作为一个特定的任务类别。小节内作业算入学生的最终成绩。",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False},
-                                     {"short_description": "Reordering Course Content",
-                                      "long_description": "Use drag and drop to reorder the content in your course.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "重新安排课程内容",
+                                      "long_description": "使用拖放来重新安排您的课程。",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False},
-                                     {"short_description": "Renaming Sections",
-                                      "long_description": "Rename Sections by clicking the Section name from the Course Outline.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "课程章节重命名",
+                                      "long_description": "单击课程大纲的课程章节名进行重命名",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False},
-                                     {"short_description": "Deleting Course Content",
-                                      "long_description": "Delete Sections, Subsections, or Units you don't need anymore. Be careful, as there is no Undo function.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "删除课程内容",
+                                      "long_description": "删除任何不需要课程章节、节、和单元。删除之后不能恢复，请谨慎操作！",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False},
-                                     {"short_description": "Add an Instructor-Only Section to Your Outline",
-                                      "long_description": "Some course authors find using a section for unsorted, in-progress work useful. To do this, create a section and set the release date to the distant future.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "为你的大纲增加一个导师专用章节",
+                                      "long_description": "有些作者发现使用有用的一个章节为未排序的，进行中的工作。要做到这一点，创建一个章节，并设置发布日期在很久以后。",
+                                      "is_checked": 0,
                                       "action_url": "CourseOutline",
-                                      "action_text": "Edit Course Outline",
-                                      "action_external": False}]},
-                          {"short_description": "Explore edX's Support Tools",
-                           "items": [{"short_description": "Explore the Studio Help Forum",
-                                      "long_description": "Access the Studio Help forum from the menu that appears when you click your user name in the top right corner of Studio.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程大纲",
+                                      "action_external": 0
+                                    }
+                                  ]
+                                },
+                                {
+                                  "short_description": "探索一些支持工具",
+                                  "items": [
+                                    {
+                                      "short_description": "探索工作台帮助论坛",
+                                      "long_description": "通过点击工作台中右上角您的名字来访问工作台帮助论坛",
+                                      "is_checked": 0,
                                       "action_url": "http://help.edge.edx.org/",
-                                      "action_text": "Visit Studio Help",
-                                      "action_external": True},
-                                     {"short_description": "Enroll in edX 101",
-                                      "long_description": "Register for edX 101, edX's primer for course creation.",
-                                      "is_checked": False,
+                                      "action_text": "访问工作台帮助",
+                                      "action_external": 1
+                                    },
+                                    {
+                                      "short_description": "报名参加校盾 101",
+                                      "long_description": "注册校盾 101、阅读课程创建的校盾 入门书",
+                                      "is_checked": 0,
                                       "action_url": "https://edge.edx.org/courses/edX/edX101/How_to_Create_an_edX_Course/about",
-                                      "action_text": "Register for edX 101",
-                                      "action_external": True},
-                                     {"short_description": "Download the Studio Documentation",
-                                      "long_description": "Download the searchable Studio reference documentation in PDF form.",
-                                      "is_checked": False,
+                                      "action_text": "注册校盾 101",
+                                      "action_external": 1
+                                    },
+                                    {
+                                      "short_description": "下载工作台相关文档",
+                                      "long_description": "以PDF格式搜索下载工作室的参考文档。",
+                                      "is_checked": 0,
                                       "action_url": "http://files.edx.org/Getting_Started_with_Studio.pdf",
-                                      "action_text": "Download Documentation",
-                                      "action_external": True}]},
-                          {"short_description": "Draft Your Course About Page",
-                           "items": [{"short_description": "Draft a Course Description",
-                                      "long_description": "Courses on edX have an About page that includes a course video, description, and more. Draft the text students will read before deciding to enroll in your course.",
-                                      "is_checked": False,
+                                      "action_text": "下载文档",
+                                      "action_external": 1
+                                    }
+                                  ]
+                                },
+                                {
+                                  "short_description": "起草关于课程页面",
+                                  "items": [
+                                    {
+                                      "short_description": "起草课程描述",
+                                      "long_description": "在Edx中的课程都有相关的页面，包含了该课程的视频、描述和其他信息。学生在您的课程报名前该仔细阅读该介绍。",
+                                      "is_checked": 0,
                                       "action_url": "SettingsDetails",
-                                      "action_text": "Edit Course Schedule &amp; Details",
-                                      "action_external": False},
-                                     {"short_description": "Add Staff Bios",
-                                      "long_description": "Showing prospective students who their instructor will be is helpful. Include staff bios on the course About page.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程详细及日程页",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "添加教师介绍",
+                                      "long_description": "显示导师信息给今后报名的学生是很有用的。包括关于页上教师介绍",
+                                      "is_checked": 0,
                                       "action_url": "SettingsDetails",
-                                      "action_text": "Edit Course Schedule &amp; Details",
-                                      "action_external": False},
-                                     {"short_description": "Add Course FAQs",
-                                      "long_description": "Include a short list of frequently asked questions about your course.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程详细及日程页",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "添加课程FAQ(常见问题及回答)",
+                                      "long_description": "包括一些经常被询问的关于课程的问题清单。",
+                                      "is_checked": 0,
                                       "action_url": "SettingsDetails",
-                                      "action_text": "Edit Course Schedule &amp; Details",
-                                      "action_external": False},
-                                     {"short_description": "Add Course Prerequisites",
-                                      "long_description": "Let students know what knowledge and/or skills they should have before they enroll in your course.",
-                                      "is_checked": False,
+                                      "action_text": "编辑课程详细及日程页",
+                                      "action_external": 0
+                                    },
+                                    {
+                                      "short_description": "添加课程要求",
+                                      "long_description": "让学生了解在报名课程之前，需要掌握的知识或者技术",
+                                      "is_checked": 0,
                                       "action_url": "SettingsDetails",
-                                      "action_text": "Edit Course Schedule &amp; Details",
-                                      "action_external": False}]}
+                                      "action_text": "编辑课程详细及日程页",
+                                      "action_external": 0
+                                    }
+                                  ]
+                                }
         ])
-    info_sidebar_name = String(scope=Scope.settings, default='Course Handouts')
+
+    info_sidebar_name = String(scope=Scope.settings, default='课程讲义')
+
     show_timezone = Boolean(
         help="True if timezones should be shown on dates in the courseware. Deprecated in favor of due_date_display_format.",
         scope=Scope.settings, default=True
@@ -423,6 +631,15 @@ class CourseFields(object):
     allow_public_wiki_access = Boolean(help="Whether to allow an unenrolled user to view the Wiki",
                                        default=False,
                                        scope=Scope.settings)
+
+
+# class CourseExtendFields(CourseFields):
+#     checklists = List(scope=Scope.settings,
+#                       default=settings.COURSE_EXTENDS_FIELDS['checklists']['default'])
+#     grading_policy = Dict(help="Grading policy definition for this class",
+#                           default=settings.COURSE_EXTENDS_FIELDS['grading_policy']['default'],
+#                           scope=Scope.content)
+#     info_sidebar_name = String(scope=Scope.settings, default=settings.COURSE_EXTENDS_FIELDS['info_sidebar_name']['default'])
 
 
 class CourseDescriptor(CourseFields, SequenceDescriptor):

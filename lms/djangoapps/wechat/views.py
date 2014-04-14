@@ -1194,4 +1194,5 @@ def submission_history(request, course_id, student_username, location):
 
 def show_video(request):
     showurl = request.GET.get("showurl","")
-    return render_to_response('wechat/mobi_video.html',{"showurl":showurl})
+    course_id = request.GET.get("course_id")    
+    return render_to_response('wechat/mobi_video.html',{"showurl":showurl, "course_id": course_id})

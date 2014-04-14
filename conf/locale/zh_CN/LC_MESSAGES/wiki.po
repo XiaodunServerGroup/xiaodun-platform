@@ -29,7 +29,7 @@ msgstr "创建"
 
 #: wiki/forms.py:30
 msgid "Only localhost... muahahaha"
-msgstr "只有localhost……哇哈哈哈"
+msgstr "没有结果"
 
 #: wiki/forms.py:36 wiki/forms.py:44 wiki/forms.py:205
 msgid "Title"
@@ -87,7 +87,7 @@ msgid ""
 "This will be the address where your article can be found. Use only "
 "alphanumeric characters and - or _. Note that you cannot change the slug "
 "after creating the article."
-msgstr ""
+msgstr "这是找到您的文章的地址。只能使用字母数字字符和 – 或者_。请注意，您不能创建文章后更改地址。"
 
 #: wiki/forms.py:210
 msgid "Write a brief message for the article's history log."
@@ -120,7 +120,7 @@ msgid ""
 "Purge the article: Completely remove it (and all its contents) with no undo."
 " Purging is a good idea if you want to free the slug such that users can "
 "create new articles in its place."
-msgstr ""
+msgstr "清除文章：彻底删除和文章所有的内容，无法恢复。如果你想释放空间，使得用户可以在其位置创建新的文章，那么彻底删除是一个好主意。"
 
 #: wiki/forms.py:254 wiki/plugins/attachments/forms.py:24
 #: wiki/plugins/images/forms.py:64
@@ -137,7 +137,7 @@ msgstr "锁定文章"
 
 #: wiki/forms.py:262
 msgid "Deny all users access to edit this article."
-msgstr ""
+msgstr "拒绝所有用户访问编辑这篇文章."
 
 #: wiki/forms.py:265
 msgid "Permissions"
@@ -157,17 +157,17 @@ msgstr "（空）"
 
 #: wiki/forms.py:276
 msgid "Inherit permissions"
-msgstr ""
+msgstr "继承权限"
 
 #: wiki/forms.py:276
 msgid ""
 "Check here to apply the above permissions recursively to articles under this"
 " one."
-msgstr ""
+msgstr "选中此处，以后创建的文章将使用以上权限。"
 
 #: wiki/forms.py:281
 msgid "Permission settings for the article were updated."
-msgstr ""
+msgstr "文章访问权限已经更改."
 
 #: wiki/forms.py:283
 msgid "Your permission settings were unchanged, so nothing saved."
@@ -224,7 +224,7 @@ msgstr ""
 
 #: wiki/models/article.py:33
 msgid "group"
-msgstr ""
+msgstr "小组"
 
 #: wiki/models/article.py:35
 msgid ""
@@ -234,19 +234,19 @@ msgstr ""
 
 #: wiki/models/article.py:37
 msgid "group read access"
-msgstr ""
+msgstr "小组的读取权限"
 
 #: wiki/models/article.py:38
 msgid "group write access"
-msgstr ""
+msgstr "小组的写入权限"
 
 #: wiki/models/article.py:39
 msgid "others read access"
-msgstr ""
+msgstr "其他访问者的读取权限"
 
 #: wiki/models/article.py:40
 msgid "others write access"
-msgstr ""
+msgstr "其他访问者的写入权限"
 
 #: wiki/models/article.py:168
 #, python-format
@@ -331,7 +331,7 @@ msgstr ""
 
 #: wiki/models/urlpath.py:42
 msgid "slug"
-msgstr ""
+msgstr "来源"
 
 #: wiki/models/urlpath.py:134
 msgid "(root)"
@@ -565,7 +565,7 @@ msgstr "当这篇文章被编辑"
 
 #: wiki/plugins/notifications/forms.py:18
 msgid "Also receive emails about article edits"
-msgstr ""
+msgstr "也会收到关于编辑文章的电子邮件"
 
 #: wiki/plugins/notifications/forms.py:41
 msgid "Your notification settings were updated."
@@ -573,7 +573,7 @@ msgstr "这篇文章里有一个错误"
 
 #: wiki/plugins/notifications/forms.py:43
 msgid "Your notification settings were unchanged, so nothing saved."
-msgstr ""
+msgstr "这篇文章的设置没有更改，无法保存。"
 
 #: wiki/plugins/notifications/models.py:18
 #, python-format
@@ -648,6 +648,7 @@ msgstr "成功添加了这篇文章的新的版本"
 
 #: wiki/views/article.py:343
 msgid "Restoring article"
+msgstr ""
 msgstr ""
 
 #: wiki/views/article.py:345

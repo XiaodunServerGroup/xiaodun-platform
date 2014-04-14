@@ -260,6 +260,7 @@ def mobi_course_info(request, course, action=None):
         "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
+        "course_price": course.display_course_price_with_default
     }
 
     def compute_action_imgurl(imgname):

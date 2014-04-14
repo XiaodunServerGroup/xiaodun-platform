@@ -30,7 +30,7 @@ define(["jquery"], function($) {
                         }
                     }
                     else {
-                        $(this).attr('src', ifr_source + '?' + wmode);
+                        // $(this).attr('src', ifr_source + '?' + wmode);
                     }
                 }
             }

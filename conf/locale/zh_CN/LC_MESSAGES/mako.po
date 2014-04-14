@@ -120,6 +120,14 @@ msgstr "编辑"
 msgid "Delete"
 msgstr "删除"
 
+#: lms/templates/wiki/includes/breadcrumbs.html
+msgid "clear"
+msgstr "清空"
+
+#: lms/templates/wiki/includes/breadcrumbs.html
+msgid "There are no articles in this level"
+msgstr "没有文章"
+
 #. Translators: this is a verb describing the action of viewing more details
 #: cms/templates/container_xblock_component.html:17
 #: lms/templates/wiki/includes/article_menu.html:11
@@ -2419,7 +2427,7 @@ msgstr "搜索学生"
 
 #: lms/templates/courseware/info.html:7
 msgid "{course_number} Course Info"
-msgstr "{course_number} 课程信息"
+msgstr "{course_number} 更新"
 
 #: lms/templates/courseware/info.html:32 lms/templates/courseware/info.html:41
 #: lms/templates/courseware/welcome-back.html:22

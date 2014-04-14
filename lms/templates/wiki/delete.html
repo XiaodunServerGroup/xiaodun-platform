@@ -5,7 +5,7 @@
 {% block pagetitle %}{% trans "Delete article" %}{% endblock %}
 
 {% block wiki_contents %}
-  <section class="delete">
+  <section class="delete" style="padding: 40px 60px;">
   <h1 class="page-header">{% trans "Delete" %} "{{ article.current_revision.title }}"</h1>
   
   {% if cannot_delete_root %}

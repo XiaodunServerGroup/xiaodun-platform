@@ -293,7 +293,7 @@ msgstr "使用课程更新来通知学生重要的日期或者考试，突出论
 #: cms/templates/edit-tabs.html:34 cms/templates/export.html:121
 #: cms/templates/widgets/header.html:56
 msgid "Static Pages"
-msgstr "静态页面"
+msgstr "简介"
 
 #: cms/templates/edit-tabs.html:41
 msgid "New Page"
@@ -327,7 +327,7 @@ msgstr "预览课程的静态页面"
 msgid ""
 "The names of your Static Pages appear in your course's main navigation bar, "
 "along with Courseware, Course Info, Discussion, Wiki, and Progress."
-msgstr "您的静态页面名字将会在课程主页导航栏中显示，与课件，课程信息，讨论，维基和进度一起。"
+msgstr "您的静态页面名字将会在课程主页导航栏中显示，与课件，课程信息，讨论，资料和进度一起。"
 
 #: cms/templates/edit-tabs.html:92 cms/templates/howitworks.html:161
 #: cms/templates/howitworks.html:174 cms/templates/howitworks.html:187
@@ -1751,7 +1751,7 @@ msgstr "删除当前视频"
 
 #: cms/templates/settings.html:266
 msgid "Enter your YouTube video's ID (along with any restriction parameters)"
-msgstr "请输入您的YouTube视频编号(以及任何必要的限制参数)"
+msgstr "请输入您的视频地址(目前只支持mp4格式视频播放)"
 
 #: cms/templates/settings.html:278
 msgid "Requirements"

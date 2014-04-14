@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 """Implements basics of Capa, including class CapaModule."""
 import cgi
 import datetime
@@ -78,8 +79,8 @@ class CapaFields(object):
     Define the possible fields for a Capa problem
     """
     display_name = String(
-        display_name="Display Name",
-        help="This name appears in the horizontal navigation at the top of the page.",
+        display_name="显示名称",
+        help="此名称出现在页面顶部的水平导航中",
         scope=Scope.settings,
         # it'd be nice to have a useful default but it screws up other things; so,
         # use display_name_with_default for those
@@ -88,9 +89,9 @@ class CapaFields(object):
     attempts = Integer(help="Number of attempts taken by the student on this problem",
                        default=0, scope=Scope.user_state)
     max_attempts = Integer(
-        display_name="Maximum Attempts",
-        help=("Defines the number of times a student can try to answer this problem. "
-              "If the value is not set, infinite attempts are allowed."),
+        display_name="最大尝试次数",
+        help=("定义的时候学生可以尝试回答这个问题的数量。"
+              "如果该值没有被设置，无限的尝试是允许的。"),
         values={"min": 0}, scope=Scope.settings
     )
     due = Date(help="Date that this problem is due by", scope=Scope.settings)
@@ -107,19 +108,19 @@ class CapaFields(object):
         scope=Scope.settings
     )
     showanswer = String(
-        display_name="Show Answer",
-        help=("Defines when to show the answer to the problem. "
-              "A default value can be set in Advanced Settings."),
+        display_name="显示答案",
+        help=("定义显示问题答案的时间，"
+              "默认值可以在高级设置中设置。"),
         scope=Scope.settings,
         default="finished",
         values=[
-            {"display_name": "Always", "value": "always"},
-            {"display_name": "Answered", "value": "answered"},
-            {"display_name": "Attempted", "value": "attempted"},
-            {"display_name": "Closed", "value": "closed"},
-            {"display_name": "Finished", "value": "finished"},
-            {"display_name": "Past Due", "value": "past_due"},
-            {"display_name": "Never", "value": "never"}]
+            {"display_name": "一直", "value": "always"},
+            {"display_name": "询问", "value": "answered"},
+            {"display_name": "尝试", "value": "attempted"},
+            {"display_name": "关闭", "value": "closed"},
+            {"display_name": "结束", "value": "finished"},
+            {"display_name": "过期", "value": "past_due"},
+            {"display_name": "从不", "value": "never"}]
     )
     force_save_button = Boolean(
         help="Whether to force the save button to appear on the page",
@@ -127,17 +128,17 @@ class CapaFields(object):
         default=False
     )
     rerandomize = Randomization(
-        display_name="Randomization",
-        help="Defines how often inputs are randomized when a student loads the problem. "
-             "This setting only applies to problems that can have randomly generated numeric values. "
-             "A default value can be set in Advanced Settings.",
+        display_name="随机性",
+        help="定义一个学生加载问题时随机输入的频率。"
+             "此设置只适用于有随机生成数值的问题。"
+             "默认值可以在高级设置中设置。",
         default="never",
         scope=Scope.settings,
         values=[
-            {"display_name": "Always", "value": "always"},
-            {"display_name": "On Reset", "value": "onreset"},
-            {"display_name": "Never", "value": "never"},
-            {"display_name": "Per Student", "value": "per_student"}
+        {"display_name": "一直", "value": "always"},
+            {"display_name": "复位", "value": "onreset"},
+            {"display_name": "从不", "value": "never"},
+            {"display_name": "每位学生", "value": "per_student"}
         ]
     )
     data = String(help="XML data for the problem", scope=Scope.content, default="<problem></problem>")
@@ -148,9 +149,9 @@ class CapaFields(object):
     done = Boolean(help="Whether the student has answered the problem", scope=Scope.user_state)
     seed = Integer(help="Random seed for this student", scope=Scope.user_state)
     weight = Float(
-        display_name="Problem Weight",
-        help=("Defines the number of points each problem is worth. "
-              "If the value is not set, each response field in the problem is worth one point."),
+        display_name=" 问题的“重量” ",
+        help=("为每个问题定义点的数量都是有价值的的。"
+              "如果未设置值，在每个问题的响应字段只是值一点。"),
         values={"min": 0, "step": .1},
         scope=Scope.settings
     )

@@ -54,6 +54,7 @@ FEATURES = {
 
     'STUDIO_NPS_SURVEY': True,
 
+
     # Segment.io - must explicitly turn it on for production
     'SEGMENT_IO': False,
 
@@ -242,7 +243,7 @@ TEMPLATE_DEBUG = False
 
 # Site info
 SITE_ID = 1
-SITE_NAME = "localhost:8001"
+SITE_NAME = "0.0.0.0:8001"
 HTTPS = 'on'
 ROOT_URLCONF = 'cms.urls'
 IGNORABLE_404_ENDS = ('favicon.ico')
@@ -251,12 +252,13 @@ IGNORABLE_404_ENDS = ('favicon.ico')
 XIAODUN_BACK_HOST = 'http://192.168.1.15:8080'
 
 # Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
 DEFAULT_FROM_EMAIL = 'registration@example.com'
 DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
 SERVER_EMAIL = 'devops@example.com'

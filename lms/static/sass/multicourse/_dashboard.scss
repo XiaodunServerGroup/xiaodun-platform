@@ -1016,3 +1016,15 @@
     }
   }
 }
+/*hfy begin*/
+.ratebar{ float:left; width:100%; position:absolute; left:0px; top:150px;}
+.ratebar-box{ float:left ;width:100%; position:relative;}
+.ratebar-box-text{float:left; position: absolute; left:0; top:-20px; color:#646464;}
+.ratebar-box-present{float:left; position:absolute; left:50%; top:10px; color:#ff7a31;}
+.ratebar-box-100{float:left; position:absolute; right:0; top:-20px; color:#646464;}
+.ratebar-box-line{ width:100%; height:6px; position:absolute; background: url('../images/ratebar-bg_03.gif') left top repeat-x; left:0; top:0px;}
+.ratebar-box-orange{ width:50%; height:6px; position:absolute; background:#ff7a31; left:0; top:0;}
+.ratebar-box-dot{ float:left; width:10px; height:10px; position:absolute; left:50%; top:-8px;}
+.ratebar-btn{width:162px; height:40px; background:#b5b5b5; position:absolute; left:230px; line-height:40px; text-align:center; cursor:pointer; display:none;}
+.ratebar-btn:hover{width:162px; height:40px; background:#cfcfcf; position:absolute; left:230px; line-height:40px; text-align:center; cursor:pointer; }
+/*hfy end*/

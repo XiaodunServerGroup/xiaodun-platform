@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 import logging
 import os
 import sys
@@ -131,10 +132,10 @@ class XModuleMixin(XBlockMixin):
     # the function can also be overridden if the icon class depends on the data
     # in the module
     icon_class = 'other'
-
+    
     display_name = String(
-        display_name="Display Name",
-        help="This name appears in the horizontal navigation at the top of the page.",
+        display_name="显示名称",
+        help="此名称出现在页面顶部的水平导航中",
         scope=Scope.settings,
         # it'd be nice to have a useful default but it screws up other things; so,
         # use display_name_with_default for those
@@ -142,8 +143,8 @@ class XModuleMixin(XBlockMixin):
     )
 
     course_category = String(
-        display_name="Course Category",
-        help="This name appears in the horizontal navigation at the top of the page.",
+        display_name="课程类别",
+        help="此名称出现在页面顶部的水平导航中.",
         scope=Scope.settings,
         # it'd be nice to have a useful default but it screws up other things; so,
         # use display_name_with_default for those
@@ -151,8 +152,17 @@ class XModuleMixin(XBlockMixin):
     )
 
     course_level = String(
-        display_name="Course Level",
-        help="This name appears in the horizontal navigation at the top of the page.",
+        display_name="课程级别",
+        help="此名称出现在页面顶部的水平导航中",
+        scope=Scope.settings,
+        # it'd be nice to have a useful default but it screws up other things; so,
+        # use display_name_with_default for those
+        default=None
+    )
+
+    course_price = String(
+        display_name="课程价格",
+        help="此名称出现在页面顶部的水平导航中",
         scope=Scope.settings,
         # it'd be nice to have a useful default but it screws up other things; so,
         # use display_name_with_default for those
@@ -236,6 +246,19 @@ class XModuleMixin(XBlockMixin):
             course_level = 'P'
 
         return course_level
+
+    @property
+    def display_course_price_with_default(self):
+        """
+        Return a course price for the module: use course_price if defined
+        in metadata, otherwise return P
+        """
+        course_price = self.course_price
+
+        if course_price is None:
+            course_price = 0.0    
+
+        return course_price
 
     def get_explicitly_set_fields_by_scope(self, scope=Scope.content):
         """

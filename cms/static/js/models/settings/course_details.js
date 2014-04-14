@@ -64,7 +64,7 @@ var CourseDetails = Backbone.Model.extend({
         // NOTE don't return empty errors as that will be interpreted as an error state
     },
 
-    _videokey_illegal_chars : /[^a-zA-Z0-9_-]/g,
+    _videokey_illegal_chars : /^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/g,
     set_videosource: function(newsource) {
         // newsource either is <video youtube="speed:key, *"/> or just the "speed:key, *" string
         // returns the videosource for the preview which iss the key whose speed is closest to 1
@@ -77,7 +77,7 @@ var CourseDetails = Backbone.Model.extend({
         return this.videosourceSample();
     },
     videosourceSample : function() {
-        if (this.has('intro_video')) return "//www.youtube.com/embed/" + this.get('intro_video');
+        if (this.has('intro_video')) return this.get('intro_video');
         else return "";
     }
 });

@@ -40,7 +40,7 @@ def write_descriptor_js(output_root):
 
 
 def _list_descriptors():
-    """Return a list of all registered XModuleDescriptor classes."""
+    """Return a list of all registered XModuleDescriptor classes."""        
     return [
         desc for desc in [
             desc for (_, desc) in XModuleDescriptor.load_classes()

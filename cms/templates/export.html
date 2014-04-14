@@ -41,14 +41,14 @@ require(["domReady!", "gettext", "js/views/feedback_prompt"], function(doc, gett
       }
     });
   } else {
-    var msg = "<p>" + gettext("There has been a failure to export your course to XML. Unfortunately, we do not have specific enough information to assist you in identifying the failed component. It is recommended that you inspect your courseware to identify any components in error and try again.") + "</p><p>" + gettext("The raw error message is:") + "</p>" + errMsg;
+    var msg = "<p>" + gettext("导出课程为XML的动作失败了。不幸的是，我们没有具体的足够的信息来帮助您确定发生故障的组件。建议您检查您的课件，以确定错误的任何组件，然后再试一次.") + "</p><p>" + gettext("原始的错误信息是：") + "</p>" + errMsg;
     dialog = new PromptView({
       title: gettext('There has been an error with your export.'),
       message: msg,
       intent: "error",
       actions: {
         primary: {
-          text: gettext('Yes, take me to the main course page'),
+          text: gettext('是的，带我到主课程页面'),
           click: function(view) {
             view.hide();
             document.location = courseHomeUrl;

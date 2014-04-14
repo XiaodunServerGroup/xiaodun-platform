@@ -94,7 +94,7 @@ ${page_title_breadcrumbs(course_name())}
 					aspectratio: '16:6'
                 });
             </script>
-  <a href="/m/show_video/?showurl=${show_url}" style="position: absolute;left: 0px;top: 20px;" target="_blank"><img src="${static.url('images/remote_play_button.jpg')}" id="show_context" style="position:relative;z-index:2;left: 0px;top: 20px;width: 90px; height: 100px" /></a>
+  <a href="/m/show_video/?showurl=${show_url}&course_id=${course.id}" style="position: absolute;left: 0px;top: 20px;" target='self'><img src="${static.url('images/remote_play_button.png')}" id="show_context" style="position:relative;z-index:2;left: 0px;top: 0px;width: 50%; height: 50%" /></a>
   <div class="course-wrapper">
 
 % if accordion:

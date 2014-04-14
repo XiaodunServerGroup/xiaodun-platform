@@ -24,13 +24,10 @@ data: |
         '''
       </script>
       <p>
-      The shapes below can be selected (yellow) or unselected (cyan).
-      Clicking on them repeatedly will cycle through these two states.
+      下面的形状，可以选择（黄色）或未被选择（青色）。通过这两种状态点击它们会反复循环。
       </p>
       <p>
-      If the cone is selected (and not the cube), a correct answer will be
-      generated after pressing "Check". Clicking on either "Check" or "Save"
-      will register the current state.
+      如果锥被选中（而不是立方体），一个正确的答案会按“检查”后生成的。点击任一“检查”或“保存”将注册的当前状态。
       </p>
       <customresponse cfn="vglcfn">
         <jsinput gradefn="WebGLDemo.getGrade"

@@ -1,10 +1,10 @@
 ---
 metadata:
-    display_name: Drag and Drop
+    display_name: 拖放题
     markdown: !!null
 data: |
     <problem>
-      Here's an example of a "Drag and Drop" question set. Click and drag each word in the scrollbar below, up to the numbered bucket which matches the number of letters in the word.
+    这里有一个“拖放”问题集的例子。单击并拖动每个字在下面的滚动条，直至编号桶这在单词的字母数相匹配。
        <customresponse>
             <drag_and_drop_input img="https://studio.edx.org/c4x/edX/DemoX/asset/L9_buckets.png">
                 <draggable id="1" label="a"/>
@@ -40,8 +40,7 @@ data: |
         </customresponse>
         <customresponse>
             <text>
-                <h2>Drag and Drop with Outline</h2>
-                <p>Please label hydrogen  atoms connected with left carbon atom.</p>
+                <p>请标注左碳原子相连的氢原子。</p>
             </text>
             <drag_and_drop_input img="https://studio.edx.org/c4x/edX/DemoX/asset/ethglycol.jpg" target_outline="true" one_per_target="true" no_labels="true" label_bg_color="rgb(222, 139, 238)">
                 <draggable id="1" label="Hydrogen" />

@@ -83,7 +83,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
             <p>${_("Please correct the highlighted fields below.")}</p>
             </div>
           </div>
-
+          
           <div class="wrapper-form">
             <h3 class="title">${_("Create a New Course")}</h3>
 
@@ -95,24 +95,20 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                   <label for="new-course-name">${_("Course Name")}</label>
                   <input class="new-course-name" id="new-course-name" type="text" name="new-course-name" aria-required="true" placeholder="${_('e.g. Introduction to Computer Science')}" />
                   <span class="tip">${_("The public display name for your course.")}</span>
-                  <span class="tip tip-error is-hiding"></span>
-                </li>
-                <li class="field text required" id="field-course-category">
-                    <label for="new-course-category">课程分类</label>
-                    <!--<select class="new-course-category" id="new-course-category" name="new-course-category" aria-required="false" placeholder="课程分类">-->
-                        <!--<option value="T">技术</option>-->
-                        <!--<option value="M">管理</option>-->
-                    <!--</select>-->
-                    <script src="${settings.XIAODUN_BACK_HOST}/ossFront/dictionaryRs.jsp?divid=field-course-category&code=course_category&selectname=new-course-category"></script>
+                  <span class="tip tip-er ror is-hiding"></span>
                 </li>
                 <li class="field text required" id="field-course-level">
-                    <label for="new-course-level">课程级别</label>
-                    <!--<select class="new-course-level" id="new-course-level" name="new-course-level" aria-required="false" placeholder="课程分类">-->
-                        <!--<option value="J">初级</option>-->
-                        <!--<option value="M">中级</option>-->
-                        <!--<option value="S">高级</option>-->
-                    <!--</select>-->
-                    <script src="${settings.XIAODUN_BACK_HOST}/ossFront/dictionaryRs.jsp?divid=field-course-level&code=course_level&selectname=new-course-level"></script>
+                    <select class="new-course-level" id="new-course-level" name="new-course-level" aria-required="false" placeholder="课程分类">
+                      <option value="J">初级</option>
+                      <option value="M">中级</option>
+                      <option value="S">高级</option>
+                    </select>
+                    <!-- <script src="${settings.XIAODUN_BACK_HOST}/ossFront/dictionaryRs.jsp?divid=field-course-level&code=course_level&selectname=new-course-level"></script> -->
+                </li>
+                <li class="field text required" id="field-course-price">
+                  <label for="new-course-price">课程价格</label>
+                  <input class="new-course-price" id="new-course-price" type="text" name="new-course-price" aria-required="false" placeholder="课程价格" />
+                  <span class='tip'>请填写课程价格，不填默认为0</span>
                 </li>
                 <li class="field text required" id="field-organization">
                   <label for="new-course-org">${_("Organization")}</label>

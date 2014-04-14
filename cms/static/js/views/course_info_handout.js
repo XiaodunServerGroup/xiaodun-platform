@@ -58,16 +58,28 @@ define(["js/views/baseview", "underscore", "codemirror", "js/views/feedback_noti
             this.$table.html('')
             $.each($(this.$preview.html()).find('li'), function(index, item){
                 var title = url = '';
+                var title_show = url_show = "";
 
                 var a_mark = $(item).find('a');
                 if(a_mark.html() != null) {
                     title = $(a_mark).html();
                     url = $(a_mark).attr('href');
+
+                    title_show = title
+                    url_show = url
                 } else {
                     title = $(item).html();
                 }
 
-                insert_trs += ("<tr><td>" + title + "</td><td>" + url + "</td><td><a class='remove-handout-item' href='#' onclick='remove_tr_item(this)'>-</a></td></tr>");
+                if (title.length > 20){
+                    title_show = (title.substring(0, 17) + "...");
+                }
+
+                if (url.length > 20){
+                    url_show = (url.substring(0, 17) + "...")
+                }
+
+                insert_trs += ("<tr><td title='" + title + "'>" + title_show+ "</td><td title='" + url +"'>" + url_show + "</td><td><a class='remove-handout-item' href='#' onclick='remove_tr_item(this)'><img src='/static//img/cancle.gif'/></a></td></tr>");
             });
 
             this.$table.append(insert_trs);

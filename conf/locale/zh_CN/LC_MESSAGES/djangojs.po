@@ -1301,7 +1301,7 @@ msgstr "注册结束日期应在课程结束日期之前。"
 
 #: cms/static/js/models/settings/course_details.js
 msgid "Key should only contain letters, numbers, _, or -"
-msgstr "关键字只能包含字母、数字，下划线和连字符。"
+msgstr "URL地址不正确。"
 
 #: cms/static/js/models/settings/course_grader.js
 msgid "There's already another assignment type with this name."

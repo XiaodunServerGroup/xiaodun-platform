@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 import copy
 from fs.errors import ResourceNotFoundError
 import logging
@@ -22,8 +23,8 @@ log = logging.getLogger("edx.courseware")
 
 class HtmlFields(object):
     display_name = String(
-        display_name="Display Name",
-        help="This name appears in the horizontal navigation at the top of the page.",
+        display_name="显示名称",
+        help="此名称出现在页面顶部的水平导航中",
         scope=Scope.settings,
         # it'd be nice to have a useful default but it screws up other things; so,
         # use display_name_with_default for those
@@ -257,14 +258,14 @@ class StaticTabFields(object):
     The overrides for Static Tabs
     """
     display_name = String(
-        display_name="Display Name",
-        help="This name appears in the horizontal navigation at the top of the page.",
+        display_name="显示名称",
+        help="此名称出现在页面顶部的水平导航中.",
         scope=Scope.settings,
         default="Empty",
     )
     data = String(
         default=textwrap.dedent("""\
-            <p>This is where you can add additional pages to your courseware. Click the 'edit' button to begin editing.</p>
+            <p>在这里，您可以添加额外的页面到您的课件。点击“编辑”按钮，开始编辑。</p>
         """),
         scope=Scope.content,
         help="HTML for the additional pages"

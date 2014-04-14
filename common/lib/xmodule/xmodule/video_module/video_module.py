@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*
 # pylint: disable=W0223
 """Video is ungraded Xmodule for support video content.
 It's new improved video module, which support additional feature:
@@ -51,7 +52,7 @@ log = logging.getLogger(__name__)
 class VideoFields(object):
     """Fields for `VideoModule` and `VideoDescriptor`."""
     display_name = String(
-        display_name="Display Name", help="Display name for this module.",
+        display_name="显示名称", help="显示模块名称",
         default="Video",
         scope=Scope.settings
     )
@@ -63,38 +64,38 @@ class VideoFields(object):
     # TODO: This should be moved to Scope.content, but this will
     # require data migration to support the old video module.
     youtube_id_1_0 = String(
-        help="This is the Youtube ID reference for the normal speed video.",
-        display_name="Youtube ID",
+        help="这是正常的视频播放速度",
+        display_name="Video ID",
         scope=Scope.settings,
         default="OEoXaMPEzfM"
     )
     youtube_id_0_75 = String(
-        help="Optional, for older browsers: the Youtube ID for the .75x speed video.",
-        display_name="Youtube ID for .75x speed",
+        help="可选项，对于旧的浏览器：播放速度为正常的0.75。",
+        display_name=".75x speed",
         scope=Scope.settings,
         default=""
     )
     youtube_id_1_25 = String(
-        help="Optional, for older browsers: the Youtube ID for the 1.25x speed video.",
-        display_name="Youtube ID for 1.25x speed",
+        help="可选项，对于旧的浏览器：播放速度为正常的1.25倍。",
+        display_name="1.25x speed",
         scope=Scope.settings,
         default=""
     )
     youtube_id_1_5 = String(
-        help="Optional, for older browsers: the Youtube ID for the 1.5x speed video.",
-        display_name="Youtube ID for 1.5x speed",
+        help="可选项，对于旧的浏览器：播放速度为正常的1.5倍.",
+        display_name="1.5x speed",
         scope=Scope.settings,
         default=""
     )
     start_time = RelativeTime(  # datetime.timedelta object
-        help="Start time for the video (HH:MM:SS). Max value is 23:59:59.",
-        display_name="Start Time",
+        help="视频的开始时间 (HH:MM:SS).最大值为 23:59:59",
+        display_name="开始时间",
         scope=Scope.settings,
         default=datetime.timedelta(seconds=0)
     )
     end_time = RelativeTime(  # datetime.timedelta object
-        help="End time for the video (HH:MM:SS). Max value is 23:59:59.",
-        display_name="End Time",
+        help="视频的结束时间 (HH:MM:SS).最大值为 23:59:59",
+        display_name="结束时间",
         scope=Scope.settings,
         default=datetime.timedelta(seconds=0)
     )
@@ -103,50 +104,50 @@ class VideoFields(object):
     # `source` is deprecated field and should not be used in future.
     # `download_video` is used instead.
     source = String(
-        help="The external URL to download the video.",
-        display_name="Download Video",
+        help="视频外部链接下载地址",
+        display_name="视频下载",
         scope=Scope.settings,
         default=""
     )
     download_video = Boolean(
-        help="Show a link beneath the video to allow students to download the video. Note: You must add at least one video source below.",
-        display_name="Video Download Allowed",
+        help="显示视频下方的链接，让学生下载的视频。注意：您必须在下面添加至少一个视频源.",
+        display_name="允许下载视频",
         scope=Scope.settings,
         default=False
     )
     html5_sources = List(
-        help="A list of filenames to be used with HTML5 video. The first supported filetype will be displayed.",
-        display_name="Video Sources",
+        help="文件名要与HTML5视频使用的清单。第一个支持的文件类型就会显示出来。",
+        display_name="视频资源",
         scope=Scope.settings,
     )
     track = String(
-        help="The external URL to download the timed transcript track. This appears as a link beneath the video.",
-        display_name="Download Transcript",
+        help="外部URL下载时记录跟踪，如下显示的视频连接。",
+        display_name="下载记录",
         scope=Scope.settings,
         default=''
     )
     download_track = Boolean(
-        help="Show a link beneath the video to allow students to download the transcript. Note: You must add a link to the HTML5 Transcript field above.",
-        display_name="Transcript Download Allowed",
+        help="显示视频下方的链接，让学生下载视频。注意：您必须添加一个HTML5的链接记录。",
+        display_name="允许下载记录",
         scope=Scope.settings,
         default=False
     )
     sub = String(
-        help="The name of the timed transcript track (for non-Youtube videos).",
-        display_name="Transcript (primary)",
+        help="跟踪记录的名称.",
+        display_name="记录(初级)",
         scope=Scope.settings,
         default=""
     )
     show_captions = Boolean(
-        help="This controls whether or not captions are shown by default.",
-        display_name="Transcript Display",
+        help="这种控制标题是否被默认显示。",
+        display_name="显示记录",
         scope=Scope.settings,
         default=True
     )
     # Data format: {'de': 'german_translation', 'uk': 'ukrainian_translation'}
     transcripts = Dict(
-        help="Add additional transcripts in other languages",
-        display_name="Transcript Translations",
+        help="用其他语言添加翻译译文",
+        display_name="翻译记录",
         scope=Scope.settings,
         default={}
     )
@@ -617,7 +618,7 @@ class VideoDescriptor(VideoFields, TabsEditingDescriptor, EmptyDataRawDescriptor
         _ = self.runtime.service(self, "i18n").ugettext
         video_url.update({
             'help': _('A YouTube URL or a link to a file hosted anywhere on the web.'),
-            'display_name': 'Video URL',
+            'display_name': '视频URL',
             'field_name': 'video_url',
             'type': 'VideoList',
             'default_value': [get_youtube_link(youtube_id_1_0['default_value'])]

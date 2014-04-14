@@ -31,33 +31,30 @@ metadata:
 data: |
    <problem>
    <p>
-   A numerical input problem accepts a line of text input from the
-   student, and evaluates the input for correctness based on its
-   numerical value.  
+   一个数字输入问题接受学生的文字输入，并根据其数值评估输入的正确性。
    </p>
 
    <p>
-   The answer is correct if it is within a specified numerical tolerance
-   of the expected answer.
+   如果答案是在预期的答案的指定数值的公差范围内，那么就是对的
    </p>
    <script type="loncapa/python">
    computed_response = 502*9
    </script>
 
-   <p>Enter the numerical value of Pi:
+   <p>输入数字PI：
        <numericalresponse answer="3.14159">
            <responseparam type="tolerance" default=".02" />
            <formulaequationinput label="Enter the numerical value of Pi" />
        </numericalresponse>
    </p>
-   <p>Enter the approximate value of 502*9:
+   <p>输入502*9的近似值
        <numericalresponse answer="$computed_response">
            <responseparam type="tolerance" default="15%"/>
            <formulaequationinput label="Enter the approximate value of 502 times 9"/>
        </numericalresponse>
    </p>
 
-   <p>Enter the number of fingers on a human hand:
+   <p>输入一个人有几根手指。
        <numericalresponse answer="5">
            <formulaequationinput label="Enter the number of fingers on a human hand"/>
        </numericalresponse>

@@ -5,7 +5,7 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
 
             // One final check for empty values
             var errors = _.reduce(
-                ['.new-course-name', '.new-course-org', '.new-course-category', '.new-course-number', '.new-course-run'],
+                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run'],
                 function (acc, ele) {
                     var $ele = $(ele);
                     var error = validateRequiredField($ele.val());
@@ -23,6 +23,7 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
             var display_name = $newCourseForm.find('.new-course-name').val();
             var course_category = $newCourseForm.find('.new-course-category').val();
             var course_level = $newCourseForm.find('.new-course-level').val();
+            var course_price = $newCourseForm.find('.new-course-price').val();
             var org = $newCourseForm.find('.new-course-org').val();
             var number = $newCourseForm.find('.new-course-number').val();
             var run = $newCourseForm.find('.new-course-run').val();
@@ -38,6 +39,7 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
                     'org': org,
                     'course_category': course_category,
                     'course_level': course_level,
+                    'course_price': course_price,
                     'number': number,
                     'display_name': display_name,
                     'run': run
@@ -60,7 +62,7 @@ require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
             $('.wrapper-create-course').removeClass('is-shown');
             // Clear out existing fields and errors
             _.each(
-                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run'],
+                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-category', 'new-course-level', 'new-course-price', '.new-course-run'],
                 function (field) {
                     $(field).val('');
                 }

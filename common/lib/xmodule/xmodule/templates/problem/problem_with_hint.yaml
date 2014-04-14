@@ -6,10 +6,11 @@ data: |
     <problem>
       <text>
         <p>
-          <h4>Problem With Adaptive Hint</h4>
+          <h4>自适应提示问题</h4>
         </p>
         <p>
-    This problem demonstrates a question with hints, based on using the <tt class="tt">hintfn</tt> method. </p>
+          这是一道考察了关于html标签使用方法的问题。 
+        </p>
         <script type="text/python" system_path="python_lib">
     def test_str(expect, ans):
       print expect, ans
@@ -37,7 +38,8 @@ data: |
         new_cmap.set_hint_and_mode(aid,hint,'always')
     </script>
         <p>
-    What is the best programming language that exists today? You may enter your answer in upper or lower case, with or without quotes. </p>
+          目前最好的编程语言是什么？你可以以大写或小写形式输入答案，可以带引号也可以不带。
+        </p>
         <p>
           <customresponse cfn="test_str" expect="python">
             <textline correct_answer="python" label="What is the best programming language that exists today?"/>

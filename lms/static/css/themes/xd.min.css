@@ -237,10 +237,10 @@ html .ui-alt-icon .ui-radio-off:after {
 .fall-body ul h1 {color:#000000; font-size:20px;}
 .fall-body ul h2 {color:#333333; font-size:16px; font-weight:normal; line-height:20px;}
 .fall-body ul.click {background:#eeeeee;}
-.class_title {height:70px; font-size:24px; color:#FFFFFF; padding:0 10px; text-align:center; line-height:70px; background:url(images/class_pre.png) left center no-repeat #ff7200;}
+.class_title {height:70px; font-size:24px; color:#FFFFFF; padding:0 10px; text-align:center; line-height:70px; background: left center no-repeat #ff7200;}
 .class_m20 {margin:20px;}
 .img-board {margin:15px 5px; padding:0;}
-.img-board img {width:100%; height:300px;}
+.img-board img {width:100%; height:100%;}
 .class_m20 h3 {font-size:18px; color:#000000; padding:0 5px;}
 .class_m20 h4 {font-size:15px; color:#333333; padding:0 5px; font-weight:normal;}
 .class_m20 span {padding-left:20px;}
@@ -269,6 +269,7 @@ html .ui-alt-icon .ui-radio-off:after {
 .ott p {font-size:18px; color:#FFFFFF; line-height:30px; font-weight:normal;}
 .ott p .input {background:#bcbcbc; font-size:15px; color:#000000;}
 .ott p.right {text-align:right; font-size:15px; font-weight:normal;}
-.ott .cancel {background:url(images/cancel.png) left top no-repeat; width:158px; height:49px; color:#000000; text-align:center; font-size:20px; line-height:49px; cursor:pointer; float:left; margin-right:10px;}
-.ott .ok {background:url(images/ok.png) no-repeat; width:158px; height:49px; color:#FFFFFF; text-align:center; font-size:20px; line-height:49px; cursor:pointer; float:left;}
-.ott .but {height:60px; text-align:center; padding-left:60px;}
+.ott .but {width: 100%; height:60px; text-align:center; padding-left:60px;}
+.ott .cancel {border-radius: 10px; background-color: #CCC; width:30%; height:49px; color:#000000; text-align:center; font-size:20px; line-height:49px; cursor:pointer; float:left; margin-right:10px;}
+.ott .ok {border-radius: 10px; background-color: #FF8000; width:30%; height:49px; color:#FFFFFF; text-align:center; font-size:20px; line-height:49px; cursor:pointer; float:left;}
+

@@ -1,13 +1,55 @@
-<!DOCTYPE html>  
-<html>  
-  <head>  
-    <title>mobi_video</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <form action="">
-        <input type="text" name="checkcode" value="${showurl}"/>
-        <input type="submit" name="submit"/>
-    </form>
-  </body>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>mobi_video</title>
+<link rel="stylesheet" href="/static/css/themes/xd.min.css" />
+        <link rel="stylesheet" href="/static/css/themes/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="/static/css/themes/jquery.mobile.structure-1.4.2.min.css" />
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <!--<script src="/static/js/jquery.mobile-1.4.2.min.js"></script>-->
+        <style type="text/css">
+            a{text-decoration:none}
+        </style>
+</head>
+<body>
+
+<div class="ott">
+<div class="title">对接OTT<div class="close" onclick="closed(this)">关闭</div></div>
+<p>请输入电视上的设备码</p>
+<p>设备码位置：校盾TV版>设置>微信</p>
+<p><input type="text" class="input" id="message" value=""></p>
+            <p style="display: none">
+                <input type="text" id="showurl" value="${showurl}">
+                <input type="text" id="course_id" value="${course_id}">
+            </p>
+<p class="right">*请确保手机和电视处在同一路由器下</p>
+<div class="but"><div class="cancel" onclick="cancel(this)">取消</div><div class="ok" onclick="send_address(this)" style="color: white">链接</div></div>
+</div>
+</body>
+        <script type="text/javascript">
+            function send_address(obj){
+                var message=document.getElementById('message').value;
+                var showurl=document.getElementById('showurl').value;
+                var course_id=document.getElementById('course_id').value;
+                var url="http://115.28.242.64:8080/zmqott/OTT?message="+ message + "~1*=" + showurl;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "jsonp",
+                    complete: function(data){
+                        window.location.href="/m/courses/"+course_id+"/courseware";
+                    },
+                });
+            }
+            function cancel(obj){
+                var message=document.getElementById('message').value;
+                $("#message").val("");
+            }
+            function closed(obj){
+                window.close();
+            }
+        </script>
+</html>
