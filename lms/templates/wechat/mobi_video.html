@@ -49,6 +49,8 @@
                 $("#message").val("");
             }
             function closed(obj){
+                var win=window.open(location.href,'_self');
+                win.close();
                 window.close();
             }
         </script>

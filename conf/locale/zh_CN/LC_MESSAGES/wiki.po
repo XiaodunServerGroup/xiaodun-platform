@@ -171,7 +171,7 @@ msgstr "文章访问权限已经更改."
 
 #: wiki/forms.py:283
 msgid "Your permission settings were unchanged, so nothing saved."
-msgstr ""
+msgstr "这篇文章的权限设置没有更改，无法保存。"
 
 #: wiki/forms.py:322
 msgid "No user with that username"
@@ -648,7 +648,6 @@ msgstr "成功添加了这篇文章的新的版本"
 
 #: wiki/views/article.py:343
 msgid "Restoring article"
-msgstr ""
 msgstr ""
 
 #: wiki/views/article.py:345

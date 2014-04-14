@@ -11524,7 +11524,7 @@ msgstr "选中此处，以后创建的文章将使用以上权限。"
 
 #: wiki/forms.py
 msgid "Permission settings for the article were updated."
-msgstr "文章访问权限已经更改"
+msgstr "文章访问权限已经更改."
 
 #: wiki/forms.py
 msgid "Your permission settings were unchanged, so nothing saved."
