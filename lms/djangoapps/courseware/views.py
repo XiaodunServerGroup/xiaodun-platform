@@ -22,7 +22,7 @@ import django.utils
 
 from courseware import grades
 from courseware.access import has_access
-from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement, get_course_info_section,
+from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement, get_course_info_section, filter_audited_items,
                                 get_course_by_id, get_course, course_image_url, get_course_about_section, get_courses_by_search)
 
 import courseware.tabs as tabs
@@ -95,7 +95,7 @@ def courses(request):
        courses_list = courses_aa
 
     courses = sort_by_announcement(courses_list)
-    return render_to_response("courseware/courses.html", {'courses': courses})
+    return render_to_response("courseware/courses.html", {'courses': filter_audited_items(courses)})
 
 
 def return_fixed_courses(request, courses, action=None):

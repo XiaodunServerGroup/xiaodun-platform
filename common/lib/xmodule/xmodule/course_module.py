@@ -190,76 +190,76 @@ class CourseFields(object):
                  scope=Scope.settings)
     end = Date(help="Date that this class ends", scope=Scope.settings)
     advertised_start = String(help="Date that this course is advertised to start", scope=Scope.settings)
-    # grading_policy = Dict(help="Grading policy definition for this class",
-    #                       default={"GRADER": [
-    #                           {
-    #                               "type": "Homework",
-    #                               "min_count": 12,
-    #                               "drop_count": 2,
-    #                               "short_label": "HW",
-    #                               "weight": 0.15
-    #                           },
-    #                           {
-    #                               "type": "Lab",
-    #                               "min_count": 12,
-    #                               "drop_count": 2,
-    #                               "weight": 0.15
-    #                           },
-    #                           {
-    #                               "type": "Midterm Exam",
-    #                               "short_label": "Midterm",
-    #                               "min_count": 1,
-    #                               "drop_count": 0,
-    #                               "weight": 0.3
-    #                           },
-    #                           {
-    #                               "type": "Final Exam",
-    #                               "short_label": "Final",
-    #                               "min_count": 1,
-    #                               "drop_count": 0,
-    #                               "weight": 0.4
-    #                           }
-    #                       ],
-    #                           "GRADE_CUTOFFS": {
-    #                               "Pass": 0.5
-    #                           }},
-    #                       scope=Scope.content)
     grading_policy = Dict(help="Grading policy definition for this class",
-                          default={
-                            "GRADER": [
+                          default={"GRADER": [
                               {
-                                "type": "家庭作业",
-                                "min_count": 12,
-                                "drop_count": 2,
-                                "short_label": "HW",
-                                "weight": 0.15
+                                  "type": "Homework",
+                                  "min_count": 12,
+                                  "drop_count": 2,
+                                  "short_label": "HW",
+                                  "weight": 0.15
                               },
                               {
-                                "type": "实验",
-                                "min_count": 12,
-                                "drop_count": 2,
-                                "weight": 0.15
+                                  "type": "Lab",
+                                  "min_count": 12,
+                                  "drop_count": 2,
+                                  "weight": 0.15
                               },
                               {
-                                "type": "期中测验",
-                                "short_label": "Midterm",
-                                "min_count": 1,
-                                "drop_count": 0,
-                                "weight": 0.3
+                                  "type": "Midterm Exam",
+                                  "short_label": "Midterm",
+                                  "min_count": 1,
+                                  "drop_count": 0,
+                                  "weight": 0.3
                               },
                               {
-                                "type": "期末测验",
-                                "short_label": "Final",
-                                "min_count": 1,
-                                "drop_count": 0,
-                                "weight": 0.4
+                                  "type": "Final Exam",
+                                  "short_label": "Final",
+                                  "min_count": 1,
+                                  "drop_count": 0,
+                                  "weight": 0.4
                               }
-                            ],
-                            "GRADE_CUTOFFS": {
-                              "Pass": 0.5
-                            }
-                          },
+                          ],
+                              "GRADE_CUTOFFS": {
+                                  "Pass": 0.5
+                              }},
                           scope=Scope.content)
+    # grading_policy = Dict(help="Grading policy definition for this class",
+    #                       default={
+    #                         "GRADER": [
+    #                           {
+    #                             "type": "家庭作业",
+    #                             "min_count": 12,
+    #                             "drop_count": 2,
+    #                             "short_label": "HW",
+    #                             "weight": 0.15
+    #                           },
+    #                           {
+    #                             "type": "实验",
+    #                             "min_count": 12,
+    #                             "drop_count": 2,
+    #                             "weight": 0.15
+    #                           },
+    #                           {
+    #                             "type": "期中测验",
+    #                             "short_label": "Midterm",
+    #                             "min_count": 1,
+    #                             "drop_count": 0,
+    #                             "weight": 0.3
+    #                           },
+    #                           {
+    #                             "type": "期末测验",
+    #                             "short_label": "Final",
+    #                             "min_count": 1,
+    #                             "drop_count": 0,
+    #                             "weight": 0.4
+    #                           }
+    #                         ],
+    #                         "GRADE_CUTOFFS": {
+    #                           "Pass": 0.5
+    #                         }
+    #                       },
+    #                       scope=Scope.content)
     show_calculator = Boolean(help="Whether to show the calculator in this course", default=False, scope=Scope.settings)
     display_name = String(help="Display name for this module", default="Empty", display_name="Display Name", scope=Scope.settings)
     show_chat = Boolean(help="Whether to show the chat widget in this course", default=False, scope=Scope.settings)
@@ -509,11 +509,11 @@ class CourseFields(object):
                                       "action_external": 1
                                     },
                                     {
-                                      "short_description": "报名参加校盾 101",
-                                      "long_description": "注册校盾 101、阅读课程创建的校盾 入门书",
+                                      "short_description": "报名参加Edx 101",
+                                      "long_description": "注册Edx 101、阅读课程创建的Edx 入门书",
                                       "is_checked": 0,
                                       "action_url": "https://edge.edx.org/courses/edX/edX101/How_to_Create_an_edX_Course/about",
-                                      "action_text": "注册校盾 101",
+                                      "action_text": "注册Edx 101",
                                       "action_external": 1
                                     },
                                     {

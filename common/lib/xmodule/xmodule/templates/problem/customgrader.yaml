@@ -37,7 +37,7 @@ data: |
           <solution>
               <div class="detailed-solution">
                   <p>Explanation</p>
-                  <p>Any set of integers on the line \(y = 10 - x\) and \(y = 20 - x\) satisfy these constraints.</p>
+                  <p>上面的答案满足方程 \(y = 10 - x\) 和 \(y = 20 - x\) .</p>
                   <img src="/static/images/simple_graph.png"/>
               </div>
           </solution>

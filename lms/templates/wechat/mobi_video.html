@@ -34,14 +34,21 @@
                 var message=document.getElementById('message').value;
                 var showurl=document.getElementById('showurl').value;
                 var course_id=document.getElementById('course_id').value;
-                var url="http://115.28.242.64:8080/zmqott/OTT?message="+ message + "~1*=" + showurl;
+                var url="http://115.28.242.64:8080/zmqott/OTT?message="+ message + "~1*" + showurl;
+
+                if (message == "") {
+                   alert('输入内容不能为空');
+                   return false;
+                }
                 $.ajax({
                     url: url,
                     type: "GET",
                     dataType: "jsonp",
-                    complete: function(data){
+                    jsonp: false,
+                    'cache':true,
+                    complete: function(){
                         window.location.href="/m/courses/"+course_id+"/courseware";
-                    },
+                    }
                 });
             }
             function cancel(obj){
@@ -49,9 +56,12 @@
                 $("#message").val("");
             }
             function closed(obj){
-                var win=window.open(location.href,'_self');
-                win.close();
-                window.close();
+                var course_id=document.getElementById('course_id').value;
+                $.ajax({
+                    complete: function(data){
+                        window.location.href="/m/courses/"+course_id+"/courseware";
+                    },
+                });
             }
         </script>
 </html>

@@ -1751,7 +1751,7 @@ msgstr "删除当前视频"
 
 #: cms/templates/settings.html:266
 msgid "Enter your YouTube video's ID (along with any restriction parameters)"
-msgstr "请输入您的视频地址(目前只支持mp4格式视频播放)"
+msgstr "请输入您的视频地址(目前只支持mp4视频播放格式)"
 
 #: cms/templates/settings.html:278
 msgid "Requirements"

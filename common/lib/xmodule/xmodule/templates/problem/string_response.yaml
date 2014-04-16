@@ -34,7 +34,7 @@ data: |
         <solution>
             <div class="detailed-solution">
                 <p>Explanation</p>
-                <p>Lansing is the capital of Michigan, although it is not Michgan's largest city, or even the seat of the county in which it resides.</p>
+                <p>Lansing是Michigan的首都，虽然它不是Michgan最大的城市，或在其所在县的城市。</p>
             </div>
         </solution>
     </problem>

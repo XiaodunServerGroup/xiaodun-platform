@@ -169,6 +169,13 @@ class XModuleMixin(XBlockMixin):
         default=None
     )
 
+    course_audit = Integer(
+        display_name="审核与否",
+        help="与业务系统相关字段",
+        scope=Scope.settings,
+        default=0
+    )
+
     @property
     def system(self):
         """

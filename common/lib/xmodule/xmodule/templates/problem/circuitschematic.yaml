@@ -50,9 +50,9 @@ data: |
           <solution>
               <div class="detailed-solution">
                   <p>Explanation</p>
-                  <p>A voltage divider that evenly divides the input voltage can be formed with two identically valued resistors, with the sampled voltage taken in between the two.</p>
+                  <p>可以用两个相同的电阻值来形成一个电压分压器，均匀地将输入电压与采样的电压在两者之间取中。</p>
                   <p><img src="/static/images/voltage_divider.png"/></p>
-                  <p>A simple high-pass filter without any further constaints can be formed by simply putting a resister in series with a capacitor. The actual values of the components do not really matter in order to meet the constraints of the problem.</p>
+                  <p>没有进一步约束的简单的高通滤波器能够通过简单地把一个电阻器串联的电容器来形成。该组件的实际值是为了满足问题的约束条件是没有问题的。</p>
                   <p><img src="/static/images/high_pass_filter.png"/></p>
               </div>
           </solution>

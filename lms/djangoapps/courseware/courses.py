@@ -324,6 +324,18 @@ def sort_by_announcement(courses):
 
     return courses
 
+def filter_audited_items(courses):
+    """
+    get courses audited
+    """
+
+    courses_list = []
+    for course in courses:
+        if course.course_audit == 1:
+            courses_list.append(course)
+
+    return courses_list
+
 
 def get_cms_course_link(course):
     """

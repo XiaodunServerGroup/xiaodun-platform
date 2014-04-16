@@ -93,6 +93,8 @@ urlpatterns += patterns(
     url(r'(?ix)^textbooks/{}$'.format(parsers.URL_RE_SOURCE), 'textbooks_list_handler'),
     url(r'(?ix)^textbooks/{}/(?P<tid>\d[^/]*)$'.format(parsers.URL_RE_SOURCE), 'textbooks_detail_handler'),
 
+    # course check api
+    url(r'(?ix)^bs/course/(?P<course_id>[\w\-~.:]+)/audit/(?P<operation>(pass|offline))$', 'course_audit_api'),
     # mobile restfull api
     url(r'(?ix)^mobi/course-list/search/(?P<keyword>[^/]+)$', 'mobi_search'),
     url(r'(?ix)^mobi/course-list/(?P<datatype>(homefalls|hot|latest|all|my))($|/version$)', 'mobi_course_handler'),

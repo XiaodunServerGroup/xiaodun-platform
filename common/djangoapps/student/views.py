@@ -13,6 +13,7 @@ import re
 import urllib
 import uuid
 import time
+from django.utils import timezone
 from collections import defaultdict
 from pytz import UTC
 
@@ -60,7 +61,7 @@ from xmodule.modulestore import XML_MODULESTORE_TYPE, Location
 
 from collections import namedtuple
 
-from courseware.courses import get_courses, sort_by_announcement
+from courseware.courses import get_courses, sort_by_announcement, filter_audited_items
 from courseware.access import has_access
 
 from django_comment_common.models import Role
@@ -123,7 +124,7 @@ def index(request, extra_context={}, user=AnonymousUser()):
     courses = get_courses(user, domain=domain)
     courses = sort_by_announcement(courses)
 
-    context = {'courses': courses}
+    context = {'courses': filter_audited_items(courses)}
 
     context.update(extra_context)
     return render_to_response('index.html', context)
@@ -524,7 +525,6 @@ def dashboard(request):
         'current_language': current_language,
         'current_language_code': cur_lang_code,
     }
-
     return render_to_response('dashboard.html', context)
 
 

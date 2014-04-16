@@ -75,7 +75,6 @@ def _manage_users(request, locator):
     instructors = CourseInstructorRole(locator).users_with_role()
     # the page only lists staff and assumes they're a superset of instructors. Do a union to ensure.
     staff = set(CourseStaffRole(locator).users_with_role()).union(instructors)
-
     return render_to_response('manage_users.html', {
         'context_course': course_module,
         'staff': staff,

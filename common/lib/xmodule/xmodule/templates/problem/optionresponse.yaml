@@ -34,7 +34,7 @@ data: |
       <solution>
           <div class="detailed-solution">
               <p>Explanation</p>
-              <p>Multiple Choice also allows students to select from a variety of pre-written responses, although the format makes it easier for students to read very long response options. Optionresponse also differs slightly because students are more likely to think of an answer and then search for it rather than relying purely on recognition to answer the question.</p>
+              <p>单项选择也让学生从各种预先写好的回应进行选择，虽然格式更容易为学生阅读。选项​​响应也略有不同，因为学生更容易想到一个答案，然后搜索它，而不是单纯回答这个问题。</p>
           </div>
       </solution>
   </problem>

@@ -7,12 +7,16 @@ import string  # pylint: disable=W0402
 import re
 import bson
 
+from datetime import *
+from django.utils import timezone
+
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django_future.csrf import ensure_csrf_cookie
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest, HttpResponseNotFound
@@ -26,6 +30,7 @@ from xmodule.contentstore.content import StaticContent
 from xmodule.modulestore.exceptions import (
     ItemNotFoundError, InvalidLocationError)
 from xmodule.modulestore import Location
+from xmodule.fields import Date
 
 from contentstore.course_info_model import get_course_updates, update_course_updates, delete_course_update
 from contentstore.utils import (
@@ -47,6 +52,7 @@ from django_comment_common.models import assign_default_role
 from django_comment_common.utils import seed_permissions_roles
 
 from student.models import CourseEnrollment
+from student.roles import CourseInstructorRole
 
 from xmodule.html_module import AboutDescriptor
 from xmodule.modulestore.locator import BlockUsageLocator, CourseLocator
@@ -61,7 +67,8 @@ __all__ = ['course_info_handler', 'course_handler', 'course_info_update_handler'
            'settings_handler',
            'grading_handler',
            'advanced_settings_handler',
-           'textbooks_list_handler', 'textbooks_detail_handler']
+           'textbooks_list_handler', 
+           'textbooks_detail_handler', 'course_audit_api']
 
 
 def _get_locator_and_course(package_id, branch, version_guid, block_id, user, depth=0):
@@ -937,3 +944,38 @@ def _get_course_creator_status(user):
         course_creator_status = 'granted'
 
     return course_creator_status
+
+
+@csrf_exempt
+def course_audit_api(request, course_id, operation):
+    re_json = {"success": False}
+
+    request_method = request.method
+    if request_method != "POST":
+        return JsonResponse(re_json)
+    # get course location and module infomation
+    try:
+        course_location_info = course_id.split('.')
+        locator = BlockUsageLocator(package_id=course_id, branch='draft', version_guid=None, block_id=course_location_info[-1])
+        course_location = loc_mapper().translate_locator_to_location(locator)
+        course_module = get_modulestore(course_location).get_item(course_location)
+
+        instructors = CourseInstructorRole(locator).users_with_role()
+        if len(instructors) <= 0:
+            return JsonResponse(re_json)
+
+        user = instructors[0]
+
+        meta_json = {}
+        if operation == "pass":
+            meta_json["course_audit"] = 1
+        elif operation == "offline":
+            meta_json["course_audit"] = 0
+        else:
+            return JsonResponse(re_json)
+
+        re_json["success"] = True
+        CourseMetadata.update_from_json(course_module, {"course_audit": 1}, True, user)
+        return JsonResponse(re_json)
+    except:
+        return JsonResponse(re_json)        
