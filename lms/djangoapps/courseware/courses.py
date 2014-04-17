@@ -324,6 +324,7 @@ def sort_by_announcement(courses):
 
     return courses
 
+
 def filter_audited_items(courses):
     """
     get courses audited
@@ -335,6 +336,12 @@ def filter_audited_items(courses):
             courses_list.append(course)
 
     return courses_list
+
+def sort_and_audited_items(courses):
+    """
+    sort and audited courses
+    """
+    return filter_audited_items(sort_by_announcement(courses))
 
 
 def get_cms_course_link(course):

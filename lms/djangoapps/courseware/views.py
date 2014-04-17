@@ -22,7 +22,7 @@ import django.utils
 
 from courseware import grades
 from courseware.access import has_access
-from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement, get_course_info_section, filter_audited_items,
+from courseware.courses import (get_courses, get_course_with_access, sort_by_announcement, sort_and_audited_items, get_course_info_section, filter_audited_items,
                                 get_course_by_id, get_course, course_image_url, get_course_about_section, get_courses_by_search)
 
 import courseware.tabs as tabs
@@ -169,7 +169,7 @@ def courses_list_handler(request, action):
         """
 
         courses = get_courses(user, request.META.get('HTTP_HOST'))
-        courses = sort_by_announcement(courses)
+        courses = sort_and_audited_items(courses)
         courses_list = []
 
         if action == "latest":
@@ -347,7 +347,7 @@ def mobi_course_action(request, course_id, action):
                     wrap_xmodule_display=False,
                     static_asset_path=course.static_asset_path
                 )
-                return JsonResponse({'updates': course_module.items})
+                return JsonResponse({'updates': [item for item in course_module.items if item["status"] != "deleted"]})
             elif action == "handouts" and registered:
                 course_handouts = get_course_info_section(request, course, action)
                 return JsonResponse({"handouts": course_handouts})

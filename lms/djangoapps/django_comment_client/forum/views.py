@@ -642,6 +642,9 @@ def get_course_enrollment_pairs(user, course_org_filter, org_filter_out_set):
             # with courses attributed (by ORG) to Microsites
             elif course.location.org in org_filter_out_set:
                 continue
+            ## offline course filter
+            elif course.course_audit == 0:
+                continue
 
             yield (course, enrollment)
         except ItemNotFoundError:

@@ -73,14 +73,15 @@ ${page_title_breadcrumbs(course_name())}
 </script>
 </%block>
 
- <script type="text/javascript" src="${static.url('js/jwplayer/jwplayer.js')}"></script>
-   <script type="text/javascript">
+<!-- <script type="text/javascript" src="${static.url('js/jwplayer/jwplayer.js')}"></script> -->
+ <script type="text/javascript" src="/static/js/jwplayer/jwplayer.js"></script>
+ <script type="text/javascript">
        $(document).ready(function(){
            $( window ).scroll(function() {
               $( "#show_context" ).css( "top", document.body.scrollTop + 20);
            });
        });
-    </script>
+ </script>
 <div class="container" style="min-width: 20px">
           <input type="hidden" id="show_url" value="${show_url}"/>
            <script type="text/javascript">
