@@ -56,9 +56,9 @@ require(["domReady!", "jquery", "js/collections/course_update", "js/models/modul
       $.each($('.handouts-content-show.text-talbe').find('tr'), function(idx, item){
           var item_data = []
           $(item).children('td').map(function(){
-              item_data.push($(this).html());
+              item_data.push($(this));
           });
-          replace_str += "<li><a href='" + item_data[1] + "'>" + item_data[0] + "</a></li>"
+          replace_str += "<li><a href='" + item_data[1].attr('title') + "'>" + item_data[0].html() + "</a></li>"
       });
       replace_str += "</ol>"
 

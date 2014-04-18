@@ -148,7 +148,7 @@
             % endif         
           </h1>
           %if not registered:
-            <label style='margin-right: 80px; margin-left: 340px; font-family: "微软雅黑";'>
+            <label style='margin: 10px 200px 0px; float: right; font-family: "微软雅黑";'>
               %if course.display_course_price_with_default == 0:
                 ${"免费"}
               %else:
@@ -238,7 +238,9 @@
               background-image: linear-gradient(to bottom,#f26b1f 0%,#bd3c00 50%,#a22500 50%,#a92a00 100%)
             }
           </style>
-          <a href="#" class='trade_class' style="color: white; float: right; margin-top: -47px; font-size: 19px; line-height: 24px; margin-right: 25px;">点击购买</a>
+          %if course.display_course_price_with_default > 0:
+            <a href="#" class='trade_class' style="color: white; float: right; margin-top: -47px; font-size: 19px; line-height: 24px; margin-right: 25px;">点击购买</a>
+          % endif
           <div id="register_error" style='clear: both;'></div> 
         %endif
         </div>

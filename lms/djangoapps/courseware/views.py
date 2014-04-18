@@ -130,7 +130,7 @@ def return_fixed_courses(request, courses, action=None):
 def course_attr_list_handler(request, course_category, course_level=None):
 
     courses = get_courses(request.user, request.META.get('HTTP_HOST'))
-    courses = sort_by_announcement(courses)
+    courses = sort_and_audited_items(courses)
     courses_list = []
 
     for course in courses:

@@ -2050,13 +2050,15 @@ def mobi_token_login(request):
         try:
             login(request, user)
             # get token and expires for return
-            if request.POST.get('remember') == 'true':
-                request.session.set_expiry(604800)
-                expires = 0
-                log.debug("Setting user session to never expire")
-            else:
-                request.session.set_expiry(0)
-                expires = 60*60*24
+            expires = 60*60*24*365
+            request.session.set_expiry(expires)
+            # if request.POST.get('remember') == 'true':
+            #     request.session.set_expiry(604800)
+            #     expires = 0
+            #     log.debug("Setting user session to never expire")
+            # else:
+            #     request.session.set_expiry(0)
+            #     expires = 60*60*24
         except Exception as e:
             AUDIT_LOG.critical("Login failed - Could not create session. Is memcached running?")
             log.critical("Login failed - Could not create session. Is memcached running?")
