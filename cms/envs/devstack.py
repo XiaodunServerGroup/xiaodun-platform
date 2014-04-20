@@ -25,8 +25,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ################################# LMS INTEGRATION #############################
 
-LMS_BASE = "mooc.xiaodun.cn:80"
-FEATURES['PREVIEW_LMS_BASE'] = "preview." + LMS_BASE
+LMS_BASE = "mooc.xiaodun.cn"
+FEATURES['PREVIEW_LMS_BASE'] = LMS_BASE
 
 ################################# CELERY ######################################
 

@@ -94,8 +94,8 @@ if STATIC_URL_BASE:
     STATIC_URL = STATIC_URL_BASE.encode('ascii')
     if not STATIC_URL.endswith("/"):
         STATIC_URL += "/"
-    STATIC_URL += "/"
-    # STATIC_URL += git.revision + "/"
+    # STATIC_URL += "/"
+    STATIC_URL += git.revision + "/"
 
 ###############################################################################
 # import json
@@ -112,8 +112,8 @@ GITHUB_REPO_ROOT = ENV_TOKENS.get('GITHUB_REPO_ROOT', GITHUB_REPO_ROOT)
 
 STATIC_ROOT_BASE = ENV_TOKENS.get('STATIC_ROOT_BASE', None)
 if STATIC_ROOT_BASE:
-    STATIC_ROOT = path(STATIC_ROOT_BASE)
-    # STATIC_ROOT = path(STATIC_ROOT_BASE) / git.revision
+    # STATIC_ROOT = path(STATIC_ROOT_BASE)
+    STATIC_ROOT = path(STATIC_ROOT_BASE) / git.revision
 
 EMAIL_BACKEND = ENV_TOKENS.get('EMAIL_BACKEND', EMAIL_BACKEND)
 EMAIL_FILE_PATH = ENV_TOKENS.get('EMAIL_FILE_PATH', None)

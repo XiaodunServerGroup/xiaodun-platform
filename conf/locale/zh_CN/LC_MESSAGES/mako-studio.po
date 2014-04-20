@@ -1256,10 +1256,8 @@ msgstr "Studio支持"
 
 #: cms/templates/login.html:52
 msgid ""
-"Having trouble with your account? Use {link_start}our support "
-"center{link_end} to look over self help steps, find solutions others have "
-"found to the same problem, or let us know of your issue."
-msgstr "如果您在使用账户时遇到问题，请访问{link_start}技术支持中心{link_end}来查看问题解决方法。"
+"Having trouble with your account?"
+msgstr "如果您在使用账户时遇到问题，请联系我们，我们会及时给出解决办法。"
 
 #: cms/templates/manage_users.html:7
 msgid "Course Team Settings"

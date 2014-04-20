@@ -38,7 +38,6 @@
             //Video modals need to be cloned before being presented as a modal
             //This is because actions on the video get recorded in the history.
             //Deleting the video (clone) prevents the odd back button behavior.
-            console.log("===================================================");
             var modal_clone = $(modal_id).clone(true, true);
             modal_clone.attr('id', 'modal_clone');
             $(modal_id).after(modal_clone);

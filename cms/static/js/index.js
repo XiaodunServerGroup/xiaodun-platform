@@ -1,4 +1,4 @@
-require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
+    require(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape"],
     function (domReady, $, _, CancelOnEscape) {
         var saveNewCourse = function (e) {
             e.preventDefault();
