@@ -64,8 +64,8 @@ DATABASES = {
     }
 }
 
-LMS_BASE = "localhost:8000"
-FEATURES['PREVIEW_LMS_BASE'] = "localhost:8000"
+LMS_BASE = "mooc.xiaodun.cn"
+FEATURES['PREVIEW_LMS_BASE'] = "mooc.xiaodun.cn"
 
 REPOS = {
     'edx4edx': {

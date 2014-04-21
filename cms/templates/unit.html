@@ -15,9 +15,10 @@ require(["domReady!", "jquery", "js/models/module_info", "coffee/src/views/unit"
         "xmodule", "coffee/src/main", "xblock/cms.runtime.v1"],
     function(doc, $, ModuleModel, UnitEditView, ui) {
   window.unit_location_analytics = '${unit_locator}';
-
   // tabs
   $('.tab-group').tabs();
+  
+  window.$$course_id = '${context_course.id}'
 
   new UnitEditView({
     el: $('.main-wrapper'),

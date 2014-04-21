@@ -41,7 +41,7 @@ from django.utils.translation import ugettext as _
             </li>
 
             <li class="field text required" id="field-password">
-              <a href="${forgot_password_link}" class="action action-forgotpassword" tabindex="-1">${_("Forgot password?")}</a>
+              <!--<a href="${forgot_password_link}" class="action action-forgotpassword" tabindex="-1">${_("Forgot password?")}</a>-->
               <label for="password">${_("Password")}</label>
               <input id="password" type="password" name="password" />
             </li>
@@ -62,7 +62,10 @@ from django.utils.translation import ugettext as _
 
       <div class="bit">
         <h3 class="title-3">${_("Need Help?")}</h3>
-        <p>${_('Having trouble with your account? Use {link_start}our support center{link_end} to look over self help steps, find solutions others have found to the same problem, or let us know of your issue.').format(link_start='<a href="http://help.edge.edx.org" rel="external">', link_end='</a>')}</p>
+        <p>
+        <!-- ${_('Having trouble with your account? Use {link_start}our support center{link_end} to look over self help steps, find solutions others have found to the same problem, or let us know of your issue.').format(link_start='<a href="#" rel="external">', link_end='</a>')} -->
+        ${_('Having trouble with your account?')}
+        </p>
       </div>
     </aside>
   </section>
