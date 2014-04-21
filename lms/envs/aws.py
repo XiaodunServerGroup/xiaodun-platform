@@ -41,7 +41,15 @@ TEMPLATE_DEBUG = False
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+MEDIA_ROOT = ENV_ROOT / "uploads"
+MEDIA_URL = "/discussion/upfiles/"
+FILE_UPLOAD_TEMP_DIR = ENV_ROOT / "uploads"
+FILE_UPLOAD_HANDLERS = (
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+)
+
 
 # Enable Berkeley forums
 FEATURES['ENABLE_DISCUSSION_SERVICE'] = True

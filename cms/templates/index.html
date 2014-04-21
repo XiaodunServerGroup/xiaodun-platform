@@ -100,10 +100,14 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                   <span class="tip tip-er ror is-hiding"></span>
                 </li>
                 <li class="field text required" id="field-course-category">
-                  <label for="new-course-level">课程分类</label>
+                  <!--<label for="new-course-level">课程分类</label>
                   <select class="new-course-category" id="new-course-category" name='new-course-category' aria-required='false'>
+                  </select>-->
+                  <label for="new-course-category">课程分类</label>
+                  <select class="new-course-category" id="new-course-category" name="new-course-category" aria-required="false" placeholder="课程分类">
+                      <option value="T">技术</option>
+                      <option value="M">管理</option>
                   </select>
-                  <span class="tip tip-error is-hiding"></span>
                 </li>
                 <li class="field text required" id="field-course-level">
                     <label for="new-course-level">课程等级</label>
@@ -121,7 +125,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                 </li>
                 <li class="field text required" id="field-organization">
                   <label for="new-course-org">${_("Organization")}</label>
-                  <input class="new-course-org" id="new-course-org" type="text" name="new-course-org" aria-required="true" value="${course_org}" disabled='disabled' placeholder="${_('e.g. UniversityX or OrganizationX')}" />
+                  <input class="new-course-org" id="new-course-org" type="text" name="new-course-org" aria-required="true" value="${course_org}" placeholder="${_('e.g. UniversityX or OrganizationX')}" />
                   <span class="tip">${_("The name of the organization sponsoring the course.")}  <strong>${_("Note: This is part of your course URL, so no spaces or special characters are allowed.")}</strong> ${_("This cannot be changed, but you can set a different display name in Advanced Settings later.")}</span>
                   <span class="tip tip-error is-hiding"></span>
                 </li>

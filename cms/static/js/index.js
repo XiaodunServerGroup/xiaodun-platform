@@ -5,7 +5,7 @@
 
             // One final check for empty values
             var errors = _.reduce(
-                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run', 'new-course-category'],
+                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run'],
                 function (acc, ele) {
                     var $ele = $(ele);
                     var error = validateRequiredField($ele.val());
@@ -160,50 +160,50 @@
             }
         };
 
-        var ajaxSetOptions = function (org_name) {
-            request_bs_host = $('#business_system_host').attr('data-host');
-            request_url = request_bs_host + "/xiaodun/course/course!edxclasstree.do?branname=" + org_name
-            $.ajax({
-                url: request_url,
-                dataType: "jsonp",
-                type: 'GET',
-                jsonp: 'callback',
-                jsonpCallback: 'success_jsonp',
-                success: function(json, textStatus){
-                    if (json['success']) {
-                        $('select.new-course-category').html(json['option'])
-                    } else {
-                        var errors = _.reduce(
-                            ['.new-course-category'],
-                            function (acc, ele) {
-                                var $ele = $(ele);
-                                var error = "服务器获取分类信息失败，请将无法创建课程，请稍后再试"
-                                setNewCourseFieldInErr($ele.parent('li'), error);
-                                return error ? true : acc;
-                            },
-                            false
-                        );                        
-                    }
-                }
-            });
-        }
+        // var ajaxSetOptions = function (org_name) {
+        //     request_bs_host = $('#business_system_host').attr('data-host');
+        //     request_url = request_bs_host + "/xiaodun/course/course!edxclasstree.do?branname=" + org_name
+        //     $.ajax({
+        //         url: request_url,
+        //         dataType: "jsonp",
+        //         type: 'GET',
+        //         jsonp: 'callback',
+        //         jsonpCallback: 'success_jsonp',
+        //         success: function(json, textStatus){
+        //             if (json['success']) {
+        //                 $('select.new-course-category').html(json['option'])
+        //             } else {
+        //                 var errors = _.reduce(
+        //                     ['.new-course-category'],
+        //                     function (acc, ele) {
+        //                         var $ele = $(ele);
+        //                         var error = "服务器获取分类信息失败，请将无法创建课程，请稍后再试"
+        //                         setNewCourseFieldInErr($ele.parent('li'), error);
+        //                         return error ? true : acc;
+        //                     },
+        //                     false
+        //                 );                        
+        //             }
+        //         }
+        //     });
+        // }
 
         domReady(function () {
             $('.new-course-button').bind('click', addNewCourse);
 
-            org_name = $('input.new-course-org').val();
-            if (org_name != ""){
-                ajaxSetOptions(org_name);
-            } else {
-                var errors = _.reduce(
-                    ['.new-course-org'],
-                    function (acc, ele) {
-                        var $ele = $(ele);
-                        setNewCourseFieldInErr($ele.parent('li'), "服务器获取组织失败，将无法创建课程，请稍后再试");
-                        return error ? true : acc;
-                    },
-                    false
-                );
-            }                     
+            // org_name = $('input.new-course-org').val();
+            // if (org_name != ""){
+            //     ajaxSetOptions(org_name);
+            // } else {
+            //     var errors = _.reduce(
+            //         ['.new-course-org'],
+            //         function (acc, ele) {
+            //             var $ele = $(ele);
+            //             setNewCourseFieldInErr($ele.parent('li'), "服务器获取组织失败，将无法创建课程，请稍后再试");
+            //             return error ? true : acc;
+            //         },
+            //         false
+            //     );
+            // }                     
         });
     });

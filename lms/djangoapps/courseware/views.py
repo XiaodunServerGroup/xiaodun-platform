@@ -551,7 +551,7 @@ def index(request, course_id, chapter=None, section=None,
             'masquerade': masq,
             'xqa_server': settings.FEATURES.get('USE_XQA_SERVER', 'http://xqa:server@content-qa.mitx.mit.edu/xqa'),
             'reverifications': fetch_reverify_banner_info(request, course_id),
-            }
+        }
 
         # Only show the chat if it's enabled by the course and in the
         # settings.
