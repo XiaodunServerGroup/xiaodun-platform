@@ -105,7 +105,7 @@ msgstr ""
 #: wiki/forms.py:231
 #, python-format
 msgid "A slug named \"%s\" already exists."
-msgstr ""
+msgstr "资源\"%s\ 已经存在。"
 
 #: wiki/forms.py:244
 msgid "Yes, I am sure"
@@ -125,7 +125,7 @@ msgstr "清除文章：彻底删除和文章所有的内容，无法恢复。如
 #: wiki/forms.py:254 wiki/plugins/attachments/forms.py:24
 #: wiki/plugins/images/forms.py:64
 msgid "You are not sure enough!"
-msgstr ""
+msgstr "请确认删除文章！"
 
 #: wiki/forms.py:256
 msgid "While you tried to delete this article, it was modified. TAKE CARE!"
@@ -583,7 +583,7 @@ msgstr ""
 #: wiki/plugins/notifications/models.py:40
 #, python-format
 msgid "Article deleted: %s"
-msgstr ""
+msgstr "删除文章：%s"
 
 #: wiki/plugins/notifications/models.py:43
 #, python-format
@@ -610,12 +610,12 @@ msgstr ""
 #: wiki/views/article.py:85
 #, python-format
 msgid "New article '%s' created."
-msgstr ""
+msgstr "文章'%s'已经创建"
 
 #: wiki/views/article.py:92
 #, python-format
 msgid "There was an error creating this article: %s"
-msgstr ""
+msgstr "创建文章： %s 出现错误！"
 
 #: wiki/views/article.py:94
 msgid "There was an error creating this article."
@@ -629,14 +629,14 @@ msgstr "这篇文章不能被删除，因为它有子类或父类的文章。"
 #: wiki/views/article.py:183
 msgid ""
 "This article together with all its contents are now completely gone! Thanks!"
-msgstr ""
+msgstr "文章以及相关内容已经完全删除。谢谢！"
 
 #: wiki/views/article.py:190
 #, python-format
 msgid ""
 "The article \"%s\" is now marked as deleted! Thanks for keeping the site "
 "free from unwanted material!"
-msgstr ""
+msgstr "文章\"%s\"现在被标记为已删除！请删除不需要的材料！"
 
 #: wiki/views/article.py:267
 msgid "Your changes were saved."
@@ -648,17 +648,17 @@ msgstr "成功添加了这篇文章的新的版本"
 
 #: wiki/views/article.py:343
 msgid "Restoring article"
-msgstr ""
+msgstr "恢复文章"
 
 #: wiki/views/article.py:345
 #, python-format
 msgid "The article \"%s\" and its children are now restored."
-msgstr ""
+msgstr "文章\"%s\" 以及子文章已经恢复。"
 
 #: wiki/views/article.py:529
 #, python-format
 msgid "The article %s is now set to display revision #%d"
-msgstr ""
+msgstr "文章%s 的现实版本为：#%d"
 
 #: wiki/views/article.py:591
 msgid "New title"
@@ -667,11 +667,11 @@ msgstr "新标题"
 #: wiki/views/article.py:615
 #, python-format
 msgid "Merge between Revision #%(r1)d and Revision #%(r2)d"
-msgstr ""
+msgstr "将版本 #%(r1)d 和 #%(r2)d 内容合并！"
 
 #: wiki/views/article.py:619
 #, python-format
 msgid ""
 "A new revision was created: Merge between Revision #%(r1)d and Revision "
 "#%(r2)d"
-msgstr ""
+msgstr "创建新的版本：将版本 #%(r1)d 和 #%(r2)d 内容合并！"

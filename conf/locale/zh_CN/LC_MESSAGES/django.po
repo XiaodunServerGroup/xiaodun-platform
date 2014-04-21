@@ -3627,6 +3627,10 @@ msgstr "密码"
 msgid "Admin"
 msgstr "管理员"
 
+#: cms/templates/manage_users.html
+msgid "Error adding user"
+msgstr "用户添加失败"
+
 #: cms/templates/register.html cms/templates/widgets/header.html
 #: lms/templates/index.html
 msgid "Sign Up"
@@ -4859,7 +4863,7 @@ msgstr "在注册{platform_name}时需要帮助？"
 
 #: lms/templates/register-sidebar.html
 msgid "View our FAQs for answers to commonly asked questions."
-msgstr "查看我们的FAQ来获得常见问题的解答。"
+msgstr "查看帮助来获得常见问题的解答。"
 
 #: lms/templates/register-sidebar.html
 msgid ""
@@ -6362,7 +6366,7 @@ msgstr "您最近在{section_link}。如果您已经完成此章节，请选择�
 msgid ""
 "Final course details are being wrapped up at this time. Your final standing "
 "will be available shortly."
-msgstr "最终课程细节目前正在被封闭。您很快就能看到最终名次。"
+msgstr "课程已经结束。"
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Your final grade:"
@@ -11462,7 +11466,7 @@ msgstr ""
 
 #: wiki/forms.py
 msgid "A slug named \"%s\" already exists."
-msgstr ""
+msgstr "资源\"%s\ 已经存在。"
 
 #: wiki/forms.py
 msgid "Yes, I am sure"
@@ -11482,7 +11486,7 @@ msgstr "清除文章：彻底删除和文章所有的内容，无法恢复。如
 #: wiki/forms.py wiki/plugins/attachments/forms.py
 #: wiki/plugins/images/forms.py
 msgid "You are not sure enough!"
-msgstr ""
+msgstr "请确认删除文章！"
 
 #: wiki/forms.py
 msgid "While you tried to delete this article, it was modified. TAKE CARE!"
@@ -11903,7 +11907,7 @@ msgstr ""
 
 #: wiki/plugins/notifications/models.py
 msgid "Article deleted: %s"
-msgstr ""
+msgstr "删除文章：%s"
 
 #: wiki/plugins/notifications/models.py
 msgid "Article modified: %s"
@@ -11927,11 +11931,11 @@ msgstr ""
 
 #: wiki/views/article.py
 msgid "New article '%s' created."
-msgstr ""
+msgstr "文章'%s'已经创建"
 
 #: wiki/views/article.py
 msgid "There was an error creating this article: %s"
-msgstr ""
+msgstr "创建文章： %s 出现错误！"
 
 #: wiki/views/article.py
 msgid "There was an error creating this article."
@@ -11945,13 +11949,13 @@ msgstr "这篇文章不能被删除，因为它有子类或父类的文章。"
 #: wiki/views/article.py
 msgid ""
 "This article together with all its contents are now completely gone! Thanks!"
-msgstr ""
+msgstr "文章以及相关内容已经完全删除。谢谢！"
 
 #: wiki/views/article.py
 msgid ""
 "The article \"%s\" is now marked as deleted! Thanks for keeping the site "
 "free from unwanted material!"
-msgstr ""
+msgstr "文章\"%s\"现在被标记为已删除！请删除不需要的材料！"
 
 #: wiki/views/article.py
 msgid "Your changes were saved."
@@ -11963,15 +11967,15 @@ msgstr "成功添加了这篇文章的新的版本"
 
 #: wiki/views/article.py
 msgid "Restoring article"
-msgstr ""
+msgstr "恢复文章"
 
 #: wiki/views/article.py
 msgid "The article \"%s\" and its children are now restored."
-msgstr ""
+msgstr "文章\"%s\" 以及子文章已经恢复。"
 
 #: wiki/views/article.py
 msgid "The article %s is now set to display revision #%d"
-msgstr ""
+msgstr "文章%s 的现实版本为：#%d"
 
 #: wiki/views/article.py
 msgid "New title"
@@ -11979,10 +11983,10 @@ msgstr "新标题"
 
 #: wiki/views/article.py
 msgid "Merge between Revision #%(r1)d and Revision #%(r2)d"
-msgstr ""
+msgstr "将版本 #%(r1)d 和 #%(r2)d 内容合并！"
 
 #: wiki/views/article.py
 msgid ""
 "A new revision was created: Merge between Revision #%(r1)d and Revision "
 "#%(r2)d"
-msgstr ""
+msgstr "创建新的版本：将版本 #%(r1)d 和 #%(r2)d 内容合并！"

@@ -3314,7 +3314,7 @@ msgstr ""
 #: lms/templates/discussion/mustache/_inline_discussion_cohorted.mustache
 #: lms/templates/verify_student/face_upload.html
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: cms/templates/html_error.html lms/templates/module-error.html
 msgid "Error:"
@@ -11567,11 +11567,11 @@ msgstr ""
 
 #: wiki/views/article.py
 msgid "New article '%s' created."
-msgstr ""
+msgstr "文章'%s'已经创建"
 
 #: wiki/views/article.py
 msgid "There was an error creating this article: %s"
-msgstr ""
+msgstr "创建文章： %s 出现错误！"
 
 #: wiki/views/article.py
 msgid "There was an error creating this article."
@@ -11585,33 +11585,33 @@ msgstr ""
 #: wiki/views/article.py
 msgid ""
 "This article together with all its contents are now completely gone! Thanks!"
-msgstr ""
+msgstr "文章以及相关内容已经完全删除。谢谢！"
 
 #: wiki/views/article.py
 msgid ""
 "The article \"%s\" is now marked as deleted! Thanks for keeping the site "
 "free from unwanted material!"
-msgstr ""
+msgstr "文章\"%s\"现在被标记为已删除！请删除不需要的材料！"
 
 #: wiki/views/article.py
 msgid "Your changes were saved."
-msgstr ""
+msgstr "您的设置更改已被保存。"
 
 #: wiki/views/article.py
 msgid "A new revision of the article was succesfully added."
-msgstr ""
+msgstr "成功添加了这篇文章的新的版本"
 
 #: wiki/views/article.py
 msgid "Restoring article"
-msgstr ""
+msgstr "恢复文章"
 
 #: wiki/views/article.py
 msgid "The article \"%s\" and its children are now restored."
-msgstr ""
+msgstr "文章\"%s\" 以及子文章已经恢复。"
 
 #: wiki/views/article.py
 msgid "The article %s is now set to display revision #%d"
-msgstr ""
+msgstr "文章%s 的现实版本为：#%d"
 
 #: wiki/views/article.py
 msgid "New title"
@@ -11619,10 +11619,10 @@ msgstr ""
 
 #: wiki/views/article.py
 msgid "Merge between Revision #%(r1)d and Revision #%(r2)d"
-msgstr ""
+msgstr "将版本 #%(r1)d 和 #%(r2)d 内容合并！"
 
 #: wiki/views/article.py
 msgid ""
 "A new revision was created: Merge between Revision #%(r1)d and Revision "
 "#%(r2)d"
-msgstr ""
+msgstr "创建新的版本：将版本 #%(r1)d 和 #%(r2)d 内容合并！"

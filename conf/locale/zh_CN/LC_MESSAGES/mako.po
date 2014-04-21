@@ -183,6 +183,10 @@ msgstr "需要帮助？"
 msgid "Admin"
 msgstr "管理员"
 
+#: cms/templates/manage_users.html
+msgid "Error adding user"
+msgstr "用户添加失败"
+
 #: cms/templates/register.html:5 cms/templates/widgets/header.html:177
 #: lms/templates/index.html:40
 msgid "Sign Up"
@@ -1441,7 +1445,7 @@ msgstr "在注册{platform_name}时需要帮助？"
 
 #: lms/templates/register-sidebar.html:49
 msgid "View our FAQs for answers to commonly asked questions."
-msgstr "查看我们的FAQ来获得常见问题的解答。"
+msgstr "查看帮助来获得常见问题的解答。"
 
 #: lms/templates/register-sidebar.html:51
 msgid ""

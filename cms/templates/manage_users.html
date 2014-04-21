@@ -177,11 +177,11 @@ require(["jquery", "underscore", "gettext", "js/views/feedback_prompt"],
       var email = $('#user-email-input').val().trim();
       if(!email) {
         var msg = new PromptView.Error({
-          title: gettext("A valid email address is required"),
-          message: gettext("You must enter a valid email address in order to add a new team member"),
+          title: gettext("需要一个可用的Email地址！"),
+          message: gettext("你必须输入一个有效的Email地址来创建新的课程团队！"),
           actions: {
             primary: {
-              text: gettext("Return and add email address"),
+              text: gettext("返回并添加Email地址"),
               click: function(view) {
                 view.hide();
                 $("#user-email-input").focus();
@@ -194,11 +194,11 @@ require(["jquery", "underscore", "gettext", "js/views/feedback_prompt"],
       }
       if(_.contains(staffEmails, email)) {
         var msg = new PromptView.Warning({
-          title: gettext("Already a course team member"),
-          message: _.template(gettext("{email} is already on the “{course}” team. If you're trying to add a new member, please double-check the email address you provided."), {email: email, course: course.escape('name')}, {interpolate: /\{(.+?)\}/g}),
+          title: gettext("该课程团队已经注册！"),
+          message: _.template(gettext("邮箱 {email} 已经在课程 “{course}” 进行了注册如果已经新建一个新的课程团队，请使用另一个可用的Email."), {email: email, course: course.escape('name')}, {interpolate: /\{(.+?)\}/g}),
           actions: {
             primary: {
-              text: gettext("Return to team listing"),
+              text: gettext("返回到团队列表"),
               click: function(view) {
                 view.hide();
                 $("#user-email-input").focus();
@@ -271,11 +271,11 @@ require(["jquery", "underscore", "gettext", "js/views/feedback_prompt"],
     $('.remove-user').click(function() {
       var email = $(this).data('id');
       var msg = new PromptView.Warning({
-        title: gettext("Are you sure?"),
-        message: _.template(gettext("Are you sure you want to delete {email} from the course team for “{course}”?"), {email: email, course: course.get('name')}, {interpolate: /\{(.+?)\}/g}),
+        title: gettext("你确定么？"),
+        message: _.template(gettext("你确定将邮箱 {email} 从课程 “{course}” 中删除？"), {email: email, course: course.get('name')}, {interpolate: /\{(.+?)\}/g}),
         actions: {
           primary: {
-            text: gettext("Delete"),
+            text: gettext("删除"),
             click: function(view) {
               view.hide();
               var url = tplUserURL.replace("@@EMAIL@@", email)
@@ -296,7 +296,7 @@ require(["jquery", "underscore", "gettext", "js/views/feedback_prompt"],
                     message = unknownErrorMessage;
                   }
                   var prompt = new PromptView.Error({
-                    title: gettext("Error removing user"),
+                    title: gettext("删除团队成员出现错误！"),
                     message: message,
                     actions: {
                       primary: {
@@ -313,7 +313,7 @@ require(["jquery", "underscore", "gettext", "js/views/feedback_prompt"],
             }
           },
           secondary: {
-            text: gettext("Cancel"),
+            text: gettext("取消"),
             click: function(view) {
               view.hide();
             }
@@ -352,11 +352,11 @@ require(["jquery", "underscore", "gettext", "js/views/feedback_prompt"],
             message = unknownErrorMessage;
           }
           var prompt = new PromptView.Error({
-            title: gettext("There was an error changing the user's role"),
+            title: gettext("更改团队成员权限出现错误！"),
             message: message,
             actions: {
               primary: {
-                text: gettext("Try Again"),
+                text: gettext("再一次尝试"),
                 click: function(view) {
                   view.hide();
                 }

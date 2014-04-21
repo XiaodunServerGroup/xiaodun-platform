@@ -426,7 +426,7 @@ msgstr "点击删除报告"
 #: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:90
 #: common/static/coffee/src/discussion/views/thread_response_show_view.js:121
 msgid "Misuse Reported%(start_sr_span)s, click to remove report%(end_span)s"
-msgstr ""
+msgstr "未确认报告%(start_sr_span)s，点击删除报告%(end_span)s。"
 
 #: common/static/coffee/src/discussion/views/discussion_thread_show_view.js:98
 #: common/static/coffee/src/discussion/views/response_comment_show_view.js:120

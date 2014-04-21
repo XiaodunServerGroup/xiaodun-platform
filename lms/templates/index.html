@@ -15,7 +15,15 @@
   show_partners = microsite.get_value('show_partners', True)
 
 %>
-
+<script language="text/javascript">
+function chkform(){
+    var addform= document.queryform;
+    if (addform.query.placeholder=="请输入关键字..."){
+        addform.query.value=""
+        return true;
+    }
+}
+</script>
 <section class="home">
 <!--hfy-html begin-->
 <link rel="stylesheet" href="static/css/header/header.css" />
@@ -44,8 +52,9 @@
             % endif
 
           % endif
-            <form class="search-container search" action="/courses" method="get" id="search-form">
-              <input id="search-query" name="query" onfocus="if (value =='请输入关键字...'){value =''}" onblur="if (value ==''){value='请输入关键字...'}" value="请输入关键字..."  type="text" width="340px">
+            <form name="queryform" class="search-container search" action="/courses" method="get" id="search-form" onsubmit="return chkform();">
+              <!--<input id="search-query" name="query" onfocus="if (value =='请输入关键字...'){value =''}" onblur="if (value ==''){value='请输入关键字...'}" value=""  type="text" width="340px">-->
+              <input id="search-query" name="query" onfocus="if (placeholder =='请输入关键字...'){placeholder =''}" value=""  onblur="if (placeholder ==''){placeholder='请输入关键字...'}"  type="text" width="340px">
                  <ul class="search-menu" style="display: none;">
                  </ul>
               <input value="搜索" type="submit">

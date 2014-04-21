@@ -149,7 +149,7 @@ class CapaFields(object):
     done = Boolean(help="Whether the student has answered the problem", scope=Scope.user_state)
     seed = Integer(help="Random seed for this student", scope=Scope.user_state)
     weight = Float(
-        display_name=" 问题的“重量” ",
+        display_name=" 问题的权重",
         help=("为每个问题定义点的数量都是有价值的的。"
               "如果未设置值，在每个问题的响应字段只是值一点。"),
         values={"min": 0, "step": .1},

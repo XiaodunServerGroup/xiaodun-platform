@@ -1265,6 +1265,10 @@ msgstr "如果您在使用账户时遇到问题，请访问{link_start}技术支
 msgid "Course Team Settings"
 msgstr "课程团队设置"
 
+#: cms/templates/manage_users.html
+msgid "Error adding user"
+msgstr "用户添加失败"
+
 #: cms/templates/manage_users.html:16 cms/templates/settings.html:312
 #: cms/templates/settings_advanced.html:103
 #: cms/templates/settings_graders.html:149
