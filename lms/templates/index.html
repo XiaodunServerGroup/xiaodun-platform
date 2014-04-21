@@ -54,7 +54,7 @@ function chkform(){
           % endif
             <form name="queryform" class="search-container search" action="/courses" method="get" id="search-form" onsubmit="return chkform();">
               <!--<input id="search-query" name="query" onfocus="if (value =='请输入关键字...'){value =''}" onblur="if (value ==''){value='请输入关键字...'}" value=""  type="text" width="340px">-->
-              <input id="search-query" name="query" onfocus="if (placeholder =='请输入关键字...'){placeholder =''}" value=""  onblur="if (placeholder ==''){placeholder='请输入关键字...'}"  type="text" width="340px">
+              <input id="search-query" name="query" onfocus="placeholder =''" value=""  onblur="placeholder='请输入关键字...'"  placeholder="请输入关键字..." type="text" width="340px">
                  <ul class="search-menu" style="display: none;">
                  </ul>
               <input value="搜索" type="submit">
