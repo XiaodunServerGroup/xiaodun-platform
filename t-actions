@@ -1,0 +1,66 @@
+[1mdiff --git a/cms/djangoapps/contentstore/utils.py b/cms/djangoapps/contentstore/utils.py[m
+[1mindex c93efa3..692bdbd 100644[m
+[1m--- a/cms/djangoapps/contentstore/utils.py[m
+[1m+++ b/cms/djangoapps/contentstore/utils.py[m
+[36m@@ -139,7 +139,7 @@[m [mdef get_lms_link_for_item(location, preview=False, course_id=None):[m
+         if preview:[m
+             lms_base = settings.FEATURES.get('PREVIEW_LMS_BASE')[m
+         else:[m
+[31m-            lms_base = settings.LMS_BASE[m
+[32m+[m[32m            lms_base = settings.lms_base[m
+ [m
+         lms_link = u"//{lms_base}/courses/{course_id}/jump_to/{location}".format([m
+             lms_base=lms_base,[m
+[1mdiff --git a/conf/locale/uk/LC_MESSAGES/djangojs.mo b/conf/locale/uk/LC_MESSAGES/djangojs.mo[m
+[1mindex cf5bd12..bca3514 100644[m
+Binary files a/conf/locale/uk/LC_MESSAGES/djangojs.mo and b/conf/locale/uk/LC_MESSAGES/djangojs.mo differ
+[1mdiff --git a/conf/locale/zh_CN.GB2312/LC_MESSAGES/djangojs.mo b/conf/locale/zh_CN.GB2312/LC_MESSAGES/djangojs.mo[m
+[1mindex 47177ce..d1074d9 100644[m
+Binary files a/conf/locale/zh_CN.GB2312/LC_MESSAGES/djangojs.mo and b/conf/locale/zh_CN.GB2312/LC_MESSAGES/djangojs.mo differ
+[1mdiff --git a/conf/locale/zh_CN/LC_MESSAGES/django.mo b/conf/locale/zh_CN/LC_MESSAGES/django.mo[m
+[1mindex 5359625..9943138 100644[m
+Binary files a/conf/locale/zh_CN/LC_MESSAGES/django.mo and b/conf/locale/zh_CN/LC_MESSAGES/django.mo differ
+[1mdiff --git a/conf/locale/zh_CN/LC_MESSAGES/django.po b/conf/locale/zh_CN/LC_MESSAGES/django.po[m
+[1mindex eea03d4..8eaa2a8 100644[m
+[1m--- a/conf/locale/zh_CN/LC_MESSAGES/django.po[m
+[1m+++ b/conf/locale/zh_CN/LC_MESSAGES/django.po[m
+[36m@@ -6366,7 +6366,7 @@[m [mmsgstr "您最近在{section_link}。如果您已经完成此章节，请选择[m
+ msgid ""[m
+ "Final course details are being wrapped up at this time. Your final standing "[m
+ "will be available shortly."[m
+[31m-msgstr "课程已经结束。"[m
+[32m+[m[32mmsgstr "最终课程细节目前正在被封闭。您很快就能看到最终名次。"[m
+ [m
+ #: lms/templates/dashboard/_dashboard_certificate_information.html[m
+ msgid "Your final grade:"[m
+[36m@@ -11463,7 +11463,7 @@[m [mmsgstr ""[m
+ [m
+ #: wiki/forms.py[m
+ msgid "A slug named \"%s\" already exists."[m
+[31m-msgstr "资源\"%s\ 已经存在。"[m
+[32m+[m[32mmsgstr "资源\"%s\"已经存在。"[m
+ [m
+ #: wiki/forms.py[m
+ msgid "Yes, I am sure"[m
+[1mdiff --git a/conf/locale/zh_CN/LC_MESSAGES/djangojs.mo b/conf/locale/zh_CN/LC_MESSAGES/djangojs.mo[m
+[1mindex 619d239..fc88872 100644[m
+Binary files a/conf/locale/zh_CN/LC_MESSAGES/djangojs.mo and b/conf/locale/zh_CN/LC_MESSAGES/djangojs.mo differ
+[1mdiff --git a/conf/locale/zh_CN/LC_MESSAGES/wiki.po b/conf/locale/zh_CN/LC_MESSAGES/wiki.po[m
+[1mindex 427e71a..6e0447a 100644[m
+[1m--- a/conf/locale/zh_CN/LC_MESSAGES/wiki.po[m
+[1m+++ b/conf/locale/zh_CN/LC_MESSAGES/wiki.po[m
+[36m@@ -105,7 +105,7 @@[m [mmsgstr ""[m
+ #: wiki/forms.py:231[m
+ #, python-format[m
+ msgid "A slug named \"%s\" already exists."[m
+[31m-msgstr "资源\"%s\ 已经存在。"[m
+[32m+[m[32mmsgstr "资源\"%s\"已经存在。"[m
+ [m
+ #: wiki/forms.py:244[m
+ msgid "Yes, I am sure"[m
+[1mdiff --git a/conf/locale/zh_TW/LC_MESSAGES/django.mo b/conf/locale/zh_TW/LC_MESSAGES/django.mo[m
+[1mindex 8dd828c..95a6b21 100644[m
+Binary files a/conf/locale/zh_TW/LC_MESSAGES/django.mo and b/conf/locale/zh_TW/LC_MESSAGES/django.mo differ
+[1mdiff --git a/conf/locale/zh_TW/LC_MESSAGES/djangojs.mo b/conf/locale/zh_TW/LC_MESSAGES/djangojs.mo[m
+[1mindex 01c1db0..fd32d02 100644[m
+Binary files a/conf/locale/zh_TW/LC_MESSAGES/djangojs.mo and b/conf/locale/zh_TW/LC_MESSAGES/djangojs.mo differ

@@ -105,7 +105,7 @@ msgstr ""
 #: wiki/forms.py:231
 #, python-format
 msgid "A slug named \"%s\" already exists."
-msgstr "资源\"%s\ 已经存在。"
+msgstr "资源\"%s\"已经存在。"
 
 #: wiki/forms.py:244
 msgid "Yes, I am sure"
