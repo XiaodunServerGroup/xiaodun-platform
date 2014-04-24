@@ -799,7 +799,8 @@ def search_similar_threads(request, course_id, commentable_id):
 @login_required
 @csrf.csrf_exempt
 def upload(request, course_id):  # ajax upload file to a question or answer
-    """view that handles file upload via Ajax
+    """
+    view that handles file upload via Ajax
     """
 
     # check upload permission
@@ -848,7 +849,8 @@ def upload(request, course_id):  # ajax upload file to a question or answer
 
     if error == '':
         result = _('Good')
-        file_url = file_storage.url(new_file_name)
+        file_url = request.get_host() + "/static/uploads/" + file_storage.url(new_file_name)
+
         parsed_url = urlparse.urlparse(file_url)
         file_url = urlparse.urlunparse(
             urlparse.ParseResult(
@@ -858,6 +860,7 @@ def upload(request, course_id):  # ajax upload file to a question or answer
                 '', '', ''
             )
         )
+
     else:
         result = ''
         file_url = ''

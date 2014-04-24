@@ -148,9 +148,9 @@
             % endif         
           </h1>
           %if not registered:
-            <label style='margin: 10px 200px 0px; float: right; font-family: "微软雅黑";'>
+            <label style='margin-left: 20px; font-family: "微软雅黑";'>
               %if course.display_course_price_with_default == 0:
-                ${"免费"}
+                ${"(免费)"}
               %else:
                 <span style='color: #53A93F; font-family: 微软雅黑; font-size: 26px;'>${str(course.display_course_price_with_default)}</span>
                 元

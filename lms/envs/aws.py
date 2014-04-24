@@ -27,12 +27,14 @@ SERVICE_VARIANT = os.environ.get('SERVICE_VARIANT', None)
 # files are expected to be found. If not specified, use the project
 # directory.
 CONFIG_ROOT = path(os.environ.get('CONFIG_ROOT', ENV_ROOT))
-
 # CONFIG_PREFIX specifies the prefix of the JSON configuration files,
 # based on the service variant. If no variant is use, don't use a
 # prefix.
 CONFIG_PREFIX = SERVICE_VARIANT + "." if SERVICE_VARIANT else ""
 
+PROJECT_PATH = path(os.path.abspath(os.path.dirname(__name__)))
+
+SITE_ROOT = path(os.path.dirname(os.path.realpath(__file__)))
 
 ################################ ALWAYS THE SAME ##############################
 
@@ -42,9 +44,11 @@ TEMPLATE_DEBUG = False
 EMAIL_BACKEND = 'django_ses.SESBackend'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-MEDIA_ROOT = ENV_ROOT / "uploads"
+# MEDIA_ROOT = ENV_ROOT / "uploads"
+MEDIA_ROOT = PROJECT_PATH / SERVICE_VARIANT / "static/uploads"
 MEDIA_URL = "/discussion/upfiles/"
-FILE_UPLOAD_TEMP_DIR = ENV_ROOT / "uploads"
+# FILE_UPLOAD_TEMP_DIR = ENV_ROOT / "uploads"
+FILE_UPLOAD_TEMP_DIR = PROJECT_PATH / SERVICE_VARIANT / "static/uploads"
 FILE_UPLOAD_HANDLERS = (
     'django.core.files.uploadhandler.MemoryFileUploadHandler',
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',

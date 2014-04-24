@@ -72,9 +72,9 @@ class CourseDetails(object):
 
         temploc = temploc.replace(name='video')
         try:
-            # raw_video = get_modulestore(temploc).get_item(temploc).data
-            # course.intro_video = CourseDetails.parse_video_tag(raw_video)
-            course.intro_video = get_modulestore(temploc).get_item(temploc).data
+            raw_video = get_modulestore(temploc).get_item(temploc).data
+            course.intro_video = CourseDetails.parse_video_tag(raw_video)
+            # course.intro_video = get_modulestore(temploc).get_item(temploc).data
         except ItemNotFoundError:
             pass
 
@@ -162,7 +162,7 @@ class CourseDetails(object):
             cls.update_about_item(course_old_location, about_type, jsondict[about_type], descriptor, user)
 
         # recomposed_video_tag = CourseDetails.recompose_video_tag(jsondict['intro_video'])
-        cls.update_about_item(course_old_location, 'video', jsondict['intro_video'], descriptor, user)
+        cls.update_about_item(course_old_location, 'video', CourseDetails.recompose_video_tag(jsondict['intro_video']), descriptor, user)
 
         # Could just return jsondict w/o doing any db reads, but I put the reads in as a means to confirm
         # it persisted correctly
@@ -178,7 +178,8 @@ class CourseDetails(object):
         if not raw_video:
             return None
 
-        keystring_matcher = re.search(r'(?<=embed/)[a-zA-Z0-9_-]+', raw_video)
+        # keystring_matcher = re.search(r'(?<=embed/)[a-zA-Z0-9_-]+', raw_video)
+        keystring_matcher = re.search("(?P<url>http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)", raw_video)
         if keystring_matcher is None:
             keystring_matcher = re.search(r'<?=\d+:[a-zA-Z0-9_-]+', raw_video)
 
