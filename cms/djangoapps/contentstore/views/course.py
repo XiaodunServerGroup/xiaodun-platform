@@ -6,8 +6,6 @@ import random
 import string  # pylint: disable=W0402
 import re
 import bson
-import socket
-import urllib2
 
 from datetime import *
 from django.utils import timezone
@@ -85,23 +83,6 @@ def _get_locator_and_course(package_id, branch, version_guid, block_id, user, de
     course_module = modulestore().get_item(course_location, depth=depth)
     return locator, course_module
 
-def _get_course_org_from_bs(user):
-    course_org = ""
-    try:
-        request_host = settings.XIAODUN_BACK_HOST
-        request_url = request_host + "/xiaodun/teacher/teacher!branch.do?teacherid=1" + str(user.id)
-        
-        timeout = 5
-        socket.setdefaulttimeout(timeout)
-        req = urllib2.Request(request_url)
-        request_json = json.load(urllib2.urlopen(req))
-
-        if request_json['success']:
-            course_org = request_json['name']
-    except:
-        print "some errors occur!"
-
-    return course_org
 
 # pylint: disable=unused-argument
 @login_required
@@ -288,13 +269,11 @@ def course_listing(request):
             course.location.name
         )
 
-    course_org = _get_course_org_from_bs(request.user)
     return render_to_response('index.html', {
         'courses': [format_course_for_view(c) for c in courses if not isinstance(c, ErrorDescriptor)],
         'user': request.user,
         'request_course_creator_url': reverse('contentstore.views.request_course_creator'),
-        'course_creator_status': _get_course_creator_status(request.user),
-        'course_org': course_org
+        'course_creator_status': _get_course_creator_status(request.user)
     })
 
 
