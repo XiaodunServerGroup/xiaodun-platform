@@ -184,7 +184,7 @@ class CourseDetails(object):
             keystring_matcher = re.search(r'<?=\d+:[a-zA-Z0-9_-]+', raw_video)
 
         if keystring_matcher:
-            return keystring_matcher.group(0)
+            return keystring_matcher.group(0).split('?')[0]
         else:
             logging.warn("ignoring the content because it doesn't not conform to expected pattern: " + raw_video)
             return None

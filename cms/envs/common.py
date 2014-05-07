@@ -249,7 +249,7 @@ ROOT_URLCONF = 'cms.urls'
 IGNORABLE_404_ENDS = ('favicon.ico')
 
 # xiaodun restful api host
-XIAODUN_BACK_HOST = 'http://192.168.1.15:8080'
+XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
