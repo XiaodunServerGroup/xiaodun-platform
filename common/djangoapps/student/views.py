@@ -1812,7 +1812,7 @@ def bs_sync_accounts(request):
         ret_json = {}
         for key, val in filter_keys_json.items():
             if key == 'name':
-                ret_json['username'] = val
+                ret_json['username'] = val.decode('utf-8').encode('utf-8')
 
             if key == 'passwd':
                 ret_json['password'] = val
@@ -1821,7 +1821,7 @@ def bs_sync_accounts(request):
                 ret_json[key] = val
 
             if key in ('originPlace', 'address') and not ret_json.get('mailing_address'):
-                ret_json['mailing_address'] = filter_keys_json.get(key)
+                ret_json['mailing_address'] = filter_keys_json.get(key).decode('utf-8').encode('utf-8')
 
             if key == 'education':
                 ret_json['level_of_education'] = val
@@ -1866,7 +1866,7 @@ def bs_sync_accounts(request):
             params = filter_and_init_keys(staff)
             try:
                 validate_email(params['email'])
-                validate_slug(params['username'])
+                # validate_slug(params['username'])
             except:
                 continue
 

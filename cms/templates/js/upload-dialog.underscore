@@ -31,7 +31,8 @@
 
     <% if(finished) { %>
       <div id="upload_confirm" class="message message-status message-status confirm is-shown" name="upload_confirm">
-        <p><%= gettext("Success!") %></p>
+        <!-- <p><%= gettext("Success!") %></p> --> 
+        <p><%= gettext("上传成功！") %></p>
       </div>
     <% } %>
 
@@ -42,7 +43,8 @@
     <h3 class="sr"><%= gettext('Form Actions') %></h3>
   <ul>
   <li class="action-item">
-    <a href="#" class="button action-primary action-upload <% if (!selectedFile || error) { %>disabled<% } %>"><%= gettext('Upload') %></a>
+    <!-- <a href="#" class="button action-primary action-upload <% if (!selectedFile || error) { %>disabled<% } %>"><%= gettext('Upload') %></a> -->
+    <a href="#" class="button action-primary action-upload <% if (!selectedFile || error) { %>disabled<% } %>"><%= gettext('上传') %></a>
   </li>
   <li class="action-item">
     <a href="#" class="button action-secondary action-cancel"><%= gettext('Cancel') %></a>
