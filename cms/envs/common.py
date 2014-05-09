@@ -253,15 +253,15 @@ XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
+EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 25
-EMAIL_USE_TLS = False
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'xiaodun_dev'
+EMAIL_HOST_PASSWORD = 'Xiaodun'
 
-DEFAULT_FROM_EMAIL = 'registration@example.com'
-DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
-SERVER_EMAIL = 'devops@example.com'
+DEFAULT_FROM_EMAIL = 'xiaodun_dev@163.com'
+DEFAULT_FEEDBACK_EMAIL = 'xiaodun_dev@163.com'
+SERVER_EMAIL = 'xiaodun_dev@163.com'
 ADMINS = ()
 MANAGERS = ADMINS
 

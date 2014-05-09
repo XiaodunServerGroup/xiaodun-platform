@@ -493,13 +493,13 @@ IGNORABLE_404_ENDS = ('favicon.ico')
 # NOTE: Please set ALLOWED_HOSTS to some sane value, as we do not allow the default '*'
 
 # Platform Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'registration@example.com'
-DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
-SERVER_EMAIL = 'devops@example.com'
-TECH_SUPPORT_EMAIL = 'technical@example.com'
-CONTACT_EMAIL = 'info@example.com'
-BUGS_EMAIL = 'bugs@example.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'xiaodun_dev@163.com'
+DEFAULT_FEEDBACK_EMAIL = 'xiaodun_dev@163.com'
+SERVER_EMAIL = 'xiaodun_dev@163.com'
+TECH_SUPPORT_EMAIL = 'xiaodun_dev@163.com'
+CONTACT_EMAIL = 'xiaodun_dev@163.com'
+BUGS_EMAIL = 'xiaodun_dev@163.com'
 ADMINS = ()
 MANAGERS = ADMINS
 

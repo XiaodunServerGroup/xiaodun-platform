@@ -2043,14 +2043,14 @@ msgstr "小节标识符："
 msgid ""
 "Thank you for signing up for edX Studio! To activate your account, please "
 "copy and paste this address into your web browser's address bar:"
-msgstr "谢谢您注册edX Studio！为了激活您的账号，请将下面的地址复制并粘贴到您的浏览器地址栏："
+msgstr "感谢您注册校盾！为了激活帐户,请将以下地址复制并粘贴的网页浏览器的地址栏："
 
 #: cms/templates/emails/activation_email.txt:11
 msgid ""
 "If you didn't request this, you don't need to do anything; you won't receive"
 " any more email from us. Please do not reply to this e-mail; if you require "
 "assistance, check the help section of the edX web site."
-msgstr "如果您不需要，您不需要做任何事，也将不会再收到我们的邮件。请不要直接回复此邮件。如果您需要帮助，请点击edX网站的帮助页面。"
+msgstr "如果您不需要，您不需要做任何事，也将不会再收到我们的邮件。请不要直接回复此邮件。如果您需要帮助，请点击查看网站的帮助页面。"
 
 #: cms/templates/emails/activation_email_subject.txt:2
 msgid "Your account for edX Studio"

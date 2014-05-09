@@ -2739,7 +2739,7 @@ msgstr "请到下面的页面并选择一个新的密码："
 msgid ""
 "If you didn't request this change, you can disregard this email - we have "
 "not yet reset your password."
-msgstr ""
+msgstr "如果您不需要更改，可以忽略此电子邮件，我们将不再重置您的密码。"
 
 #: lms/templates/registration/password_reset_email.html:11
 msgid "Thanks for using our site!"
@@ -2747,7 +2747,7 @@ msgstr "谢谢您访问我们的网站！"
 
 #: lms/templates/registration/password_reset_email.html:13
 msgid "The edX Team"
-msgstr "清华大学在线教育团队"
+msgstr "中国教育电台在线教育团队"
 
 #: lms/templates/wiki/article.html:32
 msgid "Last modified:"

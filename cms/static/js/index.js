@@ -5,7 +5,7 @@
 
             // One final check for empty values
             var errors = _.reduce(
-                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run', 'new-course-category'],
+                ['.new-course-name', '.new-course-org', '.new-course-number', '.new-course-run'],
                 function (acc, ele) {
                     var $ele = $(ele);
                     var error = validateRequiredField($ele.val());

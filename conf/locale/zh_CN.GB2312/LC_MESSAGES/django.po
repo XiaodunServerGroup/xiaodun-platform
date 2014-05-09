@@ -2887,7 +2887,7 @@ msgstr "请到下面的页面并选择一个新的密码："
 msgid ""
 "If you didn't request this change, you can disregard this email - we have "
 "not yet reset your password."
-msgstr ""
+msgstr "如果您不需要更改，可以忽略此电子邮件，我们将不再重置您的密码。"
 
 #: lms/templates/registration/password_reset_email.html
 msgid "Thanks for using our site!"
@@ -2895,7 +2895,7 @@ msgstr "谢谢您访问我们的网站！"
 
 #: lms/templates/registration/password_reset_email.html
 msgid "The edX Team"
-msgstr "清华大学在线教育团队"
+msgstr "中国教育电台在线教育团队"
 
 #: lms/templates/wiki/article.html
 msgid "Last modified:"
@@ -11135,18 +11135,18 @@ msgstr "小节标识符："
 msgid ""
 "Thank you for signing up for edX Studio! To activate your account, please "
 "copy and paste this address into your web browser's address bar:"
-msgstr "谢谢您注册edX Studio！为了激活您的账号，请将下面的地址复制并粘贴到您的浏览器地址栏："
+msgstr "感谢您注册校盾！为了激活您的帐户,请将以下地址复制并粘贴的网页浏览器的地址栏："
 
 #: cms/templates/emails/activation_email.txt
 msgid ""
 "If you didn't request this, you don't need to do anything; you won't receive"
 " any more email from us. Please do not reply to this e-mail; if you require "
 "assistance, check the help section of the edX web site."
-msgstr "如果您不需要，您不需要做任何事，也将不会再收到我们的邮件。请不要直接回复此邮件。如果您需要帮助，请点击edX网站的帮助页面。"
+msgstr "如果您不需要，您不需要做任何事，也将不会再收到我们的邮件。请不要直接回复此邮件。如果您需要帮助，请点击查看网站的帮助页面。"
 
 #: cms/templates/emails/activation_email_subject.txt
 msgid "Your account for edX Studio"
-msgstr "您的edX Studio账号"
+msgstr "您的校盾账号"
 
 #: cms/templates/emails/course_creator_admin_subject.txt
 msgid "{email} has requested Studio course creator privileges on edge"
