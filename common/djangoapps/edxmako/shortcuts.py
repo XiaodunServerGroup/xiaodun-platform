@@ -101,10 +101,6 @@ def render_to_string(template_name, dictionary, context=None, namespace='main'):
         context_dictionary.update(context)
     # fetch and render template
     template = lookup_template(namespace, template_name)
-
-    print "============= " * 5
-    print context_dictionary
-    
     return template.render_unicode(**context_dictionary)
 
 
