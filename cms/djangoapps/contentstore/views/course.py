@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from django_future.csrf import ensure_csrf_cookie
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
@@ -999,4 +1000,4 @@ def course_audit_api(request, course_id, operation):
         CourseMetadata.update_from_json(course_module, meta_json, True, user)
         return JsonResponse(re_json)
     except:
-        return JsonResponse(re_json)    
+        return JsonResponse(re_json)

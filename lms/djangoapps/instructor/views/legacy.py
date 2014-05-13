@@ -105,6 +105,7 @@ def instructor_dashboard(request, course_id):
     # the instructor dashboard page is modal: grades, psychometrics, admin
     # keep that state in request.session (defaults to grades mode)
     idash_mode = request.POST.get('idash_mode', '')
+
     if idash_mode:
         request.session['idash_mode'] = idash_mode
     else:

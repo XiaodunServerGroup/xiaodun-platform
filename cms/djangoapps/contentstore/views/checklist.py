@@ -51,6 +51,7 @@ def checklists_handler(request, tag=None, package_id=None, branch=None, version_
             modulestore.update_item(course_module, request.user.id)
 
         expanded_checklists = expand_all_action_urls(course_module)
+
         if json_request:
             return JsonResponse(expanded_checklists)
         else:

@@ -9,6 +9,7 @@ USE_I18N = True
 TEMPLATE_DEBUG = DEBUG
 TIME_ZONE = 'Asia/Shanghai'
 LANGUAGE_CODE = 'zh_CN'
+SITE_NAME = 'course.xiaodun.cn:81'
 
 ################################ LOGGERS ######################################
 
