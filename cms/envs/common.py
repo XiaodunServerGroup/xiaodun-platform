@@ -294,6 +294,9 @@ LOCALE_PATHS = (REPO_ROOT + '/conf/locale',)  # edx-platform/conf/locale/
 # Messages
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+# If this is true, random scores will be generated for the purpose of debugging the profile graphs
+GENERATE_PROFILE_SCORES = False
+
 ############################### Pipeline #######################################
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'

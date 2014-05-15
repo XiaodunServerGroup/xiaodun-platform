@@ -19,6 +19,7 @@ from .user import *
 from .tabs import *
 from .transcripts_ajax import *
 from .mobi import *
+from .student_grade import *
 try:
     from .dev import *
 except ImportError:

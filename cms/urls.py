@@ -93,6 +93,9 @@ urlpatterns += patterns(
     url(r'(?ix)^textbooks/{}$'.format(parsers.URL_RE_SOURCE), 'textbooks_list_handler'),
     url(r'(?ix)^textbooks/{}/(?P<tid>\d[^/]*)$'.format(parsers.URL_RE_SOURCE), 'textbooks_detail_handler'),
 
+    # student learn information
+    url(r'(?ix)^students/learn/course/(?P<course_id>[\w\-~.:]+)/info', 'students_course_learn_info'),
+
     # course check api
     url(r'(?ix)^bs/course/(?P<course_id>[\w\-~.:]+)/audit/(?P<operation>(pass|offline))$', 'course_audit_api'),
     # mobile restfull api

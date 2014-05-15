@@ -154,10 +154,10 @@ def courses_list_handler(request, action):
     except:
         user = AnonymousUser()
 
-    if action not in ["homefalls", "all", "hot", "latest", "my", "search", "rolling"]:
+    if action not in ["homefalls", "all", "hot", "latest", "my", "search", "rolling", "sync"]:
         return JsonResponse({"success": False, "errmsg": "not support other actions except homefalls all hot latest rolling and my"})
-
-    def get_courses_depend_action():
+    
+    def get_courses_depend_action(courses):
         """
         Return courses depend on action
             action: [homefalls, hot, lastest, my, search]
@@ -167,8 +167,6 @@ def courses_list_handler(request, action):
                 my: I registered
                 all: like 'homefalls'
         """
-
-        courses = get_courses(user, request.META.get('HTTP_HOST'))
         courses = sort_and_audited_items(courses)
         courses_list = []
 
@@ -191,7 +189,6 @@ def courses_list_handler(request, action):
 
             if keyword:
                 for c in courses:
-                    print (keyword in c.org or keyword in c.id or keyword in c.display_name_with_default)
                     if keyword in c.org or keyword in c.id or keyword in c.display_name_with_default:
                         courses_list.append(c)
         else:
@@ -199,8 +196,9 @@ def courses_list_handler(request, action):
 
         return courses_list
 
-    courses = get_courses_depend_action()
-    # get_courses_depend_action()
+    courses = get_courses(user, request.META.get('HTTP_HOST'))
+    if action != "sync":
+        courses = get_courses_depend_action(courses)
 
     return return_fixed_courses(request, courses, action)
 

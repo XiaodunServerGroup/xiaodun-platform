@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Views related to operations on course objects
 """
@@ -55,7 +56,6 @@ from django_comment_common.models import assign_default_role
 from django_comment_common.utils import seed_permissions_roles
 
 from student.models import CourseEnrollment
-from student.roles import CourseInstructorRole
 
 from xmodule.html_module import AboutDescriptor
 from xmodule.modulestore.locator import BlockUsageLocator, CourseLocator
