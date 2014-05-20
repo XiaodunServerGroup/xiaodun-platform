@@ -2,6 +2,7 @@ import logging
 from functools import partial
 import math
 import json
+import re
 
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
@@ -178,7 +179,8 @@ def _upload_asset(request, location):
 
     # get all filename
     course_reference = StaticContent.compute_location(old_location.org, old_location.course, old_location.name)
-    filename_arr = [up_f["displayname"] for up_f in contentstore().get_all_content_for_course(course_reference, start=0, maxresults=-1, sort=sort)[0]] || []
+
+    filename_arr = [up_f["displayname"] for up_f in contentstore().get_all_content_for_course(course_reference, start=0, maxresults=-1, sort=None)[0]] or []
 
     # compute a 'filename' which is similar to the location formatting, we're
     # using the 'filename' nomenclature since we're using a FileSystem paradigm
@@ -189,16 +191,16 @@ def _upload_asset(request, location):
 
     def acquire_purename_and_suffix(f_n):
         fn_sp = f_n.split(".")
-        return (fn_sp[0:-1].join('.'), fn_sp[-1])
+        return ('.'.join(fn_sp[0:-1]), fn_sp[-1])
 
     if filename in filename_arr:
         # filter same suffix filename
         pure_filename, file_suffix = acquire_purename_and_suffix(filename)
 
-        pattern_str =  "(" + filename.replace("(", "\(").replace(")", "\)") + ")(" + "\()(\d+)(\))"
+        pattern_str =  "(" + pure_filename.replace("(", "\(").replace(")", "\)") + ")(" + "\()(\d+)(\))"
         pattern = re.compile(pattern_str)
 
-        start_copy = 1
+        start_copy = 0
         for f in filename_arr:
             f_n, f_s = acquire_purename_and_suffix(f)
 
@@ -210,7 +212,7 @@ def _upload_asset(request, location):
             if match_obj:
                 start_copy = int(match_obj.groups()[2]) if int(match_obj.groups()[2]) > start_copy else start_copy
 
-        filename = pure_filename + "(" + str(start_copy) + ")" + file_suffix
+        filename = pure_filename + "(" + str(start_copy + 1) + ")." + file_suffix
 
 
     mime_type = upload_file.content_type
