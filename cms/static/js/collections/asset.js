@@ -11,7 +11,7 @@ define(["backbone.paginator", "js/models/asset"], function(BackbonePaginator, As
             firstPage: 0,
             currentPage: 0,
             perPage: 50
-        },
+        },  
         server_api: {
             'page': function() { return this.currentPage; },
             'page_size': function() { return this.perPage; },

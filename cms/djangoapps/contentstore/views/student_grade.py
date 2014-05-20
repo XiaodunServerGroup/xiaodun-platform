@@ -58,15 +58,35 @@ from student import auth
 
 from courseware import grades
 
-__all__ = ['students_course_learn_info']
+__all__ = ['students_course_learn_info', 'student_process']
 
 
-
-USER_FEATURES = ('username', 'first_name', 'last_name', 'is_staff', 'email')
+USER_FEATURES = ('id', 'username', 'first_name', 'last_name', 'is_staff', 'email')
 PROFILE_FEATURES = ('name', 'language', 'location', 'year_of_birth', 'gender',
                     'level_of_education', 'mailing_address', 'goals')
 
-STUDENT_FEATURES = ['username', 'name', 'email', 'gender', 'level_of_education']
+STUDENT_FEATURES = ['id', 'username', 'name', 'email', 'gender', 'level_of_education']
+
+GENDER_CONTRAST = [
+    ['m', '男'],
+    ['f', '女'],
+    ['o', '其他']
+]
+
+EDU_LEVEL_CONTRAST = [
+    ['p', '博士'],
+    ['m', '硕士'],
+    ['b', '学士'],
+    ['a', '大专'],
+    ['hs','中专/高中'],
+    ['jhs', '初中'],
+    ['el', '小学'],
+    ['none', '没有'],
+    ['other', '其它']
+]
+
+settings.FEATURES['DISABLE_START_DATES'] = False
+settings.XQUEUE_WAITTIME_BETWEEN_REQUESTS = 5
 
 def _get_locator_and_course(package_id, branch, version_guid, block_id, user, depth=0):
     """
@@ -103,7 +123,16 @@ def students_course_learn_info(request, course_id):
         if student_profile:
             student_dict.update(dict((tf, getattr(student_profile, tf)) for tf in [pf for pf in STUDENT_FEATURES if pf in PROFILE_FEATURES]))
 
-        student_dict.update({'complete_degree': grade})
+        if student_dict['gender']:
+            st_g = student_dict['gender']
+            student_dict['gender'] = filter(lambda x: x[0] == st_g, GENDER_CONTRAST)[0][1]
+
+        if student_dict['level_of_education']:
+            st_level = student_dict['level_of_education'] 
+            student_dict['level_of_education'] = filter(lambda x: x[0] == st_level, EDU_LEVEL_CONTRAST)[0][1]
+
+        student_dict.update({'complete_degree': "{grade}%".format(grade=grade)})
+
         return student_dict
 
     def get_uniq_email(course_users):
@@ -122,4 +151,39 @@ def students_course_learn_info(request, course_id):
 
     students = [format_user_data(st) for st in all_data if st.email not in exclude_list]
 
-    return render_to_response("students_static.html", {'student_data': students})
+    return render_to_response("students_static.html", {'student_data': students, "context_course": course})
+
+
+@login_required
+def student_process(request, course_id, user_id):
+    try:
+        __, course = _get_locator_and_course(
+            course_id, 'draft', None, course_id.split('.')[-1], request.user, depth=None
+        )
+    except:
+        raise Http404('没有找到对应课程！')
+
+    student = User.objects.prefetch_related("groups").get(id=user_id)
+
+    courseware_summary = grades.progress_summary(student, request, course)
+    grade_summary = grade.grade(student, request, course)
+
+    if courseware_summary is None:
+        raise Http404
+
+    context = {
+        'course': course,
+        'courseware_summary': courseware_summary,
+        'grade_summary': grade_summary,
+        'student': student,
+    }
+
+    return JsonResponse(context)
+
+
+
+
+
+
+
+

@@ -220,6 +220,8 @@ def get_module_for_descriptor_internal(user, descriptor, field_data_cache, cours
     See get_module() docstring for further details.
     """
 
+    print "======+++====== " * 5
+
     # Do not check access when it's a noauth request.
     if getattr(user, 'known', True):
         # Short circuit--if the user shouldn't have access, bail without doing any work
@@ -227,6 +229,9 @@ def get_module_for_descriptor_internal(user, descriptor, field_data_cache, cours
             return None
 
     student_data = KvsFieldData(DjangoKeyValueStore(field_data_cache))
+
+    print "======+-+====== " * 5
+    print student_data
 
 
     def make_xqueue_callback(dispatch='score_update'):
@@ -272,6 +277,7 @@ def get_module_for_descriptor_internal(user, descriptor, field_data_cache, cours
         open_ended_grading_interface = settings.OPEN_ENDED_GRADING_INTERFACE
         open_ended_grading_interface['mock_peer_grading'] = settings.MOCK_PEER_GRADING
         open_ended_grading_interface['mock_staff_grading'] = settings.MOCK_STAFF_GRADING
+
     if needs_s3_interface:
         s3_interface = {
             'access_key': getattr(settings, 'AWS_ACCESS_KEY_ID', ''),
