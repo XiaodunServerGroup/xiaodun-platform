@@ -244,7 +244,7 @@ FEATURES = {
 DEFAULT_GROUPS = []
 
 # If this is true, random scores will be generated for the purpose of debugging the profile graphs
-GENERATE_PROFILE_SCORES = False
+GENERATE_PROFILE_SCORES = True
 
 # Used with XQueue
 XQUEUE_WAITTIME_BETWEEN_REQUESTS = 5  # seconds
@@ -492,14 +492,12 @@ ROOT_URLCONF = 'lms.urls'
 IGNORABLE_404_ENDS = ('favicon.ico')
 # NOTE: Please set ALLOWED_HOSTS to some sane value, as we do not allow the default '*'
 
-# Platform Email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'xiaodun_dev@163.com'
-DEFAULT_FEEDBACK_EMAIL = 'xiaodun_dev@163.com'
-SERVER_EMAIL = 'xiaodun_dev@163.com'
-TECH_SUPPORT_EMAIL = 'xiaodun_dev@163.com'
-CONTACT_EMAIL = 'xiaodun_dev@163.com'
-BUGS_EMAIL = 'xiaodun_dev@163.com'
+DEFAULT_FROM_EMAIL = 'xiaodun@guoshi.com'
+DEFAULT_FEEDBACK_EMAIL = 'xiaodun@guoshi.com'
+SERVER_EMAIL = 'xiaodun@guoshi.com'
+TECH_SUPPORT_EMAIL = 'xiaodun@guoshi.com'
+CONTACT_EMAIL = 'xiaodun@guoshi.com'
+BUGS_EMAIL = 'xiaodun@guoshi.com'
 ADMINS = ()
 MANAGERS = ADMINS
 
@@ -1466,6 +1464,16 @@ ALL_LANGUAGES = (
     [u"zu", u"Zulu"]
 )
 
+PASSWORD_HASHERS = (
+'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
+'django.contrib.auth.hashers.PBKDF2PasswordHasher', 
+'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher', 
+'django.contrib.auth.hashers.BCryptPasswordHasher', 
+'django.contrib.auth.hashers.SHA1PasswordHasher', 
+'django.contrib.auth.hashers.MD5PasswordHasher', 
+'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher',  
+'django.contrib.auth.hashers.CryptPasswordHasher'
+)
 
 ### JSdraw (only installed in some instances)
 
@@ -1475,3 +1483,6 @@ except ImportError:
     pass
 else:
     INSTALLED_APPS += ('edx_jsdraw',)
+
+############## SSO KEY ################
+SSO_KEY = "SSOFOUNDER"

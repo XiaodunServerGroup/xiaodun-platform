@@ -1,7 +1,7 @@
+# encoding=utf-8
 """
 Student Views
 """
-#encoding=utf-8
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -13,12 +13,15 @@ import re
 import urllib
 import uuid
 import time
+import base64
+import urllib2
 from django.utils import timezone
 from collections import defaultdict
 from pytz import UTC
+from Crypto.Cipher import DES
 
 from django.conf import settings
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout, authenticate, login, load_backend
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset_confirm
@@ -787,6 +790,110 @@ def accounts_login(request):
     return render_to_response('login.html', context)
 
 
+def des_auth_login(request):
+    context = {
+        'platform_name': settings.PLATFORM_NAME,
+    }
+
+    return render_to_response('des_auth_login.html', context)
+
+
+def login_user_with_guoshi_account(request):
+    import xml.etree.ElementTree as ET
+    from django.utils.crypto import constant_time_compare
+    
+    key_sso = settings.SSO_KEY
+    def secure_key(key_str):
+        return key_str[0:8]
+    
+    def des_decrypt(en_str):
+        unpad = lambda x: x[0:-ord(x[-1])]
+
+        obj = DES.new(secure_key(key_sso), DES.MODE_ECB)
+
+        return unpad(obj.decrypt(base64.b64decode(en_str)))
+
+    response_json = {'success': False}
+
+    # parse params
+    passport = request.GET.get('passport', "")
+
+    if not passport:
+        raise Http404('no passport given')
+
+    # DES MODE_ECB decrypt string and acquire params
+    try:
+        de_passport_arr = des_decrypt(passport).split("#")
+        username, certificate = de_passport_arr[0], de_passport_arr[3]
+    except:
+        raise Http404("passport string out of range")
+
+    # request passport url and get details of user des encrypt string
+    try: 
+        request_url = "".join(["http://passport.guoshi.com/mp/proxyValidateuser?input=", certificate])
+        req = urllib2.Request(request_url)
+
+        re_q = re.compile('\s+')
+        req_result = re.sub(re_q, '', urllib2.urlopen(req).read())
+    except:
+        raise Http404('failure on getting user details')
+
+    parser = ET.XMLParser(encoding="utf-8")
+    parse_xml_obj = ET.fromstring(unicode(des_decrypt(req_result), errors='replace').replace('GBK', 'utf-8'), parser=parser)
+    # parse_xml_obj = ET.fromstring(des_decrypt(req_result).decode('gbk').encode('utf-8').replace('GBK', 'utf-8'), parser=parser)
+
+    def parse_xml_obj_dict(xml_obj):
+        xml_dict = {}
+
+        for xml_i in xml_obj._children:
+            try:
+                xml_dict.update({xml_i.tag: xml_i.text})
+            except:
+                continue
+        
+        return xml_dict
+
+    xml_user_detail_dict = parse_xml_obj_dict(parse_xml_obj)
+
+    if not xml_user_detail_dict.get('email', ''):
+        raise Http404('can not find user email')
+
+    # decrypt_string = des_decrypt(str)
+    # parse decrypt string get email paddword username and so on
+    try:
+        # username = "xiaodun_dev_test_2"
+        # email = "xiaodun_dev_test_2@163.com"
+        # password = "Xiaodun"
+        user = User.objects.get(email=xml_user_detail_dict.get('email'))
+
+        # verify user get login user
+
+    except User.DoesNotExist:
+        user = User(
+                    username=xml_user_detail_dict.get('loginName', ''),
+                    email=xml_user_detail_dict.get('email'),
+                    is_active=True
+                )
+        user.password = xml_user_detail_dict.get('password')
+        user.save()
+
+        profile = UserProfile(user=user)
+        profile.name = xml_user_detail_dict.get('fullName')
+        profile.save()
+
+    if not constant_time_compare(user.password, xml_user_detail_dict.get('password')):
+        raise Http404('authenticate failure!')
+
+    # there every things looks well, then we login user
+    backend = load_backend(settings.AUTHENTICATION_BACKENDS[0])
+    user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
+    login(request, user)
+    suc_response = render_to_response('des_auth_login.html')
+    suc_response["P3P"] = 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"'
+
+    return suc_response
+
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):
@@ -836,6 +943,7 @@ def login_user(request, error=""):
     # username so that authentication is guaranteed to fail and we can take
     # advantage of the ratelimited backend
     username = user.username if user else ""
+
     try:
         user = authenticate(username=username, password=password, request=request)
     # this occurs when there are too many attempts from the same IP address

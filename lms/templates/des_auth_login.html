@@ -1,0 +1,42 @@
+<%inherit file="main.html" />
+<%! from microsite_configuration import microsite %>
+<%namespace name='static' file='static_content.html'/>
+
+<%! from django.core.urlresolvers import reverse %>
+<%! from django.utils.translation import ugettext as _ %>
+
+<%block name="pagetitle"></%block>
+
+<%block name="bodyclass">view-login</%block>
+
+<%block name="js_extra">
+  <script type="text/javascript">
+  </script>
+</%block>
+<link rel="stylesheet" href="/static/css/header/header.css" />
+<section>
+  <div class="header-navigation">
+      <div class="header-wall">
+         <a class="line" href="http://www.xiaodun.cn/index.html">首页</a>
+         <a class="line" href="http://www.xiaodun.cn/course.html">课程</a>
+         <a class="line" href="http://www.xiaodun.cn/base.html">基地</a>
+         <a class="line" href="http://www.xiaodun.cn/announcement.html">公告</a>
+         <a class="line" href="http://www.xiaodun.cn/service.html">服务</a> 
+         <a class="none" href="http://www.xiaodun.cn/about.html">关于</a>
+      </div>
+  </div>
+</section>
+
+<section class="introduction">
+  <header>
+    <h1 class="title">
+      <span class="title-super">校盾授权成功！</span>
+    </h1>
+  </header>
+</section>
+
+<section class="login container">
+  <section role="main" class="content">
+  </section>
+</section>
+

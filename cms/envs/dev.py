@@ -112,7 +112,6 @@ CACHES = {
         'VERSION': 4,
         'KEY_FUNCTION': 'util.memcache.safe_key',
     },
-
     'mongo_metadata_inheritance': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/tmp/mongo_metadata_inheritance',

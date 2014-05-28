@@ -45,6 +45,10 @@ urlpatterns = ('',  # nopep8
     url(r'^bs/sync/accounts$', 'student.views.bs_sync_accounts', name='bs_sync_accounts'),
     url(r'^bs/sync/ban/account/(?P<user_id>[^/]*)$', 'student.views.bs_ban_account', name='bs_sync_accounts'),
 
+    # login user with sso, user from guoshi
+    url(r'^sso/user/guoshi/desencrypt/auth_login', 'student.views.des_auth_login', name='des_auth_login'),
+    url(r'^sso/user/guoshi/desencrypt/ajax_login_user$', 'student.views.login_user_with_guoshi_account', name='login_user_with_guoshi_account'),
+
     url(r'^password_reset/$', 'student.views.password_reset', name='password_reset'),
     ## Obsolete Django views for password resets
     ## TODO: Replace with Mako-ized views
