@@ -1328,7 +1328,7 @@ msgstr "课程内容"
 #. staff to view openended problems that require staff grading
 #: lms/djangoapps/courseware/tabs.py:181
 msgid "Staff grading"
-msgstr "员工评分"
+msgstr "成员评分"
 
 #: lms/djangoapps/courseware/tabs.py:195
 msgid "Syllabus"

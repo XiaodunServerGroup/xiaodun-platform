@@ -2,13 +2,13 @@
   <div class="field text" id="field-course-grading-assignment-name">
   	<label for="course-grading-assignment-name">作业类型名称</label>
   	<input type="text" class="long" id="course-grading-assignment-name" value="<%= model.get('type') %>" />
-  	<span class="tip tip-stacked"><%= gettext("例如. 家庭作业, 其中测试") %></span>
+  	<span class="tip tip-stacked"><%= gettext("例如：家庭作业, 期中测试") %></span>
   </div>
 
   <div class="field text" id="field-course-grading-assignment-shortname">
-    <label for="course-grading-assignment-shortname">简称:</label>
+    <label for="course-grading-assignment-shortname">简称</label>
     <input type="text" class="short" id="course-grading-assignment-shortname" value="<%= model.get('short_label') %>" />
-    <span class="tip tip-inline"><%= gettext("e.g. 家庭作业, 其中测试") %></span>
+    <span class="tip tip-inline"><%= gettext("例如：家庭作业, 期中测试") %></span>
   </div>
 
   <div class="field text" id="field-course-grading-assignment-gradeweight">

@@ -39,7 +39,8 @@ define(["backbone", "underscore", "gettext"], function(Backbone, _, gettext) {
                 sortDirectionName = view.sortDirectionName(),
                 end = start + count,
                 total = collection.totalCount,
-                fmts = gettext('Showing %(current_span)s%(start)s-%(end)s%(end_span)s out of %(total_span)s%(total)s total%(end_span)s, sorted by %(order_span)s%(sort_order)s%(end_span)s %(sort_direction)s');
+                // fmts = gettext('Showing %(current_span)s%(start)s-%(end)s%(end_span)s out of %(total_span)s%(total)s total%(end_span)s, sorted by %(order_span)s%(sort_order)s%(end_span)s %(sort_direction)s');
+                fmts = gettext('%(total_span)s 共 %(total)s 条%(end_span)s');
 
             return '<p>' + interpolate(fmts, {
                     start: Math.min(start + 1, end),

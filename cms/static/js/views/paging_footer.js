@@ -25,7 +25,8 @@ define(["backbone", "underscore"], function(Backbone, _) {
                 lastPage = collection.totalPages - 1;
             this.$el.html(this.template({
                 current_page: collection.currentPage,
-                total_pages: collection.totalPages
+                total_pages: collection.totalPages,
+                total: collection.totalCount
             }));
             this.$(".previous-page-link").toggleClass("is-disabled", currentPage === 0);
             this.$(".next-page-link").toggleClass("is-disabled", currentPage === lastPage);

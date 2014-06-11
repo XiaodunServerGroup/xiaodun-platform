@@ -77,6 +77,7 @@ DEFAULT_SHORT_DATE_FORMAT = "%b %d, %Y"
 DEFAULT_LONG_DATE_FORMAT = "%A, %B %d, %Y"
 DEFAULT_TIME_FORMAT = "%I:%M:%S %p"
 DEFAULT_DATE_TIME_FORMAT = "%b %d, %Y at %H:%M"
+DEFAULT_WHOLE_NUM_FORMAT = "%m %d, %Y"
 
 
 def strftime_localized(dtime, format):      # pylint: disable=redefined-builtin
@@ -128,6 +129,8 @@ def strftime_localized(dtime, format):      # pylint: disable=redefined-builtin
             format = DEFAULT_DATE_TIME_FORMAT
     elif format == "TIME":
         format = "%X"
+    elif format == "NUM_FORMAT":
+        format = "%n"
 
     def process_percent_code(match):
         """
@@ -176,6 +179,8 @@ def strftime_localized(dtime, format):      # pylint: disable=redefined-builtin
                 # Prevent infinite accidental recursion.
                 actual_format = DEFAULT_TIME_FORMAT
             part = strftime_localized(dtime, actual_format)
+        elif code == "%n":
+            part = strftime_localized(dtime, DEFAULT_WHOLE_NUM_FORMAT)
         else:
             # All the other format codes: just let built-in strftime take
             # care of them.

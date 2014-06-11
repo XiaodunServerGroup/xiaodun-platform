@@ -475,7 +475,7 @@ msgstr "导出课程内容"
 
 #: cms/templates/export.html:116
 msgid "Data {em_start}exported with{em_end} your course:"
-msgstr "随课程{em_start} 导出 {em_end} 数据："
+msgstr "课程{em_start} 导出 {em_end} 数据："
 
 #: cms/templates/export.html:118
 msgid "Course Content (all Sections, Sub-sections, and Units)"
@@ -499,7 +499,7 @@ msgstr "课程设置"
 
 #: cms/templates/export.html:128
 msgid "Data {em_start}not exported{em_end} with your course:"
-msgstr "随课程{em_start} 不导出 {em_end} 的数据："
+msgstr "课程{em_start} 未导出 {em_end} 的数据："
 
 #: cms/templates/export.html:130
 msgid "User Data"
@@ -1145,7 +1145,7 @@ msgstr "拒绝"
 #: cms/templates/index.html:242
 msgid ""
 "Your request did not meet the criteria/guidelines specified by edX Staff."
-msgstr "您的请求不符合edX员工规定的标准/指导方案。"
+msgstr "您的请求不符合校盾工作人员规定的标准/指导方案。"
 
 #: cms/templates/index.html:257
 msgid ""
@@ -1159,7 +1159,7 @@ msgstr "edX Studio是一个针对x-联盟合作伙伴以及挑选的客户的托
 msgid ""
 "Your request is currently being reviewed by edX staff and should be updated "
 "shortly."
-msgstr "您的请求正在被edX员工评审，并且会很快更新。"
+msgstr "您的请求正在被校盾工作人员评审，并且会很快更新。"
 
 #: cms/templates/index.html:280 cms/templates/index.html:336
 msgid "Need help?"
@@ -1190,7 +1190,7 @@ msgstr "为了再Studio中创建课程，您必须"
 
 #: cms/templates/index.html:296
 msgid "contact edX staff to help you create a course"
-msgstr "联系edX员工来帮助您创建一个课程"
+msgstr "联系校盾工作人员来帮助您创建一个课程"
 
 #: cms/templates/index.html:303
 msgid ""
@@ -1204,7 +1204,7 @@ msgstr "您在Studio中创作课程的请求已经被拒绝。请"
 
 #: cms/templates/index.html:309
 msgid "contact edX Staff with further questions"
-msgstr "进一步的问题请联系edX员工"
+msgstr "进一步的问题请联系校盾工作人员"
 
 #: cms/templates/index.html:321
 #, python-format
@@ -1314,7 +1314,7 @@ msgstr "你！"
 
 #: cms/templates/manage_users.html:86
 msgid "Staff"
-msgstr "员工"
+msgstr "成员"
 
 #: cms/templates/manage_users.html:99
 msgid "send an email message to {email}"
@@ -1708,13 +1708,13 @@ msgstr "课程概况"
 
 #: cms/templates/settings.html:215
 msgid "your course summary page"
-msgstr "您的课程总结页面"
+msgstr "课程总结页面预览"
 
 #: cms/templates/settings.html:217
 #, python-format
 msgid ""
-"Introductions, prerequisites, FAQs that are used on %s (formatted in HTML)"
-msgstr "介绍说明、先修条件、常见问题解答被列在%s (HTML格式)"
+"%s (formatted in HTML)"
+msgstr "%s (HTML格式)"
 
 #: cms/templates/settings.html:224 cms/templates/settings.html:228
 #: cms/templates/settings.html:237

@@ -6,6 +6,7 @@ div.info-wrapper {
 
     > h1 {
       @extend .top-header;
+      font-weight: bold;
     }
 
     > p {
@@ -73,6 +74,16 @@ div.info-wrapper {
             margin-bottom: lh(.5);
           }
         }
+      }
+    }
+
+    > section {
+      > article {
+        margin-top: 30px;
+      }
+
+      > article:first-child {
+        margin-top: 0px;
       }
     }
   }

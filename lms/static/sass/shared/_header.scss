@@ -1,5 +1,5 @@
 header.global {
-  border-bottom: 1px solid #8A8C8F;
+  border-bottom: 3px solid $header-bottom-border-color;
   box-shadow: 0 1px 5px 0 rgba(0,0,0, 0.1);
   background: none repeat scroll 0 0 #FFFFFF;
   height: 100px;
@@ -18,7 +18,7 @@ header.global {
 
   h1.logo {
     float: left;
-    margin: -2px 39px 0px 0px;
+    margin: -7px 39px 0px 0px;
     position: relative;
 
     a {
@@ -34,7 +34,7 @@ header.global {
     &.left {
       float: left;
       margin-left: -200px;
-      margin-top: 30px;
+      margin-top: 27px;
     }
 
     &.guest {
@@ -112,19 +112,18 @@ header.global {
 
     &.user {
       float: right;
-      margin-top: 4px;
-      background: #ff6600;
+      margin-top: 15px;
 
       > li.primary {
         display: block;
         float: left;
         margin: 0px;
-        background:#ff7a31;
 
         > a {
           margin: 0px;
           @include border-right-radius(0px);
           background:#ff7a31;
+          border-color: rgb(195, 79, 79);
         }
 
         &:last-child {

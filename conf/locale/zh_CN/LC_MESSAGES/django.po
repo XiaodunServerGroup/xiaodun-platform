@@ -1399,8 +1399,13 @@ msgstr "课程内容"
 #. staff to view openended problems that require staff grading
 #: lms/djangoapps/courseware/tabs.py
 #: lms/templates/instructor/staff_grading.html
+#, fuzzy
 msgid "Staff grading"
-msgstr "员工评分"
+msgstr ""
+"#-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#\n"
+"成员评分\n"
+"#-#-#-#-#  mako.po (edx-platform)  #-#-#-#-#\n"
+"员工评分"
 
 #: lms/djangoapps/courseware/tabs.py lms/templates/courseware/syllabus.html
 msgid "Syllabus"
@@ -4511,7 +4516,7 @@ msgstr "请登录"
 
 #: lms/templates/login.html
 msgid "to access your account and courses"
-msgstr "来访问你的账户和课程"
+msgstr "访问你的账户和课程"
 
 #: lms/templates/login.html
 msgid "We're Sorry, {platform_name} accounts are unavailable currently"
@@ -5718,7 +5723,7 @@ msgid ""
 "href=\"mailto:{tech_support_email}\">{tech_support_email}</a>' to report any"
 " problems or downtime."
 msgstr ""
-"很抱歉，这个模块目前暂时不能访问。我们的员工正在尽快修复。请发送邮件到'<a "
+"很抱歉，这个模块目前暂时不能访问。我们的工作人员正在尽快修复。请发送邮件到'<a "
 "href=\"mailto:{tech_support_email}\">{tech_support_email}</a>'报告遇到的问题以及时间。"
 
 #: lms/templates/courseware/courseware.html
@@ -9569,7 +9574,7 @@ msgstr "导出课程内容"
 
 #: cms/templates/export.html
 msgid "Data {em_start}exported with{em_end} your course:"
-msgstr "随课程{em_start} 导出 {em_end} 数据："
+msgstr "课程{em_start} 导出 {em_end} 数据："
 
 #: cms/templates/export.html
 msgid "Course Content (all Sections, Sub-sections, and Units)"
@@ -9593,7 +9598,7 @@ msgstr "课程设置"
 
 #: cms/templates/export.html
 msgid "Data {em_start}not exported{em_end} with your course:"
-msgstr "随课程{em_start} 不导出 {em_end} 的数据："
+msgstr "课程{em_start} 未导出 {em_end} 的数据："
 
 #: cms/templates/export.html
 msgid "User Data"
@@ -10248,7 +10253,7 @@ msgstr "拒绝"
 #: cms/templates/index.html
 msgid ""
 "Your request did not meet the criteria/guidelines specified by edX Staff."
-msgstr "您的请求不符合edX员工规定的标准/指导方案。"
+msgstr "您的请求不符合校盾工作人员规定的标准/指导方案。"
 
 #: cms/templates/index.html
 msgid ""
@@ -10264,7 +10269,7 @@ msgstr ""
 msgid ""
 "Your request is currently being reviewed by edX staff and should be updated "
 "shortly."
-msgstr "您的请求正在被edX员工评审，并且会很快更新。"
+msgstr "您的请求正在被校盾工作人员评审，并且会很快更新。"
 
 #: cms/templates/index.html cms/templates/index.html
 msgid "Need help?"
@@ -10294,7 +10299,7 @@ msgstr "为了再Studio中创建课程，您必须"
 
 #: cms/templates/index.html
 msgid "contact edX staff to help you create a course"
-msgstr "联系edX员工来帮助您创建一个课程"
+msgstr "联系校盾工作人员来帮助您创建一个课程"
 
 #: cms/templates/index.html
 msgid ""
@@ -10308,7 +10313,7 @@ msgstr "您在Studio中创作课程的请求已经被拒绝。请"
 
 #: cms/templates/index.html
 msgid "contact edX Staff with further questions"
-msgstr "进一步的问题请联系edX员工"
+msgstr "进一步的问题请联系校盾工作人员"
 
 #: cms/templates/index.html
 msgid "Thanks for signing up, %(name)s!"
@@ -10410,7 +10415,7 @@ msgstr "你！"
 
 #: cms/templates/manage_users.html
 msgid "Staff"
-msgstr "员工"
+msgstr "成员"
 
 #: cms/templates/manage_users.html
 msgid "send an email message to {email}"
@@ -10808,12 +10813,11 @@ msgstr "课程概况"
 
 #: cms/templates/settings.html
 msgid "your course summary page"
-msgstr "您的课程总结页面"
+msgstr "课程总结页面预览"
 
 #: cms/templates/settings.html
-msgid ""
-"Introductions, prerequisites, FAQs that are used on %s (formatted in HTML)"
-msgstr "介绍说明、先修条件、常见问题解答被列在%s (HTML格式)"
+msgid "%s (formatted in HTML)"
+msgstr "%s (HTML格式)"
 
 #: cms/templates/settings.html cms/templates/settings.html
 #: cms/templates/settings.html

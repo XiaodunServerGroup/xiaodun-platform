@@ -1098,7 +1098,7 @@ msgstr "请登录"
 
 #: lms/templates/login.html:102
 msgid "to access your account and courses"
-msgstr "来访问你的账户和课程"
+msgstr "访问你的账户和课程"
 
 #: lms/templates/login.html:113
 msgid "We're Sorry, {platform_name} accounts are unavailable currently"
@@ -2311,7 +2311,7 @@ msgid ""
 " fix it as soon as possible. Please email us at '<a "
 "href=\"mailto:{tech_support_email}\">{tech_support_email}</a>' to report any"
 " problems or downtime."
-msgstr "很抱歉，这个模块目前暂时不能访问。我们的员工正在尽快修复。请发送邮件到'<a href=\"mailto:{tech_support_email}\">{tech_support_email}</a>'报告遇到的问题以及时间。"
+msgstr "很抱歉，这个模块目前暂时不能访问。我们的工作人员正在尽快修复。请发送邮件到'<a href=\"mailto:{tech_support_email}\">{tech_support_email}</a>'报告遇到的问题以及时间。"
 
 #: lms/templates/courseware/courseware.html:6
 msgid "{course_number} Courseware"

@@ -12,7 +12,9 @@
 <div class="wrapper-mast wrapper">
   <header class="mast has-actions has-subtitle">
     <h1 class="page-header">
+      <!--
       <small class="subtitle">${_("Settings")}</small>
+      -->
       <span class="sr">&gt; </span>${_("Course Team")}
     </h1>
 
@@ -72,9 +74,11 @@
               <span class="label sr">${_("Current Role:")}</span>
               <span class="value">
                 ${_("Admin")}
+                <!--
                 % if request.user.id == user.id:
                     <span class="msg-you">${_("You!")}</span>
                 % endif
+                -->
               </span>
             </span>
           </span>
@@ -84,9 +88,11 @@
               <span class="label sr">${_("Current Role:")}</span>
               <span class="value">
                 ${_("Staff")}
+                <!--
                 % if request.user.id == user.id:
                     <span class="msg-you">${_("You!")}</span>
                 % endif
+                -->
               </span>
             </span>
           </span>
@@ -105,7 +111,9 @@
           <ul  class="item-actions user-actions">
             <li class="action action-role">
               % if is_instuctor and len(instructors) == 1:
+                <!--
                 <span class="admin-role notoggleforyou">${_("Promote another member to Admin to remove your admin rights")}</span>
+                -->
               % else:
                 <a href="#" class="admin-role toggle-admin-role ${'remove' if is_instuctor else 'add'}-admin-role">${_("Remove Admin Access") if is_instuctor else _("Add Admin Access")}</a>
               % endif

@@ -27,6 +27,7 @@ require(["domReady", "jquery", "js/models/asset", "js/collections/asset",
             var assets = new AssetCollection();
 
             assets.url = "${asset_callback_url}";
+            console.log("${asset_callback_url}");
             var assetsView = new AssetsView({collection: assets, el: $('#asset-library')});
             assetsView.render();
             assetsView.setPage(0);
@@ -130,7 +131,9 @@ require(["domReady", "jquery", "js/models/asset", "js/collections/asset",
 <div class="wrapper-mast wrapper">
     <header class="mast has-actions has-subtitle">
         <h1 class="page-header">
+            <!--
             <small class="subtitle">${_("Content")}</small>
+            -->
             <span class="sr">&gt; </span>${_("Files &amp; Uploads")}
         </h1>
 

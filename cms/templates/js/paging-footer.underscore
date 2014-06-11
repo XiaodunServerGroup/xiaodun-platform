@@ -11,6 +11,10 @@
         <span class="page-divider">/</span>
         <span class="total-pages"><%= total_pages %></span>
     </li>
-    <li class="nav-item next"><a class="nav-link next-page-link" href="#"><span class="nav-label"><%= gettext("Next") %></span> <i class="icon-angle-right"></i></a></li>
+    <li class="nav-item next"><a class="nav-link next-page-link" href="#"><span class="nav-label"><%= gettext("Next") %></span> <i class="icon-angle-right"></i></a>
+    </li>
+    <li class="nav-item next">
+        <span>共 <%= total %> 条</span>   
+    </li>
 </ol>
 </nav>

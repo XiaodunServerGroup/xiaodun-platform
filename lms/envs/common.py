@@ -87,7 +87,7 @@ FEATURES = {
 
     'ENABLE_PSYCHOMETRICS': False,  # real-time psychometrics (eg item response theory analysis in instructor dashboard)
 
-    'ENABLE_DJANGO_ADMIN_SITE': True,  # set true to enable django's admin site, even on prod (e.g. for course ops)
+    'ENABLE_DJANGO_ADMIN_SITE': False,  # set true to enable django's admin site, even on prod (e.g. for course ops)
     'ENABLE_SQL_TRACKING_LOGS': False,
     'ENABLE_LMS_MIGRATION': False,
     'ENABLE_MANUAL_GIT_RELOAD': False,
@@ -778,6 +778,7 @@ main_vendor_js = [
     'js/vendor/jquery-ui.min.js',
     'js/vendor/jquery.cookie.js',
     'js/vendor/jquery.qtip.min.js',
+    'js/vendor/jquery.gotoTop.js',
     'js/vendor/swfobject/swfobject.js',
     'js/vendor/jquery.ba-bbq.min.js',
     'js/vendor/ova/annotator-full.js',

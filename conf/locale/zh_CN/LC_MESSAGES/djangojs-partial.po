@@ -839,7 +839,7 @@ msgstr "您自己"
 
 #: lms/static/coffee/src/instructor_dashboard/send_email.js:55
 msgid "everyone who is staff or instructor on this course"
-msgstr "本课程是的所有员工和教师"
+msgstr "本课程是的所有成员和教师"
 
 #: lms/static/coffee/src/instructor_dashboard/send_email.js:57
 msgid ""

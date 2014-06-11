@@ -48,7 +48,9 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
 <div class="wrapper-mast wrapper">
   <header class="mast has-subtitle">
     <h1 class="page-header">
+      <!--
       <small class="subtitle">${_("Settings")}</small>
+      -->
       <span class="sr">&gt; </span>${_("Schedule & Details")}
     </h1>
   </header>
@@ -61,7 +63,9 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
         <section class="group-settings basic">
           <header>
             <h2 class="title-2">${_("Basic Information")}</h2>
+            <!--
             <span class="tip">${_("The nuts and bolts of your course")}</span>
+            -->
           </header>
 
           <ol class="list-input">
@@ -119,7 +123,9 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
         <section class="group-settings schedule">
           <header>
             <h2 class="title-2">${_('Course Schedule')}</h2>
+            <!--
             <span class="tip">${_('Dates that control when your course can be viewed')}</span>
+            -->
           </header>
 
           <ol class="list-input">
@@ -195,7 +201,9 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
             <section class="group-settings marketing">
               <header>
                 <h2 class="title-2">${_("Introducing Your Course")}</h2>
+                <!--
                 <span class="tip">${_("Information for prospective students")}</span>
+                -->
               </header>
               <ol class="list-input">
                 % if short_description_editable:
@@ -214,7 +222,7 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
                     a_link_start = '<a class="link-courseURL" rel="external" href="'
                     a_link_end = '">' + _("your course summary page") + '</a>'
                     a_link = a_link_start + lms_link_for_about_page + a_link_end
-                    text = _("Introductions, prerequisites, FAQs that are used on %s (formatted in HTML)") % a_link
+                    text = _("%s (formatted in HTML)") % a_link
                     %>${text}</%def>
                   <span class="tip tip-stacked">${overview_text()}</span>
                 </li>
@@ -276,7 +284,9 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
             <section class="group-settings requirements">
               <header>
                 <h2 class="title-2">${_("Requirements")}</h2>
+                <!--
                 <span class="tip">${_("Expectations of the students taking this course")}</span>
+                -->
               </header>
 
               <ol class="list-input">

@@ -28,6 +28,19 @@ a {
   }
 }
 
+a.backToTop{
+  width: 80px; 
+  height: 40px;
+  border: 1px solid #ddd;
+  color: $blue;
+  text-align: center;
+  line-height: 40px;
+  background-color: #fff;
+}
+
+a.backToTop:hover{
+} 
+
 h1 {
   @extend %t-title4;
   font-weight: 300;
@@ -128,6 +141,10 @@ h1 {
     .subtitle {
       color: $gray-l2;
     }
+  }
+
+  .courses {
+    margin-top: -40px;
   }
 }
 

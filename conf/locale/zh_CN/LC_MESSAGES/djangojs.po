@@ -841,7 +841,7 @@ msgstr "您自己"
 
 #: lms/static/coffee/src/instructor_dashboard/send_email.js
 msgid "everyone who is staff or instructor on this course"
-msgstr "本课程是的所有员工和教师"
+msgstr "本课程是的所有成员和教师"
 
 #: lms/static/coffee/src/instructor_dashboard/send_email.js
 msgid ""
@@ -1355,7 +1355,7 @@ msgstr "名称"
 
 #: cms/static/js/views/assets.js
 msgid "Date Added"
-msgstr "数据添加"
+msgstr "时间"
 
 #: cms/static/js/views/course_info_update.js
 msgid "Are you sure you want to delete this update?"

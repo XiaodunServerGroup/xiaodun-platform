@@ -1,5 +1,5 @@
 /*hfy10 begin*/
-.header-navigation {background: url(images/topnav_bg.png) left bottom repeat-x; width:100%; height:41px; z-index:99; line-height:35px; font-size:15px; letter-spacing:2px;}
+.header-navigation {background: url(images/topnav_bg.png) left bottom repeat-x; width:100%; height:41px; z-index:99; line-height:35px; font-size:15px; letter-spacing:2px; margin-top: -2px;}
 .header-navigation .header-wall {margin:auto; max-width: 1180px;min-width: 760px; text-align:right;}
 .header-navigation .header-wall a:link, .header-navigation .header-wall a:visited {color:#ffffff; text-decoration:none;}
 .header-navigation .header-wall a:hover, .header-navigation .header-wall a:active {color:#faeeb7; text-decoration:underline;}

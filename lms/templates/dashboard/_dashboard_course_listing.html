@@ -59,7 +59,9 @@
         ${_("Course Starts - {start_date}").format(start_date=course.start_date_text)}
         % endif
         </p>
-        <h2 class="university">${get_course_about_section(course, 'university')}</h2>
+        <!--
+          <h2 class="university">${get_course_about_section(course, 'university')}</h2>
+        -->
         <h3>
           % if show_courseware_link:
             <a href="${course_target}">${course.display_number_with_default | h} ${course.display_name_with_default}</a>

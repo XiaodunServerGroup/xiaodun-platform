@@ -57,6 +57,7 @@ $dark-gray: rgb(51, 51, 51);
 $border-color: rgb(200, 200, 200);
 $sidebar-color: rgb(246, 246, 246);
 $outer-border-color: rgb(170, 170, 170);
+$header-bottom-border-color: rgb(255, 122, 49);
 
 $green: rgb(255,102,0);
 
@@ -251,7 +252,7 @@ $dot-color: $light-gray;
 
 // MISC: course assets
 $content-wrapper-bg: $white;
-$course-bg-color: #d6d6d6;
+$course-bg-color: #F2F2F2;
 $course-bg-image: url(../images/bg-texture.png);
 $account-content-wrapper-bg: shade($body-bg, 2%);
 $course-profile-bg: rgb(245,245,245);

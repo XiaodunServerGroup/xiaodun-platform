@@ -6,6 +6,10 @@
   .content-primary, .content-supplementary {
     @include box-sizing(border-box);
     float: left;
+
+    .bit:first-child {
+      margin-top: 30px;
+    }
   }
 
   .content-primary {
@@ -75,7 +79,7 @@
 
       &.pagination-full {
         display: block;
-        width: flex-grid(4, 12);
+        width: flex-grid(5, 12);
         margin: $baseline auto;
       }
 
@@ -199,10 +203,12 @@
         vertical-align: middle;
         text-align: left;
         color: $gray;
+        font-weight: bold;
 
         .column-sort-link {
           cursor: pointer;
-          color: $blue;
+          //color: $blue;
+          //color: $blue;
         }
 
 

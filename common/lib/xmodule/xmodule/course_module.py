@@ -979,7 +979,8 @@ class CourseDescriptor(CourseFields, SequenceDescriptor):
                 if result is None:
                     result = text.title()
                 else:
-                    result = strftime(result, "SHORT_DATE")
+                    # result = strftime(result, "SHORT_DATE")
+                    result = strftime(result, "NUM_FORMAT")
             except ValueError:
                 result = text.title()
 
@@ -993,7 +994,8 @@ class CourseDescriptor(CourseFields, SequenceDescriptor):
             return _('TBD')
         else:
             when = self.advertised_start or self.start
-            return strftime(when, "SHORT_DATE")
+            # return strftime(when, "SHORT_DATE")
+            return strftime(when, "NUM_FORMAT")
 
     @property
     def start_date_is_still_default(self):
@@ -1014,7 +1016,8 @@ class CourseDescriptor(CourseFields, SequenceDescriptor):
             return ''
         else:
             strftime = self.runtime.service(self, "i18n").strftime
-            return strftime(self.end, "SHORT_DATE")
+            # return strftime(self.end, "SHORT_DATE")
+            return strftime(self.end, "NUM_FORMAT")
 
     @property
     def forum_posts_allowed(self):

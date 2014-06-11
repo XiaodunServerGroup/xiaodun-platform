@@ -29,6 +29,41 @@
 </head>
 
 <body class="{% block bodyclass %}{% endblock %} lang_{{LANGUAGE_CODE}}">
+  <script type="text/javascript" id="lalalalala">
+    $(function(){
+        var min_height = 618;
+        var balance_height = $(window).height();
+
+        $.each(['header', 'div.wrapper-footer.wrapper'], function(idx, obj){
+            balance_height -= $(obj).outerHeight(true);
+
+            //balance_height -= parseInt($(obj).css('margin-top')); 
+            //balance_height -= parseInt($(obj).css('margin-bottom'));
+
+            //balance_height -= parseInt($(obj).css('padding-top'));
+            //balance_height -= parseInt($(obj).css('padding-bottom'));
+        });
+
+        balance_height -= parseInt($('div#content').css('margin-top'));
+        balance_height -= parseInt($('div#content').css('margin-bottom'));
+
+        balance_height -= parseInt($('div#content').css('padding-top'));
+        balance_height -= parseInt($('div#content').css('padding-bottom'));
+
+        if (balance_height < min_height) balance_height = min_height;
+
+        $('div#content').css('min-height', (balance_height + 'px'));
+
+        // get current body width
+        var set_width = $(document.body).width();
+        $(window).bind('scroll resize', function(){
+            $('.backToTop').goToTop({
+                pageWidth: set_width,
+                duration: 300
+            });
+        });
+    });
+  </script>
   <a class="nav-skip" href="{% block nav_skip %}#content{% endblock %}">{% trans "Skip to this view's content" %}</a>
   {% include "navigation.html" %}
   <div class="content-wrapper" id="content">

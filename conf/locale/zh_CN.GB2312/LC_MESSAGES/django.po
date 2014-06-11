@@ -4508,7 +4508,7 @@ msgstr "请登录"
 
 #: lms/templates/login.html
 msgid "to access your account and courses"
-msgstr "来访问你的账户和课程"
+msgstr "访问你的账户和课程"
 
 #: lms/templates/login.html
 msgid "We're Sorry, {platform_name} accounts are unavailable currently"
@@ -9570,7 +9570,7 @@ msgstr "导出课程内容"
 
 #: cms/templates/export.html
 msgid "Data {em_start}exported with{em_end} your course:"
-msgstr "随课程{em_start} 导出 {em_end} 数据："
+msgstr "课程{em_start} 导出 {em_end} 数据："
 
 #: cms/templates/export.html
 msgid "Course Content (all Sections, Sub-sections, and Units)"
@@ -9594,7 +9594,7 @@ msgstr "课程设置"
 
 #: cms/templates/export.html
 msgid "Data {em_start}not exported{em_end} with your course:"
-msgstr "随课程{em_start} 不导出 {em_end} 的数据："
+msgstr "课程{em_start} 未导出 {em_end} 的数据："
 
 #: cms/templates/export.html
 msgid "User Data"
@@ -10408,7 +10408,7 @@ msgstr "你！"
 
 #: cms/templates/manage_users.html
 msgid "Staff"
-msgstr "员工"
+msgstr "成员"
 
 #: cms/templates/manage_users.html
 msgid "send an email message to {email}"
@@ -10633,7 +10633,7 @@ msgid ""
 "Studio is for anyone that wants to create online courses that leverage the "
 "global edX platform. Our users are often faculty members, teaching "
 "assistants and course staff, and members of instructional technology groups."
-msgstr "Studio面向任何希望使用全球化edX平台创建在线课程的用户，这些用户通常是教员，助教，课程员工或教学技术小组。"
+msgstr "Studio面向任何希望使用全球化edX平台创建在线课程的用户，这些用户通常是教员，助教，课程成员或教学技术小组。"
 
 #: cms/templates/register.html
 msgid "How technically savvy do I need to be to create courses in Studio?"
@@ -10806,12 +10806,12 @@ msgstr "课程概况"
 
 #: cms/templates/settings.html
 msgid "your course summary page"
-msgstr "您的课程总结页面"
+msgstr "课程总结页面预览"
 
 #: cms/templates/settings.html
 msgid ""
-"Introductions, prerequisites, FAQs that are used on %s (formatted in HTML)"
-msgstr "介绍说明、先修条件、常见问题解答被列在%s (HTML格式)"
+"%s (formatted in HTML)"
+msgstr "%s (HTML格式)"
 
 #: cms/templates/settings.html cms/templates/settings.html
 #: cms/templates/settings.html

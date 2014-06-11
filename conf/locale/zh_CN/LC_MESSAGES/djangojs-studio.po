@@ -215,7 +215,7 @@ msgstr "名称"
 
 #: cms/static/js/views/assets.js:17
 msgid "Date Added"
-msgstr "数据添加"
+msgstr "时间"
 
 #: cms/static/js/views/course_info_update.js:136
 msgid "Are you sure you want to delete this update?"

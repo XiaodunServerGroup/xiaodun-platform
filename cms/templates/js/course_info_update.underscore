@@ -2,7 +2,7 @@
 	<!-- FIXME what style should we use for initially hidden? --> <!-- TODO decide whether this should use codemirror -->
 	<form class="new-update-form">
 		<div class="row">
-			<label class="inline-label">Date:</label>
+			<label class="inline-label">日期:</label>
 			<!-- TODO replace w/ date widget and actual date (problem is that persisted version is "Month day" not an actual date obj -->
 			<input type="text" class="date" value="<%= updateModel.get('date') %>">
 		</div>

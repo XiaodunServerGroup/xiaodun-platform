@@ -382,16 +382,16 @@ body.course.unit,.view-unit {
       @include transition(none);
 
       &:hover {
-        border-color: #6696d7;
+        border-color: $theme-color;
 
         .drag-handle {
           background-color: $blue;
-          border-color: $blue;
+          border-color: $theme-color;
         }
       }
 
       &.editing {
-        border: 1px solid $lightBluishGrey2;
+        border: 1px solid $theme-color;
         z-index: auto;
 
         .drag-handle,
@@ -401,7 +401,7 @@ body.course.unit,.view-unit {
       }
 
       &.component-placeholder {
-        border-color: #6696d7;
+        border-color: $theme-color;
       }
 
       .drag-handle {
@@ -1355,7 +1355,7 @@ body.unit .xblock-type-container {
 
   &:hover {
     @include transition(all $tmg-f2 linear 0s);
-    border-color: $blue;
+    border-color: #f60;
 
     .container-drag {
       background-color: $blue;
