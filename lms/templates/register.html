@@ -39,6 +39,26 @@
         $("label").parent().removeClass("is-focused");
       });
 
+      $("form :input[type=password]").on('keyup', function(){
+          console.log($(this).val());
+          var score_pwd = passwordScore($(this).val());
+          console.log(score_pwd);
+          if (score_pwd <= 25) {
+            $('#passwordstrength').html("太弱 不能注册")
+          }
+
+          if (score_pwd > 25) {
+            $('#passwordstrength').html("弱")
+          }
+
+          if (score_pwd > 50) {
+            $('#passwordstrength').html("中")
+          }
+
+          if (score_pwd > 75) {
+            $('#passwordstrength').html("强")
+          }
+      });
     });
 
     (function() {
@@ -83,6 +103,54 @@
           text("${_(u'Processing your account information…')}");
       }
     }
+
+    function passwordScore(password_str){
+        // var password = $(obj).val();
+        var password = password_str;
+        var score = 5;
+
+        // basic score logic(20)
+        if (password.length >= 5) score += 5;
+
+        if (password.length >= 8) score += 10;
+
+        // include digital score logic(15) 
+        var digital_len = password.replace(/[^0-9]/ig, "").length;
+        if (digital_len > 0) score += 5;
+
+        if (digital_len >= 3) score += 10;
+
+        // include enlish letter score logic(20) 
+        var lower_letter_len = password.replace(/[^a-z]/g, "").length;
+        var upper_letter_len = password.replace(/[^A-Z]/g, "").length;
+        var letter_len = lower_letter_len + upper_letter_len
+        if (letter_len > 0) score += 5;
+
+        if (letter_len >= 3) score += 5;
+
+        if (lower_letter_len > 0 && upper_letter_len > 0) score += 10;
+
+        // inculde special characters score logic(20)
+        var sp_char_len = password.replace(/[^-!$%^&*()_+|~=`{}\[\]\#:";'<>?,.\/]/ig, "").length
+
+        if (sp_char_len > 0) score += 10;
+
+        if (sp_char_len >= 2) score += 10;
+
+        // complex score logic(25)
+        if (digital_len > 0 && letter_len > 0) score += 5;
+
+        if (digital_len > 0 && sp_char_len > 0) score += 5;
+
+        if (letter_len > 0 && sp_char_len > 0) score += 5;
+
+        if (digital_len > 0 && letter_len > 0 && sp_char_len > 0) score += 10;
+
+        // special conditions
+        if (password.length >= 16) score = 100;
+
+        return score;
+    }
   </script>
 </%block>
 
@@ -90,7 +158,7 @@
 <section>
     <div class="header-navigation">
       <div class="header-wall">
-         <a class="line" href="http://www.xiaodun.cn/index.html">首页</a>
+         <a class="line" href="http://www.xiaodun.cn/index1.html">首页</a>
          <a class="line" href="http://www.xiaodun.cn/course.html">课程</a>
          <a class="line" href="http://www.xiaodun.cn/base.html">基地</a>
          <a class="line" href="http://www.xiaodun.cn/announcement.html">公告</a>
@@ -103,10 +171,8 @@
 <section class="introduction">
   <header>
     <h1 class="title">
-      <!--
-        <span class="title-super">${_("Welcome!")}</span>
-      -->
-      <span class="title-sub">欢迎！注册创建您的校盾账户</span>
+      <span class="title-super">${_("Welcome!")}</span>
+      <span class="title-sub">注册创建您的校盾账户</span>
     </h1>
   </header>
 </section>
@@ -114,7 +180,7 @@
 <section class="register container">
   <section role="main" class="content">
     <form role="form" id="register-form" method="post" data-remote="true" action="/create_account" novalidate>
-      <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
+      <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" id="prompt_box">
 
       <!-- status messages -->
       <div role="alert" class="status message">
@@ -143,7 +209,9 @@
           </li>
           <li class="field required password" id="field-password">
             <label for="password">${_('Password')}</label>
-            <input id="password" type="password" name="password" value="" required aria-required="true" />
+            <input id="password" type="password" name="password" value="" required aria-required="true"/></br>
+            密码强度:
+            <div id="div2" style="height:20px;float:right;display:inline;border:2px;border-color:black;"><span id="passwordstrength"></span></div>
           </li>
           <li class="field required text" id="field-username">
             <label for="username">${_('Public Username')}</label>
@@ -349,7 +417,7 @@
 % endif
 
       <div class="form-actions">
-        <button name="submit" type="submit" id="submit" class="action action-primary action-update" style='margin-left: 0px; height: 40px;'>${_('Register')} <span class="orn-plus">+</span> ${_('Create My Account')}</button>
+        <button name="submit" type="submit" id="submit" onclick="return check(this);" class="action action-primary action-update" style="margin-left: 0px; height: 40px;">${_('Register')} <span class="orn-plus">+</span> ${_('Create My Account')}</button>
       </div>
     </form>
   </section>
