@@ -44,6 +44,11 @@ urlpatterns = patterns('',  # nopep8
     url(r'^lang_pref/', include('lang_pref.urls')),
 )
 
+# captcha
+urlpatterns += (
+    url(r'^captcha/', include('captcha.urls')),
+)
+
 # User creation and updating views
 urlpatterns += patterns(
     '',

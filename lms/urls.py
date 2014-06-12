@@ -77,6 +77,10 @@ urlpatterns = ('',  # nopep8
     url(r'^embargo$', 'student.views.embargo', name="embargo"),
 )
 
+urlpatterns += (
+    url(r'^captcha/', include('captcha.urls')),
+)
+
 # mobile login restfull api
 urlpatterns += (
     url(r'^mobi/token($|/(?P<action>(login|logout))$)', 'student.views.mobi_token_handler', name='mobi_token_handler'),

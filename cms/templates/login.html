@@ -45,6 +45,11 @@ from django.utils.translation import ugettext as _
               <label for="password">${_("Password")}</label>
               <input id="password" type="password" name="password" />
             </li>
+
+            <li class="field text required" id="field-captcha">
+              <label for='captcha'>验证码</label>
+              ${ form }
+            </li>
           </ol>
         </fieldset>
 
@@ -107,6 +112,16 @@ require(["jquery", "jquery.cookie", "utility"], function($) {
         }
       }
     );
+  });
+
+  //refresh captcha
+  $('.captcha').click(function(){
+      $.get("/signin", function(json){
+         var captcha_image_url = json.captcha_image_url;
+         $('.captcha').attr("src", captcha_image_url);
+         $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
+      });
+      return false;
   });
 });
 </script>

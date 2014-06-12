@@ -250,6 +250,25 @@
       margin: 0;
       padding: 0;
       list-style: none;
+
+      li#field-captcha {
+        label[for=id_captcha_1] {
+          display: none;
+        }
+
+        img.captcha {
+          float: right;
+          width: 15%;
+          margin: 0 2.5%;
+          height: 43px;
+        }
+
+        input#id_captcha_1 {
+          float: right;
+          width: 80%;
+        }
+      }
+
     }
 
     // field groups

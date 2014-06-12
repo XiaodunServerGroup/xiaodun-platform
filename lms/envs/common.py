@@ -1076,6 +1076,9 @@ INSTALLED_APPS = (
     'djcelery',
     'south',
 
+    # validate picture
+    'captcha',
+
     # Database-backed configuration
     'config_models',
 

@@ -40,6 +40,13 @@ from django.utils.http import cookie_date, base36_to_int
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST, require_GET
 
+# captcha
+from django import forms
+from captcha.fields import CaptchaField
+
+from captcha.helpers import captcha_image_url
+from captcha.models import CaptchaStore
+
 from ratelimitbackend.exceptions import RateLimitException
 
 from edxmako.shortcuts import render_to_response, render_to_string
@@ -96,6 +103,12 @@ AUDIT_LOG = logging.getLogger("audit")
 
 Article = namedtuple('Article', 'title url author image deck publication publish_date')
 ReverifyInfo = namedtuple('ReverifyInfo', 'course_id course_name course_number date status display')  # pylint: disable=C0103
+
+
+class CaptchaLoginForm(forms.Form):
+    captcha = CaptchaField()
+
+
 
 def csrf_token(context):
     """A csrf token that can be included in a form."""
@@ -357,6 +370,14 @@ def signin_user(request):
     if request.user.is_authenticated():
         return redirect(reverse('dashboard'))
 
+    form = CaptchaLoginForm()
+
+    if request.is_ajax():
+        new_cptch_key = CaptchaStore.generate_key()
+        cpt_image_url = captcha_image_url(new_cptch_key)
+
+        return JsonResponse({'captcha_image_url': cpt_image_url})
+
     context = {
         'course_id': request.GET.get('course_id'),
         'enrollment_action': request.GET.get('enrollment_action'),
@@ -364,6 +385,7 @@ def signin_user(request):
             'platform_name',
             settings.PLATFORM_NAME
         ),
+        'form': form,
     }
     return render_to_response('login.html', context)
 
@@ -973,6 +995,16 @@ def login_user(request, error=""):
     # successful login, clear failed login attempts counters, if applicable
     if LoginFailures.is_feature_enabled():
         LoginFailures.clear_lockout_counter(user)
+
+    if request.POST:
+        form_captcha = CaptchaLoginForm(request.POST)
+        if form_captcha.is_valid():
+            human = True
+        else:
+            return JsonResponse({
+                "success": False,
+                "value": '验证码错误',
+            })
 
     if user is not None and user.is_active:
         try:
