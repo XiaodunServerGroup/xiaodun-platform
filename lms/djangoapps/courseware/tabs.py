@@ -354,7 +354,8 @@ def get_course_tabs(user, course, active_page, request):
         # multiple tabs.
 
         # Temporary Modified
-        if tab['name'] == "Wiki" or tab['name'] == "资料":
+        tab_keys = tab.keys()
+        if "name" in tab_keys and (tab['name'] == "Wiki" or tab['name'] == "资料"):
             continue
         gen = VALID_TAB_TYPES[tab['type']].generator
         tabs.extend(gen(tab, user, course, active_page, request))
