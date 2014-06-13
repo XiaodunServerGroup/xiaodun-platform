@@ -881,7 +881,7 @@ def textbooks_list_handler(request, tag=None, package_id=None, branch=None, vers
             course.tabs = tabs
         store.update_item(course, request.user.id)
         resp = JsonResponse(textbook, status=201)
-        resp["Location"] = locator.url_reverse('textbooks', textbook["id"])
+        resp["Location"] = locator.url_reverse('textbooks', textbook["id"]).encode("utf-8")
         return resp
 
 

@@ -38,7 +38,7 @@ ${progress_graph.body(grade_summary, course.grade_cutoffs, "grade-detail-graph",
 
     <div class="course-info" id="course-info-progress" aria-label="${_('Course Progress')}">
       <header>
-      <h1>${_("Course Progress for Student '{username}' ({email})").format(username=student.username, email=student.email)}</h1>
+      <h1>${_("Course Progress for Student '{username}'").format(username=student.username)}</h1>
       </header>
 
       %if not course.disable_progress_graph:

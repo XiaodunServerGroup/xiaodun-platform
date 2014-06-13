@@ -25,7 +25,9 @@ from django.utils.translation import ugettext as _
   <section class="content">
     <header>
       <h1 class="title title-1">登录校盾计划工作平台</h1>
+      <!--
       <a href="${reverse('signup')}" class="action action-signin">如果还没有校盾平台帐号,现在注册?</a>
+      -->
     </header>
 
     <article class="content-primary" role="main">
@@ -109,6 +111,7 @@ require(["jquery", "jquery.cookie", "utility"], function($) {
         } else {
           $('#login_error').stop().addClass('is-shown');
           $('#login_error').html(json.value);
+          refreshCaptcha();
         }
       }
     );
@@ -116,13 +119,17 @@ require(["jquery", "jquery.cookie", "utility"], function($) {
 
   //refresh captcha
   $('.captcha').click(function(){
-      $.get("/signin", function(json){
-         var captcha_image_url = json.captcha_image_url;
-         $('.captcha').attr("src", captcha_image_url);
-         $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
-      });
-      return false;
+    refreshCaptcha();
   });
+
+  function refreshCaptcha(){
+    $.get("/signin", function(json){
+       var captcha_image_url = json.captcha_image_url;
+       $('.captcha').attr("src", captcha_image_url);
+       $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
+    });
+    return false;
+  }
 });
 </script>
 </%block>

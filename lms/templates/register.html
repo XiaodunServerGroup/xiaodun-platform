@@ -40,29 +40,23 @@
       });
 
       $("form :input[type=password]").on('keyup', function(){
-          console.log($(this).val());
           var score_pwd = passwordScore($(this).val());
-          console.log(score_pwd);
-          if (score_pwd <= 25) {
-            $('#passwordstrength').html("太弱 不能注册")
-          }
 
-          if (score_pwd > 25) {
-            $('#passwordstrength').html("弱")
-          }
-
-          if (score_pwd > 50) {
-            $('#passwordstrength').html("中")
-          }
-
-          if (score_pwd > 75) {
-            $('#passwordstrength').html("强")
-          }
+          $('div.pw-bar').css("width", (3 * score_pwd + "px"));
       });
     });
 
     (function() {
       toggleSubmitButton(true);
+
+      $('button#submit').on("click", function(){
+        // get password score
+        var pwd_score = passwordScore($('input#password').val());
+        if (pwd_score < 25) {
+          showErrors("密码强度太弱，不能够注册！");
+          return false;
+        }
+      });
 
       $('#register-form').on('submit', function() {
         toggleSubmitButton(false);
@@ -80,12 +74,20 @@
       $('#register-form').on('ajax:error', function(event, jqXHR, textStatus) {
         toggleSubmitButton(true);
         json = $.parseJSON(jqXHR.responseText);
-        $('.status.message.submission-error').addClass('is-shown').focus();
-        $('.status.message.submission-error .message-copy').html(json.value).stop().css("display", "block");
-        $(".field-error").removeClass('field-error');
-        $("[data-field='"+json.field+"']").addClass('field-error')
+        showErrors(json.value);
+        // $('.status.message.submission-error').addClass('is-shown').focus();
+        // $('.status.message.submission-error .message-copy').html(json.value).stop().css("display", "block");
+        // $(".field-error").removeClass('field-error');
+        // $("[data-field='"+json.field+"']").addClass('field-error')
       });
     })(this);
+
+    function showErrors(err_str){
+      $('.status.message.submission-error').addClass('is-shown').focus();
+      $('.status.message.submission-error .message-copy').html(err_str).stop().css("display", "block");
+      $(".field-error").removeClass('field-error');
+      $("[data-field='"+json.field+"']").addClass('field-error')
+    }
 
     function toggleSubmitButton(enable) {
       var $submitButton = $('form .form-actions #submit');
@@ -107,7 +109,9 @@
     function passwordScore(password_str){
         // var password = $(obj).val();
         var password = password_str;
-        var score = 5;
+        var score = 0;
+
+        if (score.length >= 0) score += 5;
 
         // basic score logic(20)
         if (password.length >= 5) score += 5;
@@ -209,9 +213,16 @@
           </li>
           <li class="field required password" id="field-password">
             <label for="password">${_('Password')}</label>
-            <input id="password" type="password" name="password" value="" required aria-required="true"/></br>
-            密码强度:
-            <div id="div2" style="height:20px;float:right;display:inline;border:2px;border-color:black;"><span id="passwordstrength"></span></div>
+            <input id="password" type="password" name="password" value="" required aria-required="true"/>
+            <div id="J_PwdStrength" class="pw-strength pw-weak">
+              <div class="pw-bar"></div>
+              <div class="pw-letter">
+                <span class="tsl" data-phase-id="r_1_8">弱</span>
+                <span class="tsl" data-phase-id="r_1_9">中</span>
+                <span class="tsl" data-phase-id="r_1_10">强</span>       
+              </div>
+            </div>
+            <span id="username-tip" class="tip tip-input">6-16个字符，请使用字母加数字或字符的组合密码，不能单独使用字母、数字或符号</span>
           </li>
           <li class="field required text" id="field-username">
             <label for="username">${_('Public Username')}</label>

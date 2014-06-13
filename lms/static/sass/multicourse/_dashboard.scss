@@ -282,7 +282,7 @@
   // ====================
 
   // course listings
-  .my-courses {
+    .my-courses {
     float: left;
     margin: 0px;
     width: flex-grid(9);
@@ -369,7 +369,7 @@
 
         img {
           width: 100%;
-        }
+          height: 100%;        }
       }
 
       .info {
@@ -396,7 +396,7 @@
             right: 0;
             font-family: $sans-serif;
             font-size: 13px;
-            font-style: italic;
+            //font-style: italic;
             color: $lighter-base-font-color;
           }
 
@@ -456,7 +456,7 @@
           letter-spacing: 0;
           padding: 6px 32px 7px;
           text-align: center;
-          margin-top: 16px;
+          margin-top: 28px;
 
           &.archived {
             @include button(simple, $button-archive-color);
@@ -688,7 +688,8 @@
 
     // TYPE: status
     .message-status {
-      background: tint($yellow,70%);
+      // background: tint($yellow,70%);
+      background: rgba(255, 252, 223, 0.88);
       border-color: #ccc;
 
       .message-copy {
@@ -791,7 +792,10 @@
       }
 
       &.course-status-processing {
-
+        float: left;
+        height: 8px;
+        padding: 7px 20px 23px 20px;
+        margin: 28px 20px 0px 60px;
       }
 
       &.course-status-certnotavailable {
@@ -818,11 +822,10 @@
     a.unenroll {
       float: right;
       display: block;
-      font-style: italic;
-      color: $lighter-base-font-color;
+      color: #FD7022;
       text-decoration: underline;
       font-size: .8em;
-      margin-top: 32px;
+      margin-top: 54px;
 
       &:hover, &:focus {
         color: #333;
@@ -831,7 +834,13 @@
 
     a.email-settings {
       @extend a.unenroll;
+      color: #FD7022;
       margin-right: 10px;
+      margin-top: 54px;
+
+      &:hover, &:focus {
+        color: #333;
+      }
     }
   }
 

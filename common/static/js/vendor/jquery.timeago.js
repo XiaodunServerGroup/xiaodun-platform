@@ -126,6 +126,7 @@
       element.data("timeago", { datetime: $t.datetime(element) });
       var text = $.trim(element.text());
       if (text.length > 0 && !($t.isTime(element) && element.attr("title"))) {
+        text = text.replace("T", " ").replace("Z", '');
         element.attr("title", text);
       }
     }

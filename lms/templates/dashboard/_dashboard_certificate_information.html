@@ -23,7 +23,10 @@ else:
     status_css_class = 'course-status-processing'
 %>
 <div class="message message-status ${status_css_class} is-shown">
-
+    <span>
+      ${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}
+    </span>
+<!--
 % if cert_status['status'] == 'processing':
       <p class="message-copy">${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}</p>
 % elif cert_status['status'] in ('generating', 'ready', 'notpassing', 'restricted'):
@@ -73,5 +76,6 @@ else:
     % endif
   </ul>
 % endif
+-->
 </div>
 

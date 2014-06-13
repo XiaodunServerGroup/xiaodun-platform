@@ -37,12 +37,7 @@
 
       //refresh captcha
       $('.captcha').click(function(){
-          $.get("/login", function(json){
-             var captcha_image_url = json.captcha_image_url;
-             $('.captcha').attr("src", captcha_image_url);
-             $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
-          });
-          return false;
+        refreshCaptcha();
       });
     });
 
@@ -55,6 +50,7 @@
 
       $('#login-form').on('ajax:error', function() {
         toggleSubmitButton(true);
+        refreshCaptcha();
       });
 
       $('#login-form').on('ajax:success', function(event, json, xhr) {
@@ -78,13 +74,23 @@
           toggleSubmitButton(true);
           $('.message.submission-error').addClass('is-shown').focus();
           $('.message.submission-error .message-copy').html(json.value);
+          refreshCaptcha();
         }
       });
       $("#forgot-password-link").click(function() {
-        $("#forgot-password-modal .close-modal").focus()
+        $("#forgot-password-modal .close-modal").focus();
       })
 
     })(this);
+
+    function refreshCaptcha(){
+      $.get("/login", function(json){
+         var captcha_image_url = json.captcha_image_url;
+         $('.captcha').attr("src", captcha_image_url);
+         $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
+      });
+      return false;           
+    }
 
     function toggleSubmitButton(enable) {
       var $submitButton = $('form .form-actions #submit');
@@ -170,6 +176,7 @@
             <label for='captcha'>验证码</label>
             ${ form }
             <span class="tip tip-input" style="clear: both;">
+            请在上边输入框中输入右边图片中的字符
             </span>
           </li>
         </ol>

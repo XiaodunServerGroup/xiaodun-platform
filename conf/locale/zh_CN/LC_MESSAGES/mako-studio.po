@@ -475,7 +475,7 @@ msgstr "导出课程内容"
 
 #: cms/templates/export.html:116
 msgid "Data {em_start}exported with{em_end} your course:"
-msgstr "课程{em_start} 导出 {em_end} 数据："
+msgstr "课程导出数据："
 
 #: cms/templates/export.html:118
 msgid "Course Content (all Sections, Sub-sections, and Units)"
@@ -499,7 +499,7 @@ msgstr "课程设置"
 
 #: cms/templates/export.html:128
 msgid "Data {em_start}not exported{em_end} with your course:"
-msgstr "课程{em_start} 未导出 {em_end} 的数据："
+msgstr "课程未导出的数据："
 
 #: cms/templates/export.html:130
 msgid "User Data"
@@ -1572,7 +1572,7 @@ msgstr "日程与细节设置"
 
 #: cms/templates/settings.html:52
 msgid "Schedule & Details"
-msgstr "时间表 & 细节"
+msgstr "日程与细节"
 
 #: cms/templates/settings.html:63
 msgid "Basic Information"
@@ -1708,13 +1708,13 @@ msgstr "课程概况"
 
 #: cms/templates/settings.html:215
 msgid "your course summary page"
-msgstr "课程总结页面预览"
+msgstr "预览"
 
 #: cms/templates/settings.html:217
 #, python-format
 msgid ""
 "%s (formatted in HTML)"
-msgstr "%s (HTML格式)"
+msgstr "%s"
 
 #: cms/templates/settings.html:224 cms/templates/settings.html:228
 #: cms/templates/settings.html:237
@@ -1852,7 +1852,7 @@ msgstr "{em_start}注意：{em_end}当您输入字符串的时候请用双引号
 #: cms/templates/settings_advanced.html:101
 #: cms/templates/settings_graders.html:148
 msgid "Details &amp; Schedule"
-msgstr "细节与日程"
+msgstr "日程与细节"
 
 #: cms/templates/settings_graders.html:2
 msgid "Grading Settings"

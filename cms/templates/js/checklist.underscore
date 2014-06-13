@@ -10,11 +10,11 @@
         <%= _.template(gettext("{number}% of checklists completed"), {number: '<span class="int">' + percentChecked + '</span>'}, {interpolate: /\{(.+?)\}/g}) %>
     </span></span>
     <header>
-        <h3 class="checklist-title title-2 is-selectable" title="Collapse/Expand this Checklist">
+        <h3 class="checklist-title title-2 is-selectable">
             <i class="icon-caret-down ui-toggle-expansion"></i>
             <%= checklistShortDescription %></h3>
               <span class="checklist-status status">
-                <%= gettext("Tasks Completed:") %> <span class="status-count"><%= itemsChecked %></span>/<span class="status-amount"><%= items.length %></span>
+                <%= gettext("任务:") %> <span class="status-count"><%= itemsChecked %></span>/<span class="status-amount"><%= items.length %></span>
                 <i class="icon-ok"></i>
               </span>
     </header>

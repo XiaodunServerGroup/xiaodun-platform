@@ -71,10 +71,6 @@
         </h3>
       </hgroup>
 
-      % if course.has_ended() and cert_status and not enrollment.mode == 'audit':
-      <%include file='_dashboard_certificate_information.html' args='cert_status=cert_status,course=course, enrollment=enrollment'/>
-      % endif
-
       % if course_mode_info['show_upsell']:
         <div class="message message-upsell has-actions is-expandable is-shown">
 
@@ -109,10 +105,14 @@
 
       % if show_courseware_link:
         % if course.has_ended():
-          <a href="${course_target}" class="enter-course archived" style=" margin-top: 30px;">${_('View Archived Course')}</a>
+          <a href="${course_target}" class="enter-course archived">${_('View Archived Course')}</a>
         % else:
           <a href="${course_target}" class="enter-course">${_('View Course')}</a>
         % endif
+      % endif
+
+      % if course.has_ended() and cert_status and not enrollment.mode == 'audit':
+      <%include file='_dashboard_certificate_information.html' args='cert_status=cert_status,course=course, enrollment=enrollment'/>
       % endif
 
       % if enrollment.mode != "verified":
@@ -153,6 +153,5 @@
 
       <div class="ratebar-btn"><img /></div>
     </div>
-    <!--hfy1 end-->
 </article>
 </li>

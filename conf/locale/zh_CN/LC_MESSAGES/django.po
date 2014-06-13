@@ -6338,8 +6338,8 @@ msgid "Course Progress"
 msgstr "课程进度"
 
 #: lms/templates/courseware/progress.html
-msgid "Course Progress for Student '{username}' ({email})"
-msgstr "学生 '{username}' ({email}) 的课程进度"
+msgid "Course Progress for Student '{username}'"
+msgstr "学生 '{username}' 的课程进度"
 
 #: lms/templates/courseware/progress.html
 msgid "{earned:.3n} of {total:.3n} possible points"
@@ -6371,7 +6371,7 @@ msgstr "您最近在{section_link}。如果您已经完成此章节，请选择�
 msgid ""
 "Final course details are being wrapped up at this time. Your final standing "
 "will be available shortly."
-msgstr "最终课程细节目前正在被封闭。您很快就能看到最终名次。"
+msgstr "课程已关闭"
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Your final grade:"
@@ -9574,7 +9574,7 @@ msgstr "导出课程内容"
 
 #: cms/templates/export.html
 msgid "Data {em_start}exported with{em_end} your course:"
-msgstr "课程{em_start} 导出 {em_end} 数据："
+msgstr "课程导出数据："
 
 #: cms/templates/export.html
 msgid "Course Content (all Sections, Sub-sections, and Units)"
@@ -9598,7 +9598,7 @@ msgstr "课程设置"
 
 #: cms/templates/export.html
 msgid "Data {em_start}not exported{em_end} with your course:"
-msgstr "课程{em_start} 未导出 {em_end} 的数据："
+msgstr "课程未导出的数据："
 
 #: cms/templates/export.html
 msgid "User Data"
@@ -10675,7 +10675,7 @@ msgstr "日程与细节设置"
 
 #: cms/templates/settings.html
 msgid "Schedule & Details"
-msgstr "时间表 & 细节"
+msgstr "日程与细节"
 
 #: cms/templates/settings.html
 msgid "Basic Information"
@@ -10813,11 +10813,11 @@ msgstr "课程概况"
 
 #: cms/templates/settings.html
 msgid "your course summary page"
-msgstr "课程总结页面预览"
+msgstr "预览"
 
 #: cms/templates/settings.html
 msgid "%s (formatted in HTML)"
-msgstr "%s (HTML格式)"
+msgstr "%s"
 
 #: cms/templates/settings.html cms/templates/settings.html
 #: cms/templates/settings.html
@@ -10954,7 +10954,7 @@ msgstr "{em_start}注意：{em_end}当您输入字符串的时候请用双引号
 
 #: cms/templates/settings_advanced.html cms/templates/settings_graders.html
 msgid "Details &amp; Schedule"
-msgstr "细节与日程"
+msgstr "日程与细节"
 
 #: cms/templates/settings_graders.html
 msgid "Grading Settings"

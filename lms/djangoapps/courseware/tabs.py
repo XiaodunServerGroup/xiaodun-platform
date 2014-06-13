@@ -1,3 +1,4 @@
+# encoding: utf-8
 """
 Tabs configuration.  By the time the tab is being rendered, it's just a name,
 link, and css class (CourseTab tuple).  Tabs are specified in course policy.
@@ -351,6 +352,10 @@ def get_course_tabs(user, course, active_page, request):
         # expect handlers to return lists--handles things that are turned off
         # via feature flags, and things like 'textbook' which might generate
         # multiple tabs.
+
+        # Temporary Modified
+        if tab['name'] == "Wiki" or tab['name'] == "资料":
+            continue
         gen = VALID_TAB_TYPES[tab['type']].generator
         tabs.extend(gen(tab, user, course, active_page, request))
 

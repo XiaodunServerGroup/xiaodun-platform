@@ -252,7 +252,7 @@
             <% course_mode_info = all_course_modes.get(course.id) %>
             <% show_refund_option = (course.id in show_refund_option_for) %>
 
-            <% grade_summary_percent = grades.grade(user, request, course)['percent'] * 100 %>
+            <% grade_summary_percent = int(grades.grade(user, request, course)['percent'] * 100) %>
 
             % if course.course_audit == 0:
               <% continue %>

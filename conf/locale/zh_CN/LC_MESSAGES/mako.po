@@ -2923,8 +2923,8 @@ msgid "Course Progress"
 msgstr "课程进度"
 
 #: lms/templates/courseware/progress.html:41
-msgid "Course Progress for Student '{username}' ({email})"
-msgstr "学生 '{username}' ({email}) 的课程进度"
+msgid "Course Progress for Student '{username}'"
+msgstr "学生 '{username}' 的课程进度"
 
 #: lms/templates/courseware/progress.html:67
 msgid "{earned:.3n} of {total:.3n} possible points"
@@ -2960,7 +2960,7 @@ msgstr "您最近在{section_link}。如果您已经完成此章节，请选择�
 msgid ""
 "Final course details are being wrapped up at this time. Your final standing "
 "will be available shortly."
-msgstr "最终课程细节目前正在被封闭。您很快就能看到最终名次。"
+msgstr "课程已关闭"
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html:30
 msgid "Your final grade:"

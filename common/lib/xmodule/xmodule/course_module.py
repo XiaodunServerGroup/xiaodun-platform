@@ -284,7 +284,7 @@ class CourseFields(object):
     checklists = List(scope=Scope.settings,
                       default=[
                                 {
-                                  "short_description": "准备开始工作台(Studio)",
+                                  "short_description": "准备开始工作台",
                                   "items": [
                                     {
                                       "short_description": "添加课程队伍成员",
