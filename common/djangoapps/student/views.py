@@ -15,6 +15,7 @@ import uuid
 import time
 import base64
 import urllib2
+
 from django.utils import timezone
 from collections import defaultdict
 from pytz import UTC
@@ -2000,23 +2001,35 @@ def bs_sync_accounts(request):
 
         return user
 
+    email_re = re.compile(r'^[\w\d]+[\d\w\_\.]+@([\w\d-]+)\.([\d\w]+)(?:\.[\d\w]+)?$')
     for idx, staff in enumerate(sync_user_params):
+        init_hash = {"index": idx, "success": False,}
         if all(k in staff for k in ('name', 'passwd', 'email')):
             # create a activated user account
             params = filter_and_init_keys(staff)
             try:
-                validate_email(params['email'])
+                # validate_email(params['email'])
                 # validate_slug(params['username'])
+                email_re.match(params['email']).group()
+                print "========= " * 6
+                print params['email']
             except:
+                init_hash.update({"errmsg": "该邮箱格式不正确！"})
+                succ_add_ids.append(init_hash)
                 continue
 
             # create a user
             try:
                 created_user = create_actived_user(params)
+                init_hash.update({'success': True, "userid": created_user.id})
+                succ_add_ids.append(init_hash)
             except:
+                init_hash.update({"errmsg": "用户名或邮箱已存在！"})
+                succ_add_ids.append(init_hash)
                 continue
-
-            succ_add_ids.append([idx, created_user.id])
+        else:
+            init_hash.update({"errmsg": "给定的参数不全！必须存在'name'、'passwd'、'email'字段"})
+            succ_add_ids.append(init_hash)
 
     return JsonResponse({"staff": succ_add_ids})
 

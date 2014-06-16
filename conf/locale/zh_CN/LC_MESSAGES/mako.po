@@ -1364,7 +1364,7 @@ msgstr "在你注册时发生了下列错误："
 msgid ""
 "Required fields are noted by <strong class=\"indicator\">bold text and an "
 "asterisk (*)</strong>."
-msgstr "必需的字段已经被<strong class=\"indicator\">粗体和星号(*)</strong>所标记。"
+msgstr "必需的字段已经被粗体和星号(*)所标记。"
 
 #: lms/templates/register-shib.html:117 lms/templates/signup_modal.html:46
 msgid "Enter a public username:"

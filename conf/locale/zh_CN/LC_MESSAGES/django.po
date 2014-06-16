@@ -4781,7 +4781,7 @@ msgstr "在你注册时发生了下列错误："
 msgid ""
 "Required fields are noted by <strong class=\"indicator\">bold text and an "
 "asterisk (*)</strong>."
-msgstr "必需的字段已经被<strong class=\"indicator\">粗体和星号(*)</strong>所标记。"
+msgstr "必需的字段已经被粗体和星号(*)所标记。"
 
 #: lms/templates/register-shib.html lms/templates/signup_modal.html
 msgid "Enter a public username:"
@@ -9573,7 +9573,7 @@ msgid "Export Course Content"
 msgstr "导出课程内容"
 
 #: cms/templates/export.html
-msgid "Data {em_start}exported with{em_end} your course:"
+msgid "Data exported with your course:"
 msgstr "课程导出数据："
 
 #: cms/templates/export.html
@@ -9597,7 +9597,7 @@ msgid "Course Settings"
 msgstr "课程设置"
 
 #: cms/templates/export.html
-msgid "Data {em_start}not exported{em_end} with your course:"
+msgid "Data not exported with your course:"
 msgstr "课程未导出的数据："
 
 #: cms/templates/export.html
@@ -9920,8 +9920,7 @@ msgid ""
 "cannot undo a course import{em_end}. We recommend that you first export the "
 "current course, so you have a backup copy of it."
 msgstr ""
-"在继续前请确保你想要导入一门课程。当前课程的所有内容会被导入的内容所取代。{em_start} 你无法撤销课程导入 "
-"{em_end}。我们建议先将当前课程导出，这样你可以有个备份。"
+"在继续前请确保你想要导入一门课程。当前课程的所有内容会被导入的内容所取代。你无法撤销课程导入。我们建议先将当前课程导出，这样你可以有个备份。"
 
 #. Translators: ".tar.gz" is a file extension, and files with that extension
 #. are called "gzipped tar files": these terms should not be translated

@@ -1,5 +1,5 @@
 // JavaScript Document
-(function($){
+;(function($){
 	var goToTopTime;
 	$.fn.goToTop=function(options){
 		var opts = $.extend({},$.fn.goToTop.def,options);
