@@ -63,8 +63,10 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
       <div class="introduction">
         <!--
         <h2 class="title">${_("Welcome, {0}!").format(user.username)}</h2>
+        -->
 
         %if len(courses) > 0:
+        <!--
         <div class="copy">
           <p>这里是所有您当前在校盾计划中已经使用的课程：</p>
         </div>

@@ -85,6 +85,8 @@
         list-style: none;
 
         li#field-captcha {
+          display: none;
+
           label[for=id_captcha_1] {
             display: none;
           }

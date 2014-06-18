@@ -112,6 +112,9 @@ require(["jquery", "jquery.cookie", "utility"], function($) {
           $('#login_error').stop().addClass('is-shown');
           $('#login_error').html(json.value);
           refreshCaptcha();
+          if (parseInt(json.failure_auth_count) >= 3) {
+            $('li#field-captcha').show();
+          }
         }
       }
     );
@@ -122,6 +125,17 @@ require(["jquery", "jquery.cookie", "utility"], function($) {
     refreshCaptcha();
   });
 
+  // load captcha or not
+  showCaptchaOrNot();
+
+  function showCaptchaOrNot() {
+    var login_failure_count = acqFailureTime();
+    
+    if (login_failure_count >= 3 && $('li#field-captcha').css('display') == 'none') {
+      $('li#field-captcha').show();
+    }  
+  }
+
   function refreshCaptcha(){
     $.get("/signin", function(json){
        var captcha_image_url = json.captcha_image_url;
@@ -129,6 +143,26 @@ require(["jquery", "jquery.cookie", "utility"], function($) {
        $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
     });
     return false;
+  }
+
+  function acqFailureTime(){
+    var fail_login_time = 0;
+    var global_async = $.ajaxSettings.async
+    if (global_async) {
+        $.ajaxSetup({
+          async: false,
+        });
+    }
+
+    $.get('/login_failure_count', function(json){
+        fail_login_time = json.failure_time
+    })
+
+    $.ajaxSetup({
+      async: false,
+    });
+
+    return fail_login_time
   }
 });
 </script>

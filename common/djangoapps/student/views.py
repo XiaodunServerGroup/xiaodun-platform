@@ -49,6 +49,7 @@ from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
 
 from ratelimitbackend.exceptions import RateLimitException
+from ratelimitbackend.backends import RateLimitModelBackend
 
 from edxmako.shortcuts import render_to_response, render_to_string
 
@@ -110,7 +111,6 @@ class CaptchaLoginForm(forms.Form):
     captcha = CaptchaField()
 
 
-
 def csrf_token(context):
     """A csrf token that can be included in a form."""
     csrf_token = context.get('csrf_token', '')
@@ -118,6 +118,14 @@ def csrf_token(context):
         return ''
     return (u'<div style="display:none"><input type="hidden"'
             ' name="csrfmiddlewaretoken" value="%s" /></div>' % (csrf_token))
+
+
+# Acquire login failure time in five minutes
+def failure_time(request_obj):
+    try:
+        return sum(RateLimitModelBackend().get_counters(request_obj).values())
+    except:
+        return 0
 
 
 # NOTE: This view is not linked to directly--it is called from
@@ -917,6 +925,11 @@ def login_user_with_guoshi_account(request):
     return suc_response
 
 
+def login_failure_count(request):
+
+    return JsonResponse({'failure_time': failure_time(request)})
+
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):
@@ -967,6 +980,9 @@ def login_user(request, error=""):
     # advantage of the ratelimited backend
     username = user.username if user else ""
 
+    # more than three times failure, show captcha
+    failure_auth_count = failure_time(request)
+
     try:
         user = authenticate(username=username, password=password, request=request)
     # this occurs when there are too many attempts from the same IP address
@@ -991,13 +1007,14 @@ def login_user(request, error=""):
         return JsonResponse({
             "success": False,
             "value": _('Email or password is incorrect.'),
+            "failure_auth_count": failure_auth_count,
         })  # TODO: this should be status code 400  # pylint: disable=fixme
 
     # successful login, clear failed login attempts counters, if applicable
     if LoginFailures.is_feature_enabled():
         LoginFailures.clear_lockout_counter(user)
 
-    if request.POST:
+    if failure_auth_count > 3: 
         form_captcha = CaptchaLoginForm(request.POST)
         if form_captcha.is_valid():
             human = True
@@ -1976,6 +1993,7 @@ def bs_sync_accounts(request):
         user = User(username=user_params['username'],
                     email=user_params['email'],
                     is_active=True)
+        # user.is_staff = True
         user.set_password(user_params['password'])
 
         try:
@@ -2011,8 +2029,6 @@ def bs_sync_accounts(request):
                 # validate_email(params['email'])
                 # validate_slug(params['username'])
                 email_re.match(params['email']).group()
-                print "========= " * 6
-                print params['email']
             except:
                 init_hash.update({"errmsg": "该邮箱格式不正确！"})
                 succ_add_ids.append(init_hash)
