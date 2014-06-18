@@ -463,7 +463,7 @@ msgid ""
 " a .tar.gz file (that is, a .tar file compressed with GNU Zip) that contains"
 " the course structure and content. You can also re-import courses that "
 "you've exported."
-msgstr "您可以导出课程并在Studio之外编辑它们。导出的文件是.tar.gz类型的文件（使用GNU Zip的压缩格式），包含课程结构和内容。您也可以再次导入这些导出的课程。"
+msgstr "您可以导出课程并在校盾工作平台之外编辑它们。导出的文件是.tar.gz类型的文件（使用GNU Zip的压缩格式），包含课程结构和内容。您也可以再次导入这些导出的课程。"
 
 #: cms/templates/export.html:102
 msgid "Export My Course Content"
@@ -527,7 +527,7 @@ msgid ""
 " may want to create a backup copy of your course. Or, you may want to create"
 " a copy of your course that you can later import into another course "
 "instance and customize."
-msgstr "您或许想在Studio之外直接编辑课程的XML，或想为您的课程建立备份，或想复制一份课程供日后导入进另一个课程实例和修改。"
+msgstr "您或许想在校盾工作平台之外直接编辑课程的XML，或想为您的课程建立备份，或想复制一份课程供日后导入进另一个课程实例和修改。"
 
 #: cms/templates/export.html:146
 msgid "What content is exported?"
@@ -2012,8 +2012,8 @@ msgid ""
 msgstr "这是已发布小节的草稿。您必须点击{link_start}使用本草稿进行替换{link_end}来更新在线版本。"
 
 #: cms/templates/unit.html:168
-msgid "This unit is scheduled to be released to <strong>students</strong>"
-msgstr "本单元将被发布给 <strong>学生</strong>"
+msgid "This unit is scheduled {date} to be released to students"
+msgstr "本单元将于{date}发布给学生"
 
 #: cms/templates/unit.html:170
 msgid "on {date}"

@@ -184,7 +184,7 @@ class WeightedSubsectionsGrader(CourseGrader):
             subgrade_result = subgrader.grade(grade_sheet, generate_random_scores)
 
             weighted_percent = subgrade_result['percent'] * weight
-            section_detail = u"{0} = {1:.1%} of a possible {2:.0%}".format(category, weighted_percent, weight)
+            section_detail = u"{0} = {1:.1%} 占总成绩的 {2:.0%}".format(category, weighted_percent, weight)
 
             total_percent += weighted_percent
             section_breakdown += subgrade_result['section_breakdown']
@@ -318,7 +318,7 @@ class AssignmentFormatGrader(CourseGrader):
                 if generate_random_scores:  	# for debugging!
                     earned = random.randint(2, 15)
                     possible = random.randint(earned, 15)
-                    section_name = "Generated"
+                    section_name = "完成了"
 
                 else:
                     earned = scores[i].earned
@@ -366,7 +366,7 @@ class AssignmentFormatGrader(CourseGrader):
             breakdown = [{'percent': total_percent, 'label': total_label,
                           'detail': total_detail, 'category': self.category, 'prominent': True}, ]
         else:
-            total_detail = u"{section_type} Average = {percent:.0%}".format(
+            total_detail = u"{section_type} 平均值 = {percent:.0%}".format(
                 percent=total_percent,
                 section_type=self.section_type
             )

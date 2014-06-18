@@ -44,6 +44,7 @@ require(["domReady!", "jquery", "js/models/module_info", "coffee/src/views/unit"
 <%block name="content">
   <div class="main-wrapper edit-state-${unit_state}" data-locator="${unit_locator}">
     <div class="inner-wrapper">
+      <!--
       <div class="alert editing-draft-alert">
         <p class="alert-message"><strong>${_("You are editing a draft.")}</strong>
         % if published_date:
@@ -52,6 +53,7 @@ require(["domReady!", "jquery", "js/models/module_info", "coffee/src/views/unit"
         </p>
         <a href="${published_preview_link}" target="_blank" class="alert-action secondary">${_("View the Live Version")}</a>
       </div>
+      -->
       <div class="main-column">
         <article class="unit-body window">
         <p class="unit-name-input"><label for="unit-display-name-input">${_("Display Name:")}</label><input type="text" value="${_(unit.display_name_with_default) | h}" id="unit-display-name-input" class="unit-display-name-input" /></p>
@@ -178,15 +180,17 @@ require(["domReady!", "jquery", "js/models/module_info", "coffee/src/views/unit"
               <p class="publish-draft-message">${_('This is a draft of the published unit. To update the live version, you must {link_start}replace it with this draft{link_end}.').format(link_start='<a href="#" class="publish-draft">', link_end='</a>')}</p>
             </div>
             <div class="row status">
-              <p>${_("This unit is scheduled to be released to <strong>students</strong>")}
+              <p>
               % if release_date is not None:
-                ${_(u"on {date}").format(date=u"<strong>{}</strong>".format(release_date))}
+                 ${_("This unit is scheduled {date} to be released to students").format(date=u"{}".format(release_date))}
               % endif
+              <!--
               ${_("with the subsection {link_start}{name}{link_end}").format(
                   name=subsection.display_name_with_default,
                   link_start=u'<a href="{url}">'.format(url=subsection_url),
                   link_end='</a>',
                 )}
+              -->
               </p>
             </div>
             <div class="row unit-actions">

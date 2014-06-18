@@ -9,7 +9,7 @@
     <p><a href="#" class="chapter-toggle
         <% if(showChapters){ print('hide'); } else { print('show'); } %>-chapters">
         <i class="ui-toggle-expansion icon-caret-<% if(showChapters){ print('down'); } else { print('right'); } %>"></i>
-        <%= chapters.length %> PDF Chapters
+        <%= chapters.length %> PDF 章节
     </a></p>
 <% } else if(chapters.length === 1) { %>
     <!--

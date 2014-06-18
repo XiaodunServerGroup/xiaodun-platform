@@ -23,13 +23,13 @@ class DiscussionFields(object):
     )
     discussion_category = String(
         display_name="类别",
-        default="Week 1",
+        default="默认主题",
         help="关于类别讨论的名称。此名称出现在论坛讨论的过程中的左侧窗格中。",
         scope=Scope.settings
     )
     discussion_target = String(
         display_name="子类别",
-        default="Topic-Level Student-Visible Label",
+        default="默认子类别",
         help="关于讨论子类的名称。此名称出现在论坛讨论的过程中的左侧窗格中。",
         scope=Scope.settings
     )
