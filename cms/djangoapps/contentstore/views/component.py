@@ -12,7 +12,7 @@ from django.conf import settings
 from xmodule.modulestore.exceptions import ItemNotFoundError
 from edxmako.shortcuts import render_to_response
 
-from util.date_utils import get_default_time_display
+from util.date_utils import get_default_time_display, get_cover_default_time_display
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.django import loc_mapper
 from xmodule.modulestore.locator import BlockUsageLocator
@@ -278,7 +278,7 @@ def unit_handler(request, tag=None, package_id=None, branch=None, version_guid=N
             'published_preview_link': lms_link,
             'subsection': containing_subsection,
             'release_date': (
-                get_default_time_display(containing_subsection.start)
+                get_cover_default_time_display(containing_subsection.start)
                 if containing_subsection.start is not None else None
             ),
             'section': containing_section,

@@ -34,6 +34,20 @@ def get_default_time_display(dtime):
     return (localized + timezone).strip()
 
 
+def get_cover_default_time_display(dtime):
+    """
+    Converts a datetime to a string representation. This is the new default
+    representation used in Studio and LMS.
+
+    It will use the "NEW_DEFAULT_DATE_TIME_FORMAT" format in the current language, if provided,
+    or defaults to "04 09, 2013 16:00".
+
+    If None is passed in for dt, an empty string will be returned.
+
+    """
+    return strftime_localized(dtime, NEW_DEFAULT_DATE_TIME_FORMAT)
+
+
 def get_time_display(dtime, format_string=None, coerce_tz=None):
     """
     Converts a datetime to a string representation.
@@ -78,6 +92,8 @@ DEFAULT_LONG_DATE_FORMAT = "%A, %B %d, %Y"
 DEFAULT_TIME_FORMAT = "%I:%M:%S %p"
 DEFAULT_DATE_TIME_FORMAT = "%b %d, %Y at %H:%M"
 DEFAULT_WHOLE_NUM_FORMAT = "%m %d, %Y"
+
+NEW_DEFAULT_DATE_TIME_FORMAT = "%m %d, %Y %H:%M"
 
 
 def strftime_localized(dtime, format):      # pylint: disable=redefined-builtin
