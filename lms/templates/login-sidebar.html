@@ -22,7 +22,7 @@ from django.core.urlresolvers import reverse
   ## Disable help unless the FAQ marketing link is enabled
   % if settings.MKTG_URL_LINK_MAP.get('FAQ'):
     <h3>${_("Need Help?")}</h3>
-    <p>寻找关于登录进入您校盾账户的帮助
+    <p>
     <a href="${marketing_link('FAQ')}">
         ${_("View our help section for answers to commonly asked questions.")}
     </a></p>

@@ -4744,7 +4744,7 @@ msgstr "例如：您的名字(顯示於論壇上)"
 
 #: lms/templates/signup_modal.html lms/templates/signup_modal.html
 msgid "Full Name *"
-msgstr "全名 *"
+msgstr "姓名 *"
 
 #: lms/templates/signup_modal.html lms/templates/signup_modal.html
 msgid "e.g. Your Name (for certificates)"

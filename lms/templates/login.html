@@ -164,7 +164,7 @@
       <!--
       <span class="title-super">${_("Please log in")}</span>
       -->
-      <span class="title-sub">${_("Please log in")}${_("to access your account and courses")}</span>
+      <span class="title-sub">${_("Please log in to access your account and courses")}</span>
     </h1>
   </header>
 </section>
@@ -196,7 +196,7 @@
           <li class="field required text" id="field-email">
             <label for="email">${_('E-mail')}</label>
             <input class="" id="email" type="email" name="email" value="" placeholder="${_('example: username@domain.com')}" required aria-required="true" aria-described-by="email-tip" />
-            <span class="tip tip-input" id="email-tip">这个email地址被用于在校盾注册</span>
+            <span class="tip tip-input" id="email-tip"></span>
           </li>
           <li class="field required password" id="field-password">
             <label for="password">${_('Password')}</label>
@@ -209,9 +209,7 @@
           <li class="field required" id="field-captcha">
             <label for='captcha'>验证码</label>
             ${ form }
-            <span class="tip tip-input" style="clear: both;">
-            请在上边输入框中输入右边图片中的字符
-            </span>
+            <span class="tip tip-input" style="clear: both;"></span>
           </li>
         </ol>
       </div>

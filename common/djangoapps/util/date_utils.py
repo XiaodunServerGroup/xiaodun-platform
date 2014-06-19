@@ -1,3 +1,4 @@
+# coding: utf-8
 """
 Convenience methods for working with datetime objects
 """
@@ -91,8 +92,9 @@ DEFAULT_SHORT_DATE_FORMAT = "%b %d, %Y"
 DEFAULT_LONG_DATE_FORMAT = "%A, %B %d, %Y"
 DEFAULT_TIME_FORMAT = "%I:%M:%S %p"
 DEFAULT_DATE_TIME_FORMAT = "%b %d, %Y at %H:%M"
-DEFAULT_WHOLE_NUM_FORMAT = "%m %d, %Y"
 
+DEFAULT_CHINESE_SHORT_FORMAT = "%Y年%m月%d日"
+DEFAULT_CHINESE_FORMAT = "%Y年%m月%d日 %H:%M"
 NEW_DEFAULT_DATE_TIME_FORMAT = "%m %d, %Y %H:%M"
 
 
@@ -196,7 +198,7 @@ def strftime_localized(dtime, format):      # pylint: disable=redefined-builtin
                 actual_format = DEFAULT_TIME_FORMAT
             part = strftime_localized(dtime, actual_format)
         elif code == "%n":
-            part = strftime_localized(dtime, DEFAULT_WHOLE_NUM_FORMAT)
+            part = strftime_localized(dtime, DEFAULT_CHINESE_SHORT_FORMAT)
         else:
             # All the other format codes: just let built-in strftime take
             # care of them.

@@ -178,7 +178,7 @@
       <!--
       <span class="title-super">${_("Welcome!")}</span>
       -->
-      <span class="title-sub">注册创建您的校盾账户</span>
+      <span class="title-sub">注册校盾账户</span>
     </h1>
   </header>
 </section>
@@ -224,7 +224,7 @@
                 <span class="tsl" data-phase-id="r_1_10">强</span>       
               </div>
             </div>
-            <span id="username-tip" class="tip tip-input">6-16个字符，请使用字母加数字或字符的组合密码，不能单独使用字母、数字或符号</span>
+            <span id="username-tip" class="tip tip-input">6-16个字符，请使用字母加数字或符号的组合，例如：xiaodun_2014</span>
           </li>
           <li class="field required text" id="field-username">
             <label for="username">${_('Public Username')}</label>
@@ -383,7 +383,7 @@
 
           % if settings.REGISTRATION_EXTRA_FIELDS['goals'] != 'hidden':
           <li class="field ${settings.REGISTRATION_EXTRA_FIELDS['goals']} text" id="field-goals">
-            <label for="goals">请与我们分享你注册校盾的原因</label>
+            <label for="goals">请分享您注册校盾的原因</label>
             <textarea id="goals" name="goals" value="" ${'required aria-required="true"' if settings.REGISTRATION_EXTRA_FIELDS['goals'] == 'required' else ''}></textarea>
           </li>
           % endif

@@ -39,7 +39,7 @@
           <div class="field field-start-date">
             <label for="start_date">${_("Release Day")}</label>
             <input type="text" id="start_date" name="start_date"
-                value="${subsection.start.strftime('%m/%d/%Y') if subsection.start else ''}"
+                value="${subsection.start.strftime('%Y年%m月%d日') if subsection.start else ''}"
                 placeholder="MM/DD/YYYY" class="date" size='15' autocomplete="off"/>
           </div>
           <div class="field field-start-time">

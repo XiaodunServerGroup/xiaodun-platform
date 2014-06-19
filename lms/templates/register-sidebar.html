@@ -29,25 +29,28 @@ from django.core.urlresolvers import reverse
   <div class="cta cta-welcome">
     <h3>欢迎来到校盾计划</h3>
     <p>
-     在校盾注册使您可以访问所有我们现有的和将来的免费课程。即便您现在还不想马上参与课程？注册将会使得您在我们的邮箱列表中这样一旦有新的课程加入我们将即时通知您
-     </p>
+      注册校盾账号，您可以访问平台的免费课程，课程通知会即时发送您的注册邮箱
+    </p>
   </div>
 % endif
 
 <div class="cta cta-nextsteps">
   <h3>${_("Next Steps")}</h3>
   <p>
-      作为您加入校盾过程的一部分，您会收到一封激活邮件。您必须点击激活链接才能完成注册过程。如果没有看见邮件，请检查垃圾邮件夹并把来自校盾的邮件标记为”非垃圾邮件“。在校盾这里，我们大部分都通过电子邮件联系。
+      请填写真实邮箱，注册后到邮箱点击激活链接完成注册
   </p>
 </div>
 
 % if settings.MKTG_URL_LINK_MAP.get('FAQ'):
   <div class="cta cta-help">
     <h3>${_("Need Help?")}</h3>
-    <p>在注册校盾时需要帮助?
+    <p>
       <a href="${marketing_link('FAQ')}">
           ${_("View our FAQs for answers to commonly asked questions.")}
       </a>
-       ${_("Once registered, most questions can be answered in the course specific discussion forums or through the FAQs.")}</p>
+      <!--
+       ${_("Once registered, most questions can be answered in the course specific discussion forums or through the FAQs.")}
+      -->
+    </p>
   </div>
 % endif

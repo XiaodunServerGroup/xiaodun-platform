@@ -1,3 +1,4 @@
+# coding: utf-8
 import logging
 from functools import partial
 import math
@@ -329,7 +330,7 @@ def _get_asset_json(display_name, date, location, thumbnail_location, locked):
     external_url = settings.LMS_BASE + asset_url
     return {
         'display_name': display_name,
-        'date_added': strftime_localized(date, "%m %d, %Y %H:%M"),
+        'date_added': strftime_localized(date, "%Y年%m月%d日 %H:%M"),
         'url': asset_url,
         'external_url': external_url,
         'portable_url': StaticContent.get_static_path_from_location(location),

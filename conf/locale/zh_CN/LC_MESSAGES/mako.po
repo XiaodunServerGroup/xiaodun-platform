@@ -195,7 +195,7 @@ msgstr "注册"
 #: cms/templates/register.html:39 lms/templates/register-shib.html:123
 #: lms/templates/register.html:133
 msgid "Public Username"
-msgstr "公开用户名"
+msgstr "用户名"
 
 #: cms/templates/register.html:45 lms/templates/dashboard.html:205
 #: lms/templates/register-shib.html:141 lms/templates/register.html:138
@@ -203,7 +203,7 @@ msgstr "公开用户名"
 #: lms/templates/verify_student/_modal_editname.html:19
 #: lms/templates/verify_student/face_upload.html:309
 msgid "Full Name"
-msgstr "全名"
+msgstr "姓名"
 
 #: cms/templates/register.html:56
 #: lms/templates/dashboard/_dashboard_info_language.html:8
@@ -1074,7 +1074,7 @@ msgstr "寻找关于登录进入您的 {platform_name} 账户的帮助？"
 
 #: lms/templates/login-sidebar.html:27
 msgid "View our help section for answers to commonly asked questions."
-msgstr "【查看帮助】"
+msgstr "查看帮助获得常见问题的解答。"
 
 #: lms/templates/login.html:8
 msgid "Log into your {platform_name} Account"
@@ -1094,11 +1094,11 @@ msgstr "正在处理您的账户信息..."
 
 #: lms/templates/login.html:101
 msgid "Please log in"
-msgstr "请登录"
+msgstr ""
 
 #: lms/templates/login.html:102
-msgid "to access your account and courses"
-msgstr "访问你的账户和课程"
+msgid "Please log in to access your account and courses"
+msgstr "请登录校盾账户"
 
 #: lms/templates/login.html:113
 msgid "We're Sorry, {platform_name} accounts are unavailable currently"
@@ -1364,7 +1364,7 @@ msgstr "在你注册时发生了下列错误："
 msgid ""
 "Required fields are noted by <strong class=\"indicator\">bold text and an "
 "asterisk (*)</strong>."
-msgstr "必需的字段已经被粗体和星号(*)所标记。"
+msgstr "星号(*)所标记为必填选项"
 
 #: lms/templates/register-shib.html:117 lms/templates/signup_modal.html:46
 msgid "Enter a public username:"
@@ -1378,7 +1378,7 @@ msgstr "例：ZhenDou"
 #: lms/templates/register-shib.html:125 lms/templates/register.html:135
 #: lms/templates/register.html:165
 msgid "Will be shown in any discussions or forums you participate in"
-msgstr "将会在您参加的任何讨论或论坛上显示（之后将无法更改）"
+msgstr "将会在您参加的任何讨论或论坛上显示"
 
 #: lms/templates/register-shib.html:152 lms/templates/register.html:269
 msgid "Account Acknowledgements"
@@ -1421,7 +1421,7 @@ msgstr "在 {platform_name} 注册使您可以访问所有我们现有的和将�
 
 #: lms/templates/register-sidebar.html:36
 msgid "Next Steps"
-msgstr "下面的步骤"
+msgstr "激活账户"
 
 #: lms/templates/register-sidebar.html:38
 msgid ""
@@ -1445,7 +1445,7 @@ msgstr "在注册{platform_name}时需要帮助？"
 
 #: lms/templates/register-sidebar.html:49
 msgid "View our FAQs for answers to commonly asked questions."
-msgstr "查看帮助来获得常见问题的解答。"
+msgstr "查看帮助获得常见问题的解答。"
 
 #: lms/templates/register-sidebar.html:51
 msgid ""
@@ -1471,7 +1471,7 @@ msgstr "注册以创建你在 {platform_name}的账户"
 
 #: lms/templates/register.html:114
 msgid "Please complete the following fields to register for an account. "
-msgstr "请将这些字段补充完整以注册账户。"
+msgstr "请填写以下信息"
 
 #: lms/templates/register.html:135 lms/templates/register.html:165
 msgid "cannot be changed later"
@@ -1484,7 +1484,7 @@ msgstr "例：张 三"
 
 #: lms/templates/register.html:140 lms/templates/register.html:173
 msgid "Needed for any certificates you may earn"
-msgstr "会作为你以后任何证书的信息"
+msgstr "用作平台颁发证书信息"
 
 #: lms/templates/register.html:147
 msgid "Welcome {username}"
@@ -1586,7 +1586,7 @@ msgstr "密码 *"
 
 #: lms/templates/signup_modal.html:39 lms/templates/signup_modal.html:48
 msgid "Public Username *"
-msgstr "公开用户名 *"
+msgstr "用户名 *"
 
 #: lms/templates/signup_modal.html:40 lms/templates/signup_modal.html:49
 msgid "e.g. yourname (shown on forums)"
@@ -1594,7 +1594,7 @@ msgstr "例如您的名字(在论坛上显示的名称)"
 
 #: lms/templates/signup_modal.html:42 lms/templates/signup_modal.html:58
 msgid "Full Name *"
-msgstr "全名 *"
+msgstr "姓名 *"
 
 #: lms/templates/signup_modal.html:43 lms/templates/signup_modal.html:59
 msgid "e.g. Your Name (for certificates)"

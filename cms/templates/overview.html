@@ -176,7 +176,7 @@ require(["domReady!", "jquery", "js/models/location", "js/models/section", "js/v
                         <div class="section-published-date">
                           <%
                             if section.start is not None:
-                                start_date_str = section.start.strftime('%m/%d/%Y')
+                                start_date_str = section.start.strftime('%Y年%m月%d日')
                                 start_time_str = section.start.strftime('%H:%M')
                             else:
                                 start_date_str = ''
@@ -191,7 +191,7 @@ require(["domReady!", "jquery", "js/models/location", "js/models/section", "js/v
                               <!--
                               ${get_default_time_display(section.start)}
                               -->
-                              ${strftime_localized(section.start, "%m %d, %Y %H:%M")}
+                              ${strftime_localized(section.start, "%Y年%m月%d日 %H:%M")}
                             </span>
                             <a href="#" class="edit-release-date action" data-date="${start_date_str}" data-time="${start_time_str}" data-locator="${section_locator}"><i class="icon-time"></i> <span class="sr">${_("Edit section release date")}</span></a>
                           %endif

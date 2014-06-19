@@ -1778,7 +1778,7 @@ msgstr "用户名"
 
 #: lms/djangoapps/instructor/views/tools.py:173
 msgid "Full Name"
-msgstr "全名"
+msgstr "姓名"
 
 #: lms/djangoapps/instructor/views/tools.py:173
 #: lms/djangoapps/instructor/views/tools.py:203

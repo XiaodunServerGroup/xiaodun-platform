@@ -120,14 +120,26 @@
     return this;
   }
 
+  function formatDatetime(ios_string) {
+    // with format yyyy-mm-ddTHH:MM:SSZ parse
+    // var datetime = new Date(Date.parse(ios_string, 'yyyy-MM-ddTHH:MM:SSZ'));
+    var datetime = new Date(ios_string)
+    var format_datetime = $.datepicker.formatDate('yy年m月d日', new Date()) + " 00:00:00"
+
+    if (datetime) {
+      format_datetime = $.datepicker.formatDate('yy年m月d日', datetime) + " " + datetime.getHours() + ":" + datetime.getMinutes() + ":" + datetime.getSeconds()
+    }
+
+    return format_datetime
+  }
+
   function prepareData(element) {
     element = $(element);
     if (!element.data("timeago")) {
       element.data("timeago", { datetime: $t.datetime(element) });
       var text = $.trim(element.text());
       if (text.length > 0 && !($t.isTime(element) && element.attr("title"))) {
-        text = text.replace("T", " ").replace("Z", '');
-        element.attr("title", text);
+        element.attr("title", formatDatetime(text));
       }
     }
     return element.data("timeago");
