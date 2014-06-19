@@ -353,7 +353,7 @@ class AssignmentFormatGrader(CourseGrader):
         total_percent, dropped_indices = total_with_drops(breakdown, self.drop_count)
 
         for dropped_index in dropped_indices:
-            breakdown[dropped_index]['mark'] = {'detail': u"The lowest {drop_count} {section_type} scores are dropped."
+            breakdown[dropped_index]['mark'] = {'detail': u" {section_type}中最低分数的{drop_count}道题将不计入总分数."
                                                 .format(drop_count=self.drop_count, section_type=self.section_type)}
 
         if len(breakdown) == 1:
@@ -370,7 +370,7 @@ class AssignmentFormatGrader(CourseGrader):
                 percent=total_percent,
                 section_type=self.section_type
             )
-            total_label = u"{short_label} Avg".format(short_label=self.short_label)
+            total_label = u"{short_label} 平均值".format(short_label=self.short_label)
 
             if self.show_only_average:
                 breakdown = []
