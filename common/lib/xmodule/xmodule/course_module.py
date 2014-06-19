@@ -288,7 +288,7 @@ class CourseFields(object):
                                   "items": [
                                     {
                                       "short_description": "添加课程队伍成员",
-                                      "long_description": "授予您的合作者权限编辑您的课程，实现协同合作。",
+                                      "long_description": "添加课程队伍成员，使之具有课程协同编辑的权限。",
                                       "is_checked": 0,
                                       "action_url": "ManageUsers",
                                       "action_text": "编辑课程队伍",
@@ -296,7 +296,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "为您的课程设置主要日期",
-                                      "long_description": "在日程与细节节设置课程的学生入学与发布日期。",
+                                      "long_description": "设置课程发布、结束等时间。",
                                       "is_checked": 0,
                                       "action_url": "SettingsDetails",
                                       "action_text": "设置课程详细信息和日程",
@@ -304,7 +304,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "起草课程评分标准",
-                                      "long_description": "设置您的任务类型和评分标准，即使你还没有创建所有的任务。",
+                                      "long_description": "设置您的任务类型和评分标准。",
                                       "is_checked": 0,
                                       "action_url": "SettingsGrading",
                                       "action_text": "编辑评分设置",
@@ -333,7 +333,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "设置章节发布日期",
-                                      "long_description": "为每个节指定的发布日期，并在发布日期对学生变成可见。",
+                                      "long_description": "为每个章节设定发布日期，章节内容在发布日期对学生可见。",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",
@@ -341,7 +341,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "指明一个小节的评分类别",
-                                      "long_description": "设置一个评定的小节作为一个特定的任务类别。小节内作业算入学生的最终成绩。",
+                                      "long_description": "设置小节的评分类别，小节的成绩计入学生的最终成绩。",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",
@@ -349,7 +349,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "重新安排课程内容",
-                                      "long_description": "使用拖放来重新安排您的课程。",
+                                      "long_description": "鼠标拖放排列章节顺序。",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",
@@ -357,7 +357,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "课程章节重命名",
-                                      "long_description": "单击课程大纲的课程章节名进行重命名",
+                                      "long_description": "对课程大纲章节进行重命名。",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",
@@ -365,15 +365,15 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "删除课程内容",
-                                      "long_description": "删除任何不需要课程章节、节、和单元。删除之后不能恢复，请谨慎操作！",
+                                      "long_description": "删除课程章节、小节、单元，删除后不能恢复，请谨慎操作！",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",
                                       "action_external": 0
                                     },
                                     {
-                                      "short_description": "为你的大纲增加一个导师专用章节",
-                                      "long_description": "有些作者发现使用有用的一个章节为未排序的，进行中的工作。要做到这一点，创建一个章节，并设置发布日期在很久以后。",
+                                      "short_description": "为您的大纲增加一个专用章节",
+                                      "long_description": "创建一个辅助教师教学的章节删除有些作者发现使用有用的一个章节为未排序的，进行中的工作。要做到这一点，创建一个章节，并设置发布日。",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",

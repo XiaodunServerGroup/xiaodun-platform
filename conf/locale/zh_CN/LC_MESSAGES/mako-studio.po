@@ -178,14 +178,14 @@ msgstr "文件 URLS"
 msgid ""
 "You use the Embed URL value to link to the file or image from a component, a"
 " course update, or a course handout."
-msgstr "您可以通过指定Embed URL 值的方式在一个组件，课程更新或者课程讲义里链接文件或者图像"
+msgstr "您可以通过指定嵌入 URL 值的方式在一个组件、课程更新或者课程讲义里链接文件或者图像。"
 
 #: cms/templates/asset_index.html:162
 msgid ""
 "You use the External URL value to reference the file or image from outside "
 "of your course. Do not use the External URL as a link value within your "
 "course."
-msgstr "你可以通过设定External URL的值来引用你课程外的文件或者图像。请不要把External URL的值设定为带有你的课程地址的链接"
+msgstr "你可以通过设定外部 URL的值来引用你课程外的文件或者图像。"
 
 #: cms/templates/asset_index.html:167 cms/templates/container.html:83
 #: cms/templates/overview.html:269 cms/templates/settings_graders.html:130
@@ -463,7 +463,7 @@ msgid ""
 " a .tar.gz file (that is, a .tar file compressed with GNU Zip) that contains"
 " the course structure and content. You can also re-import courses that "
 "you've exported."
-msgstr "您可以导出课程并在校盾工作平台之外编辑它们。导出的文件是.tar.gz类型的文件（使用GNU Zip的压缩格式），包含课程结构和内容。您也可以再次导入这些导出的课程。"
+msgstr "导出的文件是.tar.gz类型的文件（使用GNU Zip的压缩格式），包含课程结构和内容。"
 
 #: cms/templates/export.html:102
 msgid "Export My Course Content"
@@ -527,7 +527,7 @@ msgid ""
 " may want to create a backup copy of your course. Or, you may want to create"
 " a copy of your course that you can later import into another course "
 "instance and customize."
-msgstr "您或许想在校盾工作平台之外直接编辑课程的XML，或想为您的课程建立备份，或想复制一份课程供日后导入进另一个课程实例和修改。"
+msgstr "导出课程建立备份，或提供给其他平台使用。"
 
 #: cms/templates/export.html:146
 msgid "What content is exported?"
@@ -539,7 +539,7 @@ msgid ""
 "units) are exported. Other data, including student data, grading "
 "information, discussion forum data, course settings, and course team "
 "information, is not exported."
-msgstr "只有课程内容和结构(包括章，节，单元)被导入了。其它数据，包括学生数据，分数信息，讨论数据，课程设置的课程团队信息将不会被导出。"
+msgstr "课程内容和结构(包括章节，小节，单元)。"
 
 #: cms/templates/export.html:152
 msgid "Opening the downloaded file"
@@ -816,7 +816,7 @@ msgid ""
 "imported course replaces all the content of this course. {em_start}You "
 "cannot undo a course import{em_end}. We recommend that you first export the "
 "current course, so you have a backup copy of it."
-msgstr "在继续前请确保你想要导入一门课程。当前课程的所有内容会被导入的内容所取代。你无法撤销课程导入。我们建议先将当前课程导出，这样你可以有个备份。"
+msgstr "在导入课程前，建议您导出课程备份，因为导入课程将覆盖当前内容。"
 
 #. Translators: ".tar.gz" is a file extension, and files with that extension
 #. are called "gzipped tar files": these terms should not be translated
@@ -825,7 +825,7 @@ msgid ""
 "The course that you import must be in a .tar.gz file (that is, a .tar file "
 "compressed with GNU Zip). This .tar.gz file must contain a course.xml file. "
 "It may also contain other files."
-msgstr "你将要导入的课程必须为.tar.gz格式的文件( 即一个采用GNU zip压缩后的.tar文件)。这个.tar.gz文件必须包含一个course.xml文件。另外也可能包含其他文件。"
+msgstr "导入的课程必须为.tar.gz格式的文件( 即一个采用GNU zip压缩后的.tar文件)。这个.tar.gz文件必须包含一个course.xml文件。"
 
 #: cms/templates/import.html:27
 msgid ""
@@ -915,7 +915,7 @@ msgid ""
 "You may want to run a new version of an existing course, or replace an "
 "existing course altogether. Or, you may have developed a course outside "
 "Studio."
-msgstr "您或者想为现有课程创建新版本，或完全替换一个现有课程，或您已在Studio之外创建了课程。"
+msgstr "将新版本课程替换当前版本，或将已有课程导入平台。"
 
 #: cms/templates/import.html:133
 msgid "What content is imported?"
@@ -927,7 +927,7 @@ msgid ""
 "units) are imported. Other data, including student data, grading "
 "information, discussion forum data, course settings, and course team "
 "information, remains the same as it was in the existing course."
-msgstr "只有课程内容和结构(包括章，节，单元)被导入了。其它数据，包括学生数据，分数信息，讨论数据，课程设置的课程团队信息，将沿用当前课程。"
+msgstr "课程内容和结构(包括章节，小节，单元)。"
 
 #: cms/templates/import.html:138
 msgid "Warning: Importing while a course is running"
@@ -939,7 +939,7 @@ msgid ""
 "URL names (or url_name nodes) of any Problem components, the student data "
 "associated with those Problem components may be lost. This data includes "
 "students' problem scores."
-msgstr "如果您在课程进行中执行了导入，并更改了任意问题组件的URL名字(或url名字节点) ，与此问题组件想相关的学生数据将可能丢失。这些数据包括学生问题得分。"
+msgstr "如果您在课程进行中执行了导入，该课程相关的数据可能丢失。建议在课程发布前或课程关闭后进行导入操作。"
 
 #: cms/templates/import.html:166
 msgid "There was an error during the upload process."
@@ -1358,13 +1358,13 @@ msgstr "课程团队角色"
 msgid ""
 "Course team members, or staff, are course co-authors. They have full writing"
 " and editing privileges on all course content."
-msgstr "课程团队成员或工作人员都是课程共同作者。他们可以编写及修改所有课程内容。"
+msgstr "课程团队由管理员与成员组成，课程团队可以编辑课程内容。"
 
 #: cms/templates/manage_users.html:146
 msgid ""
 "Admins are course team members who can add and remove other course team "
 "members."
-msgstr "管理员也是课程团队成员，可以添加和移除其它课程团队成员。"
+msgstr "管理员可以添加和移除其他课程团队成员。"
 
 #: cms/templates/manage_users.html:151
 msgid "Transferring Ownership"
@@ -1468,7 +1468,7 @@ msgid ""
 "sections, and create new units in existing subsections.  You can set the "
 "assignment type for subsections that are to be graded, and you can open a "
 "subsection for further editing."
-msgstr "您可以创建新章节和小节，为章节设置发布日期，并为小节设置新单元。您可以设置为小节设置任务类型以供计分，您也可以开启新的小节进一步修改。"
+msgstr "您可以创建新章节，在章节下添加小节，并在小节下设置新单元。"
 
 #: cms/templates/overview.html:272
 msgid ""
@@ -1725,7 +1725,7 @@ msgstr "课程图片"
 msgid ""
 "You can manage this image along with all of your other <a href='{}'>files "
 "&amp; uploads</a>"
-msgstr "您可以随您的其他<a href='{}'>上传文件</a>一起管理此照片"
+msgstr "您可以在<a href='{}'>文件上传及管理</a>中管理此图片"
 
 #: cms/templates/settings.html:239
 msgid ""
@@ -1934,7 +1934,7 @@ msgstr "新教材"
 
 #: cms/templates/textbooks.html:71
 msgid "Why should I break my textbook into chapters?"
-msgstr "我什么我应该将教材拆分为章节？"
+msgstr "我为什么我应该将教材拆分为章节？"
 
 #: cms/templates/textbooks.html:72
 msgid ""
@@ -1942,7 +1942,7 @@ msgid ""
 "students, especially those with slow Internet connections. Breaking up "
 "textbooks into chapters can also help students more easily find topic-based "
 "information."
-msgstr "将您的教材拆分为多个章节将有助于为学生降低加载时间，特别是网速较慢的学生，同时可以帮助学生更为容易按主题找到他们所需的信息。"
+msgstr "将您的教材拆分为多个章节，有助于学生降低加载时间，同时可以帮助学生更快捷找到他们所需的信息。"
 
 #: cms/templates/textbooks.html:75
 msgid "What if my book isn't divided into chapters?"

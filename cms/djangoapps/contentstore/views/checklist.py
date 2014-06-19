@@ -53,7 +53,7 @@ def checklists_handler(request, tag=None, package_id=None, branch=None, version_
         expanded_checklists = expand_all_action_urls(course_module)
 
         if json_request:
-            return JsonResponse(expanded_checklists)
+            return JsonResponse(expanded_checklists[0:2])
         else:
             handler_url = location.url_reverse('checklists/', '')
             return render_to_response('checklists.html',
@@ -61,7 +61,7 @@ def checklists_handler(request, tag=None, package_id=None, branch=None, version_
                                           'handler_url': handler_url,
                                           # context_course is used by analytics
                                           'context_course': course_module,
-                                          'checklists': expanded_checklists
+                                          'checklists': expanded_checklists[0:2]
                                       })
     elif json_request:
         # Can now assume POST or PUT because GET handled above.

@@ -11,7 +11,7 @@
         <div class="input-wrap field text required add-textbook-name <% if(error && error.attributes && error.attributes.name) { print('error'); } %>">
           <label for="textbook-name-input">教材名称</label>
           <input id="textbook-name-input" name="textbook-name" type="text" placeholder="请输入教材名称" value="<%= name %>">
-          <span class="tip tip-stacked"><%= gettext("提供教材标题名称,可以让学生看到进一步了解课程") %></span>
+          <!--<span class="tip tip-stacked"><%= gettext("提供教材标题名称,可以让学生看到进一步了解课程") %></span>-->
         </div>
   </fieldset>
   <fieldset class="chapters-fields">
