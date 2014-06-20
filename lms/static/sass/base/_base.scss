@@ -52,7 +52,7 @@ span {
 
 /* Fix for CodeMirror: prevent top-level span from affecting deeply-embedded span in CodeMirror */
 .CodeMirror span {
-  font: inherit;
+  font: 'Microsoft YaHei';
 }
 
 p + p, ul + p, ol + p {

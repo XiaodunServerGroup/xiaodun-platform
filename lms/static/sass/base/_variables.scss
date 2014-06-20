@@ -18,7 +18,7 @@ $fg-min-width: 810px;
 $sans-serif: 'Microsoft YaHei', 'Open Sans', $verdana, sans-serif;
 $monospace: Monaco, 'Bitstream Vera Sans Mono', 'Lucida Console', monospace;
 $body-font-family: $sans-serif;
-$serif: $georgia;
+$serif: 'Microsoft YaHei', $georgia;
 
 // ====================
 
@@ -315,9 +315,9 @@ $video-thumb-url: '../images/courses/video-thumb.jpg';
 // SPLINT: new standards
 
 // SPLINT: fonts
-$f-serif: 'Bree Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
-$f-sans-serif: 'Open Sans','Helvetica Neue', Helvetica, Arial, sans-serif;
-$f-monospace: 'Bitstream Vera Sans Mono', Consolas, Courier, monospace;
+$f-serif: 'Microsoft YaHei', 'Bree Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
+$f-sans-serif: 'Microsoft YaHei', 'Open Sans','Helvetica Neue', Helvetica, Arial, sans-serif;
+$f-monospace: 'Microsoft YaHei', 'Bitstream Vera Sans Mono', Consolas, Courier, monospace;
 
 // SPLINT: colors
 
