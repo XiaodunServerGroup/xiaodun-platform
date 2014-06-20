@@ -1362,7 +1362,7 @@ body.discussion {
 
     .posted-details {
       font-size: 12px;
-      font-style: italic;
+      # font-style: italic;
       color: #888;
 
       .username {
@@ -1372,7 +1372,7 @@ body.discussion {
       }
 
       span {
-        font-style: italic;
+        # font-style: italic;
       }
     }
 
@@ -2571,7 +2571,7 @@ display:none;
 
 .notflagged span {
   color: #333;
-  font-style: italic;
+  # font-style: italic;
 }
 
 .response-count {
