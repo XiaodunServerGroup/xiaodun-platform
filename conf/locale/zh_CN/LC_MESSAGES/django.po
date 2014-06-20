@@ -9560,8 +9560,7 @@ msgid ""
 " a .tar.gz file (that is, a .tar file compressed with GNU Zip) that contains"
 " the course structure and content. You can also re-import courses that "
 "you've exported."
-msgstr ""
-"导出的文件是.tar.gz类型的文件（使用GNU Zip的压缩格式），包含课程结构和内容"
+msgstr "导出的文件是.tar.gz类型的文件（使用GNU Zip的压缩格式），包含课程结构和内容。"
 
 #: cms/templates/export.html
 msgid "Export My Course Content"
@@ -9918,8 +9917,7 @@ msgid ""
 "imported course replaces all the content of this course. {em_start}You "
 "cannot undo a course import{em_end}. We recommend that you first export the "
 "current course, so you have a backup copy of it."
-msgstr ""
-"在导入课程前，建议您导出课程备份，因为导入课程将覆盖当前内容。"
+msgstr "在导入课程前，建议您导出课程备份，因为导入课程将覆盖当前内容。"
 
 #. Translators: ".tar.gz" is a file extension, and files with that extension
 #. are called "gzipped tar files": these terms should not be translated
@@ -10824,7 +10822,7 @@ msgstr "课程图片"
 msgid ""
 "You can manage this image along with all of your other <a href='{}'>files "
 "&amp; uploads</a>"
-msgstr "您可以在<a href='{}'>文件上传及管理</a>中管理此图"
+msgstr "您可以在<a href='{}'>文件上传及管理</a>中管理此图片"
 
 #: cms/templates/settings.html
 msgid ""

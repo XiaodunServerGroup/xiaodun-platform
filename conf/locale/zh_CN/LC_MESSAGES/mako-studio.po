@@ -1934,7 +1934,7 @@ msgstr "新教材"
 
 #: cms/templates/textbooks.html:71
 msgid "Why should I break my textbook into chapters?"
-msgstr "我为什么我应该将教材拆分为章节？"
+msgstr "我为什么应该将教材拆分为章节？"
 
 #: cms/templates/textbooks.html:72
 msgid ""
