@@ -1623,10 +1623,6 @@ msgstr "已加载课程 {0} {1} <br/> 错误："
 msgid "Course Name"
 msgstr "课程名称"
 
-#: cms/templates/index.html
-msgid "Course Category"
-msgstr "课程分类"
-
 #: lms/djangoapps/dashboard/sysadmin.py
 msgid "Directory/ID"
 msgstr "目录/ID"
@@ -11464,7 +11460,7 @@ msgstr ""
 
 #: wiki/forms.py
 msgid "A slug named \"%s\" already exists."
-msgstr "资源\"%s\ 已经存在。"
+msgstr "资源 \"%s\" 已经存在。"
 
 #: wiki/forms.py
 msgid "Yes, I am sure"
