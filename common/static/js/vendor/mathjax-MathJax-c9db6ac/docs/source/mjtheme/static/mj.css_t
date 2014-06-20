@@ -250,7 +250,7 @@ body {
     font-size: 18px;
     float: left;
     width: auto;
-    font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
+    font-family: 'Microsoft YaHei', "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
     font-style: normal;
     font-weight: bold;
     letter-spacing: -1px;

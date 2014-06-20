@@ -46,7 +46,7 @@ def get_cover_default_time_display(dtime):
     If None is passed in for dt, an empty string will be returned.
 
     """
-    return strftime_localized(dtime, NEW_DEFAULT_DATE_TIME_FORMAT)
+    return strftime_localized(dtime, DEFAULT_CHINESE_FORMAT)
 
 
 def get_time_display(dtime, format_string=None, coerce_tz=None):

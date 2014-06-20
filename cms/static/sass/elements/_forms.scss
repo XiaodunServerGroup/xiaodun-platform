@@ -13,7 +13,7 @@ textarea.text {
   @include linear-gradient($gray-l5, $white);
   background-color: $gray-l5;
   box-shadow: inset 0 1px 2px $shadow-l1;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Microsoft YaHei', 'Microsoft YaHei', 'Open Sans', sans-serif;
   font-size: 11px;
   color: $baseFontColor;
   outline: 0;
@@ -330,7 +330,7 @@ input.search {
   border: 1px solid $darkGrey;
   border-radius: 20px;
   background: url(../img/search-icon.png) no-repeat 8px 7px #edf1f5;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Microsoft YaHei', 'Open Sans', sans-serif;
   color: $baseFontColor;
   outline: 0;
 

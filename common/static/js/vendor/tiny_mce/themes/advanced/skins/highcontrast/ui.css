@@ -80,7 +80,7 @@
 .highcontrastSkin .mceColorSplitMenu td {padding:2px}
 .highcontrastSkin .mceColorSplitMenu a {display:block; width:16px; height:16px; overflow:hidden; color:#000; margin: 0; padding: 0;}
 .highcontrastSkin .mceColorSplitMenu td.mceMoreColors {padding:1px 3px 1px 1px}
-.highcontrastSkin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
+.highcontrastSkin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:'Microsoft YaHei', Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
 .highcontrastSkin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid; background-color:#B6BDD2}
 .highcontrastSkin a.mceMoreColors:hover {border:1px solid #0A246A; color: #000;}
 .highcontrastSkin .mceColorPreview {display:none;}
