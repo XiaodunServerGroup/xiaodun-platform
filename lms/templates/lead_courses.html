@@ -1,0 +1,231 @@
+<%! from django.utils.translation import ugettext as _ %>
+
+<%! from django.core.urlresolvers import reverse %>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+
+<%! from microsite_configuration import microsite %>
+
+<%
+  homepage_overlay_html = microsite.get_value('homepage_overlay_html')
+
+  show_homepage_promo_video = microsite.get_value('show_homepage_promo_video', True)
+  homepage_promo_video_youtube_id = microsite.get_value('homepage_promo_video_youtube_id', "XNaiOGxWeto")
+
+  show_partners = microsite.get_value('show_partners', True)
+
+%>
+<script language="text/javascript">
+function chkform(){
+    var addform= document.queryform;
+    if (addform.query.placeholder=="请输入关键字..."){
+        addform.query.value=""
+        return true;
+    }
+}
+</script>
+<section>
+  <link rel="stylesheet" href="/static/css/header/header.css"/>
+  <div class="header-navigation">
+      <div class="header-wall">
+         <a class="line" href="http://www.xiaodun.cn/index.html">首页</a>
+         <a class="line" href="http://www.xiaodun.cn/course.html">课程</a>
+         <a class="line" href="http://www.xiaodun.cn/base.html">基地</a>
+         <a class="line" href="http://www.xiaodun.cn/announcement.html">公告</a>
+         <a class="line" href="http://www.xiaodun.cn/service.html">服务</a> 
+         <a class="none" href="http://www.xiaodun.cn/about.html">关于</a>
+      </div>
+  </div>
+
+  <section class='filter_courses'>
+    <link rel="stylesheet" href="/static/css/header/filter_section.css">
+    <div class="course-content">
+      <div class="content-body">
+        <div class="selection-panel">
+          <div class="filter fl">
+            <div class="filter-title fl"><span>课程-筛选:</span></div>
+            <div class="filter-ul fl">
+              <ul id="searbar">
+                      <li id="subjectsearbar" class="tab1"><div><strong>科目：</strong><span>全部</span></div></li>
+                      <li id="basesearbar" class="tab1"><div><strong>机构：</strong><span>全部</span></div></li>
+                      <li id="levelsearbar" class="tab1"><div><strong>级别：</strong><span>全部</span></div></li>
+              </ul>
+            </div>
+          </div>
+          <div class="select-menu">
+            <div class="select-subject">
+              <div class="subject">
+                <div class="subject-left">科目：</div>
+                <div class="subject-right">
+                  <ul id="subject">
+                      <li class="tab1" name="全部"><span>全部</span></li>
+                      <li class="tab1" name="信息安全基础理论"><span>信息安全基础理论</span></li>
+                      <li class="tab1" name="通用安全技术"><span>通用安全技术</span></li>
+                      <li class="tab1" name="安全管理"><span>安全管理</span></li>
+                      <li class="tab1" name="专项安全技术"><span>专项安全技术</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="select-agency">
+              <div class="agency">
+                <div class="agency-left">机构：</div>
+                <div class="agency-right">
+                  <ul id="base">
+                    <li name="全部"><span>全部</span></li>
+                    <li name="北邮信息安全中心"><span>北邮信息安全中心</span></li>
+                    <li name="启明星辰"><span>启明星辰</span></li>
+                    <li name="戴威尔"><span>戴威尔</span></li>
+                    <li name="亭长郎然"><span>亭长郎然</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="select-level">
+              <div class="level">
+              <div class="level-left">级别：</div>
+                <div class="level-right">
+                  <ul id="level">
+                      <li class="tab1" name="全部"><span>全部</span></li>
+                      <li class="tab1" name="初级"><span>初级</span></li>
+                      <li class="tab1" name="中级"><span>中级</span></li>
+                      <li class="tab1" name="高级"><span>高级</span></li>
+                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <section class="highlighted-courses">
+
+      % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+        <section class="courses">
+            <ul class="courses-listing">
+            %for course in courses:
+              <li class="courses-listing-item">
+                <%include file="course.html" args="course=course" />
+              </li>
+            %endfor
+            </ul>
+        </section>
+      % endif
+
+    </section>
+  </section>
+</section>
+
+<!--
+<section id="video-modal" class="modal home-page-video-modal video-modal">
+  <div class="inner-wrapper">
+    <%
+      youtube_video_id = homepage_promo_video_youtube_id
+      if self.stanford_theme_enabled():
+        youtube_video_id = "2gmreZObCY4"
+    %>
+    <iframe width="640" height="360" src="//www.youtube.com/embed/${youtube_video_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+  </div>
+</section>
+-->
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+
+      $(function(){
+        bindAll();
+
+        // TODO: check live and show search condition
+      });
+
+      function bindAll(){
+        var base = $('ul#base').children();
+        var level = $('ul#level').children();
+        var subject = $('ul#subject').children();
+
+        $.each(base, function(idx, i){
+          $(i).click(function(){
+            allSet(base, idx, i);
+          });
+        });
+
+        $.each(level, function(idx1, i1){
+          $(i1).click(function(){
+            allSet(level, idx1, i1);
+          });
+        });
+
+        $.each(subject, function(idx2, i2){
+          $(i2).click(function(){
+            allSet(subject, idx2, i2);
+          });
+        });
+      }
+
+      function allSet(col, idx, item){
+        var class_name = $(item).attr('class');
+        if (parseInt(idx) == 0) {
+          if (class_name == "live") {
+            $.each(col, function(dx, it){
+              $(it).attr('class', 'death');
+            });
+          } else {
+            $.each(col, function(dx, it){
+              $(it).attr('class', 'live');
+            });
+          }
+        } else {
+          if (class_name == "live") {
+            $(item).attr('class', 'death');
+          } else {
+            $(item).attr('class', 'live');            
+          }
+        }
+
+        checkClickedObj($(item).parent().attr("id"));
+
+        // TODO: send a request and load data
+      }
+
+      function checkClickedObj(ulClass){
+        var childLen = $('ul#' + ulClass).children().length
+        var clObj = $('ul#'+ ulClass + ">li.live")
+        if (clObj.length == (childLen - 1)) {
+          $($('ul#' + ulClass).children()[0]).click();
+          clObj = $('ul#'+ ulClass + ">li.live");
+        }
+
+        var barid = "#" + ulClass + "searbar";
+
+        if (clObj.length == 0) {
+          $(barid).hide()
+        } else if (clObj.length == childLen) {
+          $($(barid + ">div").children('span')[0]).html('全部');
+          $(barid).show();
+        } else {
+          var strArr = []
+          $.each(clObj, function(idx, i){strArr.push($($(i).children('span')[0]).html())});
+          $($(barid + ">div").children('span')).html(strArr.join(', '));
+          $(barid).show();
+        }
+
+        return false;
+      }
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
