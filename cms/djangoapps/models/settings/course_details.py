@@ -40,7 +40,6 @@ class CourseDetails(object):
         course = cls(course_old_location.org, course_old_location.course, course_old_location.name)
 
         course.start_date = descriptor.start
-        print course.start_date
         course.end_date = descriptor.end
         course.enrollment_start = descriptor.enrollment_start
         course.enrollment_end = descriptor.enrollment_end
