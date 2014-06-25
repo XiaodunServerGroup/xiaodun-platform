@@ -574,7 +574,6 @@ def settings_handler(request, tag=None, package_id=None, branch=None, version_gu
             'ENABLE_MKTG_SITE',
             settings.FEATURES.get('ENABLE_MKTG_SITE', False)
         )
-
         short_description_editable = settings.FEATURES.get('EDITABLE_SHORT_DESCRIPTION', True)
 
         return render_to_response('settings.html', {

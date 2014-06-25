@@ -310,14 +310,14 @@ class CourseFields(object):
                                       "action_text": "编辑评分设置",
                                       "action_external": 0
                                     },
-                                    {
-                                      "short_description": "探索其它工作台的检查表",
-                                      "long_description": "发现其他可用的课程制作工具，在你需要它时，得到帮助。",
-                                      "is_checked": 0,
-                                      "action_url": "",
-                                      "action_text": "",
-                                      "action_external": 0
-                                    }
+                                    # {
+                                    #   "short_description": "探索其它工作台的检查表",
+                                    #   "long_description": "发现其他可用的课程制作工具，在你需要它时，得到帮助。",
+                                    #   "is_checked": 0,
+                                    #   "action_url": "",
+                                    #   "action_text": "",
+                                    #   "action_external": 0
+                                    # }
                                   ]
                                 },
                                 {
