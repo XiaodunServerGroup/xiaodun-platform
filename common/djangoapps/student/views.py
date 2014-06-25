@@ -128,6 +128,18 @@ def failure_time(request_obj):
         return 0
 
 
+def audit_courses(request, user=AnonymousUser()):
+    # The course selection work is done in courseware.courses.
+    domain = settings.FEATURES.get('FORCE_UNIVERSITY_DOMAIN')  # normally False
+    # do explicit check, because domain=None is valid
+    if domain is False:
+        domain = request.META.get('HTTP_HOST')
+
+    courses = get_courses(user, domain=domain)
+    
+    return sort_by_announcement(courses)
+
+
 # NOTE: This view is not linked to directly--it is called from
 # branding/views.py:index(), which is cached for anonymous users.
 # This means that it should always return the same thing for anon
@@ -139,20 +151,23 @@ def index(request, extra_context={}, user=AnonymousUser()):
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
     """
-
-    # The course selection work is done in courseware.courses.
-    domain = settings.FEATURES.get('FORCE_UNIVERSITY_DOMAIN')  # normally False
-    # do explicit check, because domain=None is valid
-    if domain is False:
-        domain = request.META.get('HTTP_HOST')
-
-    courses = get_courses(user, domain=domain)
-    courses = sort_by_announcement(courses)
-
-    context = {'courses': filter_audited_items(courses)}
-
+    context = {"courses": audit_courses(request, user)}
     context.update(extra_context)
+
     return render_to_response('index.html', context)
+
+
+def lead_courses(request):
+    """
+    conditional filter courses
+    """
+    user = request.user or AnonymousUser()
+    crude_courses = audit_courses(request, user)
+
+    # meed condition filter
+
+    context = {"courses": crude_courses}
+    return render_to_response('lead_courses.html', context)
 
 
 def course_from_id(course_id):
