@@ -117,7 +117,7 @@ var DetailsView = ValidatingView.extend({
 
         // instrument as date and time pickers
         timefield.timepicker({'timeFormat' : 'H:i'});
-        datefield.datepicker();
+        datefield.datepicker({'dateFormat' : 'yy年m月d日'});
 
         // Using the change event causes setfield to be triggered twice, but it is necessary
         // to pick up when the date is typed directly in the field.
