@@ -46,9 +46,9 @@ function chkform(){
             <div class="filter-title fl"><span>课程-筛选:</span></div>
             <div class="filter-ul fl">
               <ul id="searbar">
-                      <li id="subjectsearbar" class="tab1"><div><strong>科目：</strong><span>全部</span></div></li>
-                      <li id="basesearbar" class="tab1"><div><strong>机构：</strong><span>全部</span></div></li>
-                      <li id="levelsearbar" class="tab1"><div><strong>级别：</strong><span>全部</span></div></li>
+                      <li id="subjectsearbar" class="tab1"><div><strong>科目：</strong><span></span></div></li>
+                      <li id="basesearbar" class="tab1"><div><strong>机构：</strong><span></span></div></li>
+                      <li id="levelsearbar" class="tab1"><div><strong>级别：</strong><span></span></div></li>
               </ul>
             </div>
           </div>
@@ -58,11 +58,22 @@ function chkform(){
                 <div class="subject-left">科目：</div>
                 <div class="subject-right">
                   <ul id="subject">
-                      <li class="tab1" name="全部"><span>全部</span></li>
+                      <li class="tab1" name="all"><span>全部</span></li>
+                      % if subject:
+                        % for sj in subject:
+                          % if subCon and (sj[0] in subCon or "all" in subCon):
+                            <li class='live' name="${sj[0]}"><span>${sj[1]}</span></li>
+                          % else:
+                            <li class='tab1' name="${sj[0]}"><span>${sj[1]}</span></li>
+                          % endif
+                        % endfor
+                      % endif
+                      <!--
                       <li class="tab1" name="信息安全基础理论"><span>信息安全基础理论</span></li>
                       <li class="tab1" name="通用安全技术"><span>通用安全技术</span></li>
                       <li class="tab1" name="安全管理"><span>安全管理</span></li>
                       <li class="tab1" name="专项安全技术"><span>专项安全技术</span></li>
+                      -->
                   </ul>
                 </div>
               </div>
@@ -72,11 +83,22 @@ function chkform(){
                 <div class="agency-left">机构：</div>
                 <div class="agency-right">
                   <ul id="base">
-                    <li name="全部"><span>全部</span></li>
+                    <li name="all"><span>全部</span></li>
+                    % if org:
+                      % for o in org:
+                        % if orgCon and (o[0] in orgCon or "all" in orgCon):
+                          <li class="live" name="${o[1]}"><span>${o[0]}</span></li>
+                        % else:
+                          <li name="${o[1]}"><span>${o[0]}</span></li>
+                        % endif
+                      % endfor
+                    % endif
+                    <!--
                     <li name="北邮信息安全中心"><span>北邮信息安全中心</span></li>
                     <li name="启明星辰"><span>启明星辰</span></li>
                     <li name="戴威尔"><span>戴威尔</span></li>
                     <li name="亭长郎然"><span>亭长郎然</span></li>
+                    -->
                   </ul>
                 </div>
               </div>
@@ -86,10 +108,21 @@ function chkform(){
               <div class="level-left">级别：</div>
                 <div class="level-right">
                   <ul id="level">
-                      <li class="tab1" name="全部"><span>全部</span></li>
+                      <li class="tab1" name="all"><span>全部</span></li>
+                      % if level:
+                        % for l in level:
+                          % if levelCon and (l[0] in levelCon or "all" in levelCon):
+                            <li class='live' name="${l[0]}"><span>${l[1]}</span></li>
+                          % else:
+                            <li class='tab1' name="${l[0]}"><span>${l[1]}</span></li>
+                          % endif
+                        % endfor
+                      % endif
+                      <!--
                       <li class="tab1" name="初级"><span>初级</span></li>
                       <li class="tab1" name="中级"><span>中级</span></li>
                       <li class="tab1" name="高级"><span>高级</span></li>
+                      -->
                    </ul>
                 </div>
               </div>
@@ -142,9 +175,23 @@ function chkform(){
 
       $(function(){
         bindAll();
-
-        // TODO: check live and show search condition
+        $.each(["base", "subject", "level"], function(idx, i){checkClickedObj(i);});
+        INITSTR = computeRefreshStr();
       });
+
+      function computeRefreshStr(){
+        var strCon = []
+        var baseStr = $("li#basesearbar>div>span").html();
+        if (baseStr != "") strCon.push(baseStr);
+
+        var subjectStr = $("li#subjectsearbar>div>span").html();
+        if (subjectStr != "") strCon.push(subjectStr);
+
+        var levelStr = $("li#levelsearbar>div>span").html();
+        if (levelStr != "") strCon.push(levelStr);
+
+        return strCon.join(", ")
+      }
 
       function bindAll(){
         var base = $('ul#base').children();
@@ -184,6 +231,7 @@ function chkform(){
           }
         } else {
           if (class_name == "live") {
+            $(col[0]).attr("class", "death")
             $(item).attr('class', 'death');
           } else {
             $(item).attr('class', 'live');            
@@ -192,22 +240,23 @@ function chkform(){
 
         checkClickedObj($(item).parent().attr("id"));
 
-        // TODO: send a request and load data
+        refreshConditionPage();
       }
 
       function checkClickedObj(ulClass){
         var childLen = $('ul#' + ulClass).children().length
         var clObj = $('ul#'+ ulClass + ">li.live")
         if (clObj.length == (childLen - 1)) {
-          $($('ul#' + ulClass).children()[0]).click();
+          $($('ul#' + ulClass).children()[0]).attr("class", "live");
           clObj = $('ul#'+ ulClass + ">li.live");
         }
 
         var barid = "#" + ulClass + "searbar";
 
         if (clObj.length == 0) {
+          $($(barid + ">div").children('span')).html("");
           $(barid).hide()
-        } else if (clObj.length == childLen) {
+        } else if ($('ul#'+ ulClass + ">li.live").length == childLen) {
           $($(barid + ">div").children('span')[0]).html('全部');
           $(barid).show();
         } else {
@@ -219,6 +268,62 @@ function chkform(){
 
         return false;
       }
+
+      function refreshConditionPage(){
+        var baseHref = window.location.href.split("?")[0];
+        var conStrArr = [];
+        var nameArr = [];
+
+        // base condition
+        var allBaseLen = $('ul#base').children().length
+        var selBase = $('ul#base>li.live')
+        if (selBase.length > 0){
+          nameArr = [];
+          if (allBaseLen != selBase.length){
+            $.each(selBase, function(idx, i){nameArr.push($(i).attr("name"))});
+            conStrArr.push("org=" + nameArr)
+          }
+          else {
+            conStrArr.push("org=all")
+          }  
+        }
+
+        // subject condition
+        var allSubjLen = $('ul#subject').children().length;
+        var selSubj = $('ul#subject>li.live');
+        if (selSubj.length > 0) {
+          nameArr = [];
+          if (allSubjLen != selSubj.length){
+            $.each(selSubj, function(idx, i){nameArr.push($(i).attr("name"))});
+            conStrArr.push("subject=" + nameArr);
+          }
+          else {
+            conStrArr.push("subject=all");
+          }
+        }
+
+        // level condition
+        var allLevelLen = $('ul#level').children().length
+        var selLevel = $('ul#level>li.live')
+        if (selLevel.length > 0) {
+          nameArr = []
+          if (allLevelLen != selLevel.length){
+            $.each(selLevel, function(idx, i){nameArr.push($(i).attr("name"))});
+            conStrArr.push("level=" + nameArr);
+          }
+          else {
+            conStrArr.push("level=all");
+          }
+        }
+
+        var curStr = computeRefreshStr();
+        if (conStrArr.length > 0 && INITSTR != curStr) {
+          var requestCon = conStrArr.join("&");
+          window.location.href = baseHref + "?" + requestCon     
+        }
+      }
+
+      // TODO finish ajax load courses
    </script>
 </%block>
 

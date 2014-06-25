@@ -164,9 +164,66 @@ def lead_courses(request):
     user = request.user or AnonymousUser()
     crude_courses = audit_courses(request, user)
 
-    # meed condition filter
+    # need condition filter
+    def uniq_filter_org(courses):
+        org_arr = []
+        
+        for course in courses:
+            course_org = course.display_org_with_default
+            if course_org not in org_arr:
+                org_arr.append([course_org, course_org])
+
+        return org_arr
+
+    # format string
+    # def format_course(course):
+    #     return {}
+
+    sel_items = {
+        "subject": [
+                       ["XSecure", "信息安全基础理论"],
+                       ["CTec", "通用那全技术"],
+                       ["CManage", "安全管理"],
+                       ["SPTec", "专项安全技术"],
+                ],
+        "level": [
+                   ["J", "初级"],
+                   ["M", "中级"],
+                   ["S", "高级"],
+                ],
+        "org": uniq_filter_org(crude_courses)
+    }
+
+    # acquire org condition
+    con_col = {}
+    org_con = request.GET.get("org", "")
+    if org_con:
+        con_col.update({"orgCon": org_con.split(',')})
+        if "all" not in con_col["orgCon"]:
+            crude_courses = filter(lambda x: x.display_org_with_default in con_col["orgCon"], crude_courses)
+
+    # acquire subject condition
+    subject_con = request.GET.get("subject", "")
+    if subject_con:
+        con_col.update({"subCon": subject_con.split(',')})
+        if "all" not in con_col['subCon']:
+            crude_courses = filter(lambda x: x.course_category in con_col['subCon'], crude_courses)
+
+    # acquire level condition
+    level_con = request.GET.get('level', "")
+    if level_con:
+        con_col.update({"levelCon": level_con.split(',')})
+        if "all" not in con_col['levelCon']:
+            crude_courses = filter(lambda x: x.course_level in con_col['levelCon'], crude_courses)
 
     context = {"courses": crude_courses}
+    context.update(sel_items)
+    context.update(con_col)
+
+    # if request.is_ajax():
+    #     context["courses"] = map(format_course, context["courses"]) 
+    #     return JsonResponse(conetxt)
+
     return render_to_response('lead_courses.html', context)
 
 
