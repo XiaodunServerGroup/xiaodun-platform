@@ -373,7 +373,7 @@ class CourseFields(object):
                                     },
                                     {
                                       "short_description": "为您的大纲增加一个专用章节",
-                                      "long_description": "创建一个辅助教师教学的章节删除有些作者发现使用有用的一个章节为未排序的，进行中的工作。要做到这一点，创建一个章节，并设置发布日。",
+                                      "long_description": "创建一个辅助教师教学的章节。",
                                       "is_checked": 0,
                                       "action_url": "CourseOutline",
                                       "action_text": "编辑课程大纲",
