@@ -73,7 +73,7 @@ from xmodule.modulestore import XML_MODULESTORE_TYPE, Location
 
 from collections import namedtuple
 
-from courseware.courses import get_courses, sort_by_announcement, filter_audited_items
+from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url
 from courseware.access import has_access
 
 from django_comment_common.models import Role
@@ -176,8 +176,23 @@ def lead_courses(request):
         return org_arr
 
     # format string
-    # def format_course(course):
-    #     return {}
+    def format_course(course):
+        format_course_json = {
+            "id": course.id,
+            "is_new": course.is_newish,
+            "course_about_url": reverse('about_course', args=[course.id]),
+            "course_number": course.display_number_with_default or "",
+            "title": get_course_about_section(course, 'title'),
+            "short_description": get_course_about_section(course, "short_description"),
+            "img_src": course_image_url(course),
+            "university": get_course_about_section(course, 'university'),
+            "is_start_date_default": course.start_date_is_still_default,
+        }
+
+        if not format_course_json["is_start_date_default"]:
+            format_course_json.update({"start_date_text": course.start_date_text})
+
+        return format_course_json
 
     sel_items = {
         "subject": [
@@ -220,9 +235,9 @@ def lead_courses(request):
     context.update(sel_items)
     context.update(con_col)
 
-    # if request.is_ajax():
-    #     context["courses"] = map(format_course, context["courses"]) 
-    #     return JsonResponse(conetxt)
+    if request.is_ajax():
+        context["courses"] = map(format_course, context["courses"]) 
+        return JsonResponse(context)
 
     return render_to_response('lead_courses.html', context)
 
