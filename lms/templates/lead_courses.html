@@ -29,7 +29,7 @@ function chkform(){
   <div class="header-navigation">
       <div class="header-wall">
          <a class="line" href="http://www.xiaodun.cn/index.html">首页</a>
-         <a class="line" href="http://www.xiaodun.cn/course.html">课程</a>
+         <a class="line" href="/lead/courses">课程</a>
          <a class="line" href="http://www.xiaodun.cn/base.html">基地</a>
          <a class="line" href="http://www.xiaodun.cn/announcement.html">公告</a>
          <a class="line" href="http://www.xiaodun.cn/service.html">服务</a> 
@@ -176,6 +176,7 @@ function chkform(){
       $(function(){
         bindAll();
         $.each(["base", "subject", "level"], function(idx, i){checkClickedObj(i);});
+        INITCOURSESTR = '<li class="courses-listing-item"><article id="course_id" class="course"><a href=""><div class="inner-wrapper"><header class="course-preview"><hgroup><h2><span class="course-number"></span></h2></hgroup><div class="info-link">&#x2794;</div></header><section class="info"><div class="cover-image"><img src="#" alt="Cover Image" /></div><div class="desc"><p></p></div><div class="bottom"><span class="university">Org</span></div></section></div><div class="meta-info"><p class="university">Org</p></div></a></article></li>'
         INITSTR = computeRefreshStr();
       });
 
@@ -319,11 +320,61 @@ function chkform(){
         var curStr = computeRefreshStr();
         if (conStrArr.length > 0 && INITSTR != curStr) {
           var requestCon = conStrArr.join("&");
-          window.location.href = baseHref + "?" + requestCon     
+          ajaxGetConCourse(baseHref + "?" + requestCon);     
         }
       }
 
       // TODO finish ajax load courses
+      function ajaxGetConCourse(conUrl){
+        var courseUnit = $(INITCOURSESTR);
+        var insertCourseHtml = ''
+        $.ajax({
+          url: conUrl,
+          type: 'GET',
+          dataType: 'json',
+          success: function(json){
+            var coursesObjs = json.courses;
+            $.each(coursesObjs, function(idx, c){
+              var articleObj = courseUnit.find('article.course');
+
+              articleObj.attr('id', c.id);
+              articleObj.children('a').attr('href', c.course_about_url);
+
+              if (c.is_new) {
+                articleObj.children('a').before($('<span class="status">新</span>'))
+              }
+
+              var hgroupHtml = '<span class="course-number">' + c.course_number + '</span>' + c.title;
+              if (articleObj.find('hgroup>h2')) {
+                articleObj.find('hgroup>h2').html(hgroupHtml);
+              }
+
+              var imgAltStr = c.course_number + ' ' + c.title + " Cover Image";
+              if (articleObj.find('div.cover-image>img')) {
+                articleObj.find('div.cover-image>img').attr('src', c.img_src);
+                articleObj.find('div.cover-image>img').attr('alt', imgAltStr);        
+              }
+
+              if (articleObj.find("div.desc>p")) {
+                articleObj.find("div.desc>p").html(c.short_description);
+              }
+
+              if (articleObj.find("div.bottom>span")) {
+                articleObj.find("div.bottom>span").html(c.university);
+              }
+
+              if (articleObj.find("div.meta-info>p")) {
+                articleObj.find("div.meta-info>p").html(c.university);
+              }
+
+              insertCourseHtml += courseUnit[0].outerHTML;
+              courseUnit = $(INITCOURSESTR);
+            });
+            // clear course list replace with insertCourseHtml
+            $('ul.courses-listing').html(insertCourseHtml);
+          }
+        });
+      }
    </script>
 </%block>
 
