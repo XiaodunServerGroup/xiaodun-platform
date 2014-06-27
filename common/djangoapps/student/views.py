@@ -1029,6 +1029,8 @@ def login_user(request, error=""):
 
     email = request.POST['email']
     password = request.POST['password']
+    # more than three times failure, show captcha
+    failure_auth_count = failure_time(request)
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
@@ -1037,6 +1039,12 @@ def login_user(request, error=""):
         else:
             AUDIT_LOG.warning(u"Login failed - Unknown user email: {0}".format(email))
         user = None
+
+    # check user role rejetc login when student login cms
+    studio_name = settings.ROOT_URLCONF.split(".")[0]
+    user_profile = UserProfile.objects.get(user=user)
+    if studio_name == "cms" and user_profile.profile_role != "th":
+        user = None;
 
     # check if the user has a linked shibboleth account, if so, redirect the user to shib-login
     # This behavior is pretty much like what gmail does for shibboleth.  Try entering some @stanford.edu
@@ -1066,9 +1074,6 @@ def login_user(request, error=""):
     # username so that authentication is guaranteed to fail and we can take
     # advantage of the ratelimited backend
     username = user.username if user else ""
-
-    # more than three times failure, show captcha
-    failure_auth_count = failure_time(request)
 
     try:
         user = authenticate(username=username, password=password, request=request)

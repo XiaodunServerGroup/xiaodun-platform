@@ -194,6 +194,12 @@ class UserProfile(models.Model):
         blank=True, null=True, max_length=6, db_index=True, choices=GENDER_CHOICES
     )
 
+    # user role
+    ROLE_CHOICES = (('st', 'student'), ('th', 'teacher'))
+    profile_role = models.CharField(
+        blank=True, max_length=6, db_index=True, choices=ROLE_CHOICES, default='st'
+    )
+
     # [03/21/2013] removed these, but leaving comment since there'll still be
     # p_se and p_oth in the existing data in db.
     # ('p_se', 'Doctorate in science or engineering'),
