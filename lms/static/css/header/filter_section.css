@@ -1,0 +1,95 @@
+@charset"utf-8";
+/* CSS Document */
+/*.fl{ float: left; }
+.fr{ float: right; }*/
+li a:link, li a:visited{color:#7f7f7f;}
+li a:hover, li a:active{color:#ff7a31;}
+/*------------------content-------------*/
+
+/*.course-content {max-width: 1180px; width: 100%; margin: 40px auto; padding: 0px;}
+.course-content .content-body {width: 100%; margin: auto;}
+.course-content .content-body ul li{ list-style: none;}
+
+.content-content table {border: 1px solid #dddddd;}
+.content-content table tr {height: 40px; border: 1px solid #dddddd;}
+.content-content table tr td.title {width: 20%;}*/
+.course-content { margin: 40px auto; padding:0; max-width: 1180px; width:100%; }
+.course-content .content-body { margin:auto; width:100%; font: 13px/1.6 Microsoft YaHei,SimSun,tahoma,arial,sans-serif;}
+.course-content .content-body ul li{ list-style: none;}
+
+.course-content .selection-panel{ float:left; width:100%; height: 180px; position: relative; display:inline; left:0; top:0; }
+
+.course-content .filter{ height:auto; width:100%; position:absolute; background:#f7f7f7; left:0;top:0; line-height:40px; border: 1px solid #dddddd; height:40px;}
+.course-content .filter-title{ height: 40px; width: 150px; position: absolute; background: #f7f7f7; left: 0; top: 0; }
+.course-content .filter-title span{ font-weight:bold; color:#ff7a31;padding-left:10px;}
+.course-content .filter-ul{ height:auto; width:80%; position: absolute; background: #f7f7f7; left: 150px; top: 0; }
+.course-content #searbar{  }
+.course-content #searbar li{ float: left; margin: -13px 0 0 10px; }
+.course-content #searbar li div{ height: 20px; padding: 0; margin: 10px; border: 1px solid #dddddd; }
+.course-content #searbar li div:hover{ height: 23px; padding: 0; margin: 10px; border: 1px solid #dddddd; background-color: #CCC; }
+.course-content #searbar li div span{ line-height:20px; text-align:center; float:left; }
+.course-content #searbar li div strong{ line-height:20px; text-align:center; float:left; }
+.course-content #searbar li{ display: none; }
+.course-content .select-menu{ height:40px; width:100%; position:absolute; background:#ffffff; left:0;top: 40px; border: 1px solid #dddddd;}
+.course-content .select-base{ height:40px; width:100%; position:absolute; left:0; top:0;}
+.course-content .base{ height:40px; width:960px;padding-left:40px; position:absolute; left:0; top:0;}
+.course-content .base li{ float:left;}
+.course-content .base-left{ float:left; height:40px; line-height:40px; font-weight:bold;}
+.course-content .base-right ul{ float:left;}
+.course-content .base-right li{float:left; height:40px; line-height:40px; margin-top: -13px;}
+.course-content .base .tab{ width:40px;height:40px; line-height:40px; font-weight:bold;}
+.course-content .base li{height:40px; line-height:40px; color:#666; cursor:pointer;}
+.course-content .base li span{padding:0 10px; height:40px; line-height:40px; color:#666; cursor:pointer; display:block;}
+.course-content .base-right li span:hover{background:#ff7a31; padding:0 10px; height:40px; color:#fff;}
+.course-content .base-right .live span{background:#ff7a31; padding: 10px 10px 0; height:30px; color:#fff;width:auto;}
+.course-content .base-more{ width:70px; height:40px; line-height:40px;}
+
+.course-content .select-subject{position:absolute; top: 40px; height:40px; width:100%; border:1px solid #ddd; background:#fff; margin-left:-1px;}
+.course-content .subject {height:40px; width:960px; padding-left:40px; position:absolute; left:0;top:0;}
+.course-content .subject-left {float:left; height:40px; line-height:40px; font-weight:bold;}
+.course-content .subject-right ul {float:left;}
+.course-content .subject-right li { float:left; height:40px; line-height:40px; margin-top: -13px; color:#666; cursor:pointer;}
+.course-content .subject-right li span {padding:0 10px; height:40px; display:block; padding-top: 10px;}
+.course-content .subject-right li span:hover{background:#ff7a31; padding: 10px 10px 0px; height:30px; color:#fff;}
+.course-content .subject-right .live li span {background:#ff7a31; padding: 10px 10px 0; height:30px; color:#fff; width:auto;}
+
+.course-content .select-agency{ height:40px; width:100%;  position:absolute; background:#ffffff; left:0; top: -1px;border: 1px solid #dddddd; margin-left:-1px;}
+.course-content .agency{ height:40px; width:960px; padding-left:40px; position:absolute; left:0;top:0;}
+.course-content .agency-left{float:left; height:40px; line-height:40px; font-weight:bold;}
+.course-content .agency-right ul{float:left;}
+.course-content .agency-right li{float:left;height:40px; line-height:40px; margin-top: -13px; color:#666; cursor:pointer;}
+.course-content .agency-right li span{padding:0 10px; height:40px; display:block; padding-top: 10px;}
+.course-content .agency-right li span:hover{background:#ff7a31; padding: 10px 10px 0px; height:30px; color:#fff;}
+.course-content .agency-right .live span{background:#ff7a31; padding: 10px 10px 0; height:30px; color:#fff;width:auto;}
+
+.course-content .agency-more{ float:right;width:70px; height:40px; line-height:40px;}
+
+.course-content .select-sort{ float:left; height:40px; width:100%; position:absolute; background:#ffffff; left:0;top:80px;border: 1px solid #dddddd; margin-left:-1px;}
+.course-content .sort{height: 40px; width: 960px;padding-left: 40px;position: absolute;left: -10px;top: 0px;}
+
+.course-content .select-sort li{float:left; height:40px; line-height:40px;}
+.course-content .select-sort li span{padding:0 10px; height:40px; display:block; color:#666;}
+.course-content .select-sort li span:hover{background:#ff7a31; padding:0 10px; display:block; height:40px; color:#fff;}
+.course-content .select-sort .live span{background:#ff7a31; padding: 10px 10px 0; height:30px; display:block; color:#fff;width:auto;}
+
+.course-content .sort-left{float:left; height:40px; line-height:40px; font-weight:bold;}
+.course-content .sort-right ul{float:left;}
+.course-content .sort-right li{float:left; height:40px; line-height:40px; color:#666; cursor:pointer;}
+
+.course-content .select-level{ height:40px; width:100%; position:absolute; left:0;top: 80px; background:#ffffff;border: 1px solid #dddddd; margin-left:-1px;}
+.course-content .level{ width:960px; padding-left:40px; position:absolute;}
+.course-content .level-left{float:left; height:40px; line-height:40px; font-weight:bold;}
+.course-content .level-right ul{float:left;}
+.course-content .level-right li{ float:left; height:40px; line-height:40px; margin-top: -13px;}
+.course-content .level li{ float:left; height:40px; line-height:40px; color:#666; cursor:pointer;}
+.course-content .level li span{height:40px; padding: 0 10px; display:block; color:#fff; color: #666}
+.course-content .level li span:hover{background:#ff7a31;  height:30px; padding: 10px 10px 0; display:block; color:#fff;}
+.course-content .level .live span{background:#ff7a31;  padding: 10px 10px 0; height:30px; display:block; color:#fff;width:auto;}
+
+.course-content .level li span{height:40px; display:block; padding: 10px 10px 0;}
+.course-content .level-more{ width:200px; background:#ffffff;  position:absolute; text-align:center; height:40px; line-height:40px;border: 1px solid #dddddd; border-top: 1px solid #ffffff;left:40%;top:40px;}
+
+.course-content .arrow{ float:right; width: 7px; height: 5px; background: url(../img/course/jiantou.gif) 0 0 no-repeat; margin:17px 20px 0 0;}
+.course-content .arrow:hover{float:right; width:7px; height:5px; background: url(../img/course/jiantou.gif) 0 -5px no-repeat;margin:17px 20px 0 0;}
+
+.course-content .live span{background:#ff7a31; height:40px; color:#fff;}

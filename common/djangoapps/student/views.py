@@ -170,8 +170,8 @@ def lead_courses(request):
         
         for course in courses:
             course_org = course.display_org_with_default
-            if course_org not in org_arr:
-                org_arr.append([course_org, course_org])
+            if course_org.strip() not in org_arr:
+                org_arr.append([course_org.strip(), course_org.strip()])
 
         return org_arr
 
@@ -1041,10 +1041,10 @@ def login_user(request, error=""):
         user = None
 
     # check user role rejetc login when student login cms
-    studio_name = settings.ROOT_URLCONF.split(".")[0]
-    user_profile = UserProfile.objects.get(user=user)
-    if studio_name == "cms" and user_profile.profile_role != "th":
-        user = None;
+    # studio_name = settings.ROOT_URLCONF.split(".")[0]
+    # user_profile = UserProfile.objects.get(user=user)
+    # if studio_name == "cms" and user_profile.profile_role != "th":
+    #     user = None;
 
     # check if the user has a linked shibboleth account, if so, redirect the user to shib-login
     # This behavior is pretty much like what gmail does for shibboleth.  Try entering some @stanford.edu
