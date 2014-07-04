@@ -237,14 +237,16 @@ html .ui-alt-icon .ui-radio-off:after {
 .fall-body ul h1 {color:#000000; font-size:20px;}
 .fall-body ul h2 {color:#333333; font-size:16px; font-weight:normal; line-height:20px;}
 .fall-body ul.click {background:#eeeeee;}
-.class_title {height:70px; font-size:24px; color:#FFFFFF; padding:0 10px; text-align:center; line-height:70px; background: left center no-repeat #ff7200;}
-.class_m20 {margin:20px;}
+.class_title {height:35px; font-size:15px; color:#FFFFFF; padding:0 10px; text-align:center; line-height:35px; background: left center no-repeat #ff7200;}
+.class_m20 {margin:5px;}
 .img-board {margin:15px 5px; padding:0;}
-.img-board img {width:100%; height:100%;}
-.class_m20 h3 {font-size:18px; color:#000000; padding:0 5px;}
+.img-board img {width:100%; height:200px;}
+.class_m20 h3 {font-size:18px; color:#000000; padding:0 0px;}
 .class_m20 h4 {font-size:15px; color:#333333; padding:0 5px; font-weight:normal;}
 .class_m20 span {padding-left:20px;}
 .class_m20 p {padding:0 5px; font-size:15px; line-height:24px;}
+.class_m20 section.about h2{font-size: 15px;}
+.class_m20 section.about p{font-size: 14px;} 
 .radio-board {margin:15px 5px; padding:0; position:relative;}
 .radio-board .img {width:100%; height:300px; z-index:1; position:absolute; left:0; top:0;}
 .radio-board .imgtitle {width:100%; background:url(images/title_bg.png); height:40px; line-height:40px; font-size:18px; color:#FFFFFF; font-weight:bold; z-index:99; position:absolute; left:0; bottom:0;}

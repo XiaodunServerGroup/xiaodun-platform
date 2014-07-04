@@ -46,7 +46,9 @@ urlpatterns = ('',  # nopep8
 
     # sync account from BS
     url(r'^bs/sync/accounts$', 'student.views.bs_sync_accounts', name='bs_sync_accounts'),
+    url(r'^bs/user/(?P<user_id>\d+)/role/(?P<profile_role>(st|th))/changed$', 'student.views.bs_change_profle_role', name='bs_change_profle_role'),
     url(r'^bs/sync/ban/account/(?P<user_id>[^/]*)$', 'student.views.bs_ban_account', name='bs_sync_accounts'),
+    url(r'^bs/recv/student/(?P<student_id>\d+)/courses/gradebook', 'student.views.bs_recv_grade', name='bs_recv_grade'),
 
     # login user with sso, user from guoshi
     url(r'^sso/user/guoshi/desencrypt/auth_login', 'student.views.des_auth_login', name='des_auth_login'),

@@ -7,13 +7,15 @@
 </%def>
 
 <%block name="bodyclass">courseware ${course.css_class or ''}</%block>
-<%block name="title"><title>
-    % if section_title: 
-${page_title_breadcrumbs(section_title, course_name())}
-    % else:
-${page_title_breadcrumbs(course_name())}
-    %endif 
-</title></%block>
+<%block name="title">
+  <title>
+      % if section_title: 
+        ${page_title_breadcrumbs(section_title, course_name())}
+      % else:
+        ${page_title_breadcrumbs(course_name())}
+      %endif 
+  </title>
+</%block>
 
 <%block name="headextra">
 <%static:css group='style-course-vendor'/>
@@ -82,6 +84,13 @@ ${page_title_breadcrumbs(course_name())}
           }
           $(this).html(finalTitle);
         });
+
+        var h2Item = $('#course-content>h2')
+        if (h2Item.length == 0) {
+          var cur_href = "/" + window.location.href.split("/").slice(3).join('/');
+          $('#course-content>div').trigger("notes:init", [cur_href]);
+          $('#course-content>div').trigger("notes:init", [cur_href]);
+        } 
       });
   </script>
 
@@ -194,19 +203,19 @@ ${fragment.foot_html()}
 <div class="container">
   <div class="course-wrapper">
 
-% if accordion:
-    <div class="course-index">
-      <header id="open_close_accordion">
-        <a href="#">${_("close")}</a>
-      </header>
+    % if accordion:
+        <div class="course-index">
+          <header id="open_close_accordion">
+            <a href="#">${_("close")}</a>
+          </header>
 
-      <div id="accordion" style="display: none">
-        <nav aria-label="${_('Course Navigation')}">
-          ${accordion}
-        </nav>
-      </div>
-    </div>
-% endif
+          <div id="accordion" style="display: none">
+            <nav aria-label="${_('Course Navigation')}">
+              ${accordion}
+            </nav>
+          </div>
+        </div>
+    % endif
 
     <section class="course-content" id="course-content">
       ${fragment.body_html()}

@@ -89,7 +89,4 @@ li a:hover, li a:active{color:#ff7a31;}
 .course-content .level li span{height:40px; display:block; padding: 10px 10px 0;}
 .course-content .level-more{ width:200px; background:#ffffff;  position:absolute; text-align:center; height:40px; line-height:40px;border: 1px solid #dddddd; border-top: 1px solid #ffffff;left:40%;top:40px;}
 
-.course-content .arrow{ float:right; width: 7px; height: 5px; background: url(../img/course/jiantou.gif) 0 0 no-repeat; margin:17px 20px 0 0;}
-.course-content .arrow:hover{float:right; width:7px; height:5px; background: url(../img/course/jiantou.gif) 0 -5px no-repeat;margin:17px 20px 0 0;}
-
 .course-content .live span{background:#ff7a31; height:40px; color:#fff;}

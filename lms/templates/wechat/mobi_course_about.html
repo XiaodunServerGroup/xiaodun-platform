@@ -5,11 +5,6 @@
   from courseware.access import has_access
   from django.conf import settings
   from edxmako.shortcuts import marketing_link
-
-  if settings.FEATURES.get('ENABLE_SHOPPING_CART'):
-      cart_link = reverse('shoppingcart.views.show_cart')
-  else:
-      cart_link = ""
 %>
 
 <%namespace name='static' file='/static_content.html'/>
@@ -96,115 +91,97 @@
     %endif
   })(this)
   </script>
-        <script src="${static.url('js/course_info.js')}"></script>
-        <style type="text/css">
-            a{text-decoration:none}
-        </style>
-
+  <script src="${static.url('js/course_info.js')}"></script>
+  <style type="text/css">
+      a{text-decoration:none}
+  </style>
 </%block>
+<div>
 
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>${_("About {course.display_number_with_default}").format(course=course) | h}</title>
-        <link rel="stylesheet" href="/static/css/themes/xd.min.css" />
-        <link rel="stylesheet" href="/static/css/themes/jquery.mobile.icons.min.css" />
-        <link rel="stylesheet" href="/static/css/themes/jquery.mobile.structure-1.4.2.min.css" />
-        <!--<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>-->
-        <script src="/static/js/jquery.mobile-1.4.2.min.js"></script>
-    </head>
-    <body>
+	<div data-role="header" data-theme="a">
+		<div class="class_title">课程详情</div>
+	</div>
 
-    <div class="">
+	<div class="class_m20">
+		<div class="ui-body ui-body-a ui-corner-all">
+			<div class="img-board">
+                    % if get_course_about_section(course, "video"):
+                        <img src="${course_image_url(course)}" alt="" />
+                    %else:
+                        <img src="${course_image_url(course)}" alt=""/>
 
-			<div data-role="header" data-theme="a">
-				<div class="class_title">课程详情</div>
-			</div>
-
-			<div class="class_m20">
-				<div class="ui-body ui-body-a ui-corner-all">
-					<div class="img-board">
-                        % if get_course_about_section(course, "video"):
-                            <img src="${course_image_url(course)}" alt="" />
-                        %else:
-                            <img src="${course_image_url(course)}" alt=""/>
-
-                        % endif
-                    </div>
-				<div>
-				<h3>${course.display_number_with_default | h} ${get_course_about_section(course, "title")}</h3>
-				<h4>机构：${get_course_about_section(course, "university")}<span>课程代码：${course.display_number_with_default | h}</span></h4>
-				<!--<h4>分类：技术初级<span>授课老师：孙葆洁</span></h4>-->
-			</div>
-			</div>
-			</div>
-                <div class="main-cta">
-                %if user.is_authenticated() and registered:
-                  %if show_courseware_link:
-                    <div class="class_m20" align="center">
-                    <a href="${course_target}" target="_self">
-                  %endif
-
-                  %if show_courseware_link:
-                    <input type="submit" name="submit" value='${_("You are registered for this course")} ${_("View Courseware")}'>
-
-                    </a>
-                    </div>
-                   %endif
-
-                %elif in_cart:
-                  <span class="add-to-cart">
-                    ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
-                  </span>
-                %elif settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION') and registration_price:
-                  <%
-                  if user.is_authenticated():
-                    reg_href = "#"
-                    reg_element_id = "add_to_cart_post"
-                  else:
-                    reg_href = reg_then_add_to_cart_link
-                    reg_element_id = "reg_then_add_to_cart"
-                  %>
-                  <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
-                    ${_("Add {course.display_number_with_default} to Cart ({currency_symbol}{cost})")\
-                      .format(course=course, currency_symbol=settings.PAID_COURSE_REGISTRATION_CURRENCY[1],
-                          cost=registration_price)}
-                  </a>
-
-                  <div></div>
-                % elif is_course_full:
-                  <span class="register disabled">
-                    ${_("Course is full")}
-                  </span>
-                %else:
-                  <div class="class_m20" align="center">
-                  <input type="submit" name="submit" class="register" value="${_('Register for {course.display_number_with_default}').format(course=course) | h}">
-                  <div></div>
-                  </div>
-                %endif
+                    % endif
                 </div>
-                <div class="class_m20">
-				<div class="ui-body ui-body-a ui-corner-all">
-					<h3>简介</h3>
-					<p>${get_course_about_section(course, "overview")}</p>
-				</div>
-			    </div>
-    </div>
+		<div>
+		<h3>${course.display_number_with_default | h} ${get_course_about_section(course, "title")}</h3>
+		<h4>机构：${get_course_about_section(course, "university")}<span>课程代码：${course.display_number_with_default | h}</span></h4>
+		<!--<h4>分类：技术初级<span>授课老师：孙葆洁</span></h4>-->
+	</div>
+	</div>
+	</div>
+            <div class="main-cta">
+            %if user.is_authenticated() and registered:
+              %if show_courseware_link:
+                <div class="class_m20" align="center">
+                <a href="${course_target}" target="_self">
+              %endif
+
+              %if show_courseware_link:
+                <input type="submit" name="submit" value='${_("You are registered for this course")} ${_("View Courseware")}'>
+
+                </a>
+                </div>
+               %endif
+
+            %elif in_cart:
+              <span class="add-to-cart">
+                ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
+              </span>
+            %elif settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION') and registration_price:
+              <%
+              if user.is_authenticated():
+                reg_href = "#"
+                reg_element_id = "add_to_cart_post"
+              else:
+                reg_href = reg_then_add_to_cart_link
+                reg_element_id = "reg_then_add_to_cart"
+              %>
+              <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
+                ${_("Add {course.display_number_with_default} to Cart ({currency_symbol}{cost})")\
+                  .format(course=course, currency_symbol=settings.PAID_COURSE_REGISTRATION_CURRENCY[1],
+                      cost=registration_price)}
+              </a>
+
+              <div></div>
+            % elif is_course_full:
+              <span class="register disabled">
+                ${_("Course is full")}
+              </span>
+            %else:
+              <div class="class_m20" align="center">
+              <input type="submit" name="submit" class="register" value="${_('Register for {course.display_number_with_default}').format(course=course) | h}">
+              <div></div>
+              </div>
+            %endif
+            </div>
+            <div class="class_m20">
+		<div class="ui-body ui-body-a ui-corner-all">
+			<h3>简介</h3>
+			<p>${get_course_about_section(course, "overview")}</p>
+		</div>
+	    </div>
+</div>
 
 %if not registered:
-<div style="display: none;">
-    <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('mobile_change_enrollment')}">
-        <fieldset class="enroll_fieldset">
-            <input name="course_id" type="hidden" value="${course.id}">
-            <input name="enrollment_action" type="hidden" value="enroll">
-        </fieldset>
-        <div class="submit">
-            <input name="submit" type="submit" value="enroll">
-        </div>
-    </form>
-</div>
+  <div style="display: none;">
+      <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('mobile_change_enrollment')}">
+          <fieldset class="enroll_fieldset">
+              <input name="course_id" type="hidden" value="${course.id}">
+              <input name="enrollment_action" type="hidden" value="enroll">
+          </fieldset>
+          <div class="submit">
+              <input name="submit" type="submit" value="enroll">
+          </div>
+      </form>
+  </div>
 %endif
-
-	</body>
-</html>

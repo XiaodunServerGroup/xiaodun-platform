@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <%! from django.utils.translation import ugettext as _ %>
 <%! from microsite_configuration import microsite %>
 <%! from microsite_configuration import page_title_breadcrumbs %>
@@ -26,9 +27,12 @@
   <!--[if lt IE 9]>
     <script src="${static.url('js/html5shiv.js')}"></script>
   <![endif]-->
-
+  <script src="/static/js/jquery.mobile-1.4.2.min.js"></script>
   <meta name="path_prefix" content="${EDX_ROOT_URL}">
   <meta name="google-site-verification" content="_mipQ4AtZQDNmbtOkwehQDOgCxUUV2fb_C0b6wbiRHY" />
+  <link rel="stylesheet" href="/static/css/themes/xd.min.css" />
+  <link rel="stylesheet" href="/static/css/themes/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="/static/css/themes/jquery.mobile.structure-1.4.2.min.css" />
   % if not course:
     <%include file="${google_analytics_file}" />
   % endif

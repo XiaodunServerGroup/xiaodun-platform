@@ -34,6 +34,7 @@ from django.core.validators import validate_email, validate_slug, ValidationErro
 from django.db import IntegrityError, transaction
 from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
                          Http404)
+from django.views.decorators.cache import cache_control
 from django.shortcuts import redirect
 from django_future.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt
@@ -72,6 +73,8 @@ from xmodule.modulestore.django import modulestore
 from xmodule.modulestore import XML_MODULESTORE_TYPE, Location
 
 from collections import namedtuple
+
+from instructor.offline_gradecalc import student_grades
 
 from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url
 from courseware.access import has_access
@@ -137,7 +140,7 @@ def audit_courses(request, user=AnonymousUser()):
 
     courses = get_courses(user, domain=domain)
     
-    return sort_by_announcement(courses)
+    return filter_audited_items(sort_by_announcement(courses))
 
 
 # NOTE: This view is not linked to directly--it is called from
@@ -169,9 +172,9 @@ def lead_courses(request):
         org_arr = []
         
         for course in courses:
-            course_org = course.display_org_with_default
-            if course_org.strip() not in org_arr:
-                org_arr.append([course_org.strip(), course_org.strip()])
+            course_org = course.display_org_with_default.strip()
+            if [course_org, course_org] not in org_arr:
+                org_arr.append([course_org, course_org])
 
         return org_arr
 
@@ -1041,10 +1044,10 @@ def login_user(request, error=""):
         user = None
 
     # check user role rejetc login when student login cms
-    # studio_name = settings.ROOT_URLCONF.split(".")[0]
-    # user_profile = UserProfile.objects.get(user=user)
-    # if studio_name == "cms" and user_profile.profile_role != "th":
-    #     user = None;
+    studio_name = settings.ROOT_URLCONF.split(".")[0]
+    user_profile = UserProfile.objects.get(user=user)
+    if studio_name == "cms" and user_profile.profile_role != "th":
+        user = None;
 
     # check if the user has a linked shibboleth account, if so, redirect the user to shib-login
     # This behavior is pretty much like what gmail does for shibboleth.  Try entering some @stanford.edu
@@ -2099,6 +2102,10 @@ def bs_sync_accounts(request):
         profile.gender = user_params.get('gender')
         profile.mailing_address = user_params.get('mailing_address')
 
+        profile_role = user_params.get("profile_role")
+        if profile_role and profile_role in ["th", "st"]:
+            profile.profile_role = profile_role
+
         try:
             profile.year_of_birth = int(user_params['year_of_birth'])
         except:
@@ -2140,6 +2147,30 @@ def bs_sync_accounts(request):
             succ_add_ids.append(init_hash)
 
     return JsonResponse({"staff": succ_add_ids})
+
+
+@csrf_exempt
+def bs_change_profle_role(request, user_id=None, profile_role=None):
+    uniform_re = {"success": False}
+    request_method = request.method
+
+    if request_method != "POST":
+        uniform_re['errmsg'] = "Only POST request support!"
+        return JsonResponse(uniform_re)
+
+    try:
+        user = User.objects.get(id=int(user_id))
+        user_profile = UserProfile.objects.get(user=user)
+
+        user_profile.profile_role = profile_role
+        user_profile.save()
+
+        uniform_re['success'] = True
+        return JsonResponse(uniform_re)
+    except:
+        uniform_re['errmsg'] = "some error occurs when change user with id " + str(user_id) +" to role" + profile_role 
+
+        return JsonResponse(uniform_re)
 
 
 @csrf_exempt
@@ -2186,6 +2217,52 @@ def bs_ban_account(request, user_id):
 
     uniform_re['success'] = True
     return JsonResponse(uniform_re)
+
+
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+def bs_recv_grade(request, student_id):
+    """
+    Show user's grade_book with student_id 
+    """
+    re_format = {"success": False}
+
+    try:
+        user = User.objects.get(id=int(student_id))
+    except:
+        re_format.update({"errmsg": "Can not find user with id {}".format(student_id)})
+        return JsonResponse(re_format)
+
+    # for microsites, we want to filter and only show enrollments for courses within
+    # the microsites 'ORG'
+    course_org_filter = microsite.get_value('course_org_filter')
+
+    # Let's filter out any courses in an "org" that has been declared to be
+    # in a Microsite
+    org_filter_out_set = microsite.get_all_orgs()
+
+    # remove our current Microsite from the "filter out" list, if applicable
+    if course_org_filter:
+        org_filter_out_set.remove(course_org_filter)
+
+    enrollment_courses_list = map(lambda x: x[0], list(get_course_enrollment_pairs(user, course_org_filter, org_filter_out_set)))
+
+    def student_course_format_dict(course):
+        pass_line = sorted(course.grade_cutoffs.items(), key=lambda i: i[1], reverse=True)[0][1]
+        pass_or_not = lambda x: x >= pass_line
+        
+        return {
+            "course_id": course.id.replace('/', '.'),
+            "pass_line": "{0:.0f}".format( 100 * pass_line ),
+            "is_pass": pass_or_not(student_grades(user, request, course))
+        }
+
+    courses_grade_book = []
+    for course, enrollment in list(get_course_enrollment_pairs(user, course_org_filter, org_filter_out_set)):
+        courses_grade_book.append(student_course_format_dict(course))
+
+    re_format.update({"user_id": user.id, "grade_book": courses_grade_book, "success": True})
+
+    return JsonResponse(re_format)
 
 
 @login_required
