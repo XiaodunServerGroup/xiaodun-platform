@@ -22,8 +22,18 @@
   <% return settings.FEATURES.get("USE_CUSTOM_THEME", False) %>
 </%def>
 
+<%def name="stanford_theme_enabled()">
+  <%
+    if not theme_enabled():
+      return False
+
+    return getattr(settings, "THEME_NAME", None) == "stanford"
+  %>
+</%def>
+
 ## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
-  <%static:js group='main_vendor'/>
+  
+  <%static:js group='wechat_main_vendor'/>
   <!--[if lt IE 9]>
     <script src="${static.url('js/html5shiv.js')}"></script>
   <![endif]-->
@@ -33,9 +43,6 @@
   <link rel="stylesheet" href="/static/css/themes/xd.min.css" />
   <link rel="stylesheet" href="/static/css/themes/jquery.mobile.icons.min.css" />
   <link rel="stylesheet" href="/static/css/themes/jquery.mobile.structure-1.4.2.min.css" />
-  % if not course:
-    <%include file="${google_analytics_file}" />
-  % endif
 
   <%include file="/widgets/segment-io.html" />
 
@@ -51,7 +58,3 @@
   <%block name="js_extra"/>
 </body>
 </html>
-
-
-
-

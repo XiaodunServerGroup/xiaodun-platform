@@ -1348,12 +1348,95 @@ def _do_create_account(post_vars):
 
 
 @ensure_csrf_cookie
+def mobi_create_account(request, post_override=None):
+    js = {"success": False}
+
+    post_vars = post_override if post_override else request.POST
+    for a in ['username', 'email', 'password', 'name']:
+        if a not in post_vars:
+            js['value'] = _("Error (401 {field}). E-mail us.").format(field=a)
+            js['field'] = a
+            return JsonResponse(js, status=400)
+
+    # Can't have terms of service for certain SHIB users, like at Stanford
+    tos_required = (
+        not settings.FEATURES.get("AUTH_USE_SHIB") or
+        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+        not DoExternalAuth or
+        not eamap.external_domain.startswith(
+            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
+        )
+    )
+
+    if tos_required:
+        if post_vars.get('terms_of_service', 'false') != u'true':
+            js['value'] = _("You must accept the terms of service.").format(field=a)
+            js['field'] = 'terms_of_service'
+            return JsonResponse(js, status=400)
+
+    try:
+        validate_email(post_vars['email'])
+    except ValidationError:
+        js['value'] = _("Valid e-mail is required.").format(field=a)
+        js['field'] = 'email'
+        return JsonResponse(js, status=400)
+
+    try:
+        validate_slug(post_vars['username'])
+    except ValidationError:
+        js['value'] = _("Username should only consist of A-Z and 0-9, with no spaces.").format(field=a)
+        js['field'] = 'username'
+        return JsonResponse(js, status=400)
+
+    # enforce password complexity as an optional feature
+    if settings.FEATURES.get('ENFORCE_PASSWORD_POLICY', False):
+        try:
+            password = post_vars['password']
+
+            validate_password_length(password)
+            validate_password_complexity(password)
+            validate_password_dictionary(password)
+        except ValidationError, err:
+            js['value'] = _('Password: ') + '; '.join(err.messages)
+            js['field'] = 'password'
+            return JsonResponse(js, status=400)
+
+    # Ok, looks like everything is legit.  Create the account.
+    ret = _do_create_account(post_vars)
+    if isinstance(ret, HttpResponse):  # if there was an error then return that
+        return ret
+    (user, profile, registration) = ret
+
+    context = {
+        'name': post_vars['name'],
+        'key': registration.activation_key,
+    }
+
+    # composes activation email
+    subject = render_to_string('emails/activation_email_subject.txt', context)
+    # Email subject *must not* contain newlines
+    subject = ''.join(subject.splitlines())
+    message = render_to_string('emails/activation_email.txt', context)
+
+    response = JsonResponse({
+        'success': True,
+        'redirect_url': reverse('signin_user'),
+    })
+
+    return response
+
+
+@ensure_csrf_cookie
 def create_account(request, post_override=None):
     """
     JSON call to create new edX account.
     Used by form in signup_modal.html, which is included into navigation.html
     """
     js = {'success': False}
+
+    request_type = request.GET.get("created_role", "")
+    if request_type == 'mobi':
+        return mobi_create_account(request)
 
     post_vars = post_override if post_override else request.POST
     extra_fields = getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {})
@@ -1391,21 +1474,10 @@ def create_account(request, post_override=None):
         js['field'] = 'honor_code'
         return JsonResponse(js, status=400)
 
-    # Can't have terms of service for certain SHIB users, like at Stanford
-    tos_required = (
-        not settings.FEATURES.get("AUTH_USE_SHIB") or
-        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-        not DoExternalAuth or
-        not eamap.external_domain.startswith(
-            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
-        )
-    )
-
-    if tos_required:
-        if post_vars.get('terms_of_service', 'false') != u'true':
-            js['value'] = _("You must accept the terms of service.").format(field=a)
-            js['field'] = 'terms_of_service'
-            return JsonResponse(js, status=400)
+    if post_vars.get('terms_of_service', 'false') != u'true':
+        js['value'] = _("You must accept the terms of service.").format(field=a)
+        js['field'] = 'terms_of_service'
+        return JsonResponse(js, status=400)
 
     # Confirm appropriate fields are there.
     # TODO: Check e-mail format is correct.

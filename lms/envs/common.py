@@ -798,6 +798,33 @@ main_vendor_js = [
     'js/vendor/URI.min.js',
 ]
 
+wechat_main_js = [
+    'js/vendor/require.js',
+    'js/RequireJS-namespace-undefine.js',
+    'js/vendor/json2.js',
+    'js/vendor/jquery.min.js',
+    'js/vendor/jquery-ui.min.js',
+    'js/vendor/jquery.cookie.js',
+    'js/vendor/jquery.qtip.min.js',
+    'js/vendor/swfobject/swfobject.js',
+    'js/vendor/jquery.ba-bbq.min.js',
+    'js/vendor/ova/annotator-full.js',
+    'js/vendor/ova/video.dev.js',
+    'js/vendor/ova/vjs.youtube.js',
+    'js/vendor/ova/rangeslider.js',
+    'js/vendor/ova/share-annotator.js',
+    'js/vendor/ova/tinymce.min.js',
+    'js/vendor/ova/richText-annotator.js',
+    'js/vendor/ova/reply-annotator.js',
+    'js/vendor/ova/tags-annotator.js',
+    'js/vendor/ova/flagging-annotator.js',
+    'js/vendor/ova/jquery-Watch.js',
+    'js/vendor/ova/ova.js',
+    'js/vendor/ova/catch/js/catch.js',
+    'js/vendor/ova/catch/js/handlebars-1.1.2.js',
+    'js/vendor/URI.min.js',
+]
+
 discussion_js = sorted(rooted_glob(COMMON_ROOT / 'static', 'coffee/src/discussion/**/*.js'))
 staff_grading_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/staff_grading/**/*.js'))
 open_ended_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/open_ended/**/*.js'))
@@ -892,6 +919,11 @@ PIPELINE_JS = {
     },
     'main_vendor': {
         'source_filenames': main_vendor_js,
+        'output_filename': 'js/lms-main_vendor.js',
+        'test_order': 0,
+    },
+    'wechat_main_vendor': {
+        'source_filenames': wechat_main_js,
         'output_filename': 'js/lms-main_vendor.js',
         'test_order': 0,
     },

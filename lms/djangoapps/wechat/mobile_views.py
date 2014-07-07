@@ -114,22 +114,6 @@ def mobile_course_about(request, course_id):
 
 
 def mobile_change_enrollment(request):
-    """
-    Modify the enrollment status for the logged-in user.
-
-    The request parameter must be a POST request (other methods return 405)
-    that specifies course_id and enrollment_action parameters. If course_id or
-    enrollment_action is not specified, if course_id is not valid, if
-    enrollment_action is something other than "enroll" or "unenroll", if
-    enrollment_action is "enroll" and enrollment is closed for the course, or
-    if enrollment_action is "unenroll" and the user is not enrolled in the
-    course, a 400 error will be returned. If the user is not logged in, 403
-    will be returned; it is important that only this case return 403 so the
-    front end can redirect the user to a registration or login page when this
-    happens. This function should only be called from an AJAX request or
-    as a post-login/registration helper, so the error messages in the responses
-    should never actually be user-visible.
-    """
     user = request.user
 
     action = request.POST.get("enrollment_action")
@@ -181,19 +165,6 @@ def mobile_change_enrollment(request):
 
         return HttpResponse('about')
 
-    elif action == "add_to_cart":
-        # Pass the request handling to shoppingcart.views
-        # The view in shoppingcart.views performs error handling and logs different errors.  But this elif clause
-        # is only used in the "auto-add after user reg/login" case, i.e. it's always wrapped in try_change_enrollment.
-        # This means there's no good way to display error messages to the user.  So we log the errors and send
-        # the user to the shopping cart page always, where they can reasonably discern the status of their cart,
-        # whether things got added, etc
-
-        shoppingcart.views.add_course_to_cart(request, course_id)
-        return HttpResponse(
-            reverse("shoppingcart.views.show_cart")
-        )
-
     elif action == "unenroll":
         if not CourseEnrollment.is_enrolled(user, course_id):
             return HttpResponseBadRequest(_("You are not enrolled in this course"))
@@ -208,4 +179,5 @@ def mobile_change_enrollment(request):
         return HttpResponse()
     else:
         return HttpResponseBadRequest(_("Enrollment action is invalid"))
+
 

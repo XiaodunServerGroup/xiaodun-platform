@@ -20,31 +20,6 @@
       event.preventDefault();
     });
 
-    % if settings.FEATURES.get('ENABLE_SHOPPING_CART') and settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION'):
-      add_course_complete_handler = function(jqXHR, textStatus) {
-        if (jqXHR.status == 200) {
-          location.href = "${cart_link}";
-        }
-        if (jqXHR.status == 400) {
-          $("#register_error")
-            .html(jqXHR.responseText ? jqXHR.responseText : "${_('An error occurred. Please try again later.')}")
-            .css("display", "block");
-        }
-        else if (jqXHR.status == 403) {
-            location.href = "${reg_then_add_to_cart_link}";
-        }
-      };
-      $("#add_to_cart_post").click(function(event){
-        $.ajax({
-          url: "${reverse('add_course_to_cart', args=[course.id])}",
-          type: "POST",
-          /* Rant: HAD TO USE COMPLETE B/C PROMISE.DONE FOR SOME REASON DOES NOT WORK ON THIS PAGE. */
-          complete: add_course_complete_handler
-        })
-        event.preventDefault();
-      });
-    % endif
-
     ## making the conditional around this entire JS block for sanity
     %if settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
       <%
@@ -97,7 +72,6 @@
   </style>
 </%block>
 <div>
-
 	<div data-role="header" data-theme="a">
 		<div class="class_title">课程详情</div>
 	</div>
@@ -105,71 +79,64 @@
 	<div class="class_m20">
 		<div class="ui-body ui-body-a ui-corner-all">
 			<div class="img-board">
-                    % if get_course_about_section(course, "video"):
-                        <img src="${course_image_url(course)}" alt="" />
-                    %else:
-                        <img src="${course_image_url(course)}" alt=""/>
-
-                    % endif
-                </div>
+          % if get_course_about_section(course, "video"):
+              <img src="${course_image_url(course)}" alt="" />
+          %else:
+              <img src="${course_image_url(course)}" alt=""/>
+          % endif
+      </div>
 		<div>
 		<h3>${course.display_number_with_default | h} ${get_course_about_section(course, "title")}</h3>
 		<h4>机构：${get_course_about_section(course, "university")}<span>课程代码：${course.display_number_with_default | h}</span></h4>
-		<!--<h4>分类：技术初级<span>授课老师：孙葆洁</span></h4>-->
 	</div>
-	</div>
-	</div>
-            <div class="main-cta">
-            %if user.is_authenticated() and registered:
-              %if show_courseware_link:
-                <div class="class_m20" align="center">
-                <a href="${course_target}" target="_self">
-              %endif
+</div>
 
-              %if show_courseware_link:
-                <input type="submit" name="submit" value='${_("You are registered for this course")} ${_("View Courseware")}'>
+<div class="main-cta">
+    %if user.is_authenticated() and registered:
+      %if show_courseware_link:
+        <div class="class_m20" align="center">
+          <a href="${course_target}" target="_self">
+            <input type="submit" name="submit" value='${_("You are registered for this course")} ${_("View Courseware")}'>
+          </a>
+        </div>
+      %endif
+    %elif in_cart:
+      <span class="add-to-cart">
+        ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
+      </span>
+    %elif settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION') and registration_price:
+      <%
+      if user.is_authenticated():
+        reg_href = "#"
+        reg_element_id = "add_to_cart_post"
+      else:
+        reg_href = reg_then_add_to_cart_link
+        reg_element_id = "reg_then_add_to_cart"
+      %>
+      <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
+        ${_("Add {course.display_number_with_default} to Cart ({currency_symbol}{cost})")\
+          .format(course=course, currency_symbol=settings.PAID_COURSE_REGISTRATION_CURRENCY[1],
+              cost=registration_price)}
+      </a>
 
-                </a>
-                </div>
-               %endif
+      <div></div>
+    % elif is_course_full:
+      <span class="register disabled">
+        ${_("Course is full")}
+      </span>
+    %else:
+      <div class="class_m20" align="center">
+      <input type="submit" name="submit" class="register" value="${_('Register for {course.display_number_with_default}').format(course=course) | h}">
+      <div></div>
+      </div>
+    %endif
+</div>
 
-            %elif in_cart:
-              <span class="add-to-cart">
-                ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
-              </span>
-            %elif settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION') and registration_price:
-              <%
-              if user.is_authenticated():
-                reg_href = "#"
-                reg_element_id = "add_to_cart_post"
-              else:
-                reg_href = reg_then_add_to_cart_link
-                reg_element_id = "reg_then_add_to_cart"
-              %>
-              <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
-                ${_("Add {course.display_number_with_default} to Cart ({currency_symbol}{cost})")\
-                  .format(course=course, currency_symbol=settings.PAID_COURSE_REGISTRATION_CURRENCY[1],
-                      cost=registration_price)}
-              </a>
-
-              <div></div>
-            % elif is_course_full:
-              <span class="register disabled">
-                ${_("Course is full")}
-              </span>
-            %else:
-              <div class="class_m20" align="center">
-              <input type="submit" name="submit" class="register" value="${_('Register for {course.display_number_with_default}').format(course=course) | h}">
-              <div></div>
-              </div>
-            %endif
-            </div>
-            <div class="class_m20">
+<div class="class_m20">
 		<div class="ui-body ui-body-a ui-corner-all">
 			<h3>简介</h3>
 			<p>${get_course_about_section(course, "overview")}</p>
 		</div>
-	    </div>
 </div>
 
 %if not registered:

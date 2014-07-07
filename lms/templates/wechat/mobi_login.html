@@ -1,0 +1,168 @@
+<%inherit file="wechat_main.html" />
+<%! from microsite_configuration import microsite %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%! from django.core.urlresolvers import reverse %>
+<%! from django.utils.translation import ugettext as _ %>
+
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(function() {
+
+      // adding js class for styling with accessibility in mind
+      $('body').addClass('js');
+
+      // show forgot password modal UI if URL contains matching DOM ID
+      if ($.deparam.fragment()['forgot-password-modal'] !== undefined) {
+        $('.pwd-reset').click();
+      }
+
+      // new window/tab opening
+      $('a[rel="external"], a[class="new-vp"]')
+      .click( function() {
+      window.open( $(this).attr('href') );
+      return false;
+      });
+
+      // form field label styling on focus
+      $("form :input").focus(function() {
+        $("label[for='" + this.id + "']").parent().addClass("is-focused");
+      }).blur(function() {
+        $("label").parent().removeClass("is-focused");
+      });
+
+      //refresh captcha
+      $('.captcha').click(function(){
+        refreshCaptcha();
+      });
+
+      // load captcha or not
+      showCaptchaOrNot();
+    });
+
+    (function() {
+      toggleSubmitButton(true);
+
+      $('#login-form').on('submit', function() {
+        toggleSubmitButton(false);
+      });
+
+      $('#login-form').on('ajax:error', function() {
+        toggleSubmitButton(true);
+        refreshCaptcha();
+      });
+
+      $('#login-form').on('ajax:success', function(event, json, xhr) {
+        if(json.success) {
+          var u=decodeURI(window.location.search);
+          next=u.split("next=")[1];
+          if (next && !isExternal(next)) {
+            location.href=next;
+          }  else if(json.redirect_url){
+            location.href=json.redirect_url;
+          } else {
+            location.href="${reverse('dashboard')}";
+          }
+        } else if(json.hasOwnProperty('redirect')) {
+          var u=decodeURI(window.location.search);
+          if (!isExternal(json.redirect)) { // a paranoid check.  Our server is the one providing json.redirect
+              location.href=json.redirect+u;
+          } // else we just remain on this page, which is fine since this particular path implies a login failure
+            // that has been generated via packet tampering (json.redirect has been messed with).
+        } else {
+          toggleSubmitButton(true);
+          $('.message.submission-error').addClass('is-shown').focus();
+          $('.message.submission-error .message-copy').html(json.value);
+          // send a ajax request, acquire failure times and judge show captcha field or not
+          refreshCaptcha();
+          if (parseInt(json.failure_auth_count) >= 3) {
+            $('li#field-captcha').show();
+          }
+        }
+      });
+      $("#forgot-password-link").click(function() {
+        $("#forgot-password-modal .close-modal").focus();
+      })
+    })(this);
+
+    function refreshCaptcha(){
+      $.get("/login", function(json){
+         var captcha_image_url = json.captcha_image_url;
+         $('.captcha').attr("src", captcha_image_url);
+         $('#id_captcha_0').attr("value", captcha_image_url.split('/')[3]);
+      });
+      return false;           
+    }
+
+    function showCaptchaOrNot() {
+      var login_failure_count = acqFailureTime();
+      
+      if (login_failure_count >= 3 && $('li#field-captcha').css('display') == 'none') {
+        $('li#field-captcha').show();
+      }  
+    }
+
+    function acqFailureTime(){
+      var fail_login_time = 0;
+      var global_async = $.ajaxSettings.async
+      if (global_async) {
+          $.ajaxSetup({
+            async: false,
+          });
+      }
+
+      $.get('/login_failure_count', function(json){
+          fail_login_time = json.failure_time
+      })
+
+      $.ajaxSetup({
+        async: false,
+      });
+
+      return fail_login_time
+    }
+
+    function toggleSubmitButton(enable) {
+      var $submitButton = $('form .form-actions #submit');
+
+      if(enable) {
+        $submitButton.
+          removeClass('is-disabled').
+          removeProp('disabled').
+          html("登录进入我的课程");
+      }
+      else {
+        $submitButton.
+          addClass('is-disabled').
+          prop('disabled', true).
+          text("${_(u'Processing your account information…')}");
+      }
+    }
+  </script>
+</%block>
+
+<div>
+  <div class="ui-header ui-bar-a" role="banner" data-role="header" data-theme="a">
+    <div class="class_title">登录校盾账户</div>
+  </div>
+</div>
+
+<section class="class_m20">
+  <p class="center">
+    <img src="/static/images/xdlogo.png"/>
+  </p>
+
+  <section class="content">
+    <form role="form" id="login-form" method="post" data-remote="true" action="/login_ajax" novalidate>
+      <p><input name="email" type="email" class="input" placeholder="请输入您的电子邮件" value=""></p>
+      <p><input name="password" type="password" class="input" placeholder="请输入您的密码" value=""></p>
+      <section class="about">
+        <p><input name="" type="checkbox" value="true" checked><span>记住我<span></p>
+        <p>尚未注册？<a href="#">现在注册加入校盾！</a></p>
+      </section>
+      <div class="form-actions">
+        <button name="submit" type="submit" id="submit" class="action action-primary action-update" style="height: 40px; margin: 0px;"></button>
+      </div>
+    </form>
+  </section>
+</section>

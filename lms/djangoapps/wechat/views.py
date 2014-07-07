@@ -1196,3 +1196,56 @@ def show_video(request):
     showurl = request.GET.get("showurl","")
     course_id = request.GET.get("course_id")    
     return render_to_response('wechat/mobi_video.html',{"showurl":showurl, "course_id": course_id})
+
+
+def mobi_login(request):
+    return JsonResponse({})
+
+
+@ensure_csrf_cookie
+def mobi_register(request, extra_context=None):
+    """
+    This view will display the mobile registeration from
+    """
+    # # if request.user.is_authenticated():
+    # #     return redirect(reverse("mobile_about_course"))
+
+    # context = {
+    #     "course_id": request.GET.get('course_id'),
+    #     "enrollment_action": request.GET.get('enrollment_action')
+    # }
+
+    # return render_to_response('wechat/mobi_register.html', context)
+    if request.user.is_authenticated():
+        return redirect(reverse('dashboard'))
+    if settings.FEATURES.get('AUTH_USE_CERTIFICATES_IMMEDIATE_SIGNUP'):
+        # Redirect to branding to process their certificate if SSL is enabled
+        # and registration is disabled.
+        return redirect(reverse('root'))
+
+    context = {
+        'course_id': request.GET.get('course_id'),
+        'enrollment_action': request.GET.get('enrollment_action'),
+        'platform_name': microsite.get_value(
+            'platform_name',
+            settings.PLATFORM_NAME
+        ),
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    return render_to_response('wechat/mobi_register.html', context)
+
+
+def mobi_login(request):
+
+    context = {
+        'course_id': request.GET.get('course_id'),
+        'enrollment_action': request.GET.get('enrollment_action'),
+        'platform_name': microsite.get_value(
+            'platform_name',
+            settings.PLATFORM_NAME
+        ),
+    }
+
+    return render_to_response('wechat/mobi_login.html', context)

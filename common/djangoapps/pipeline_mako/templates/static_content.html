@@ -19,6 +19,7 @@ except:
     % endfor
   %endif
 </%def>
+
 <%def name='js(group)'>
   % if settings.FEATURES['USE_DJANGO_PIPELINE']:
     ${compressed_js(group)}
