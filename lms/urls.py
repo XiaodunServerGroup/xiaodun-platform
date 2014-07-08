@@ -209,6 +209,8 @@ if settings.WECHAT_ENABLED:
         url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/courseware$','wechat.views.mobi_directory',name="mobi_info"),
         url(r'^m/courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/about$', 'wechat.mobile_views.mobile_course_about', name="mobile_about_course"),
         url(r'^m/register$', "wechat.views.mobi_register", name="mobi_register"),
+        url(r'^m/user/(?P<user_id>\d+)/success_register$', "wechat.views.mobi_register_success", name="mobi_register_success"),
+        url(r'^m/login_ajax$', "wechat.views.mobi_login_ajax", name="mobi_login_ajax"),
         url(r'^m/login$', "wechat.views.mobi_login", name="mobi_login"),
         url(r'^mobile_change_enrollment$', 'wechat.mobile_views.mobile_change_enrollment', name="mobile_change_enrollment"),
         url(r'^m/show_video/$', "wechat.views.show_video"),

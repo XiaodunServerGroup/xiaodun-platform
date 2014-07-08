@@ -246,6 +246,9 @@ html .ui-alt-icon .ui-radio-off:after {
 .class_m20 span {padding-left:20px;}
 .class_m20 p {padding:0 5px; font-size:15px; line-height:24px;}
 .class_m20 p.center {text-align: center; margin-top: 50px;}
+.class_m20 p.message.submission-error.is-shown {display: block;}
+.class_m20 p.message.submission-error {width: auto; padding: 0px; margin: 0 5px; color: white; background-color: #ff7200; border-radius: 5px; height: 30px; display: none}
+.class_m20 span.message-copy {line-height: 30px;}
 .class_m20 input.input {width: 100%; border: #dddddd solid 1px; height: 40px; color: #CCCCCC; line-height: 40px;}
 .class_m20 section h2{font-size: 15px;}
 .class_m20 section p{font-size: 14px;} 
@@ -253,6 +256,11 @@ html .ui-alt-icon .ui-radio-off:after {
 .class_m20 section article h3 {font-size: 14px;} 
 .class_m20 section article p {font-size: 13px;} 
 .class_m20 section.about div {float: left;}
+.class_m20 section.about div.ui-checkbox>input {margin-left: -8px}
+.class_m20 section.about span.loginarea {float: left; margin-left: 10px; margin-top: -4px;}
+.class_m20 section.about span.registerarea {float: left; margin-left: 10px; margin-top: -2px;}
+.class_m20 section.about p.not-registered { clear: both; margin-top: 5px;}
+div.class_m20 div a.login {color: white; font-weight: normal;}
 .radio-board {margin:15px 5px; padding:0; position:relative;}
 .radio-board .img {width:100%; height:300px; z-index:1; position:absolute; left:0; top:0;}
 .radio-board .imgtitle {width:100%; background:url(images/title_bg.png); height:40px; line-height:40px; font-size:18px; color:#FFFFFF; font-weight:bold; z-index:99; position:absolute; left:0; bottom:0;}
@@ -281,3 +289,7 @@ html .ui-alt-icon .ui-radio-off:after {
 .ott .cancel {border-radius: 10px; background-color: #CCC; width:30%; height:49px; color:#000000; text-align:center; font-size:20px; line-height:49px; cursor:pointer; float:left; margin-right:10px;}
 .ott .ok {border-radius: 10px; background-color: #FF8000; width:30%; height:49px; color:#FFFFFF; text-align:center; font-size:20px; line-height:49px; cursor:pointer; float:left;}
 
+section.suc_block { width: auto; min-height: 400px; margin: 20px 5px; border-radius: 5px; background-color: #ddd;}
+section.suc_block article {width: auto; padding: 20px 35px; height: auto;}
+section.suc_block article p {text-indent: 2em; line-height: 30px;}
+section.suc_block article p a{color: #3388cc;	}

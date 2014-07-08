@@ -62,7 +62,6 @@
         ).css("display", "block");
       }
     });
-
     %endif
   })(this)
   </script>
@@ -100,34 +99,15 @@
           </a>
         </div>
       %endif
-    %elif in_cart:
-      <span class="add-to-cart">
-        ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
-      </span>
-    %elif settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION') and registration_price:
-      <%
-      if user.is_authenticated():
-        reg_href = "#"
-        reg_element_id = "add_to_cart_post"
-      else:
-        reg_href = reg_then_add_to_cart_link
-        reg_element_id = "reg_then_add_to_cart"
-      %>
-      <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
-        ${_("Add {course.display_number_with_default} to Cart ({currency_symbol}{cost})")\
-          .format(course=course, currency_symbol=settings.PAID_COURSE_REGISTRATION_CURRENCY[1],
-              cost=registration_price)}
-      </a>
-
-      <div></div>
     % elif is_course_full:
       <span class="register disabled">
         ${_("Course is full")}
       </span>
     %else:
       <div class="class_m20" align="center">
-      <input type="submit" name="submit" class="register" value="${_('Register for {course.display_number_with_default}').format(course=course) | h}">
-      <div></div>
+        <div class="ui-btn ui-input-btn ui-corner-all ui-shadow">
+          <a class="login" href="${reverse("mobi_login")}?course_id=${course.id}">登录继续访问课程的详细内容</a>
+        </div>
       </div>
     %endif
 </div>

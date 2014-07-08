@@ -1044,10 +1044,11 @@ def login_user(request, error=""):
         user = None
 
     # check user role rejetc login when student login cms
-    studio_name = settings.ROOT_URLCONF.split(".")[0]
-    user_profile = UserProfile.objects.get(user=user)
-    if studio_name == "cms" and user_profile.profile_role != "th":
-        user = None;
+    if user is not None:
+        studio_name = settings.ROOT_URLCONF.split(".")[0]
+        user_profile = UserProfile.objects.get(user=user)
+        if studio_name == "cms" and user_profile.profile_role != "th":
+            user = None;
 
     # check if the user has a linked shibboleth account, if so, redirect the user to shib-login
     # This behavior is pretty much like what gmail does for shibboleth.  Try entering some @stanford.edu
@@ -1420,7 +1421,7 @@ def mobi_create_account(request, post_override=None):
 
     response = JsonResponse({
         'success': True,
-        'redirect_url': reverse('signin_user'),
+        'redirect_url': reverse('wechat.views.mobi_register_success', args=[user.id]),
     })
 
     return response

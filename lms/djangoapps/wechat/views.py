@@ -1,5 +1,7 @@
+# coding: utf-8
 import logging
 import urllib
+import time
 
 from collections import defaultdict
 
@@ -11,6 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from edxmako.shortcuts import render_to_response, render_to_string
@@ -19,6 +22,7 @@ from django.views.decorators.cache import cache_control
 from django.db import transaction
 from markupsafe import escape
 import django.utils
+from django.utils.http import cookie_date, base36_to_int
 
 from courseware import grades
 from courseware.access import has_access
@@ -32,7 +36,7 @@ from .module_render import toc_for_course, get_module_for_descriptor,mobi_toc_fo
 from courseware.models import StudentModule, StudentModuleHistory
 from course_modes.models import CourseMode
 
-from student.models import UserTestGroup, CourseEnrollment
+from student.models import UserTestGroup, CourseEnrollment, UserProfile, LoginFailures
 from student.views import course_from_id, single_course_reverification_info
 from util.cache import cache, cache_if_anonymous
 from util.json_request import JsonResponse
@@ -45,6 +49,10 @@ from xmodule.modulestore.search import path_to_location
 from xmodule.course_module import CourseDescriptor
 from xmodule.contentstore.content import StaticContent
 import shoppingcart
+
+from dogapi import dog_stats_api
+
+from ratelimitbackend.exceptions import RateLimitException
 
 from microsite_configuration import microsite
 
@@ -1198,10 +1206,6 @@ def show_video(request):
     return render_to_response('wechat/mobi_video.html',{"showurl":showurl, "course_id": course_id})
 
 
-def mobi_login(request):
-    return JsonResponse({})
-
-
 @ensure_csrf_cookie
 def mobi_register(request, extra_context=None):
     """
@@ -1237,11 +1241,100 @@ def mobi_register(request, extra_context=None):
     return render_to_response('wechat/mobi_register.html', context)
 
 
+def mobi_login_ajax(request, error=""):
+    "mobile ajax login request"
+    if 'email' not in request.POST or 'password' not in request.POST:
+        return JsonResponse({
+            "success": False,
+            "errmsg": "登录时服务器出现错误，请稍后再试",
+        })
+
+    email = request.POST['email']
+    password = request.POST['password']
+
+    try:
+        user = User.objects.get(email=email)
+    except:
+        user = None
+
+    if user and LoginFailures.is_feature_enabled():
+        if LoginFailures.is_user_locked_out(user):
+            return JsonResponse({
+                "success": False,
+                "errmsg": "账户暂时被锁定，请稍后再试",
+            })
+
+    username = user.username if user else ""
+
+    try:
+        user = authenticate(username=username, password=password, request=request)
+    except RateLimitException:
+        return JsonResponse({
+            "success": False,
+            "errmsg": "登录失败次数太多，稍后再试",
+        })
+
+    if user is None:
+        if user and LoginFailures.is_feature_enabled():
+            LoginFailures.increment_lockout_counter(user)
+
+        return JsonResponse({
+            "success": False,
+            "errmsg": "邮箱或密码错误"
+        })
+
+    if LoginFailures.is_feature_enabled():
+        LoginFailures.clear_lockout_counter(user)
+
+    if user is not None and user.is_active:
+        try:
+            login(request, user)
+            if request.POST.get('remember') == "true":
+                request.session.set_expiry(604800)
+            else:
+                request.session.set_expiry(0)
+        except Exception as e:
+            raise
+
+    course_id = request.POST.get("course_id")
+    if not course_id:
+        # TODO: add mobile course list page, but now judge to first course about page
+        courses = get_courses(user, domain=settings.FEATURES.get('FORCE_UNIVERSITY_DOMAIN'))
+        for course in courses:
+            if course.course_audit == 1:
+                course_id = course.id
+                break
+
+    redirect_url = reverse("mobile_about_course", args=[course_id])
+
+    dog_stats_api.increment("common.student.successful_login")
+
+    response = JsonResponse({
+        "success": True,
+        "redirect_url": redirect_url
+    })
+
+    if request.session.get_expire_at_browser_close():
+        max_age = None
+        expires = None
+    else:
+        max_age = request.session.get_expiry_age()
+        expires_time = time.time() + max_age
+        expires = cookie_date(expires_time)
+
+    response.set_cookie(
+        settings.EDXMKTG_COOKIE_NAME, 'true', max_age=max_age,
+        expires=expires, domain=settings.SESSION_COOKIE_DOMAIN,
+        path='/', secure=None, httponly=None,
+    )
+
+    return response
+
+
 def mobi_login(request):
 
     context = {
         'course_id': request.GET.get('course_id'),
-        'enrollment_action': request.GET.get('enrollment_action'),
         'platform_name': microsite.get_value(
             'platform_name',
             settings.PLATFORM_NAME
@@ -1249,3 +1342,13 @@ def mobi_login(request):
     }
 
     return render_to_response('wechat/mobi_login.html', context)
+
+
+def mobi_register_success(request, user_id):
+
+    user = User.objects.get(id=int(user_id))
+    context = {}
+    if user:
+        context.update({"email_server": "http://mail." + user.email.split("@")[1], "username": user.username})
+    
+    return render_to_response('wechat/register_success.html', context)

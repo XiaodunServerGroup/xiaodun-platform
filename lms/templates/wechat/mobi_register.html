@@ -43,10 +43,9 @@
 
     (function() {
       toggleSubmitButton(true);
-
       $('button#submit').on("click", function(){
         // get password score
-        var pwd_score = passwordScore($('input#password').val());
+        var pwd_score = passwordScore($('input[type=password]').val());
         if (pwd_score < 25) {
           showErrors("密码强度太弱，不能够注册！");
           return false;
@@ -70,18 +69,16 @@
         toggleSubmitButton(true);
         json = $.parseJSON(jqXHR.responseText);
         showErrors(json.value);
-        // $('.status.message.submission-error').addClass('is-shown').focus();
-        // $('.status.message.submission-error .message-copy').html(json.value).stop().css("display", "block");
+          $('.message.submission-error').addClass('is-shown').focus();
+          $('.message.submission-error .message-copy').html(json.value).stop().css("display", "block");
         // $(".field-error").removeClass('field-error');
         // $("[data-field='"+json.field+"']").addClass('field-error')
       });
     })(this);
 
     function showErrors(err_str){
-      $('.status.message.submission-error').addClass('is-shown').focus();
-      $('.status.message.submission-error .message-copy').html(err_str).stop().css("display", "block");
-      $(".field-error").removeClass('field-error');
-      $("[data-field='"+json.field+"']").addClass('field-error')
+      $('.message.submission-error').addClass('is-shown').focus();
+      $('.message.submission-error .message-copy').html(err_str).stop().css("display", "block");
     }
 
     function toggleSubmitButton(enable) {
@@ -164,18 +161,13 @@
     <img src="/static/images/xdlogo.png"/>
   </p>
 
-  <div class="errmsg">
-    <span class="messinfo"></span>
-  </div>
-
   <section role="main" class="content">
     <form method="post" data-remote="true" id="register-form" action="/create_account?created_role=mobi">
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" id="prompt_box">
 
-      <div role="alert" class="status message submission-error" tabindex="-1">
-        <h3 class="message-title">${_("The following errors occurred while processing your registration:")} </h3>
-        <ul class="message-copy"> </ul>
-      </div>
+      <p role="alert" class="message submission-error">
+        <span class="message-copy"></span>
+      </p>
 
       <p>请填写以下信息<br>星号(*)所标记为必填选项</p>
       
@@ -189,7 +181,7 @@
       <div>
         <p>密码*（6-16个字符，请使用字母加数字或符号的组合，例如：xiaodun_2014）</p>
         <p>
-          <input type="text" class="input" name="password" placeholder="请输入您的密码" value="">
+          <input type="password" class="input" name="password" placeholder="请输入您的密码" value="">
         </p>   
       </div>
 
@@ -208,11 +200,15 @@
       </div>
 
       <section class="about">
-        <p><input name="terms_of_service" type="checkbox" value="true">我同意<a href="#">服务条约！</a></input></p>
+        <p><input name="terms_of_service" type="checkbox" value="true"></p>
+        <span class="registerarea">
+          我同意<a href="#">服务条约！</a>
+        </span>
+        <p class="not-registered"></p>
       </section>
 
       <div class="form-actions">
-        <button name="submit" type="submit" id="submit" onclick="return check(this);" class="action action-primary action-update" style="margin-left: 0px; height: 40px;">${_('Register')} <span class="orn-plus">+</span> ${_('Create My Account')}</button>
+        <button name="submit" type="submit" id="submit" class="action action-primary action-update" style="margin-left: 0px; height: 40px;">${_('Register')} <span class="orn-plus">+</span> ${_('Create My Account')}</button>
       </div>
     </form>
   </section>

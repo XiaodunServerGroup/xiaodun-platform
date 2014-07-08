@@ -1,0 +1,20 @@
+<%inherit file="wechat_main.html" />
+
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="js_extra">
+</%block>
+
+
+<div>
+  <div class="ui-header ui-bar-a" role="banner" data-role="header" data-theme="a">
+    <div class="class_title">校盾注册成功</div>
+  </div>
+</div>
+
+<section class="suc_block">
+	<article>
+		<span>亲爱的用户：<span>
+		<p>您已经成功注册了帐号，我们已经发送了一份激活邮件给您，您只需要简单的将邮件中的链接地址贴到浏览器的地址栏，就可以观看我们的优质课程，还在等什么，<a href="${email_server if email_server else '#'}">点击这里登录邮箱</a>。如果帐号已经激活，<a href="/m/login">请点击这里马上登录！</a></p>
+	</article>
+</section>
