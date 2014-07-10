@@ -9,6 +9,7 @@ from courseware.courses import get_course_with_access
 import json
 import logging
 import collections
+import re
 
 log = logging.getLogger(__name__)
 
@@ -229,16 +230,18 @@ def search(request, course_id):
 
     # set filters
     filters = {'course_id': course_id, 'user': request.user}
-    if uri != '':
-        filters['uri'] = uri
+    filter_lambda = lambda x, y: re.compile(y).match(x)
+    # if uri != '':
+    #     filters['uri'] = uri
 
     # retrieve notes
     notes = Note.objects.order_by('id').filter(**filters)
     total = notes.count()
     rows = notes[offset:offset + limit]
+
     result = {
         'total': total,
-        'rows': [note.as_dict() for note in rows]
+        'rows': [note.as_dict() for note in rows if filter_lambda(note.uri, uri)] if uri != "" else [note.as_dict() for note in rows]
     }
 
     return ApiResponse(http_response=HttpResponse(), data=result)

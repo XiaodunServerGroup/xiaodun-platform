@@ -216,6 +216,7 @@ if settings.WECHAT_ENABLED:
         url(r'^m/show_video/$', "wechat.views.show_video"),
     )
 
+
 if settings.COURSEWARE_ENABLED:
     urlpatterns += (
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/jump_to/(?P<location>.*)$',
@@ -378,7 +379,6 @@ if settings.COURSEWARE_ENABLED:
 
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/notes$', 'notes.views.notes', name='notes'),
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/notes/', include('notes.urls')),
-
     )
 
     # allow course staff to change to student view of courseware

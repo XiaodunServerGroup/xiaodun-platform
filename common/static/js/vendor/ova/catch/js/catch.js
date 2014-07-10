@@ -219,7 +219,7 @@ annotationDetail:
 
         '<div class="controlPanel">'+
             //'<img class="privacy_button" src="'+root+'privacy_icon.png" width="36" height="36" alt="Privacy Settings" title="Privacy Settings">'+
-//            '<img class="groups_button" src="'+root+'groups_icon.png" width="36" height="36" alt="Groups Access" title="Groups Access">'+
+            //'<img class="groups_button" src="'+root+'groups_icon.png" width="36" height="36" alt="Groups Access" title="Groups Access">'+
             //'<img class="share_button" src="'+root+'share_icon.png" width="36" height="36" alt="Share Annotation" title="Share Annotation"/>'+
         '</div>'+
     '</div>',
@@ -324,8 +324,8 @@ CatchAnnotation = function (element, options) {
     $( document ).ready(function() {
         self.init();
         self.refreshCatch(true);
-	var moreBut = self.element.find('.annotationListButtons .moreButtonCatch');
-	moreBut.hide();	
+    	var moreBut = self.element.find('.annotationListButtons .moreButtonCatch');
+    	moreBut.hide();	
     });
     
     return this;
@@ -366,9 +366,9 @@ CatchAnnotation.prototype = {
         this.TEMPLATES = {};
         this._compileTemplates();
     },
-//    
-//     GLOBAL UTILITIES
-// 
+    //    
+    //     GLOBAL UTILITIES
+    // 
     refreshCatch: function(newInstance) {
         var mediaType = this.options.media || 'text',
             annotationItems = [],
@@ -380,7 +380,7 @@ CatchAnnotation.prototype = {
         annotations.forEach(function(annotation) {
             var isMedia = annotation.media==self.options.media,
                 isUser = (typeof self.options.userId!='undefined' && self.options.userId!='' && self.options.userId!=null)?
-                    self.options.userId == annotation.user.id:true,
+                    self.options.userId == annotation.user_id:true,
                 isInList = newInstance?false:self._isInList(annotation);
             if (isMedia && isUser && !isInList){
                 var item = jQuery.extend(true, {}, annotation);
@@ -403,6 +403,13 @@ CatchAnnotation.prototype = {
                     annotationDetail: (mediaType === "video") ? self.TEMPLATES.videoAnnotationDetail(item):self.TEMPLATES.annotationDetail(item),
                 });
                 index++;
+                /*
+                annotationItem: 
+                    '<div class="annotationItem {{ evenOrOdd }} {{ openOrClosed }}" annotationId="{{ id }}">'+
+                        '{{{ annotationRow }}}'+
+                        '{{{ annotationDetail }}}'+
+                    '</div>',
+                */
                 annotationItems.push(html);
             }
         });
@@ -487,22 +494,21 @@ CatchAnnotation.prototype = {
         el.on("click",".searchbox .search-icon", onSearchButtonClick);
         
         //Delete Reply Button
-        el.on("click", ".replies .replyItem .deleteReply", onDeleteReplyButtonClick);
-        
+        el.on("click", ".replies .replyItem .deleteReply", onDeleteReplyButtonClick);      
     },
     changeMedia: function(media) {
         var media = media || 'text';
         this.options.media = media;
-	this._refresh();
+    	this._refresh();
         this.refreshCatch(true);
-	this.checkTotAnnotations();
+    	this.checkTotAnnotations();
     },
     changeUserId: function(userId) {
         var userId = userId || '';
         this.options.userId = userId;
         this._refresh();
         this.refreshCatch(true);
-	this.checkTotAnnotations();
+        this.checkTotAnnotations();
     },
     loadAnnotations: function() {
         var annotator = this.annotator,
@@ -520,9 +526,9 @@ CatchAnnotation.prototype = {
         //annotator.plugins['Store'].loadAnnotationsFromSearch(loadFromSearch);
         
         //Make sure to be openned all annotations for this pagination
-	loadFromSearch.limit = this.options.pagination+loadedAn;
-	loadFromSearch.offset = 0;
-	annotator.plugins['Store'].loadAnnotationsFromSearch(loadFromSearch);
+    	loadFromSearch.limit = this.options.pagination+loadedAn;
+    	loadFromSearch.offset = 0;
+    	annotator.plugins['Store'].loadAnnotationsFromSearch(loadFromSearch);
         
         //text loading annotations
         var moreBut = this.element.find('.annotationListButtons .moreButtonCatch');
@@ -571,9 +577,9 @@ CatchAnnotation.prototype = {
         setTimeout();
     },
 
-//    
-//     LOCAL UTILITIES
-// 
+    //    
+    //     LOCAL UTILITIES
+    // 
     _subscribeAnnotator: function(){
         var self = this,
             annotator = this.annotator;
@@ -690,9 +696,9 @@ CatchAnnotation.prototype = {
         }
     },
     
-//    
-//     EVENT HANDLER
-// 
+    //    
+    //     EVENT HANDLER
+    // 
     _openAnnotationItem: function(evt) {
         var isClosed = $(evt.currentTarget).closest(".annotationItem").hasClass("closed");
         if (isClosed) {
@@ -711,13 +717,13 @@ CatchAnnotation.prototype = {
             $(evt.currentTarget).closest(".annotationItem").removeClass("open").addClass("closed");
         }
     },
-   _closeAnnotationItem: function(evt) {
+    _closeAnnotationItem: function(evt) {
         var existEvent = typeof evt.target!='undefined' && typeof evt.target.localName!='undefined';
         if(existEvent && evt.target.parentNode.className!='geolocationIcon'){
             this._openAnnotationItem(evt);
         }
-   },
-   _onGeolocationClick: function(evt) {
+    },
+    _onGeolocationClick: function(evt) {
         var latitude = $(evt.target).parent().find('.latitude').html(),
             longitude = $(evt.target).parent().find('.longitude').html();
         var imgSrc = '<img src="http://maps.googleapis.com/maps/api/staticmap?center='+latitude+','+longitude+'&zoom=14&size=500x500&sensor=false&markers=color:green%7Clabel:G%7C'+latitude+','+longitude+'">';
@@ -1062,8 +1068,7 @@ CatchAnnotation.prototype = {
     _onSearchButtonClick: function(evt){
         var searchtype = this.element.find('.searchbox .dropdown-list').val();
         var searchInput = this.element.find('.searchbox input').val();
-        this._refresh(searchtype,searchInput);
-        
+        this._refresh(searchtype,searchInput);    
     },
     _clearAnnotator: function(){
         var annotator = this.annotator,

@@ -87,9 +87,8 @@
 
         var h2Item = $('#course-content>h2')
         if (h2Item.length == 0) {
-          var cur_href = "/" + window.location.href.split("/").slice(3).join('/');
-          $('#course-content>div').trigger("notes:init", [cur_href]);
-          $('#course-content>div').trigger("notes:init", [cur_href]);
+          $('#course-content>div').trigger("notes:init", [""]);
+          $('#course-content>div').trigger("notes:init", [""]);
         } 
       });
   </script>

@@ -2046,8 +2046,6 @@ videojs.BackAnDisplayScrollTime.prototype.getTimes = function(AnEl){
 	AnTimes.bottom = new Date(AnTimes.bottom!=''?createDateFromISO8601(AnTimes.bottom):'');
 	return AnTimes;
 };
-
-
 })();
 
 
@@ -2301,8 +2299,7 @@ OpenVideoAnnotation.Annotator = function (element, options) {
 	//Annotator
 	this.annotator = $(element).annotator(options.optionsAnnotator.annotator).data('annotator');
 	options.optionsOVA.optionsAnnotator = options.optionsAnnotator.annotator; //send the Annotator's options to OVA
-	
-	
+
 	//Video-JS
 	/*	
 		mplayers -> Array with the html of all the video-js
@@ -2421,7 +2418,7 @@ OpenVideoAnnotation.Annotator = function (element, options) {
 	//Will be add the player and the annotations plugin for video-js in the annotator
 	this.annotator.mplayer = this.mplayer;
 	this.annotator.editor.VideoJS=-1;
-	
+
 	this.options = options;
 	
 	return this;

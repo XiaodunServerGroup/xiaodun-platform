@@ -16,6 +16,7 @@ class Note(models.Model):
     range_start_offset = models.IntegerField()
     range_end = models.CharField(max_length=2048)  # xpath string
     range_end_offset = models.IntegerField()
+    media = models.CharField(default="text", max_length="20")
     tags = models.TextField(default="")  # comma-separated string
     created = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
     updated = models.DateTimeField(auto_now=True, db_index=True)
@@ -37,6 +38,7 @@ class Note(models.Model):
         self.uri = strip_tags(body.get('uri', ''))
         self.text = strip_tags(body.get('text', ''))
         self.quote = strip_tags(body.get('quote', ''))
+        self.media = strip_tags(body.get('media', 'text'))
 
         ranges = body.get('ranges')
         if ranges is None or len(ranges) != 1:
@@ -69,6 +71,7 @@ class Note(models.Model):
             'uri': self.uri,
             'text': self.text,
             'quote': self.quote,
+            'media': self.media,
             'ranges': [{
                 'start': self.range_start,
                 'startOffset': self.range_start_offset,

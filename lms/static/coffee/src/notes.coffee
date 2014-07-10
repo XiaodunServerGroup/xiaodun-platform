@@ -50,15 +50,15 @@ class StudentNotes
                     tokenUrl: location.protocol+'//'+location.host+"/token?course_id="+courseid
 
                 store:
-                    prefix: 'http://catch.aws.af.cm/annotator'
+                    prefix: '/courses/' + courseid + '/notes/api'
 
                     annotationData: uri:uri
 
                     urls: 
-                        create:  '/create',
-                        read:    '/read/:id',
-                        update:  '/update/:id',
-                        destroy: '/delete/:id',
+                        create:  '/annotations',
+                        read:    '/annotations/:id',
+                        update:  '/annotations/:id',
+                        destroy: '/annotations/:id',
                         search:  '/search'
 
                     loadFromSearch:
