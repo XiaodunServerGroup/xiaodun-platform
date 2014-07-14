@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<user>
+	<username>${ username }</username>
+	<pwd>${ password }</pwd>
+	<email>${ email }</email>
+	<address>${ mailing_address.encode("utf-8") }</address>
+	<gender>${ gender }</gender>
+	<education>${ level_of_education }</education>
+</user>

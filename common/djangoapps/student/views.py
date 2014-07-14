@@ -14,6 +14,7 @@ import urllib
 import uuid
 import time
 import base64
+import socket
 import urllib2
 
 from django.utils import timezone
@@ -108,6 +109,8 @@ AUDIT_LOG = logging.getLogger("audit")
 
 Article = namedtuple('Article', 'title url author image deck publication publish_date')
 ReverifyInfo = namedtuple('ReverifyInfo', 'course_id course_name course_number date status display')  # pylint: disable=C0103
+
+SYNCUSERATTR = ['username', 'email', 'password', 'gender', 'mailing_address', 'level_of_education']
 
 
 class CaptchaLoginForm(forms.Form):
@@ -1291,6 +1294,60 @@ def change_setting(request):
     })
 
 
+def _push_info_to_bs(post_vars):
+    """
+    Need data consistency with bs
+    """
+    gender_dict = {'m': '男', 'f': '女', 'o': '其他'}
+    level_of_education_dict = {
+        'p': '博士',
+        'm': '硕士',
+        'b': '学士',
+        'a': '大专',
+        'hs': '中专/高中',
+        'jhs': '初中',
+        'el': '小学',
+        'none': '没有',
+        'other': '其他',
+    }
+    context = {}
+    writedict = lambda x, y, attr, val: x.update({attr: y.get(val, "")}) if y else x.update({attr: val})
+    for attr in SYNCUSERATTR:
+        val = post_vars.get(attr, "").strip()
+        yobj = None
+        if attr == "gender":
+            yobj = gender_dict
+        elif attr == "level_of_education":
+            yobj = level_of_education_dict
+
+        writedict(context, yobj, attr, val)
+
+    xml_format = render_to_string('xmls/account_dict.xml', context)
+
+    # des encode data with base64
+    pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
+    secure_key = settings.SSO_KEY[0:8]
+    des_enxml_str = base64.b64encode(DES.new(secure_key, DES.MODE_ECB).encrypt(pad(xml_format.encode('utf-8'))))
+
+    # goon request
+    rejson = {'success': False}
+    try:
+        request_host = "http://192.168.1.24:8081/xiaodun"              #settings.XIAODUN_BACK_HOST
+        request_url = request_host + '/student/student!regist.do?input={data}'.format({"data": des_enxml_str})
+        socket.setdefaulttimeout(2)
+        req = urllib2.Request(request_url)
+        request_json = json.load(urllib2.urlopen(req))
+
+        if not request_json.get('success', ''):
+            rejson["errmsg"] = request_json["errmessage"]
+        else:
+            rejson["success"] = True
+    except:
+        rejson['errmsg'] = "服务器错误，请稍后再试!"
+
+    return rejson
+
+
 def _do_create_account(post_vars):
     """
     Given cleaned post variables, create the User and UserProfile objects, as well as the
@@ -1402,6 +1459,12 @@ def mobi_create_account(request, post_override=None):
             js['field'] = 'password'
             return JsonResponse(js, status=400)
 
+    # sync student infomation to bs
+    presult = _push_info_to_bs(post_vars)
+    if not presult['success']:
+        js['value'] = presult['errmsg']
+        return JsonResponse(js, status=400)
+
     # Ok, looks like everything is legit.  Create the account.
     ret = _do_create_account(post_vars)
     if isinstance(ret, HttpResponse):  # if there was an error then return that
@@ -1489,6 +1552,16 @@ def create_account(request, post_override=None):
     required_post_vars = ['username', 'email', 'name', 'password']
     required_post_vars += [fieldname for fieldname, val in extra_fields.items()
                            if val == 'required']
+
+    tos_required = (
+        not settings.FEATURES.get("AUTH_USE_SHIB") or
+        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+        not DoExternalAuth or
+        not eamap.external_domain.startswith(
+            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
+        )
+    )
+
     if tos_required:
         required_post_vars.append('terms_of_service')
 
@@ -1557,6 +1630,13 @@ def create_account(request, post_override=None):
             js['value'] = _('Password: ') + '; '.join(err.messages)
             js['field'] = 'password'
             return JsonResponse(js, status=400)
+
+    # sync student infomation to bs
+    print "********* " * 6
+    presult = _push_info_to_bs(post_vars)
+    if not presult['success']:
+        js['value'] = presult['errmsg']
+        return JsonResponse(js, status=400)
 
     # Ok, looks like everything is legit.  Create the account.
     ret = _do_create_account(post_vars)

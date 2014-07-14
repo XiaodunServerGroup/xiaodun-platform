@@ -1,6 +1,6 @@
 /* 
 Open Video Annotation v1.0 (http://openvideoannotation.org/)
-Copyright (C) 2014 CHS (Harvard University), Daniel Cebri‡n Robles and Phil Desenne 
+Copyright (C) 2014 CHS (Harvard University), Daniel Cebriâ€¡n Robles and Phil Desenne 
 License: https://github.com/CtrHellenicStudies/OpenVideoAnnotation/blob/master/License.rst
 
 This program is free software; you can redistribute it and/or
@@ -405,7 +405,7 @@ vjsAnnotation.prototype = {
 		}
 	},
 	refreshDisplay: function(){
-		console.log("loadingAnnotations");
+		consoleOpenVideoAnnotation.log("loadingAnnotations");
 		var count = 0, 
 			allannotations = this.annotator.plugins['Store'].annotations;
 		
