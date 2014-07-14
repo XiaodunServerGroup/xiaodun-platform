@@ -28,6 +28,13 @@ API_SETTINGS = {
     'MAX_NOTE_LIMIT': 1000,
 }
 
+FILTERLAMBDA = {
+    'user': [lambda x, y: x == int(y), False],
+    'media': [lambda x, y: x == y, False],
+    'text': [lambda x, y: re.compile(y).match(x), False],
+    'uri': [lambda x, y: re.compile(y).match(x), False]
+}
+
 # Wrapper class for HTTP response and data. All API actions are expected to return this.
 ApiResponse = collections.namedtuple('ApiResponse', ['http_response', 'data'])
 
@@ -213,7 +220,6 @@ def search(request, course_id):
     # search parameters
     offset = request.GET.get('offset', '')
     limit = request.GET.get('limit', '')
-    uri = request.GET.get('uri', '')
 
     # validate search parameters
     if offset.isdigit():
@@ -228,21 +234,81 @@ def search(request, course_id):
     else:
         limit = MAX_LIMIT
 
-    # set filters
-    filters = {'course_id': course_id, 'user': request.user}
-    filter_lambda = lambda x, y: re.compile(y).match(x)
+    result = {
+        "total": 0,
+        "rows": []
+    }
+    user = request.user
+
+    if not user:
+        return ApiResponse(http_response=HttpResponse, data=result)
+
+    # common filter， fetch the crude data from database
+    filters = {'course_id': course_id}
+    notes = Note.objects.order_by('id').filter(**filters)
+
+    # set filters conditions
+    outerfilters = FILTERLAMBDA
+    # user_id con
+    user_id = None
+    username = request.GET.get('username', '').strip()
+    if not username:
+        user_id = request.GET.get('user_id', '').strip()
+        if user_id:
+            user_id = int(user_id)
+    else:
+        sel_user = User.objects.get(username=username)
+        user_id = sel_user.id if sel_user else None
+
+    if user_id:
+        outerfilters["user"][1] = True
+
+    # media
+    media = request.GET.get('media', '').strip()
+    outerfilters["media"][1] = True
+    if not media:
+        media = 'text'
+
+    # uri
+    uri = request.GET.get('uri', '').strip()
+    if uri:
+        outerfilters['uri'][1] = True
+
+    # text
+    text = request.GET.get('text', '')
+    if text:
+        outerfilters['text'][1] = True
+
+    for n in notes:
+        if not (outerfilters["user"][1] and outerfilters["user"][0](n.user_id, user_id)):
+            continue
+
+        if not (outerfilters["media"][1] and outerfilters["media"][0](n.media, media)):
+            continue
+
+        if not (outerfilters["uri"][1] and outerfilters["uri"][0](n.uri, uri)):
+            continue
+
+        if not (outerfilters["text"][1] and outerfilters["text"][0](n.text, text)):
+            continue
+
+        result["rows"].append(n)
+
+    result["total"] = result["rows"].count()
+    result["rows"] = result["rows"][offset:offset + limit]
+
     # if uri != '':
     #     filters['uri'] = uri
 
     # retrieve notes
-    notes = Note.objects.order_by('id').filter(**filters)
-    total = notes.count()
-    rows = notes[offset:offset + limit]
+    # notes = Note.objects.order_by('id').filter(**filters)
+    # total = notes.count()
+    # rows = notes[offset:offset + limit]
 
-    result = {
-        'total': total,
-        'rows': [note.as_dict() for note in rows if filter_lambda(note.uri, uri)] if uri != "" else [note.as_dict() for note in rows]
-    }
+    # result = {
+    #     'total': total,
+    #     'rows': [note.as_dict() for note in rows if filter_lambda(note.uri, uri)] if uri != "" else [note.as_dict() for note in rows]
+    # }
 
     return ApiResponse(http_response=HttpResponse(), data=result)
 
