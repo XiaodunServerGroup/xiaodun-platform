@@ -1,0 +1,120 @@
+<%! import json %>
+<%! from django.utils.translation import ugettext as _ %>
+<%! from django.template.defaultfilters import escapejs %>
+
+<%inherit file="../main.html" />
+<%namespace name='static' file='../static_content.html'/>
+<%block name="bodyclass">discussion</%block>
+
+<%block name="headextra">
+<%static:css group='style-course-vendor'/>
+<%static:css group='style-course'/>
+</%block>
+
+<%block name="js_extra">
+  <script type="text/javascript">
+    var potData = {
+      pot: ${json.dumps(pot)}
+    }
+
+    $.data($('div.words-list')[0], 'pot', potData);
+    $(function(){
+      $('input#search-pot').bind('keyup', function(){
+          var search_val = $('input#search-pot').val().trim();
+          var pot_for_str = potFormatStr();
+          if (search_val != "") {
+            var reg = new RegExp("\\d+\\-[^\\,]*" + search_val + "[^\\,]*", 'g');
+            renderSearchResult(colPotIndex(pot_for_str.match(reg))); 
+          } else {
+            renderSearchResult(colPotIndex(pot_for_str.split(',')));
+          }
+      });
+    })
+
+    function colPotIndex(regexArr){
+      var potReArr = []
+      if (regexArr) {
+        $.each(regexArr, function(i, s){
+            var pot_index = parseInt(s.split('-')[0])
+            if (!isNaN(pot_index)) {
+              potReArr.push(pot_index);
+            }
+        });    
+      }
+      return potReArr
+    }
+
+    function potFormatStr(){
+      // format: index-content
+      var convert_arr = [];
+      var potArr = $.data($('div.words-list')[0], 'pot');
+      if (potArr == undefined) {
+        return '';
+      }
+      $.each(potArr['pot'], function(i, p){
+          convert_arr.push(i + "-" + p.trim())
+      });
+      return convert_arr.join(',');
+    }
+
+    function renderSearchResult(result) {
+      var render_str = ""
+      var potArr = $.data($('div.words-list')[0], 'pot')['pot'];
+
+      $.each(result, function(idx, potidx){
+        var idxobj = potArr[potidx];
+
+        if (idxobj != undefined) {
+          render_str += "<li><span class='content'>" + idxobj + "</span><span class='delete-oper'>x<span></li>" 
+        }
+      });
+
+      $('article.list>ul').html(render_str);
+    }
+
+  </script>
+</%block>
+
+<section>
+  <div class='page-title'>
+    <header>词库管理</header>
+  </div>
+
+  <div class='alert-message'>
+    <span>消息在这里</span>
+  </div>
+
+  <div class="search-section">
+    <span>
+      <input type='textfield' name='keyword' id='search-pot' placeholder="请输入要查找的关键词">
+    </span>
+    <span>
+      <input type='submit'>
+    </span>
+  </div>
+  <style>
+    // TODO: realize with sass
+    div.words-list {margin: 20px auto; width: auto}
+    div.words-list article.list {display: inline-block;}
+    div.words-list article.list ul {display: inline-block;}
+    div.words-list article.list ul li {display: inline-block; list-style: none; width: auto; height: auto; text-align: center; vertical-align: middle; float: left; margin: 0 1em; position: }
+
+    div.words-list article.list ul li span { display: inline-block; width: auto; font-size: 0.8em; background-color: #b94a48; color: white; -webkit-border-radius: 3px; border-radius: 3px;}
+    div.words-list article.list ul li span.content {padding: 0.2em 0.4em; border-radius: 3px 1px 1px 3px; border-right: 1px solid #963B3B;}
+    div.words-list article.list ul li span.delete-oper {margin-left: -4px; padding: 0.2em 0.4em; border-radius: 1px 3px 3px 1px;}
+  </style>
+  <div class='words-list'>
+    <article class='list'>
+      <ul>
+        % for item in pot:
+          <li>
+            <span class="content">
+              ${ item }
+            </span>
+            <span class="delete-oper">x</span>
+          </li>
+        % endfor
+      </ul>
+    </article>
+  </div>
+</section>

@@ -2,12 +2,14 @@ import json
 import logging
 import xml.sax.saxutils as saxutils
 import dateutil.parser
+import yaml
 
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_GET
+from django.conf import settings
 import newrelic.agent
 
 from xmodule.course_module import CourseDescriptor
@@ -767,3 +769,18 @@ def my_joined_courses(request, course_id):
         return JsonResponse({'joined_threads': launched_list, 'success': True, 'page': page, 'num_pages': num_pages})
     except User.DoesNotExist:
         raise JsonResponse({"success": False, "errmsg": "user does not exist!"})
+
+
+def forum_thesaurus(request):
+    potpath = settings.THESAURUS_PATH
+
+    with open(potpath, 'r') as potfile:
+        pot = yaml.load(potfile) or []
+
+    context = {
+        'pot': pot
+    }
+
+    return render_to_response('discussion/pot_profile.html', context)
+
+

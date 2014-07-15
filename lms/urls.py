@@ -433,6 +433,12 @@ if settings.COURSEWARE_ENABLED:
                 'django_comment_client.base.views.mobi_create_thread', name="mobi_create_thread"),
         )
 
+        # Spam messages filtering thesaurus
+        urlpatterns += (
+            url(r'^forum-discussion/thesaurus/management',
+                'django_comment_client.forum.views.forum_thesaurus', name="forum_thesaurus"),
+        )
+
     urlpatterns += (
         # This MUST be the last view in the courseware--it's a catch-all for custom tabs.
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/(?P<tab_slug>[^/]+)/$',

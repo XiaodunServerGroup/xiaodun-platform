@@ -385,3 +385,6 @@ TIME_ZONE_DISPLAYED_FOR_DEADLINES = ENV_TOKENS.get("TIME_ZONE_DISPLAYED_FOR_DEAD
 
 ##### X-Frame-Options response header settings #####
 X_FRAME_OPTIONS = ENV_TOKENS.get('X_FRAME_OPTIONS', X_FRAME_OPTIONS)
+
+############# Config Thesaurus File Path##############################
+THESAURUS_PATH = CONFIG_ROOT / CONFIG_PREFIX + "thesaurus.yml"
