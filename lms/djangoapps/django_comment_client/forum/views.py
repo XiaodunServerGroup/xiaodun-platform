@@ -784,3 +784,17 @@ def forum_thesaurus(request):
     return render_to_response('discussion/pot_profile.html', context)
 
 
+def oper_thesaurus(request, oper):
+    params = eval(request.body)
+
+    with open(settings.THESAURUS_PATH, 'w') as potfile:
+        yaml.dump(params['pot'], potfile, default_flow_style=False)
+
+    with open(settings.THESAURUS_PATH, 'r') as potfile:
+        pot= yaml.load(potfile) or []
+
+    return JsonResponse({'pot': pot})
+
+
+
+

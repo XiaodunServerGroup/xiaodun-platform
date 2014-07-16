@@ -437,6 +437,8 @@ if settings.COURSEWARE_ENABLED:
         urlpatterns += (
             url(r'^forum-discussion/thesaurus/management',
                 'django_comment_client.forum.views.forum_thesaurus', name="forum_thesaurus"),
+            url(r'^forum-discussion/thesaurus/oper/(?P<oper>(add|delete))$',
+                'django_comment_client.forum.views.oper_thesaurus', name="oper_thesaurus")
         )
 
     urlpatterns += (

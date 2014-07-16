@@ -1327,14 +1327,14 @@ def _push_info_to_bs(post_vars):
     # des encode data with base64
     pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
     secure_key = settings.SSO_KEY[0:8]
-    des_enxml_str = base64.b64encode(DES.new(secure_key, DES.MODE_ECB).encrypt(pad(xml_format.encode('utf-8'))))
+    des_enxml_str = base64.b64encode(DES.new(secure_key, DES.MODE_ECB).encrypt(pad(xml_format.encode('utf-8')))).replace('+', '$')
     
     # goon request
     rejson = {'success': False}
     try:
         request_host = "http://192.168.1.78:8081/xiaodun"              #settings.XIAODUN_BACK_HOST
         request_url = request_host + '/student/student!regist.do?input={}'.format(des_enxml_str)
-        socket.setdefaulttimeout(2)
+        socket.setdefaulttimeout(10)
         req = urllib2.Request(request_url)
         request_json = json.load(urllib2.urlopen(req))
 

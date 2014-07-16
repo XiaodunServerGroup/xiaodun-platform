@@ -13,23 +13,102 @@
 
 <%block name="js_extra">
   <script type="text/javascript">
-    var potData = {
-      pot: ${json.dumps(pot)}
-    }
-
-    $.data($('div.words-list')[0], 'pot', potData);
+    $.data($('div.words-list')[0], 'pot', ${json.dumps(pot)});
     $(function(){
       $('input#search-pot').bind('keyup', function(){
-          var search_val = $('input#search-pot').val().trim();
-          var pot_for_str = potFormatStr();
-          if (search_val != "") {
-            var reg = new RegExp("\\d+\\-[^\\,]*" + search_val + "[^\\,]*", 'g');
-            renderSearchResult(colPotIndex(pot_for_str.match(reg))); 
+          refreshPagePotList();
+      });
+
+      $('button#submit-addwords').on('click', function(){
+          var addwords = $('#submit-addwords').parent().prev().children().val();
+
+          if (addwords == undefined) {
+            $('p#addowords-msg').addClass('errmsg');
+            $('p#addowords-msg').html('内部错误，请稍后添加！');
+
+            return false
+          }
+
+          if (addwords == "") {
+            $('p#addowords-msg').addClass('errmsg');
+            $('p#addowords-msg').html('内容不能为空！');
+
+            return false
+          }
+
+          // csrftoken
+          paramsData = loadSourceParams();
+          var word_arr = addwords.trim().replace(/，/g, ',').split(',')
+          $.each(word_arr, function(idx, item){
+            if (paramsData.pot.indexOf(item) == -1) {
+              paramsData.pot.push(item);
+            }
+          });
+
+          ajaxRefreshPot(paramsData);
+      });
+
+      $('span.delete-oper').on('click', function(){
+          var obj = this;
+          var paramsData = loadSourceParams();
+          var idx = parseInt($(obj).parent().attr('id').split('-')[1]);
+          if (isNaN(idx)) {
+            $('div#alert-message>span').html("内部错误，请稍后再试！");
+            return false;
+          }
+
+          if (paramsData.pot[idx]) {
+            paramsData.pot.splice(idx, 1);
+            ajaxRefreshPot(paramsData);
           } else {
-            renderSearchResult(colPotIndex(pot_for_str.split(',')));
+            $('div#alert-message>span').html("无法定位该词！");
+            return false;
           }
       });
-    })
+    });
+
+    function ajaxRefreshPot(params) {
+      $.ajax({
+          type: 'POST',
+          url: "/forum-discussion/thesaurus/oper/add",
+          data: JSON.stringify(params),
+          dateType: 'json',
+          success: function(json){
+            if (json.pot) {
+              refreshPotData(json.pot);
+              refreshPagePotList();
+            }  
+          }
+      });
+    }
+
+    function loadSourceParams() {
+        var paramsData = {pot: loadPotData()}
+        var csrfname = $('input#prompt_box').attr('name');
+        var csrfval = $('input#prompt_box').val();
+        paramsData[csrfname] = csrfval;
+
+        return paramsData
+    }
+
+    function refreshPagePotList() {
+        var search_val = $('input#search-pot').val().trim();
+        var pot_for_str = potFormatStr();
+        if (search_val != "") {
+          var reg = new RegExp("\\d+\\-[^\\,]*" + search_val + "[^\\,]*", 'g');
+          renderSearchResult(colPotIndex(pot_for_str.match(reg))); 
+        } else {
+          renderSearchResult(colPotIndex(pot_for_str.split(',')));
+        }
+    }
+
+    function loadPotData() {
+      return $.data($('div.words-list')[0], 'pot');
+    }
+
+    function refreshPotData(data) {
+      $.data($('div.words-list')[0], 'pot', data)
+    } 
 
     function colPotIndex(regexArr){
       var potReArr = []
@@ -51,7 +130,7 @@
       if (potArr == undefined) {
         return '';
       }
-      $.each(potArr['pot'], function(i, p){
+      $.each(potArr, function(i, p){
           convert_arr.push(i + "-" + p.trim())
       });
       return convert_arr.join(',');
@@ -59,17 +138,21 @@
 
     function renderSearchResult(result) {
       var render_str = ""
-      var potArr = $.data($('div.words-list')[0], 'pot')['pot'];
+      var potArr = $.data($('div.words-list')[0], 'pot');
 
       $.each(result, function(idx, potidx){
         var idxobj = potArr[potidx];
 
         if (idxobj != undefined) {
-          render_str += "<li><span class='content'>" + idxobj + "</span><span class='delete-oper'>x<span></li>" 
+          render_str += liFormatStr(potidx, idxobj); 
         }
       });
 
       $('article.list>ul').html(render_str);
+    }
+
+    function liFormatStr(potidx, potcontent){
+      return "<li id='li-" + potidx + "'><span class='content'>" + potcontent + "</span><span class='delete-oper'>x<span></li>";
     }
 
   </script>
@@ -97,8 +180,7 @@
     div.words-list {margin: 20px auto; width: auto}
     div.words-list article.list {display: inline-block;}
     div.words-list article.list ul {display: inline-block;}
-    div.words-list article.list ul li {display: inline-block; list-style: none; width: auto; height: auto; text-align: center; vertical-align: middle; float: left; margin: 0 1em; position: }
-
+    div.words-list article.list ul li {display: inline-block; list-style: none; width: auto; height: auto; text-align: center; vertical-align: middle; float: left; margin: 0.3em 1.5em 0.3em 0; position: }
     div.words-list article.list ul li span { display: inline-block; width: auto; font-size: 0.8em; background-color: #b94a48; color: white; -webkit-border-radius: 3px; border-radius: 3px;}
     div.words-list article.list ul li span.content {padding: 0.2em 0.4em; border-radius: 3px 1px 1px 3px; border-right: 1px solid #963B3B;}
     div.words-list article.list ul li span.delete-oper {margin-left: -4px; padding: 0.2em 0.4em; border-radius: 1px 3px 3px 1px;}
@@ -106,8 +188,8 @@
   <div class='words-list'>
     <article class='list'>
       <ul>
-        % for item in pot:
-          <li>
+        % for (index, item) in enumerate(pot):
+          <li id='li-${index}'>
             <span class="content">
               ${ item }
             </span>
@@ -116,5 +198,25 @@
         % endfor
       </ul>
     </article>
+  </div>
+</section>
+
+<section class="addwords-pop" style="width: 600px; height: 400px; background-color: rgba(0,0,0,0.6); border: 1px solid rgba(0,0,0,0.9);">
+  <div style="height: 90%; width: 90%; margin: auto auto;" class="popcontainer">
+    <section class='prompt'>
+      <span>可以输入多个关键词，并用逗号隔开</span>
+    </section>
+    <section style="margin: 2em auto; width: 100%" class='inputsec'>
+      <p id='addowords-msg'></p>
+      <p>
+        <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" id="prompt_box">
+      </p>
+      <p style="width: auto;">
+        <textarea name='filter_words' rows='10' style="width: 80%; height: 60%; display: block;"></textarea>
+      </p>
+      <p>
+        <button style="margin-top: 2em;" id='submit-addwords'>提交</button>
+      </p>
+    </section>
   </div>
 </section>
