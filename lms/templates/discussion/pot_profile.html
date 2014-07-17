@@ -15,24 +15,39 @@
   <script type="text/javascript">
     $.data($('div.words-list')[0], 'pot', ${json.dumps(pot)});
     $(function(){
+      accessible_modal('.add-potwords', '#append-newwords .close-modal', "#append-newwords", '#pot-main');
+
       $('input#search-pot').bind('keyup', function(){
+          // clear alert message
+          clearMainPageMsg();
           refreshPagePotList();
       });
 
+      $('span#close-msg').on('click', function(){
+        var obj = $(this);
+        obj.parent().hide();
+      });
+
+      $('button.close-modal').on('click', function(){
+        var obj = $(this);
+        obj.parent().parent().hide();
+      });
+
+      $('a.add-potwords').on('click', function(){
+        var obj = $(this);
+        $(obj.attr('href')).show();
+      });
+
       $('button#submit-addwords').on('click', function(){
-          var addwords = $('#submit-addwords').parent().prev().children().val();
+          var addwords = $('#submit-addwords').parent().prev().children('textarea').val();
 
           if (addwords == undefined) {
-            $('p#addowords-msg').addClass('errmsg');
-            $('p#addowords-msg').html('内部错误，请稍后添加！');
-
+            showPopupMsg("error", "内部错误，请稍后添加！");
             return false
           }
 
           if (addwords == "") {
-            $('p#addowords-msg').addClass('errmsg');
-            $('p#addowords-msg').html('内容不能为空！');
-
+            showPopupMsg("error", "内容不能为空！");
             return false
           }
 
@@ -48,24 +63,67 @@
           ajaxRefreshPot(paramsData);
       });
 
+      bindDeleteEvt();
+    });
+
+    function clearTextAreaContent() {
+      $("textarea[name=filter_words]").val('');
+    }
+
+    function showPopupMsg(type, msg) {
+      var obj = $('p#addowords-msg');
+      obj.show();
+      if (type == "error") {
+        obj.addClass('errmsg'); 
+      } else {
+        obj.addClass('success')
+      }
+      
+      obj.find('span.msg-content').html(msg);
+    }
+
+    function bindDeleteEvt() {
       $('span.delete-oper').on('click', function(){
           var obj = this;
           var paramsData = loadSourceParams();
           var idx = parseInt($(obj).parent().attr('id').split('-')[1]);
           if (isNaN(idx)) {
-            $('div#alert-message>span').html("内部错误，请稍后再试！");
+            mainPageMsg('error', "内部错误，请稍后再试！");
             return false;
           }
 
           if (paramsData.pot[idx]) {
-            paramsData.pot.splice(idx, 1);
+            var deleW = paramsData.pot.splice(idx, 1);
             ajaxRefreshPot(paramsData);
+            mainPageMsg('success', "成功删除【" + deleW + '】!');
           } else {
-            $('div#alert-message>span').html("无法定位该词！");
+            mainPageMsg('error', "无法定位该词！");
             return false;
           }
       });
-    });
+    }
+
+    function mainPageMsg(type, msg){
+      var obj = $('div.alert-message');
+      obj.show();
+
+      if (type == "error") {
+        obj.addClass('errmsg');
+      } else {
+        obj.addClass('success');
+      }
+
+      obj.find('span.message-content').html(msg);
+      return false
+    }
+
+    function clearMainPageMsg() {
+      var obj = $('div.alert-message');
+      obj.hide();
+
+      obj.find('span.message-content').html('');
+      return false;
+    }
 
     function ajaxRefreshPot(params) {
       $.ajax({
@@ -77,6 +135,9 @@
             if (json.pot) {
               refreshPotData(json.pot);
               refreshPagePotList();
+              // success message
+              showPopupMsg('success', "添加成功！")
+              clearTextAreaContent();
             }  
           }
       });
@@ -95,7 +156,7 @@
         var search_val = $('input#search-pot').val().trim();
         var pot_for_str = potFormatStr();
         if (search_val != "") {
-          var reg = new RegExp("\\d+\\-[^\\,]*" + search_val + "[^\\,]*", 'g');
+          var reg = new RegExp("\\d+\\-[^\\,]*" + search_val + "[^\\,]*", 'ig');
           renderSearchResult(colPotIndex(pot_for_str.match(reg))); 
         } else {
           renderSearchResult(colPotIndex(pot_for_str.split(',')));
@@ -149,74 +210,208 @@
       });
 
       $('article.list>ul').html(render_str);
+      bindDeleteEvt();
     }
 
     function liFormatStr(potidx, potcontent){
       return "<li id='li-" + potidx + "'><span class='content'>" + potcontent + "</span><span class='delete-oper'>x<span></li>";
     }
-
   </script>
 </%block>
 
-<section>
-  <div class='page-title'>
-    <header>词库管理</header>
-  </div>
 
-  <div class='alert-message'>
-    <span>消息在这里</span>
-  </div>
+<style>
+  // TODO: realize with sass
+  div#pot-main {max-width: 960px; margin: auto;}
+  .thcontainer {max-width: 960px; margin: auto}
+  .errmsg {background-color: #FDD}
+  .success {background-color: #E1F1CE}
+  .is_show {display: block;}
 
-  <div class="search-section">
-    <span>
-      <input type='textfield' name='keyword' id='search-pot' placeholder="请输入要查找的关键词">
-    </span>
-    <span>
-      <input type='submit'>
-    </span>
-  </div>
-  <style>
-    // TODO: realize with sass
-    div.words-list {margin: 20px auto; width: auto}
-    div.words-list article.list {display: inline-block;}
-    div.words-list article.list ul {display: inline-block;}
-    div.words-list article.list ul li {display: inline-block; list-style: none; width: auto; height: auto; text-align: center; vertical-align: middle; float: left; margin: 0.3em 1.5em 0.3em 0; position: }
-    div.words-list article.list ul li span { display: inline-block; width: auto; font-size: 0.8em; background-color: #b94a48; color: white; -webkit-border-radius: 3px; border-radius: 3px;}
-    div.words-list article.list ul li span.content {padding: 0.2em 0.4em; border-radius: 3px 1px 1px 3px; border-right: 1px solid #963B3B;}
-    div.words-list article.list ul li span.delete-oper {margin-left: -4px; padding: 0.2em 0.4em; border-radius: 1px 3px 3px 1px;}
-  </style>
-  <div class='words-list'>
-    <article class='list'>
-      <ul>
-        % for (index, item) in enumerate(pot):
-          <li id='li-${index}'>
-            <span class="content">
-              ${ item }
-            </span>
-            <span class="delete-oper">x</span>
-          </li>
-        % endfor
-      </ul>
-    </article>
-  </div>
-</section>
 
-<section class="addwords-pop" style="width: 600px; height: 400px; background-color: rgba(0,0,0,0.6); border: 1px solid rgba(0,0,0,0.9);">
-  <div style="height: 90%; width: 90%; margin: auto auto;" class="popcontainer">
-    <section class='prompt'>
-      <span>可以输入多个关键词，并用逗号隔开</span>
-    </section>
-    <section style="margin: 2em auto; width: 100%" class='inputsec'>
-      <p id='addowords-msg'></p>
-      <p>
-        <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" id="prompt_box">
-      </p>
-      <p style="width: auto;">
-        <textarea name='filter_words' rows='10' style="width: 80%; height: 60%; display: block;"></textarea>
-      </p>
-      <p>
-        <button style="margin-top: 2em;" id='submit-addwords'>提交</button>
-      </p>
-    </section>
-  </div>
-</section>
+  div.alert-message {height: auto; width: auto; margin: 10px 0; padding: 5px 20px; border-radius: 3px; display: none;}
+  span#close-msg {float: right}
+  span#close-msg:hover {float: right}
+  span#close-msg:after {clear: both;}
+  div.words-list {margin: 20px auto; width: auto;}
+  div.words-list article.list {display: inline-block;}
+  div.words-list article.list ul {display: inline-block; margin: 0px; padding: 0px; }
+  div.words-list article.list ul li {display: inline-block; list-style: none; width: auto; height: auto; text-align: center; vertical-align: middle; float: left; margin: 0.3em 1.5em 0.3em 0; position: }
+  div.words-list article.list ul li span { display: inline-block; width: auto; background-color: #b94a48; color: white; -webkit-border-radius: 3px; border-radius: 3px;}
+  div.words-list article.list ul li span.content {padding: 0.2em 0.4em; border-radius: 3px 1px 1px 3px; border-right: 1px solid #963B3B;}
+  div.words-list article.list ul li span.delete-oper {margin-left: -4px; padding: 0.2em 0.4em; border-radius: 1px 3px 3px 1px;}
+
+  input#search-pot {
+    background: #fff;
+    display: block;
+    height: 45px;
+    margin-bottom: 20px;
+    width: 30%;
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 0 rgba(255,255,255,0.6),inset 0 0 3px 0 rgba(0,0,0,0.1);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px 12px;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+  }
+  div.page-title>header {
+    margin: 40px 0;
+  }
+
+  div.page-title>header h2 {
+    font-size: 2em;
+    line-height: 2em;
+    margin: 10px 0;
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 20px;
+    color: inherit;
+    text-rendering: optimizelegibility;
+  }
+
+  section.pot-modal {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0,0,0,0.9);
+    border-radius: 0px;
+    box-shadow: 0 15px 80px 15px rgba(0,0,0,0.5);
+    color: #fff;
+    left: 35%;
+    top: 25%;
+    padding: 8px;
+    position: absolute;
+    width: 480px;
+    z-index: 12;
+  }
+
+  section.pot-modal>div.popcontainer {
+    background: #f5f5f5;
+    border-radius: 0px;
+    border: 1px solid rgba(0,0,0,0.9);
+    box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.7);
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  div.popcontainer>button.close-modal {
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+    padding: 10px;
+    position: absolute;
+    right: 2px;
+    top: 0px;
+    z-index: 3;
+    color: #646464;
+    font: normal 1.2rem/1.2rem "Microsoft YaHei","Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+    text-align: center;
+    text-shadow: 0 1px rgba(255,255,255,0.8);
+    -webkit-transition: all 0.15s ease-out 0s;
+    -moz-transition: all 0.15s ease-out 0s;
+    transition: all 0.15s ease-out 0s;
+  }
+
+  div.popcontainer>header {
+    overflow: hidden;
+    padding: 28px 20px 0px;
+    position: relative;
+    z-index: 2;
+  }
+
+  div.popcontainer>header h2 {
+    color: #646464;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  div.input-container {padding: 0px 20px 20px 20px; margin-top: -20px;}
+  div.input-container section.inputsec {padding: 0 20px;}
+  div.input-container section.inputsec p{width: auto; margin-top: 10px;}
+  div.input-container section.inputsec p#addowords-msg { padding: 0 10px; border-radius: 3px; display: none;}
+  div.input-container section.inputsec p button{width: 100% }
+  div.input-container section.inputsec p textarea{ border-radius: 3px;}
+</style>
+
+<div id='pot-main'>
+  <section class="thcontainer">
+    <div class='page-title'>
+      <header>
+        <h2>词库管理</h2>
+      </header>
+    </div>
+
+    <div class="search-section">
+      <span>
+        <input type='textfield' name='keyword' id='search-pot' placeholder="请输入要查找的关键词">
+      </span>
+      <span>
+        <a href="#pot-modal" rel="leanModal" class="add-potwords">添加新词</a>
+      </span>
+    </div>
+
+    <div class='alert-message'>
+      <span class='message-content'>消息在这里</span>
+      <span id='close-msg'>x</span>
+    </div>
+    <div class='words-list'>
+      <article class='list'>
+        <ul>
+          % for (index, item) in enumerate(pot):
+            <li id='li-${index}'>
+              <span class="content">
+                ${ item }
+              </span>
+              <span class="delete-oper">x</span>
+            </li>
+          % endfor
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="pot-modal" id='pot-modal' style="display: none;">
+    <div class="popcontainer" role='dialog'>
+      <button class='close-modal' tabindex='1'>&#10005;
+        <span class="sr">
+          ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
+          ${_('Close Modal')}     
+        </span>
+      </button>
+
+      <header>
+        <h2>添加新词并更新词库</h2>
+        <hr>
+      </header>
+      <div class="input-container">
+        <section class='input-group inputsec'>
+          <p id='addowords-msg'>
+            <span class='msg-content'></span>
+            <span id='close-msg'>x</span>
+          </p>
+          <p>
+            <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" id="prompt_box">
+          </p>
+          <p>
+            <label>请输入新词：</label>
+            <textarea name='filter_words' rows='10' style="width: 100%; height: auto; display: block;" placeholder='可以输入多个关键词，并用逗号隔开'></textarea>
+          </p>
+          <p>
+            <button id='submit-addwords'>提交</button>
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>

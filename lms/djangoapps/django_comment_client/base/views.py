@@ -26,6 +26,7 @@ from courseware.courses import get_course_with_access, get_course_by_id
 from course_groups.cohorts import get_cohort_id, is_commentable_cohorted
 
 from django_comment_client.utils import JsonResponse, JsonError, extract, add_courseware_context
+from django_comment_client.pyfilter import DFAFilter
 
 from django_comment_client.permissions import check_permissions_by_view, cached_has_permission
 from courseware.access import has_access
@@ -50,6 +51,16 @@ def permitted(fn):
             return JsonError("unauthorized", status=401)
     return wrapper
 
+
+def filterdict(pdict):
+    fgw = DFAFilter()
+
+    for k in ['title', 'body']:
+        if k in pdict:
+            val = pdict[k]
+            pdict[k] = fgw.filter(val, "*")
+
+    return pdict
 
 def ajax_content_response(request, course_id, content):
     context = {
@@ -91,7 +102,8 @@ def create_thread(request, course_id, commentable_id):
     if 'body' not in post or not post['body'].strip():
         return JsonError(_("Body can't be empty"))
 
-    thread = cc.Thread(**extract(post, ['body', 'title']))
+    createdict = filterdict(extract(post, ['body', 'title']))
+    thread = cc.Thread(**createdict)
     thread.update_attributes(**{
         'anonymous': anonymous,
         'anonymous_to_peers': anonymous_to_peers,
