@@ -405,7 +405,7 @@ vjsAnnotation.prototype = {
 		}
 	},
 	refreshDisplay: function(){
-		consoleOpenVideoAnnotation.log("loadingAnnotations");
+		console.log("loadingAnnotations");
 		var count = 0, 
 			allannotations = this.annotator.plugins['Store'].annotations;
 		

@@ -239,6 +239,7 @@ def search(request, course_id):
         "total": 0,
         "rows": []
     }
+
     user = request.user
 
     if not user:
@@ -255,8 +256,8 @@ def search(request, course_id):
     username = request.GET.get('username', '').strip()
     if not username:
         user_id = request.GET.get('user_id', '').strip()
-        if user_id:
-            user_id = int(user_id)
+        
+        user_id = int(user_id) if user_id else user.id
     else:
         sel_user = User.objects.get(username=username)
         user_id = sel_user.id if sel_user else None
@@ -280,36 +281,23 @@ def search(request, course_id):
     if text:
         outerfilters['text'][1] = True
 
-    for n in notes:
-        if not (outerfilters["user"][1] and outerfilters["user"][0](n.user_id, user_id)):
+    for idx, n in enumerate(notes):
+        if outerfilters["user"][1] and not outerfilters["user"][0](n.user_id, user_id):
             continue
 
-        if not (outerfilters["media"][1] and outerfilters["media"][0](n.media, media)):
+        if outerfilters["media"][1] and not outerfilters["media"][0](n.media, media):
             continue
 
-        if not (outerfilters["uri"][1] and outerfilters["uri"][0](n.uri, uri)):
+        if outerfilters["uri"][1] and not outerfilters["uri"][0](n.uri, uri):
             continue
 
-        if not (outerfilters["text"][1] and outerfilters["text"][0](n.text, text)):
+        if outerfilters["text"][1] and not outerfilters["text"][0](n.text, text):
             continue
 
-        result["rows"].append(n)
+        result["rows"].append(n.as_dict())
 
     result["total"] = len(result["rows"])
     result["rows"] = result["rows"][offset:offset + limit]
-
-    # if uri != '':
-    #     filters['uri'] = uri
-
-    # retrieve notes
-    # notes = Note.objects.order_by('id').filter(**filters)
-    # total = notes.count()
-    # rows = notes[offset:offset + limit]
-
-    # result = {
-    #     'total': total,
-    #     'rows': [note.as_dict() for note in rows if filter_lambda(note.uri, uri)] if uri != "" else [note.as_dict() for note in rows]
-    # }
 
     return ApiResponse(http_response=HttpResponse(), data=result)
 
