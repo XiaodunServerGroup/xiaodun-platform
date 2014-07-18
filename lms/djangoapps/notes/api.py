@@ -295,7 +295,7 @@ def search(request, course_id):
 
         result["rows"].append(n)
 
-    result["total"] = result["rows"].count()
+    result["total"] = len(result["rows"])
     result["rows"] = result["rows"][offset:offset + limit]
 
     # if uri != '':

@@ -336,7 +336,7 @@ def update_thread(request, course_id, thread_id):
     if 'body' not in request.POST or not request.POST['body'].strip():
         return JsonError(_("Body can't be empty"))
     thread = cc.Thread.find(thread_id)
-    thread.update_attributes(**extract(request.POST, ['body', 'title']))
+    thread.update_attributes(**filterdict(extract(request.POST, ['body', 'title'])))
     thread.save()
     if request.is_ajax():
         return ajax_content_response(request, course_id, thread.to_dict())
@@ -353,7 +353,8 @@ def _create_comment(request, course_id, thread_id=None, parent_id=None):
 
     if 'body' not in post or not post['body'].strip():
         return JsonError(_("Body can't be empty"))
-    comment = cc.Comment(**extract(post, ['body']))
+
+    comment = cc.Comment(**filterdict(extract(post, ['body'])))
 
     course = get_course_with_access(request.user, course_id, 'load')
     if course.allow_anonymous:
@@ -503,7 +504,7 @@ def update_comment(request, course_id, comment_id):
     comment = cc.Comment.find(comment_id)
     if 'body' not in request.POST or not request.POST['body'].strip():
         return JsonError(_("Body can't be empty"))
-    comment.update_attributes(**extract(request.POST, ['body']))
+    comment.update_attributes(**filterdict(extract(request.POST, ['body'])))
     comment.save()
     if request.is_ajax():
         return ajax_content_response(request, course_id, comment.to_dict())

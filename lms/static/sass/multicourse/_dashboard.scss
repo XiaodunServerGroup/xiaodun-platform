@@ -1023,7 +1023,7 @@
     p {
       @extend %t-copy;
     }
-  }
+  }  
 }
 /*hfy begin*/
 .ratebar{width:100%; position:absolute; left:0px; margin-top:7px;}
@@ -1037,3 +1037,66 @@
 .ratebar-btn{width:162px; height:40px; background:#b5b5b5; position:absolute; left:230px; line-height:40px; text-align:center; cursor:pointer; display:none;}
 .ratebar-btn:hover{width:162px; height:40px; background:#cfcfcf; position:absolute; left:230px; line-height:40px; text-align:center; cursor:pointer; }
 /*hfy end*/
+
+section#portfolio-modal {
+  width: 540px;
+
+  .portfolio-content {
+    paddding: 0 40px 20px;
+
+    label { font-style: normal;}
+
+    > div.portfolio-userinfo {
+      border-bottom: 1px solid #d2d2d2;
+      padding-bottom: 10px;
+    }
+
+    > div.portfolio-courseinfo {
+      paddding: 0;
+      margin: 0;
+
+      > ul {
+        margin: 0;
+        padding: 0;
+
+        > li {
+          list-style: none;
+          display: block;
+          width: 100%;
+          border-bottom: 1px solid #d2d2d2;
+          margin-top: 20px;
+
+          > div {
+            display: inline-block;
+            width: 49%;
+            position: relative;
+            padding: 15px 0px 5px;
+
+            label {
+              display: inline-block;
+              width: 40%;
+              position: absolute;
+              top: 0px;
+              left: 0px;
+            }
+
+            span {
+              display: inline-block;
+              width: 60%;
+              position: absolute;
+              top: 0px;
+              left: 38%;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+
+        > li:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

@@ -2,6 +2,8 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%! from django.template import RequestContext %>
 <%! from courseware import grades %>
+<%! from instructor.access import get_one_instructor_name %>
+
 
 <%!
   from django.core.urlresolvers import reverse
@@ -163,6 +165,8 @@
 
     accessible_modal(".edit-email", "#change_email .close-modal", "#change_email", "#dashboard-main");
 
+    accessible_modal("#show_portfolio", "#portfolio-modal .close-modal", "#portfolio-modal", "#dashboard-main");
+  
     accessible_modal("#pwd_reset_button", "#password_reset_complete .close-modal", "#password_reset_complete", "#dashboard-main");
 
     $(".email-settings").each(function(index){
@@ -213,8 +217,15 @@
           </span> <span class="data">${ user.email | h }</span>
         </li>
 
+        <li class="info--portfolio">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='#portfolio-modal' rel="leanModal" id="show_portfolio">查看档案袋</a>
+          </span>
+        </li>
+
         %if len(language_options) > 1:
-        <%include file='dashboard/_dashboard_info_language.html' />
+          <%include file='dashboard/_dashboard_info_language.html' />
         %endif
 
         % if external_auth_map is None or 'shib' not in external_auth_map.external_domain:
@@ -259,7 +270,7 @@
 
 
             <%include file='dashboard/_dashboard_course_listing.html' args="course=course, enrollment=enrollment, show_courseware_link=show_courseware_link, cert_status=cert_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, show_refund_option = show_refund_option, grade_summary_percent=grade_summary_percent" />
-      % endfor
+        % endfor
 
       </ul>
     % else:
@@ -323,11 +334,83 @@
   </div>
 </section>
 
+<section id="portfolio-modal" class="modal" aria-hidden="true">
+  <div class="inner-wrapper" role="dialog" aria-labelledby="portfolio-modal-title">
+    <button class="close-modal">&#10005;
+      <span class="sr">
+        ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
+        ${_('Close Modal')}
+      </span>
+    </button>
 
+    <header>
+      <h2 id="portfolio-modal-title">
+        学习档案袋
+        <span class="sr">,
+          ## Translators: this text gives status on if the modal interface (a menu or piece of UI that takes the full focus of the screen) is open or not
+          ${_("modal open")}
+        </span>
+      </h2>
+      <hr/>
+    </header>
+
+    <section class="portfolio-content" style="padding: 0 40px 20px">
+      <div class='portfolio-userinfo'>
+        <div>
+          <label>用户名：</label>
+          <span>${_(user.username)}</span>
+        </div>
+
+        <div>
+          <label>邮箱：</label>
+          <span>${_(user.email)}</span>
+        </div>
+      </div>
+      <div class='portfolio-courseinfo'>
+        <ul>
+
+        % for course, enrollment in course_enrollment_pairs:
+            <li>
+              <div id='coursename'>
+                <label>课程名称：</label>
+                <span>${course.display_name_with_default | h}</span>
+              </div>
+
+              <div id='coursecode'>
+                <label>课程代号：</label>
+                <span>${course.number}</span>
+              </div>
+
+              <div id='coursestarttime'>
+                <label>开始时间：</label>
+                <span>${course.start_date_text | h}</span>
+              </div>
+
+              <div id='courseendtime'>
+                <label>结束时间：</label>
+                <span>${course.end_date_text | h}</span>
+              </div>
+
+              <div id='courseteacher'>
+                <label>课程教师：</label>
+                <span>${ get_one_instructor_name(course) | h }</span>
+              </div>
+
+              <div id='courseprogress'>
+                <label>课程进度：</label>
+                <span>${'{:.0%}'.format((grades.grade(user, request, course)['percent']))}</span>
+              </div>
+            </li>
+        % endfor
+        </ul>
+      </div>
+    </section>
+  </div>
+</section>
 
 <section id="password_reset_complete" class="modal" aria-hidden="true">
   <div class="inner-wrapper" role="dialog" aria-labelledby="password-reset-email">
-    <button class="close-modal">
+    <button class="close-modal">&#10005;
       <span class="sr">
         ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
         ${_('Close Modal')}

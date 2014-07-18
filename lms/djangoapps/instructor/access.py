@@ -1,3 +1,4 @@
+# coding: utf-8
 """
 Access control operations for use by instructor APIs.
 
@@ -21,6 +22,14 @@ ROLES = {
     'instructor': CourseInstructorRole,
     'staff': CourseStaffRole,
 }
+
+def get_one_instructor_name(course):
+    instructors = ROLES['instructor'](course.location).users_with_role()
+    
+    if len(instructors) > 0: 
+        return instructors[0].username
+    else:
+        return "未知"
 
 
 def list_with_level(course, level):

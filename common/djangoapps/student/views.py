@@ -652,6 +652,7 @@ def dashboard(request):
         'current_language': current_language,
         'current_language_code': cur_lang_code,
     }
+
     return render_to_response('dashboard.html', context)
 
 
@@ -2372,11 +2373,11 @@ def bs_ban_account(request, user_id):
 
 
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
-def bs_recv_grade(request, student_id):
+def bs_recv_grade(request, student_id, ptype='all'):
     """
     Show user's grade_book with student_id 
     """
-    re_format = {"success": False}
+    re_format = {"success": False} 
 
     try:
         user = User.objects.get(id=int(student_id))
@@ -2408,9 +2409,21 @@ def bs_recv_grade(request, student_id):
             "is_pass": pass_or_not(student_grades(user, request, course))
         }
 
+    def selcon(passor):
+        r = True
+        if ptype == 'pass':
+            r = passor['is_pass']
+        elif ptype == 'fail':
+            r = not passor['is_pass']
+
+        return r
+
+
     courses_grade_book = []
     for course, enrollment in list(get_course_enrollment_pairs(user, course_org_filter, org_filter_out_set)):
-        courses_grade_book.append(student_course_format_dict(course))
+        rcourse = student_course_format_dict(course)
+        if selcon(rcourse):
+            courses_grade_book.append(rcourse) 
 
     re_format.update({"user_id": user.id, "grade_book": courses_grade_book, "success": True})
 
