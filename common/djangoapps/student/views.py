@@ -16,6 +16,9 @@ import time
 import base64
 import socket
 import urllib2
+import hashlib
+from suds.client import Client
+import xmltodict
 
 from django.utils import timezone
 from collections import defaultdict
@@ -806,6 +809,27 @@ def change_enrollment(request):
 
         if not has_access(user, course, 'enroll'):
             return HttpResponseBadRequest(_("Enrollment is closed"))
+
+        if course.display_course_price_with_default > 0:
+            def demd5_webservicestr(srstr):
+                if not isinstance(srstr, str):
+                    return ""
+                md5obj = hashlib.md5()
+                md5obj.update(srstr)
+
+                return md5obj.hexdigest()
+
+            try:
+                url = 'http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl'
+                client = Client(url)
+                xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+                xresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
+                rdict = xmltodict.parse(xresult)
+                if int(rdict['EVENTRETURN']['RESULT']) not in [0, 1]:
+                    return HttpResponseBadRequest("课程内容收费，请先购买，再注册此课程！")
+            except:
+                return HttpResponseBadRequest("系统出错，请稍后再试！")
+
 
         # see if we have already filled up all allowed enrollments
         is_course_full = CourseEnrollment.is_course_full(course)

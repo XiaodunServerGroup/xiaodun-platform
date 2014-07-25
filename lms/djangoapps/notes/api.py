@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 from notes.models import Note
 from notes.utils import notes_enabled_for_course

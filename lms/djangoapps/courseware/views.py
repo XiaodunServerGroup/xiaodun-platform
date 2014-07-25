@@ -1,5 +1,11 @@
+# coding: utf-8
 import logging
 import urllib
+import hashlib
+import socket
+import urllib2
+from suds.client import Client
+import xmltodict
 
 from collections import defaultdict
 
@@ -806,6 +812,54 @@ def registered_for_course(course, user):
         return False
 
 
+def demd5_webservicestr(srstr):
+    if not isinstance(srstr, str):
+        return ""
+    md5obj = hashlib.md5()
+    md5obj.update(srstr)
+
+    return md5obj.hexdigest()
+
+
+def purchase_authenticate(request, course_id):
+    user = request.user
+    course = get_course_with_access(request.user, course_id, 'see_exists')
+    re_jsondict = {'authenticated': False}
+    if not (user is None or isinstance(user, AnonymousUser)):
+        xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+        try:
+            # TODO read url from settings
+            url = "http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl"
+            client = Client(url)
+            aresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
+            redict = xmltodict.parse(aresult)
+
+            if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+                re_jsondict['authenticated'] = True
+
+                # push course trade data to business system
+                xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user})
+
+                # DES encode data
+                pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
+                des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_format.encode('utf-8'))))
+                bs_host = "http://192.168.1.78:8081/xiaodun"
+                push_url = bs_host + "/service/course/add?data=" + des_enxml_str
+
+                socket.setdefaulttimeout(2)
+                req = urllib2.Request(push_url)
+                # TODO: setting a column mark result, if failure, package it and send with scheduler in backend
+                urllib2.urlopen(req)
+            else:
+                errmsg = redict['EVENTRETURN']['DESCRIPTION']['DESC'].strip()
+                re_jsondict['errmsg'] = errmsg if errmsg else ""
+        except:
+            re_jsondict['errmsg'] = '服务器错误，稍后再试！'
+
+
+    return JsonResponse(re_jsondict)
+
+
 @ensure_csrf_cookie
 @cache_if_anonymous
 def course_about(request, course_id):
@@ -845,6 +899,35 @@ def course_about(request, course_id):
     # see if we have already filled up all allowed enrollments
     is_course_full = CourseEnrollment.is_course_full(course)
 
+    # load wsdl client 
+    # TODO setting operation system url to common setting which load when sys boot
+    url = "http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl"
+    client = Client(url)
+    # push course info to operating system and get purchase info
+    push_update, course_purchased = True, False
+    if not isinstance(request.user, AnonymousUser) and not registered:
+        xml_course_info = render_to_string('xmls/pcourse_xml.xml', {'course': course, 'user': request.user})
+        try:
+            p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5(xml_course_info + "VTEC_#^)&*("))
+            # parse xml to dict
+            docdict = xmltodict.parse(p_xml)
+            # TODO: course table add a column mark is-push-data or not; when modify price column reset the column as false
+            if int(docdict['UPDATECOMMODITIESRESPONSE']['RESULT']) != 0:
+                push_update = False
+        except:
+            print "Fail to push course information to "
+            push_update = False
+
+        xml_purchase = render_to_string('xmls/auth_purchase.xml', {'username': request.user.username, 'course_uuid': course.course_uuid})
+        try:
+            aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
+            redict = xmltodict.parse(aresult)
+
+            if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+                course_purchased = True
+        except:
+            print "Fail to get trade info about the course"
+
     return render_to_response('courseware/course_about.html',
                               {'course': course,
                                'registered': registered,
@@ -853,7 +936,10 @@ def course_about(request, course_id):
                                'in_cart': in_cart,
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
-                               'is_course_full': is_course_full})
+                               'is_course_full': is_course_full,
+                               'purchase_link': 'http://operation.guoshi.com/cetvossFront/account/buy.action?uuid=' + str(course.course_uuid),
+                               'push_update': push_update,
+                               'purchased': course_purchased})
 
 
 @ensure_csrf_cookie
