@@ -116,7 +116,7 @@ def course_handler(request, tag=None, package_id=None, branch=None, version_guid
         html: return course listing page if not given a course id
         html: return html page overview for the given course if given a course id
         json: return json representing the course branch's index entry as well as dag w/ all of the children
-        replaced w/ json docs where each doc has {'_id': , 'display_name': , 'children': }
+        replaced w/json docs where each doc has {'_id': , 'display_name': , 'children': }
     POST
         json: create a course, return resulting json
         descriptor (same as in GET course/...). Leaving off /branch/draft would imply create the course w/ default

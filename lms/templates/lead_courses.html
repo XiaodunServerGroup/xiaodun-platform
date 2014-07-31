@@ -176,8 +176,48 @@ function chkform(){
       $(function(){
         bindAll();
         $.each(["base", "subject", "level"], function(idx, i){checkClickedObj(i);});
-        INITCOURSESTR = '<li class="courses-listing-item"><article id="course_id" class="course"><a href=""><div class="inner-wrapper"><header class="course-preview"><hgroup><h2><span class="course-number"></span></h2></hgroup><div class="info-link">&#x2794;</div></header><section class="info"><div class="cover-image"><img src="#" alt="Cover Image" /></div><div class="desc"><p></p></div><div class="bottom"><span class="university">Org</span></div></section></div><div class="meta-info"><p class="university">Org</p></div></a></article></li>'
+        INITCOURSESTR = '<li class="courses-listing-item"><article id="course_id" class="course"><a href=""><div class="inner-wrapper"><header class="course-preview"><hgroup><h2><span class="course-number"></span></h2></hgroup><div class="info-link">&#x2794;</div></header><section class="info"><div class="cover-image"><img src="#" alt="Cover Image" /></div><div class="desc"><p></p></div><div class="bottom"><span class="university">Org</span></div></section></div><div class="meta-info"><p class="university">Org</p></div></a></article></li>';
         INITSTR = computeRefreshStr();
+      
+    
+        /* fall */
+        window.conUrl = window.location.href.split("?")[0];
+        console.log(window.conUrl);
+
+
+
+
+
+
+function _reachBottom() {
+ var scrollTop = 0, clientHeight = 0, scrollHeight = 0;
+ if (document.documentElement && document.documentElement.scrollTop) { scrollTop = document.documentElement.scrollTop;
+ }else if (document.body){ scrollTop = document.body.scrollTop; }
+ if (document.body.clientHeight && document.documentElement.clientHeight) { clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight;
+ }else{ clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight; }
+ scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+ return (scrollTop + clientHeight + 10 >= scrollHeight);
+};
+function doScoll(){
+ console.log("doScoll");
+ if(_reachBottom()){
+   window.onscroll = null;
+   console.log("_reachBottom");
+  // window.bh += 100;
+   //document.getElementsByTagName('body')[0].style.height = window.bh + 'px';
+   var courseId = $('.courses .courses-listing .courses-listing-item').last().find('article').eq(0).attr('id');
+   ajaxGetConCourse(window.conUrl, courseId);
+   setTimeout(function(){
+    window.onscroll = function(){doScoll();}
+   }, 1000);
+ }
+}
+ window.onscroll = function(){doScoll();}
+
+
+
+
+     
       });
 
       function computeRefreshStr(){
@@ -320,58 +360,92 @@ function chkform(){
         var curStr = computeRefreshStr();
         if (conStrArr.length > 0 && INITSTR != curStr) {
           var requestCon = conStrArr.join("&");
-          ajaxGetConCourse(baseHref + "?" + requestCon);     
+          window.conUrl = baseHref + "?" + requestCon;console.log(window.conUrl);
+          $('ul.courses-listing').eq(0).empty();
+          ajaxGetConCourse(window.conUrl);     
         }
       }
 
       // TODO finish ajax load courses
-      function ajaxGetConCourse(conUrl){
+      function ajaxGetConCourse(conUrl, courseId){
         var courseUnit = $(INITCOURSESTR);
-        var insertCourseHtml = ''
+        var insertCourseHtml = '';
+        if (conUrl.indexOf('?') > -1) {
+          conUrl = conUrl + "&course_id=" + courseId;
+        } else {
+          conUrl = conUrl + "?course_id=" + courseId; 
+        }
         $.ajax({
           url: conUrl,
           type: 'GET',
           dataType: 'json',
           success: function(json){
             var coursesObjs = json.courses;
-            $.each(coursesObjs, function(idx, c){
-              var articleObj = courseUnit.find('article.course');
+      // write courses html
+      
+      if(json.courses.length<1){
+        //window.onscroll=null;
+        console.log("case1");
+        //addHtml()
+      }else if(json==null){
+        //window.onscroll=null;
+        console.log("case2");
+      }else{
+        addHtml();
+        console.log("case3");      
+        
+      }
+      
+      
+      function addHtml(){
+        console.log("addHtml"+coursesObjs);
+        $.each(coursesObjs, function(idx, c){
+          var articleObj = courseUnit.find('article.course');
 
-              articleObj.attr('id', c.id);
-              articleObj.children('a').attr('href', c.course_about_url);
+          articleObj.attr('id', c.id);
+          articleObj.children('a').attr('href', c.course_about_url);
 
-              if (c.is_new) {
-                articleObj.children('a').before($('<span class="status">新</span>'))
-              }
+          if (c.is_new) {
+            //console.log(c.is_new);
+            articleObj.children('a').before($('<span class="status">新</span>'))
+          }
 
-              var hgroupHtml = '<span class="course-number">' + c.course_number + '</span>' + c.title;
-              if (articleObj.find('hgroup>h2')) {
-                articleObj.find('hgroup>h2').html(hgroupHtml);
-              }
+          var hgroupHtml = '<span class="course-number">' + c.course_number + '</span>' + c.title;
+          if (articleObj.find('hgroup>h2')) {
+            //console.log(articleObj.find('hgroup>h2'));
+            articleObj.find('hgroup>h2').html(hgroupHtml);
+          }
 
-              var imgAltStr = c.course_number + ' ' + c.title + " Cover Image";
-              if (articleObj.find('div.cover-image>img')) {
-                articleObj.find('div.cover-image>img').attr('src', c.img_src);
-                articleObj.find('div.cover-image>img').attr('alt', imgAltStr);        
-              }
+          var imgAltStr = c.course_number + ' ' + c.title + " Cover Image";
+          if (articleObj.find('div.cover-image>img')) {
+            //console.log(articleObj.find('div.cover-image>img'));
+            articleObj.find('div.cover-image>img').attr('src', c.img_src);
+            articleObj.find('div.cover-image>img').attr('alt', imgAltStr);        
+          }
 
-              if (articleObj.find("div.desc>p")) {
-                articleObj.find("div.desc>p").html(c.short_description);
-              }
+          if (articleObj.find("div.desc>p")) {
+            //console.log(articleObj.find("div.desc>p"));
+            articleObj.find("div.desc>p").html(c.short_description);
+          }
 
-              if (articleObj.find("div.bottom>span")) {
-                articleObj.find("div.bottom>span").html(c.university);
-              }
+          if (articleObj.find("div.bottom>span")) {
+            //console.log(articleObj.find("div.bottom>span"));
+            articleObj.find("div.bottom>span").html(c.university);
+          }
 
-              if (articleObj.find("div.meta-info>p")) {
-                articleObj.find("div.meta-info>p").html(c.university);
-              }
+          if (articleObj.find("div.meta-info>p")) {
+            //console.log(articleObj.find("div.meta-info>p"));
+            articleObj.find("div.meta-info>p").html(c.university);
+          }
 
-              insertCourseHtml += courseUnit[0].outerHTML;
-              courseUnit = $(INITCOURSESTR);
-            });
-            // clear course list replace with insertCourseHtml
-            $('ul.courses-listing').html(insertCourseHtml);
+          insertCourseHtml += courseUnit[0].outerHTML;
+          courseUnit = $(INITCOURSESTR);
+        });
+        
+        // clear course list replace with insertCourseHtml
+        $('ul.courses-listing').eq(0).append(insertCourseHtml);
+      }
+      
           }
         });
       }

@@ -80,7 +80,7 @@ from collections import namedtuple
 
 from instructor.offline_gradecalc import student_grades
 
-from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url
+from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url, get_course_by_id
 from courseware.access import has_access
 
 from django_comment_common.models import Role
@@ -218,34 +218,80 @@ def lead_courses(request):
         "org": uniq_filter_org(crude_courses)
     }
 
-    # acquire org condition
     con_col = {}
+    con_courses = []
+
     org_con = request.GET.get("org", "")
-    if org_con:
-        con_col.update({"orgCon": org_con.split(',')})
-        if "all" not in con_col["orgCon"]:
-            crude_courses = filter(lambda x: x.display_org_with_default in con_col["orgCon"], crude_courses)
-
-    # acquire subject condition
+    con_col.update({"orgCon": org_con.split(',')})
+    
     subject_con = request.GET.get("subject", "")
-    if subject_con:
-        con_col.update({"subCon": subject_con.split(',')})
-        if "all" not in con_col['subCon']:
-            crude_courses = filter(lambda x: x.course_category in con_col['subCon'], crude_courses)
+    con_col.update({"subCon": subject_con.split(',')})
 
-    # acquire level condition
     level_con = request.GET.get('level', "")
-    if level_con:
-        con_col.update({"levelCon": level_con.split(',')})
-        if "all" not in con_col['levelCon']:
-            crude_courses = filter(lambda x: x.course_level in con_col['levelCon'], crude_courses)
+    con_col.update({"levelCon": level_con.split(',')})
 
-    context = {"courses": crude_courses}
+    for course in crude_courses:
+        # acquire org condition
+        org_flag = False
+        if org_con:    
+            if "all" in con_col["orgCon"] or ("all" not in con_col["orgCon"] and course.display_org_with_default in con_col["orgCon"]):
+                if course in con_courses:
+                    continue
+                con_courses.append(course)
+        else:
+            org_flag = True
+
+
+        # acquire subject condition
+        subject_flag = False
+        if subject_con:   
+            if "all" in con_col['subCon'] or ("all" not in con_col['subCon'] and course.course_category in con_col['subCon']):
+                if course in con_courses:
+                    continue
+                con_courses.append(course) 
+        else:
+            subject_flag = True
+
+
+        # acquire level condition
+        level_flag = False
+        if level_con:
+            if "all" in con_col['levelCon'] or ("all" not in con_col['levelCon'] and course.course_level in con_col['levelCon']):
+                if course in con_courses:
+                    continue
+                con_courses.append(course)
+        else:
+            level_flag = True
+
+        if org_flag and subject_flag and level_flag:
+            con_courses = crude_courses
+            break
+
+    # acquire course_id condition
+    def course_dep(crucourses, course_id):
+        course_index = 0
+        try:
+            for idx, c in enumerate(crucourses):
+                if c.id == course_id:
+                    course_index = (idx + 1)
+                    break
+        except:
+            course_index = 0
+
+        courses_list = crucourses[course_index: course_index + 3]
+
+        return courses_list
+
+    id_con = request.GET.get('course_id', '').strip()
+    con_col.update({'course_id': id_con})
+    con_courses = course_dep(con_courses, id_con)
+
+    context = {"courses": con_courses}
     context.update(sel_items)
     context.update(con_col)
 
     if request.is_ajax():
-        context["courses"] = map(format_course, context["courses"]) 
+        context["courses"] = map(format_course, context["courses"])
         return JsonResponse(context)
 
     return render_to_response('lead_courses.html', context)

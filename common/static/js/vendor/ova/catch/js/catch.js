@@ -23,11 +23,11 @@ annotationList:
                 '</div>'+
 
                 '<div class="annotatedBy field">'+
-                    'User'+
+                    '用户名'+
                 '</div>'+
 
                 '<div class="body field">'+
-                    'Annotation'+
+                    '笔记'+
                 '</div>'+  
                 
                 '{{#if videoFormat}}'+
@@ -40,12 +40,8 @@ annotationList:
                     '</div>'+
                 '{{/if}}'+
                 
-                '<div class="totalreplies field">'+
-                    '#Replies'+
-                '</div>'+
-                
                 '<div class="annotatedAt field">'+
-                    'Date posted'+
+                    '添加笔记时间'+
                 '</div>'+
             '</div>'+
         '</div>'+
@@ -59,12 +55,11 @@ annotationList:
     
 //Main->PublicPrivate
 annotationPublicPrivate:
-    '<div class="selectors"><div class="PublicPrivate myNotes active">My Notes<span class="action">myNotes</span></div>'+ 
-    '<div class="PublicPrivate public"> Public<span class="action">public</span></div></div>'+
-    '<div class="searchbox"><div class="searchinst">Search</div><select class="dropdown-list">'+
-    '<option>Users</option>'+
-    '<option>Tags</option>'+
-    '<option>Annotation Text</option>'+
+    '<div class="selectors"><div class="PublicPrivate myNotes active">个人笔记<span class="action">myNotes</span></div>'+ 
+    '<div class="PublicPrivate public">公开笔记<span class="action">public</span></div></div>'+
+    '<div class="searchbox"><div class="searchinst">搜索</div><select class="dropdown-list">'+
+    '<option value="Users">用户名</option>'+
+    '<option value="text">笔记内容</option>'+
     '</select><input type="text" name="search"/><div class="search-icon" alt="Run search."></div></div>',
     
 //Main->MediaSelector
@@ -132,7 +127,7 @@ annotationRow:
         '</div>'+
 
         '<div class="annotatedBy field">'+
-            '{{ user.name }}'+
+            '{{ username }}'+
         '</div>'+
 
         '<div class="body field">'+
@@ -167,7 +162,7 @@ annotationDetail:
             '<span class="closeDetailIcon">'+
                 '<img src="'+root+'closeIcon.png" alt="Hide Details" />'+
             '</span>'+
-            'On  {{ updated }} <!--<a href="index.php?r=user/user/view&id={{{user.id}}}">-->{{{ user.name }}}<!--</a>-->{{#if geolocation}}, wrote from {{/if}}'+
+            '更新于  {{ updated }} <!--<a href="index.php?r=user/user/view&id={{{user.id}}}">-->{{{ user.name }}}<!--</a>-->{{#if geolocation}}, wrote from {{/if}}'+
             '{{#if geolocation}}'+
             '<span class="geolocationIcon">'+
                 '<img src="'+root+'geolocation_icon.png"width="25" height="25" alt="Location Map" title="Show Location Map" data-dropdown="myLocationMap"/>'+
@@ -193,35 +188,17 @@ annotationDetail:
         '</div>'+
         
         '<div class="controlReplies">'+
-            '<div class="newReply" style="text-decoration:underline">Reply</div>&nbsp;'+
             '<div class="hideReplies" style="text-decoration:underline;display:{{#if hasReplies}}block{{else}}none{{/if}}">Show Replies</div>&nbsp;'+
             '{{#if authToEditButton}}'+
-                '<div class="editAnnotation" style="text-decoration:underline">Edit</div>'+
+                '<div class="editAnnotation" style="text-decoration:underline">编辑</div>'+
             '{{/if}}'+
             '{{#if authToDeleteButton}}'+
-                '<div class="deleteAnnotation" style="text-decoration:underline">Delete</div>'+
+                '<div class="deleteAnnotation" style="text-decoration:underline">删除</div>'+
             '{{/if}}'+
             
         '</div>'+
         
         '<div class="replies"></div>'+
-
-    '{{#if tags}}'+
-        '<div class="tags">'+
-            '<h3>Tags:</h3>'+
-            '{{#each tags}}'+
-                '<div class="tag">'+
-                    '{{this}}'+
-                '</div>'+
-            '{{/each}}'+
-        '</div>'+
-    '{{/if}}'+
-
-        '<div class="controlPanel">'+
-            //'<img class="privacy_button" src="'+root+'privacy_icon.png" width="36" height="36" alt="Privacy Settings" title="Privacy Settings">'+
-            //'<img class="groups_button" src="'+root+'groups_icon.png" width="36" height="36" alt="Groups Access" title="Groups Access">'+
-            //'<img class="share_button" src="'+root+'share_icon.png" width="36" height="36" alt="Share Annotation" title="Share Annotation"/>'+
-        '</div>'+
     '</div>',
     
 //Main->ContainerRow->DetailRow (Video)
@@ -394,6 +371,7 @@ CatchAnnotation.prototype = {
                 item.authToDeleteButton = authorized;
                 item.authToEditButton = updateAuthorized;
                 item.hasReplies = (item.totalComments > 0);
+
                 var html = self.TEMPLATES.annotationItem({
                     item: item,
                     id: item.id,
@@ -662,6 +640,28 @@ CatchAnnotation.prototype = {
         }
         return isInList;
     },
+    _formatTime: function(dtime) {
+        var regexp = "([0-9]{4})-([0-9]{2})-([0-9]{2})\\s+([0-9]{2}):([0-9]{2}):([0-9]{2})"
+        var d = dtime.match(regexp);
+
+        if (!d) {
+            regexp = "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})";
+            d = dtime.match(regexp);
+        }
+
+        formatstr = ""
+        if (d && d[0]) {
+            formatstr = d[1] + "年" + d[2] + "月" + d[3] + "日"
+
+            if (d[4] && d[5] && d[6]) {
+                formatstr += (" " +[d[4], d[5], d[6]].join(':'))
+            }
+        } else {
+            formatstr = "无法确定"
+        }
+
+        return formatstr
+    },
     _formatCatch: function(item) {
         var item = item || {};
         
@@ -671,8 +671,14 @@ CatchAnnotation.prototype = {
             item.rangeTime.end= typeof vjs!='undefined'?vjs.formatTime(item.rangeTime.end):item.rangeTime.end;
         }
         //format date
+        /*
         if(typeof item.updated!='undefined' && typeof createDateFromISO8601!='undefined')
             item.updated = createDateFromISO8601(item.updated);
+        */
+
+        if (typeof item.updated!='undefined') {
+            item.updated = this._formatTime(item.updated)
+        }
         //format geolocation
         if(typeof item.geolocation!='undefined' && (typeof item.geolocation.latitude=='undefined'||item.geolocation.latitude==''))
             delete item.geolocation;

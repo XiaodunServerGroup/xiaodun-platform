@@ -923,7 +923,7 @@ def course_about(request, course_id):
             aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
             redict = xmltodict.parse(aresult)
 
-            if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+            if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
                 course_purchased = True
         except:
             print "Fail to get trade info about the course"

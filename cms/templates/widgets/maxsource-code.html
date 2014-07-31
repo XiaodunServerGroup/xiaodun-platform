@@ -1,0 +1,101 @@
+<%
+  import hashlib
+  hlskey = hashlib.md5(module.location.url()).hexdigest()
+%>
+
+  <section id="hls-modal-${hlskey}" class="upload-modal" style="width:auto !important; left:5%!important; margin-left:0px!important; height:90%; overflow:auto; display: none;" >
+  	
+	<div style="width: 100%; height: 26px; text-align: right; position: relative;">
+		<a href="#" class="close-button" style="display: block;width: 3%;height: 2%;text-align: center; position: absolute; right: 0px; top: 0px"><span class="close-icon"></span></a>
+	</div>
+
+	<div class="maxedit" style='clear: both;' style="margin-top: 20px;">
+	  	<div class="maxedit-content">
+			<script type="text/javascript" src="http://mathdox.org/formulaeditor/main.js"></script>
+			<textarea id='formula1' class='mathdoxformula' rows='10' cols='80'></textarea>
+			<input type="button" value="获取html代码" onclick='document.getElementById("generated-html").value = org.mathdox.formulaeditor.FormulaEditor.getEditorByTextArea("formula1").getMathML()'>
+	  	</div>
+
+	  	<div class="maxedit-html" style="margin-top: 20px;">
+	  		<textarea name='genHtml' id='generated-html' style="width: 100%"></textarea>
+	  	</div>
+	</div>
+  </section>
+
+  <script type = "text/javascript">
+    require(["jquery"], function($) {
+      hlstrig = $('#hls-trig-${hlskey}');
+      hlsmodal = $('#hls-modal-${hlskey}');
+
+      $('#hls-trig-${hlskey}').click(function() {
+        	hlsmodal.show();
+      });
+
+      $('.close-button').click(function(){
+          var scrollPosition = $('li.component.editing');
+      		hlsmodal.hide();
+          $("html,body").animate({scrollTop: scrollPosition.offset().top}, 1000);
+      });
+
+      function slow_refresh_hls(el) {
+          $('#lean_overlay').hide();
+          
+      }
+
+      function compile_hls(el) {
+          var editor = el.data('editor')
+          var hlsdata = editor.getValue();
+
+          $.ajax({
+              url: "https://studio-input-filter.mitx.mit.edu/latex2edx?raw=1",
+              type: "POST",
+              data: "" + hlsdata,
+              crossDomain: true,
+              processData: false,
+              success: function(data) {
+                  xml = data.xml;
+                  if (xml.length == 0) {
+                      alert('Conversion failed!  error:' + data.message);
+                  } else {
+                      el.closest('.component').find('.CodeMirror-wrap')[0].CodeMirror.setValue(xml);
+                      save_hls(el);
+                  }
+              },
+              error: function() {
+                  alert('Error: cannot connect to latex2edx server');
+              }
+          });
+      }
+
+      function process_return_${hlskey}(datadict) {
+          // datadict is json of array with "xml" and "message"
+          // if "xml" value is '' then the conversion failed
+          var xml = datadict.xml;
+          if (xml.length == 0) {
+              alert('Conversion failed!  error:' + datadict.message);
+          } else {
+              set_raw_edit_box(xml, '${hlskey}');
+              save_hls($('#hls-modal-${hlskey}'));
+          }
+      }
+
+
+      function set_raw_edit_box(data, key) {
+          // get the codemirror editor for the raw-edit-box
+          // it's a CodeMirror-wrap class element
+          $('#hls-modal-' + key).closest('.component').find('.CodeMirror-wrap')[0].CodeMirror.setValue(data);
+      }
+
+      // save button
+
+      hlsmodal.find('.hls-save').click(function() {
+          save_hls(hlsmodal);
+      });
+
+      function save_hls(el) {
+          el.find('.hls-data').val(el.data('editor').getValue());
+          el.closest('.component').find('.save-button').click();
+      }
+    }); // end require()
+  </script>
+

@@ -190,7 +190,7 @@
 
         domReady(function () {
             $('.new-course-button').bind('click', addNewCourse);
-
+            
             org_name = $('input.new-course-org').val();
             if (org_name != ""){
                 ajaxSetOptions(org_name);
