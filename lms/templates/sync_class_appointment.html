@@ -1,0 +1,154 @@
+<% from datetime import datetime %>
+<%! from django.utils.translation import ugettext as _ %>
+<%! from django.template import RequestContext %>
+<%! from courseware import grades %>
+<%! from instructor.access import get_one_instructor_name %>
+
+
+<%!
+  from django.core.urlresolvers import reverse
+  import waffle
+%>
+
+<%inherit file="main.html" />
+
+<%namespace name='static' file='static_content.html'/>
+
+<%block name="pagetitle">同步课堂预约</%block>
+
+<%block name="js_extra">
+  <script type="text/javascript">
+      $(function(){
+        var activeTab = $('.for_ftabs>li>a.active').eq(0);
+        if (activeTab.length == 0) {
+          $('iframe#video-sync-class').html("<html lang='zh-cn'><head><meta charset='utf-8'><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'></head><body>服务器错误，请稍后再试！</body></html>");
+        } else {
+          $('iframe#video-sync-class').attr('src', activeTab.attr('data'));
+        }
+      });
+
+      $('.for_ftabs>li>a').on('click', function(){
+        var self = $(this);
+        var classAttr = self.attr('class');
+        if (classAttr && classAttr.indexOf('active') != -1) {
+          return false;
+        }
+
+        $('.for_ftabs>li>a').removeClass('active');
+        self.addClass('active');
+        $('#video-sync-class').attr('src', self.attr("data"))
+      });
+  </script>
+</%block>
+
+<section class="container">
+  <style>
+    div.wrapper-mast {
+      margin: 30px 0 0 0;
+      padding: 0 20px;
+      position: relative;
+      width: 100%;
+    }
+
+    .wrapper-mast .mast {
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 10px;
+      position: relative;
+      max-width: 1280px;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto 20px auto;
+      color: #4c4c4c;
+    }
+
+    .mast h3 {
+      font-size: 2.6rem;
+      line-height: 3.328rem;
+      display: block;
+      font-weight: 600;
+      color: #323232;
+    }
+  </style>
+  <div class="wrapper-mast wrapper">
+    <header class="mast has-actions">
+      <h3 class='page-header'>同步课堂预约</h3>
+    </header>
+    <div style="margin: 0 auto 0; padding: 0px; max-width: 1280px; min-width: 900px;" class="appoint-tabs">
+      <style>
+        ul.for_ftabs {
+          border-bottom: 1px solid #ddd;
+          list-style: none;
+          display: block;
+          margin-bottom: 0px;
+          padding: 0px;
+          box-sizing: border-box;
+          -webkit-margin-before: 1em;
+          -webkit-margin-after: 1em;
+          -webkit-margin-start: 0px;
+          -webkit-margin-end: 0px;
+          clear: both;
+          font-size: 100%;
+          font: inherit;
+          vertical-align: baseline;
+        }
+
+        ul.for_ftabs>li {
+          float: left;
+          margin-bottom: -1px;
+          position: relative;
+          display: block;
+          box-sizing: border-box;
+          text-align: -webkit-match-parent;
+        }
+
+        ul.for_ftabs>li:last-child {
+          clear: both;
+          float: none;
+        }
+
+        ul.for_ftabs>li>a {
+          margin-right: 2px;
+          line-height: 1.42857143;
+          border: 1px solid transparent;
+          border-radius: 4px 4px 0 0;
+          position: relative;
+          display: block;
+          padding: 10px 15px;
+          text-decoration: none;
+        }
+
+        ul.for_ftabs>li>a:hover {
+          background-color: #ECECEC;
+          text-decoration: none;
+        }
+
+        ul.for_ftabs>li>a.active {
+          color: #555;
+          cursor: default;
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-bottom-color: transparent;
+        }
+      </style>
+      <ul class="for_ftabs">
+        % for item in ftabs:
+          <li class='ftab'>
+            % if item[2]:
+              <a class="active" href="#" data="${item[1]}">${ item[0] }</a>
+            % else:
+              <a href="#" data="${item[1]}">${ item[0] }</a>
+            % endif
+          </li>
+        % endfor
+        <li></li>
+      </ul>
+    <div>
+  </div>
+
+  <div class="wrapper-content wrapper">
+    <section class="content">
+      <iframe src="" frameborder="0" id="video-sync-class" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+      </iframe>
+    </section>
+  </div>
+</section>

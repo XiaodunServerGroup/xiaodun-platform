@@ -128,8 +128,8 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                     <script src="${settings.XIAODUN_BACK_HOST}/dictionaryRs.jsp?divid=field-course-level&code=course_level&selectname=new-course-level"></script>
                 </li>
                 <li class="field text required" id="field-course-price">
-                  <label for="new-course-price">课程价格</label
->                  <input class="new-course-price" id="new-course-price" type="text" name="new-course-price" aria-required="false" placeholder="课程价格" />
+                  <label for="new-course-price">课程价格</label>                  
+                  <input class="new-course-price" id="new-course-price" type="text" name="new-course-price" aria-required="false" placeholder="课程价格" />
                   <span class='tip'>请填写课程价格，不填默认为0</span>
                 </li>
                 <li class="field text required" id="field-organization">
@@ -262,7 +262,8 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
         <div class="notice notice-incontext notice-instruction notice-instruction-creationrights ui-toggle-target" id="instruction-creationrights">
           <div class="copy">
-            <p>${_('edX Studio is a hosted solution for our xConsortium partners and selected guests. Courses for which you are a team member appear above for you to edit, while course creator privileges are granted by edX. Our team is has completed evaluating your request.')}</p>
+            <p>${_('edX Studio is a hosted solution for our xConsortium partners and selected guests. Courses for which you are a team member appear above for you to edit, while course creator privileges are granted by edX. Our team is has completed evaluating your request.')}
+            </p>
           </div>
 
           <div class="status status-creationrights has-status is-denied">
@@ -323,6 +324,30 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
         </ol>
       </div>
 
+      <div class="bit">
+        <h3 class="title title-3">同步课堂</h3>
+        <p>同步课堂简介</p>
+
+        <ol class="list-actions">
+          <li class="action-item">
+            <a href="/sync/class/appointment" title="同步课堂">同步课堂</a>
+          </li>
+        </ol>
+      </div>
+
+      <div class="bit">
+        <h3 class="title title-3">课程问卷调查</h3>
+        <p>课程问卷调查介绍</p>
+
+        <ol class="list-actions">
+          <li class="action-item">
+            <a href="${ wenjuan_link }" title="创建问卷" target="_">创建问卷</a>
+            <br/>
+            <a href="#" title="已有问卷列表">已有问卷列表</a>
+          </li>
+        </ol>
+      </div>
+
       % if course_creator_status=='disallowed_for_this_site' and settings.FEATURES.get('STUDIO_REQUEST_EMAIL',''):
       <div class="bit">
         <h3 class="title title-3">${_('Can I create courses in Studio?')}</h3>
@@ -345,8 +370,6 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
       % endif
     </aside>
   </section>
-
-
   % else:
   <section class="content">
     <article class="content-primary" role="main">
@@ -377,7 +400,103 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
       </div>
     </aside>
   </section>
-
   %endif
 </div>
+
+<style>
+  section#wenjuan-list-modal {
+    display: block;
+    border: 1px solid rgba(0,0,0,0.9);
+    box-shadow: 0 15px 80px 15px rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
+    padding: 8px;
+    height: auto;
+    width: auto;
+    min-width: 35%;
+  }
+
+  div.inner-wrapper {
+    background: #f5f5f5;
+    border-radius: 0px;
+    border: 1px solid rgba(0,0,0,0.9);
+    box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.7);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+
+  div.inner-wrapper .close-modal {
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+    padding: 10px;
+    position: absolute;
+    right: 2px;
+    top: 0px;
+    z-index: 3;
+    color: #646464;
+    font: normal 1.4rem/1.4rem "Microsoft YaHei","Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+    text-align: center;
+    text-shadow: 0 1px rgba(255,255,255,0.8);
+    -webkit-transition: all 0.15s ease-out 0s;
+    -moz-transition: all 0.15s ease-out 0s;
+    transition: all 0.15s ease-out 0s;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+  }
+
+  div.inner-wrapper>header {
+    margin-bottom: 30px;
+    overflow: hidden;
+    padding: 28px 20px 0px;
+    position: relative;
+    z-index: 2;
+  }
+
+  div.inner-wrapper>header>h2{
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px rgba(255,255,255,0.4);
+    z-index: 2;
+
+    color: #646464;
+    font: normal 1.4em/1.4em "Microsoft YaHei",Georgia,Cambria,"Times New Roman",Times,serif;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+  }
+</style>
+<section id="wenjuan-list-modal" class="modal wenjuan-data" aria-hidden="true">
+  <div class="inner-wrapper" role='alertdialog' aria-labelledy="wenjuan-modal-title">
+    <button class="close-modal">&#10005;
+      <span class="sr">
+        ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
+        ${_('Close Modal')}
+      </span>
+    </button>
+
+    <header>
+      <h2>
+        <span id="wenjuan-modal-title">当前问卷列表</span>
+        <span class="sr">,
+          ## Translators: this text gives status on if the modal interface (a menu or piece of UI that takes the full focus of the screen) is open or not
+          ${_("modal open")}
+        </span>
+        <hr />
+      </h2>
+
+      <div id="wenjuan-list">
+        <table>
+        </table>
+      <div>
+    </header>
+  </div>
+</section>
 </%block>

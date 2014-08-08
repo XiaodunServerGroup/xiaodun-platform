@@ -219,7 +219,7 @@
 
         <li class="info--portfolio">
           <span class="title">
-              <div class='icon'></div>
+              <div class='icon course-info-icon'></div>
               <a href='#portfolio-modal' rel="leanModal" id="show_portfolio">查看档案袋</a>
           </span>
         </li>
@@ -237,6 +237,13 @@
           </form>
         </li>
         % endif
+
+        <li class="control--appointment">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='/sync/class/appointment' id="show_appointment">同步课堂预约</a>
+          </span>          
+        </li>
 
         <%include file='dashboard/_dashboard_status_verification.html' />
 
@@ -354,7 +361,7 @@
       <hr/>
     </header>
 
-    <section class="portfolio-content" style="padding: 0 40px 20px">
+    <section class="portfolio-content" style="padding: 0 40px 20px; max-height: 400px; overflow-y: auto;">
       <div class='portfolio-userinfo'>
         <div>
           <label>用户名：</label>
@@ -370,6 +377,10 @@
         <ul>
 
         % for course, enrollment in course_enrollment_pairs:
+            % if course.course_audit == 0:
+              <% continue %>
+            % endif
+            
             <li>
               <div id='coursename'>
                 <label>课程名称：</label>
