@@ -384,7 +384,8 @@ def course_listing(request):
         'request_course_creator_url': reverse('contentstore.views.request_course_creator'),
         'course_creator_status': _get_course_creator_status(request.user),
         'course_org': course_org,
-        'wenjuan_link': wenjuan_loginapi
+        'wenjuan_link': wenjuan_loginapi,
+        'qlist': qlist
     })
 
 

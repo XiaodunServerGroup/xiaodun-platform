@@ -199,7 +199,8 @@
                     ['.new-course-org'],
                     function (acc, ele) {
                         var $ele = $(ele);
-                        setNewCourseFieldInErr($ele.parent('li'), "服务器获取组织失败，将无法创建课程，请稍后再试");
+                        var error = "服务器获取组织失败，将无法创建课程，请稍后再试"
+                        setNewCourseFieldInErr($ele.parent('li'), error);
                         return error ? true : acc;
                     },
                     false

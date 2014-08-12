@@ -28,6 +28,54 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
     $('#request-coursecreator-submit').click(function(e){
       $(this).toggleClass('is-disabled is-submitting').find('.label').text('Submitting Your Request');
     });
+    /*
+    domReady(function(){
+      $("a#copy-content-id").zclip({
+        path: "static//js/swf-plugin/ZeroClipboard.swf",
+        copy: function(){
+          console.log($(this).attr('href'));
+          return $(this).text();
+        }
+      });
+    });
+    */
+
+    $('a#show-wenjuan-list-modal').click(function(){
+        var self = $(this);
+
+        $('.modal-cover').show();
+        $(self.attr('href')).show();
+    });
+
+    $('.modal-cover').click(function(){
+      $(this).hide();
+      $('.modal').hide();
+    });
+
+    $('.close-modal').click(function(){
+      $('.modal-cover').hide();
+      $(this).parent().parent(".modal").hide();
+    });
+
+    $('a#copy-content-id').click(function(){
+        var self = $(this);
+        var nextTr = self.parent().parent().next();
+        if (nextTr.length <= 0) {
+          return false;
+        }
+
+        if (nextTr.attr('class').indexOf('wenjuan-link-part') != -1) {
+          if (nextTr.css('display') == 'table-row') {
+            self.html("查看URL");
+            nextTr.fadeOut(); 
+          }
+
+          if (nextTr.css('display') == 'none') {
+            self.html("隐藏URL");
+            nextTr.fadeIn(); 
+          }
+        }
+    });
 });
 </script>
 </%block>
@@ -330,7 +378,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
         <ol class="list-actions">
           <li class="action-item">
-            <a href="/sync/class/appointment" title="同步课堂">同步课堂</a>
+            <a href="/sync/class/appointment" title="同步课堂" target="_blank">同步课堂</a>
           </li>
         </ol>
       </div>
@@ -341,9 +389,9 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
         <ol class="list-actions">
           <li class="action-item">
-            <a href="${ wenjuan_link }" title="创建问卷" target="_">创建问卷</a>
+            <a href="${ wenjuan_link }" title="创建问卷" target="_blank">创建问卷</a>
             <br/>
-            <a href="#" title="已有问卷列表">已有问卷列表</a>
+            <a href="#wenjuan-list-modal" title="已有问卷列表" id="show-wenjuan-list-modal">已有问卷列表</a>
           </li>
         </ol>
       </div>
@@ -405,7 +453,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
 <style>
   section#wenjuan-list-modal {
-    display: block;
+    display: none;
     border: 1px solid rgba(0,0,0,0.9);
     box-shadow: 0 15px 80px 15px rgba(0,0,0,0.5);
     background: rgba(0,0,0,0.6);
@@ -452,7 +500,6 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
   }
 
   div.inner-wrapper>header {
-    margin-bottom: 30px;
     overflow: hidden;
     padding: 28px 20px 0px;
     position: relative;
@@ -471,6 +518,74 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
     margin-bottom: 15px;
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
+  }
+
+  div.inner-wrapper>div#wenjuan-list {
+    width: 100%;
+    margin: 0px 0px 30px;
+    padding: 0px;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table {
+    width: 90%;
+    max-width: 90%;
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    border-color: gray;
+    margin: 0px 30px;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;    
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table thead:before, :after {
+    box-sizing: border-box;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table tr td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table tr.wenjuan-link-part {
+    display: none;
+    background-color: #EEE;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table tr.lshown {
+    display: table-row;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table thead tr th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    padding: 8px;
+    line-height: 1.42857143;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+
+  .table-hover tbody tr:hover td {
+    background-color: #EEE;
   }
 </style>
 <section id="wenjuan-list-modal" class="modal wenjuan-data" aria-hidden="true">
@@ -491,12 +606,41 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
         </span>
         <hr />
       </h2>
-
-      <div id="wenjuan-list">
-        <table>
-        </table>
-      <div>
     </header>
+
+    <div id="wenjuan-list">
+      % if len(qlist):
+        <table class="table-hover">
+          <thead>
+            <th>问卷名</th>
+            <th>问卷状态</th>
+            <th>答卷人数</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </thead>
+
+          % for wj in qlist:
+            <tr>
+              <td><a href="${ wj[4] }" target="_blank">${ wj[0] }</a></td>
+              <td>${ wj[1] }</td>
+              <td>${ wj[2] }</td>
+              <td>${ wj[3] }</td>
+              <td>
+                <a href="#" id="copy-content-id" data="${wj[4]}">查看URL</a>
+              </td>
+            </tr>
+
+            <tr class="wenjuan-link-part">
+              <td colspan='5'>${ wj[4] }</td>
+            </tr>
+          % endfor
+        </table>
+      % else:
+        <div>
+          <span>目前你还没有制作过问卷，<a href="${wenjuan_link}" target="_blank">点击此处</a>来制作</span>            
+        </div>
+      % endif
+    <div>
   </div>
 </section>
 </%block>

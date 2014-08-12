@@ -61,6 +61,7 @@
                 "jquery.fileupload": "js/vendor/jQuery-File-Upload/js/jquery.fileupload",
                 "jquery.iframe-transport": "js/vendor/jQuery-File-Upload/js/jquery.iframe-transport",
                 "jquery.inputnumber": "js/vendor/html5-input-polyfills/number-polyfill",
+                "jquery.zclip": 'js/vendor/jquery.zclip.min',
                 "jquery.immediateDescendents": "coffee/src/jquery.immediateDescendents",
                 "jquery.gotoTop": 'js/vendor/jquery.gotoTop',
                 "datepair": "js/vendor/timepicker/datepair",
@@ -148,6 +149,10 @@
                 "jquery.inputnumber": {
                     deps: ["jquery"],
                     exports: "jQuery.fn.inputNumber"
+                },
+                "jquery.zclip":{
+                    deps: ["jquery"],
+                    exports: "jQuery.fn.zclip"
                 },
                 "jquery.tinymce": {
                     deps: ["jquery", "tinymce"],
