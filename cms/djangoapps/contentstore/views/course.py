@@ -343,15 +343,23 @@ def course_listing(request):
         "email": request.user.email
     }
 
-    qparams_keys = qparams.keys()
-    qparams_keys.sort()
-    demd5_qparams_str = hashlib.md5("".join([qparams[k] for k in qparams_keys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
-    wenjuan_loginapi = "http://apitest.wenjuan.com:8000/openapi/login?{}&md5={}".format("&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str) 
+    def sorted_url(params_hash={}):
+        pkeys = params_hash.keys()
+        pkeys.sort()
+
+        demd5_str = hashlib.md5("".join([params_hash[k] for k in pkeys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
+
+        return ("&".join(["".join([k, '=', v]) for k, v in params_hash.iteritems()]), demd5_str)
+
+
+    # demd5_qparams_str = hashlib.md5("".join([qparams[k] for k in qparams_keys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
+    # wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000","&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str) 
+    wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams)) 
 
     # get questionnaire list   
     qlist = []
     try:
-        list_url = "http://apitest.wenjuan.com:8000/openapi/proj_list?{}&md5={}".format("&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str)
+        list_url = "{}/openapi/proj_list?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams))
         timeout = 10
         socket.setdefaulttimeout(timeout)
         req = urllib2.Request(list_url.replace(' ', '%20'))
@@ -365,14 +373,16 @@ def course_listing(request):
                 reponse,
                 create time,
                 q url
+                result url
             ]
-            """
+            """ 
             qlist.append([
                 wj.get('title', "未知"),
                 WENJUAN_STATUS[str(wj.get('status', 4))],
                 wj.get('respondent_count', 0),
                 wj.get('ctime', ''),
-                "http://apitest.wenjuan.com:8000/s/{}".format(wj.get('proj_id', ''))
+                "{}/s/{}".format("http://apitest.wenjuan.com:8000", wj.get('proj_id', '')),
+                "{}/openapi/basic_chart/?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url({"site": '99999', "user": request.user.username,"proj_id": wj.get("proj_id", "")}))
             ])
     except:
         print "=====error===== " * 5

@@ -460,7 +460,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
     padding: 8px;
     height: auto;
     width: auto;
-    min-width: 35%;
+    min-width: 38%;
   }
 
   div.inner-wrapper {
@@ -569,6 +569,14 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
     display: table-row;
   }
 
+  div.inner-wrapper>div#wenjuan-list>table tr th:last-child {
+    text-align: center;
+  }
+
+  div.inner-wrapper>div#wenjuan-list>table tr td:last-child a{
+    padding: 0px 10px;
+  }
+
   div.inner-wrapper>div#wenjuan-list>table thead tr th {
     vertical-align: bottom;
     border-bottom: 2px solid #ddd;
@@ -627,6 +635,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
               <td>${ wj[3] }</td>
               <td>
                 <a href="#" id="copy-content-id" data="${wj[4]}">查看URL</a>
+                <a href="${wj[5]}" target="_blank">结果地址</a>
               </td>
             </tr>
 
@@ -636,7 +645,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
           % endfor
         </table>
       % else:
-        <div>
+        <div style="padding: 0 30px">
           <span>目前你还没有制作过问卷，<a href="${wenjuan_link}" target="_blank">点击此处</a>来制作</span>            
         </div>
       % endif
