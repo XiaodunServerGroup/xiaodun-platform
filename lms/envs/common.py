@@ -884,12 +884,6 @@ PIPELINE_CSS = {
             'xmodule/modules.css',
         ],
         'output_filename': 'css/lms-style-course.css',
-    },
-    'bootstrap-style': {
-        'source_filenames': [
-            'css/bootstrap/bootstrap.css',
-        ],
-        'output_filename': 'css/bootstrap.css',
     }
 }
 
