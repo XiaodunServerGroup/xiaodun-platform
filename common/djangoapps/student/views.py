@@ -16,6 +16,9 @@ import time
 import base64
 import socket
 import urllib2
+import hashlib
+from suds.client import Client
+import xmltodict
 
 from django.utils import timezone
 from collections import defaultdict
@@ -77,7 +80,7 @@ from collections import namedtuple
 
 from instructor.offline_gradecalc import student_grades
 
-from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url
+from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url, get_course_by_id
 from courseware.access import has_access
 
 from django_comment_common.models import Role
@@ -215,34 +218,80 @@ def lead_courses(request):
         "org": uniq_filter_org(crude_courses)
     }
 
-    # acquire org condition
     con_col = {}
+    con_courses = []
+
     org_con = request.GET.get("org", "")
-    if org_con:
-        con_col.update({"orgCon": org_con.split(',')})
-        if "all" not in con_col["orgCon"]:
-            crude_courses = filter(lambda x: x.display_org_with_default in con_col["orgCon"], crude_courses)
-
-    # acquire subject condition
+    con_col.update({"orgCon": org_con.split(',')})
+    
     subject_con = request.GET.get("subject", "")
-    if subject_con:
-        con_col.update({"subCon": subject_con.split(',')})
-        if "all" not in con_col['subCon']:
-            crude_courses = filter(lambda x: x.course_category in con_col['subCon'], crude_courses)
+    con_col.update({"subCon": subject_con.split(',')})
 
-    # acquire level condition
     level_con = request.GET.get('level', "")
-    if level_con:
-        con_col.update({"levelCon": level_con.split(',')})
-        if "all" not in con_col['levelCon']:
-            crude_courses = filter(lambda x: x.course_level in con_col['levelCon'], crude_courses)
+    con_col.update({"levelCon": level_con.split(',')})
 
-    context = {"courses": crude_courses}
+    for course in crude_courses:
+        # acquire org condition
+        org_flag = False
+        if org_con:    
+            if "all" in con_col["orgCon"] or ("all" not in con_col["orgCon"] and course.display_org_with_default in con_col["orgCon"]):
+                if course in con_courses:
+                    continue
+                con_courses.append(course)
+        else:
+            org_flag = True
+
+
+        # acquire subject condition
+        subject_flag = False
+        if subject_con:   
+            if "all" in con_col['subCon'] or ("all" not in con_col['subCon'] and course.course_category in con_col['subCon']):
+                if course in con_courses:
+                    continue
+                con_courses.append(course) 
+        else:
+            subject_flag = True
+
+
+        # acquire level condition
+        level_flag = False
+        if level_con:
+            if "all" in con_col['levelCon'] or ("all" not in con_col['levelCon'] and course.course_level in con_col['levelCon']):
+                if course in con_courses:
+                    continue
+                con_courses.append(course)
+        else:
+            level_flag = True
+
+        if org_flag and subject_flag and level_flag:
+            con_courses = crude_courses
+            break
+
+    # acquire course_id condition
+    def course_dep(crucourses, course_id):
+        course_index = 0
+        try:
+            for idx, c in enumerate(crucourses):
+                if c.id == course_id:
+                    course_index = (idx + 1)
+                    break
+        except:
+            course_index = 0
+
+        courses_list = crucourses[course_index: course_index + 3]
+
+        return courses_list
+
+    id_con = request.GET.get('course_id', '').strip()
+    con_col.update({'course_id': id_con})
+    con_courses = course_dep(con_courses, id_con)
+
+    context = {"courses": con_courses}
     context.update(sel_items)
     context.update(con_col)
 
     if request.is_ajax():
-        context["courses"] = map(format_course, context["courses"]) 
+        context["courses"] = map(format_course, context["courses"])
         return JsonResponse(context)
 
     return render_to_response('lead_courses.html', context)
@@ -807,6 +856,27 @@ def change_enrollment(request):
         if not has_access(user, course, 'enroll'):
             return HttpResponseBadRequest(_("Enrollment is closed"))
 
+        if course.display_course_price_with_default > 0:
+            def demd5_webservicestr(srstr):
+                if not isinstance(srstr, str):
+                    return ""
+                md5obj = hashlib.md5()
+                md5obj.update(srstr)
+
+                return md5obj.hexdigest()
+
+            try:
+                url = 'http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl'
+                client = Client(url)
+                xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+                xresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
+                rdict = xmltodict.parse(xresult)
+                if int(rdict['EVENTRETURN']['RESULT']) not in [0, 1]:
+                    return HttpResponseBadRequest("课程内容收费，请先购买，再注册此课程！")
+            except:
+                return HttpResponseBadRequest("系统出错，请稍后再试！")
+
+
         # see if we have already filled up all allowed enrollments
         is_course_full = CourseEnrollment.is_course_full(course)
 
@@ -1017,6 +1087,38 @@ def login_user_with_guoshi_account(request):
     suc_response["P3P"] = 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"'
 
     return suc_response
+
+
+@login_required
+def sync_class_appointment(request):
+    """
+    Synchronous classroom Appointment
+    """
+    user = request.user
+
+    # load settings viedio meeting domain
+    video_meeting_domain = "http://192.168.1.6:8091"  # settings.VEDIO_MEETING_DOMAIN
+
+    # des encrypt user info for login into video meetting sys
+    '''
+    pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
+    def des_encrypt(input_str):
+        obj = DES.new(secure_key(KEY), DES.MODE_ECB)
+
+        return base64.b64encode(obj.encrypt(pad(input_str)))
+
+    des_user_info = des_encrypt(user.username + "#" + user.password)
+    '''
+
+    des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
+
+    tabs = [
+        ["我的小屋", "{}/mp/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
+        ["查找小屋", "{}/mp/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["信息通知", "{}/mp/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+    ]
+
+    return render_to_response("sync_class_appointment.html", {"user": user, 'ftabs': tabs})
 
 
 def login_failure_count(request):

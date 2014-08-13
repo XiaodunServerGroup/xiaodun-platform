@@ -557,3 +557,20 @@ except ImportError:
     pass
 else:
     INSTALLED_APPS += ('edx_jsdraw',)
+
+
+############## SSO KEY ################
+SSO_KEY = "SSOFOUNDER"
+
+
+############## user auth ##############
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher', 
+    'django.contrib.auth.hashers.BCryptPasswordHasher', 
+    'django.contrib.auth.hashers.SHA1PasswordHasher', 
+    'django.contrib.auth.hashers.MD5PasswordHasher', 
+    'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher',  
+    'django.contrib.auth.hashers.CryptPasswordHasher'
+)

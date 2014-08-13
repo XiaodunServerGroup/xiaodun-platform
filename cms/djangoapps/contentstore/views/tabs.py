@@ -1,9 +1,13 @@
 """
 Views related to course tabs
 """
+from Crypto.Cipher import DES
+import base64
+
 from access import has_course_access
 from util.json_request import expect_json, JsonResponse
 
+from django.conf import settings
 from django.http import HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied

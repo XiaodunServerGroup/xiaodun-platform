@@ -355,8 +355,10 @@ DEV_CONTENT = True
 
 EDX_ROOT_URL = ''
 
-LOGIN_REDIRECT_URL = EDX_ROOT_URL + '/accounts/login'
-LOGIN_URL = EDX_ROOT_URL + '/accounts/login'
+# LOGIN_REDIRECT_URL = EDX_ROOT_URL + '/accounts/login'
+LOGIN_REDIRECT_URL = EDX_ROOT_URL + '/login'
+# LOGIN_URL = EDX_ROOT_URL + '/accounts/login'
+LOGIN_URL = EDX_ROOT_URL + '/login'
 
 COURSE_NAME = "6.002_Spring_2012"
 COURSE_NUMBER = "6.002x"
@@ -1499,14 +1501,14 @@ ALL_LANGUAGES = (
 )
 
 PASSWORD_HASHERS = (
-'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
-'django.contrib.auth.hashers.PBKDF2PasswordHasher', 
-'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher', 
-'django.contrib.auth.hashers.BCryptPasswordHasher', 
-'django.contrib.auth.hashers.SHA1PasswordHasher', 
-'django.contrib.auth.hashers.MD5PasswordHasher', 
-'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher',  
-'django.contrib.auth.hashers.CryptPasswordHasher'
+    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher', 
+    'django.contrib.auth.hashers.BCryptPasswordHasher', 
+    'django.contrib.auth.hashers.SHA1PasswordHasher', 
+    'django.contrib.auth.hashers.MD5PasswordHasher', 
+    'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher',  
+    'django.contrib.auth.hashers.CryptPasswordHasher'
 )
 
 ### JSdraw (only installed in some instances)

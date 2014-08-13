@@ -54,6 +54,9 @@ urlpatterns = ('',  # nopep8
     url(r'^sso/user/guoshi/desencrypt/auth_login', 'student.views.des_auth_login', name='des_auth_login'),
     url(r'^sso/user/guoshi/desencrypt/ajax_login_user$', 'student.views.login_user_with_guoshi_account', name='login_user_with_guoshi_account'),
 
+    # class appointment
+    url(r'^sync/class/appointment$', 'student.views.sync_class_appointment', name='sync_class_appointment'),
+
     url(r'^password_reset/$', 'student.views.password_reset', name='password_reset'),
     ## Obsolete Django views for password resets
     ## TODO: Replace with Mako-ized views
@@ -261,6 +264,9 @@ if settings.COURSEWARE_ENABLED:
         #About the course
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/about$',
             'courseware.views.course_about', name="about_course"),
+        # puchase authenticate ?
+        url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/purchase/auth$',
+            'courseware.views.purchase_authenticate', name="purchase_authenticate"),
         #View for mktg site (kept for backwards compatibility TODO - remove before merge to master)
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/mktg-about$',
             'courseware.views.mktg_course_about', name="mktg_about_course"),

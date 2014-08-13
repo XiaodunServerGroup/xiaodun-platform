@@ -8,6 +8,7 @@ import requests
 from datetime import datetime
 import dateutil.parser
 from lazy import lazy
+import uuid
 
 from xmodule.modulestore import Location
 from xmodule.partitions.partitions import UserPartition
@@ -181,6 +182,8 @@ class CourseFields(object):
         default=[],
         scope=Scope.content
     )
+      
+    courseuuid = String(help='for course purchase mark uniqueness', scope=Scope.content)
 
     wiki_slug = String(help="Slug that points to the wiki for this course", scope=Scope.content)
     enrollment_start = Date(help="Date that enrollment for this class is opened", scope=Scope.settings)
@@ -536,6 +539,7 @@ class CourseDescriptor(CourseFields, SequenceDescriptor):
         super(CourseDescriptor, self).__init__(*args, **kwargs)
         _ = self.runtime.service(self, "i18n").ugettext
 
+        self.courseuuid = uuid.uuid1()
         if self.wiki_slug is None:
             if isinstance(self.location, Location):
                 self.wiki_slug = self.location.course
@@ -1053,6 +1057,10 @@ class CourseDescriptor(CourseFields, SequenceDescriptor):
     @property
     def org(self):
         return self.location.org
+
+    @property
+    def course_uuid(self):
+        return self.courseuuid
 
     @property
     def display_org_with_default(self):

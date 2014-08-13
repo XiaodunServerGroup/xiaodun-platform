@@ -9,6 +9,9 @@ import re
 import bson
 import socket
 import urllib2
+from Crypto.Cipher import DES
+import base64
+import hashlib
 
 from datetime import *
 from django.utils import timezone
@@ -71,8 +74,16 @@ __all__ = ['course_info_handler', 'course_handler', 'course_info_update_handler'
            'grading_handler',
            'advanced_settings_handler',
            'textbooks_list_handler', 
-           'textbooks_detail_handler', 'course_audit_api']
+           'textbooks_detail_handler', 'course_audit_api', 'sync_class_appointment']
 
+WENJUAN_STATUS = {
+    "0": "未发布",
+    "1": "收集中",
+    "2": "已结束",
+    "3": "暂停中",
+    "4": "状态未明",
+    "-1": "已删除",
+}
 
 def _get_locator_and_course(package_id, branch, version_guid, block_id, user, depth=0):
     """
@@ -104,6 +115,40 @@ def _get_course_org_from_bs(user):
 
     return course_org
 
+
+@login_required
+def sync_class_appointment(request):
+    """
+    Synchronous classroom Appointment
+    """
+    user = request.user
+
+    # load settings viedio meeting domain
+    video_meeting_domain = "http://192.168.1.6:8091"  # settings.VEDIO_MEETING_DOMAIN
+
+    # des encrypt user info for login into video meetting sys
+    '''
+    pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
+    def des_encrypt(input_str):
+        obj = DES.new(secure_key(KEY), DES.MODE_ECB)
+
+        return base64.b64encode(obj.encrypt(pad(input_str)))
+
+    des_user_info = des_encrypt(user.username + "#" + user.password)
+    '''
+
+    des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
+
+    tabs = [
+        ["我的小屋", "{}/mp/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
+        ["查找小屋", "{}/mp/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["添加小屋", "{}/mp/sns/meeting/edx_add_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["信息通知", "{}/mp/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+    ]
+
+    return render_to_response("sync_class_appointment.html", {"user": user, 'ftabs': tabs})
+
+
 # pylint: disable=unused-argument
 @login_required
 def course_handler(request, tag=None, package_id=None, branch=None, version_guid=None, block=None):
@@ -116,7 +161,7 @@ def course_handler(request, tag=None, package_id=None, branch=None, version_guid
         html: return course listing page if not given a course id
         html: return html page overview for the given course if given a course id
         json: return json representing the course branch's index entry as well as dag w/ all of the children
-        replaced w/ json docs where each doc has {'_id': , 'display_name': , 'children': }
+        replaced w/json docs where each doc has {'_id': , 'display_name': , 'children': }
     POST
         json: create a course, return resulting json
         descriptor (same as in GET course/...). Leaving off /branch/draft would imply create the course w/ default
@@ -289,13 +334,68 @@ def course_listing(request):
             course.location.name
         )
 
+    # questionnaire
+    # KEY: site(required) user(required) ctime(required format yyyy-mm-dd HH:MM) email(required) mobile
+    qparams = {
+        "site": '99999', # TODO: settings.WENJUANSITEID
+        "user": request.user.username,
+        "ctime": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "email": request.user.email
+    }
+
+    def sorted_url(params_hash={}):
+        pkeys = params_hash.keys()
+        pkeys.sort()
+
+        demd5_str = hashlib.md5("".join([params_hash[k] for k in pkeys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
+
+        return ("&".join(["".join([k, '=', v]) for k, v in params_hash.iteritems()]), demd5_str)
+
+
+    # demd5_qparams_str = hashlib.md5("".join([qparams[k] for k in qparams_keys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
+    # wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000","&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str) 
+    wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams)) 
+
+    # get questionnaire list   
+    qlist = []
+    try:
+        list_url = "{}/openapi/proj_list?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams))
+        timeout = 10
+        socket.setdefaulttimeout(timeout)
+        req = urllib2.Request(list_url.replace(' ', '%20'))
+        # {"status": 1, "respondent_count": 0, "proj_id": "AzaYja", "ctime": "2014-08-08 15:23", "title": "测试问卷", "type": "survey"}
+        for wj in json.load(urllib2.urlopen(req)):
+            """
+            list structure
+            [
+                title,
+                status,
+                reponse,
+                create time,
+                q url
+                result url
+            ]
+            """ 
+            qlist.append([
+                wj.get('title', "未知"),
+                WENJUAN_STATUS[str(wj.get('status', 4))],
+                wj.get('respondent_count', 0),
+                wj.get('ctime', ''),
+                "{}/s/{}".format("http://apitest.wenjuan.com:8000", wj.get('proj_id', '')),
+                "{}/openapi/basic_chart/?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url({"site": '99999', "user": request.user.username,"proj_id": wj.get("proj_id", "")}))
+            ])
+    except:
+        print "=====error===== " * 5
+
     course_org = _get_course_org_from_bs(request.user)
     return render_to_response('index.html', {
         'courses': [format_course_for_view(c) for c in courses if not isinstance(c, ErrorDescriptor)],
         'user': request.user,
         'request_course_creator_url': reverse('contentstore.views.request_course_creator'),
         'course_creator_status': _get_course_creator_status(request.user),
-        'course_org': course_org
+        'course_org': course_org,
+        'wenjuan_link': wenjuan_loginapi,
+        'qlist': qlist
     })
 
 

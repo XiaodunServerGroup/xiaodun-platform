@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 from notes.models import Note
 from notes.utils import notes_enabled_for_course
@@ -257,7 +258,7 @@ def search(request, course_id):
     if not username:
         user_id = request.GET.get('user_id', '').strip()
         
-        user_id = int(user_id) if user_id else user.id
+        user_id = int(user_id) if user_id else None
     else:
         sel_user = User.objects.get(username=username)
         user_id = sel_user.id if sel_user else None

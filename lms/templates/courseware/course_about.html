@@ -39,10 +39,57 @@
 
   <script type="text/javascript">
   (function() {
+    $('section.intro').data('purchase_link', '${purchase_link}');
+
     $(".register").click(function(event) {
-      $("#class_enroll_form").submit();
-      event.preventDefault();
+      var eventRecipient = $(this);
+      var classAttrs = eventRecipient.attr('class').split(' ');
+
+      if (classAttrs.indexOf('free') > 0) {
+        $("#class_enroll_form").submit();
+        event.preventDefault();
+        return false;
+      }
+      
+      if (classAttrs.indexOf('auth') > 0 && classAttrs.indexOf('purchased') > 0) {
+        $('div#purchase-prompt').children('span:first-child').html("您的账户已经在我们的运营系统上支付过此门课程，请直接点击下面按钮注册该课程");
+        $('a#finish_purchase').html('加入课程&开始学习');
+        return false;
+      }
+
+      if (classAttrs.indexOf('auth') > 0 && classAttrs.indexOf('purchased') == -1) {
+        var purchaseLink = $('section.intro').data('purchase_link');
+        var showContent = "学习课程之前，请在我们的运营系统购买该课程(" + "<a href='" + purchaseLink + "' target='_blank'>购买链接</a>" 
+          + ")，购买完成后，请点击下面按钮注册课程";
+        window.open(purchaseLink, '_blank');
+        $('div#purchase-prompt').children('span:first-child').html(showContent);
+
+        return false
+      }
     });
+
+    $("a#finish_purchase").click(function(){
+        ajaxJudgeAuth();
+    });
+
+    function ajaxJudgeAuth(){
+      // ajax request get course purchase infomation
+      var loc_hf = location.href.split('/');
+      var course_id = loc_hf[4] + '/' + loc_hf[5] + '/' + loc_hf[6]
+      $.ajax({
+        url: '/courses/' + course_id + '/purchase/auth',
+        type: 'GET',
+        dataType: 'json',
+        success: function(json){
+          if (json.authenticated) {
+            $('#class_enroll_form').submit();
+          } else{
+            $('.close-modal').click();
+            $("#register_error").html("${_('An error occurred. Please try again later.')}").css('display', 'block');
+          }
+        }
+      });
+    }
 
     % if settings.FEATURES.get('ENABLE_SHOPPING_CART') and settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION'):
       add_course_complete_handler = function(jqXHR, textStatus) {
@@ -152,7 +199,7 @@
               %if course.display_course_price_with_default == 0:
                 ${"(免费)"}
               %else:
-                <span style='color: #53A93F; font-family: 微软雅黑; font-size: 26px;'>${str(course.display_course_price_with_default)}</span>
+                <span style='color: #53A93F; font-size: 26px;' id='course_price_span'>${str(course.display_course_price_with_default)}</span>
                 元
               %endif
             </label> 
@@ -160,105 +207,41 @@
         </hgroup>
 
         <div class="main-cta">
-        %if user.is_authenticated() and registered:
-          %if show_courseware_link:
-            <a href="${course_target}">
+          %if user.is_authenticated() and registered:
+            %if show_courseware_link:
+              <a href="${course_target}">
+            %endif
+
+            <span class="register disabled">${_("You are registered for this course")}</span>
+
+            %if show_courseware_link:
+              <strong>${_("View Courseware")}</strong>
+              </a>
+            %endif
+          %else:
+              %if course.display_course_price_with_default > 0:
+                <a href="#purchase-modal" class="register ${'auth' if user.is_authenticated else ''} ${'purchased' if purchased else ''}" rel='leanModal'>购买课程</a>
+              %else:
+                <a class="register free ${'auth' if user.is_authenticated else ''}">免费注册课程</a>
+              %endif
+            <div id="register_error" style='clear: both;'></div> 
           %endif
-
-          <span class="register disabled">${_("You are registered for this course")}</span>
-
-          %if show_courseware_link:
-            <strong>${_("View Courseware")}</strong>
-            </a>
-          %endif
-
-        %elif in_cart:
-          <span class="add-to-cart">
-            ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
-          </span>
-        %elif settings.FEATURES.get('ENABLE_PAID_COURSE_REGISTRATION') and registration_price:
-          <%
-          if user.is_authenticated():
-            reg_href = "#"
-            reg_element_id = "add_to_cart_post"
-          else:
-            reg_href = reg_then_add_to_cart_link
-            reg_element_id = "reg_then_add_to_cart"
-          %>
-          <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
-            ${_("Add {course.display_number_with_default} to Cart ({currency_symbol}{cost})")\
-              .format(course=course, currency_symbol=settings.PAID_COURSE_REGISTRATION_CURRENCY[1],
-                      cost=registration_price)}
-          </a>
-          <div id="register_error"></div>
-        % elif is_course_full:
-          <span class="register disabled">
-            ${_("Course is full")}
-          </span>
-        %else:
-          <a href="#" class="register">
-            ${"加入课程"}
-          </a>
-          <style>
-            .trade_class {
-              border: 1px solid #8a0b00;
-              border-bottom: 1px solid #810000;
-              border-radius: 5px;
-              box-shadow: inset 0 1px 0 0 #ff973d;
-              color: white;
-              display: inline-block;
-              font-size: 14px;
-              font-weight: bold;
-              background-color: #ff7a31;
-              background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff7a31),color-stop(50%, #c74810),color-stop(50%, #a92f01),color-stop(100%, #b03403));
-              background-image: -webkit-linear-gradient(top, #ff7a31 0%,#c74810 50%,#a92f01 50%,#b03403 100%);
-              background-image: linear-gradient(to bottom,#ff7a31 0%,#c74810 50%,#a92f01 50%,#b03403 100%);
-              padding: 8px 20px;
-              text-align: center;
-              text-decoration: none;
-              text-shadow: 0 -1px 1px #730000;
-              -webkit-box-sizing: border-box;
-              -moz-box-sizing: border-box;
-              box-sizing: border-box;
-              border-radius: 3px;
-              display: block;
-              font: normal 1.2rem/1.6rem "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-              letter-spacing: 1px;
-              padding: 10px 0px;
-              text-transform: uppercase;
-              text-align: center;
-              width: 40.15254%;
-            }
-
-            .trade_class:hover {
-              cursor:pointer;
-              background-color: #f26b1f;
-              background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #f26b1f),color-stop(50%, #bd3c00),color-stop(50%, #a22500),color-stop(100%, #a92a00));
-              background-image:-webkit-linear-gradient(top, #f26b1f 0%,#bd3c00 50%,#a22500 50%,#a92a00 100%);
-              background-image: linear-gradient(to bottom,#f26b1f 0%,#bd3c00 50%,#a22500 50%,#a92a00 100%)
-            }
-          </style>
-          %if course.display_course_price_with_default > 0:
-            <a href="#" class='trade_class' style="color: white; float: right; margin-top: -47px; font-size: 19px; line-height: 24px; margin-right: 25px;">点击购买</a>
-          % endif
-          <div id="register_error" style='clear: both;'></div> 
-        %endif
         </div>
 
       </section>
       % if get_course_about_section(course, "video"):
-      <a href="#video-modal" class="media" rel="leanModal">
-        <div class="hero">
-          <img src="${course_image_url(course)}" alt="" />
-          <div class="play-intro"></div>
-        </div>
-      </a>
+        <a href="#video-modal" class="media" rel="leanModal">
+          <div class="hero">
+            <img src="${course_image_url(course)}" alt="" />
+            <div class="play-intro"></div>
+          </div>
+        </a>
       %else:
-      <div class="media">
-        <div class="hero">
-          <img src="${course_image_url(course)}" alt="" />
+        <div class="media">
+          <div class="hero">
+            <img src="${course_image_url(course)}" alt="" />
+          </div>
         </div>
-      </div>
       % endif
     </div>
       </div>
@@ -407,3 +390,73 @@
 %endif
 
 <%include file="../video_modal.html" />
+
+
+<style>
+  section#purchase-modal header { padding: 0px; margin: 25px 0px 10px; border-bottom: 1px solid #d2d2d2}
+
+  section#purchase-modal div#purchase-oper { margin: 15px 0px 0px;}
+  section#purchase-modal div#purchase-oper a:first-child {margin-right: 30px; }
+  section#purchase-modal div#purchase-oper a.trade_class {
+      width: 100%;
+      border: 1px solid #8a0b00;
+      border-bottom: 1px solid #810000;
+      box-shadow: inset 0 1px 0 0 #ff973d;
+      color: white;
+      display: inline-block;
+      font-size: 14px;
+      background-color: #ff7a31;
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff7a31),color-stop(50%, #c74810),color-stop(50%, #a92f01),color-stop(100%, #b03403));
+      background-image: -webkit-linear-gradient(top, #ff7a31 0%,#c74810 50%,#a92f01 50%,#b03403 100%);
+      background-image: linear-gradient(to bottom,#ff7a31 0%,#c74810 50%,#a92f01 50%,#b03403 100%);
+      padding: 8px 20px;
+      text-align: center;
+      text-decoration: none;
+      text-shadow: 0 -1px 1px #730000;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      border-radius: 3px;
+      display: inline-block;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: center;
+  }
+
+  section#purchase-modal div#purchase-oper a.trade_class:hover {
+    cursor:pointer;
+    background-color: #f26b1f;
+    background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #f26b1f),color-stop(50%, #bd3c00),color-stop(50%, #a22500),color-stop(100%, #a92a00));
+    background-image:-webkit-linear-gradient(top, #f26b1f 0%,#bd3c00 50%,#a22500 50%,#a92a00 100%);
+    background-image: linear-gradient(to bottom,#f26b1f 0%,#bd3c00 50%,#a22500 50%,#a92a00 100%)
+  }
+</style>
+<section id='purchase-modal' class="modal">
+  <div class="inner-wrapper" role='dialog' aria-labelledby="purchase-modal-title" style="border-bottom: 1px solid #d2d2d2">
+    <button class="close-modal">&#10005;
+      <span class="sr">
+        ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
+        ${_('Close Modal')}
+      </span>
+    </button>
+
+    <header style="padding: 0;">
+      <h2 id="portfolio-modal-title">
+        <span class="sr">,
+          ## Translators: this text gives status on if the modal interface (a menu or piece of UI that takes the full focus of the screen) is open or not
+          ${_("modal open")}
+        </span>
+      </h2>
+    </header>
+
+    <section class="purchase-content" style="width: auto; padding: 0 40px 20px">
+      <div id='purchase-prompt'>
+        <span>支付进行中。。。如果支付完成，请点击下面按钮来注册加入课程</span>
+      </div>
+
+      <div id='purchase-oper'>
+        <a class="trade_class" id="finish_purchase" style="display: inline-block; padding: 8px 20px">确定已支付&注册课程</a>
+      </div>
+    </section>
+  </div>
+</section>

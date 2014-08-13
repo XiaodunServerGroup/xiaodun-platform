@@ -67,6 +67,7 @@ class Note(models.Model):
         """
         return {
             'id': self.pk,
+            'username': self.user.username,
             'user_id': self.user.pk,
             'uri': self.uri,
             'text': self.text,

@@ -337,6 +337,7 @@ def filter_audited_items(courses):
 
     return courses_list
 
+
 def sort_and_audited_items(courses):
     """
     sort and audited courses
