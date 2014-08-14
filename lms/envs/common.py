@@ -886,7 +886,7 @@ PIPELINE_CSS = {
             'xmodule/modules.css',
         ],
         'output_filename': 'css/lms-style-course.css',
-    }
+    },
 }
 
 
