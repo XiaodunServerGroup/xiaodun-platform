@@ -629,7 +629,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
           % for wj in qlist:
             <tr>
-              <td><a href="${ wj[4] }" target="_blank">${ wj[0] }</a></td>
+              <td><a href="${ wj[4] }" target="_blank" title="${ wj[0] }">${ wj[0] if len(wj[0]) <= 9 else (wj[0][0:8] + "...") }</a></td>
               <td>${ wj[1] }</td>
               <td>${ wj[2] }</td>
               <td>${ wj[3] }</td>
