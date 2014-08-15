@@ -887,6 +887,13 @@ PIPELINE_CSS = {
         ],
         'output_filename': 'css/lms-style-course.css',
     },
+    'style-annotator': {
+        'source_filenames': [
+            'js/vendor/ova/skins/skin.min.css',
+            'js/vendor/ova/skins/content.min.css'
+        ],
+        'output_filename': 'css/lms-style-annotator-vender.css'
+    },
 }
 
 
