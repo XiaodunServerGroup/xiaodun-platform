@@ -52,6 +52,11 @@ def api_enabled(request, course_id):
     return notes_enabled_for_course(course)
 
 
+def init_search_filter():
+    for k,v in FILTERLAMBDA.iteritems():
+        FILTERLAMBDA[k][1] = False
+
+
 @login_required
 def api_request(request, course_id, **kwargs):
     '''
@@ -218,7 +223,9 @@ def search(request, course_id):
     Returns a subset of  annotation objects based on a search query.
     '''
     MAX_LIMIT = API_SETTINGS.get('MAX_NOTE_LIMIT')
-
+    # init filter
+    init_search_filter()
+    
     # search parameters
     offset = request.GET.get('offset', '')
     limit = request.GET.get('limit', '')
@@ -266,7 +273,7 @@ def search(request, course_id):
             sel_user = None
         user_id = sel_user.id if sel_user else -1
 
-    if user_id:
+    if user_id is not None:
         outerfilters["user"][1] = True
 
     # media
