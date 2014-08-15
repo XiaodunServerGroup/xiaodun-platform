@@ -866,7 +866,7 @@ def change_enrollment(request):
                 return md5obj.hexdigest()
 
             try:
-                url = 'http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl'
+                url = '{}/services/OssWebService?wsdl'.format(settings.OPER_SYS_DOMAIN)
                 client = Client(url)
                 xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
                 xresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
@@ -1025,7 +1025,7 @@ def login_user_with_guoshi_account(request):
 
     # request passport url and get details of user des encrypt string
     try: 
-        request_url = "".join(["http://passport.guoshi.com/mp/proxyValidateuser?input=", certificate])
+        request_url = "{}/proxyValidateuser?input={}".format(settings.SSO_DOMAIN, certificate)  # "".join(["{}/proxyValidateuser?input=", certificate])
         req = urllib2.Request(request_url)
 
         re_q = re.compile('\s+')
@@ -1097,20 +1097,19 @@ def sync_class_appointment(request):
     user = request.user
 
     # load settings viedio meeting domain
-    video_meeting_domain = "http://192.168.1.6:8091"  # settings.VEDIO_MEETING_DOMAIN
+    video_meeting_domain = settings.VEDIO_MEETING_DOMAIN   # "http://192.168.1.6:8091" 
 
     # des encrypt user info for login into video meetting sys
-    '''
     pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
     def des_encrypt(input_str):
-        obj = DES.new(secure_key(KEY), DES.MODE_ECB)
+        obj = DES.new(settings.SSO_KEY[0:8], DES.MODE_ECB)
 
         return base64.b64encode(obj.encrypt(pad(input_str)))
 
     des_user_info = des_encrypt(user.username + "#" + user.password)
-    '''
 
-    des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
+    # Test
+    # des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
 
     tabs = [
         ["我的小屋", "{}/mp/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
@@ -1435,8 +1434,9 @@ def _push_info_to_bs(post_vars):
     # goon request
     rejson = {'success': False}
     try:
-        request_host = "http://192.168.1.78:8081/xiaodun"              #settings.XIAODUN_BACK_HOST
-        request_url = request_host + '/student/student!regist.do?input={}'.format(des_enxml_str)
+        request_host = settings.XIAODUN_BACK_HOST            # Test DEV "http://192.168.1.78:8081/xiaodun"
+        request_url = '{}/student/student!regist.do?input={}'.format(request_host, des_enxml_str)
+
         socket.setdefaulttimeout(10)
         req = urllib2.Request(request_url)
         request_json = json.load(urllib2.urlopen(req))

@@ -1522,3 +1522,15 @@ else:
 
 ############## SSO KEY ################
 SSO_KEY = "SSOFOUNDER"
+
+############## Operation System Domain############
+OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
+
+############## SSO Domain ############
+SSO_DOMAIN = 'http://passport.guoshi.com/mp'
+
+############## BUSINESS SYSTEM #################
+XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
+
+############## video mettings ##################
+VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"

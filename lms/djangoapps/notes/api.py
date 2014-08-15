@@ -256,12 +256,15 @@ def search(request, course_id):
     user_id = None
     username = request.GET.get('username', '').strip()
     if not username:
-        user_id = request.GET.get('user_id', '').strip()
+        user_id = request.GET.get('userid', '').strip()
         
         user_id = int(user_id) if user_id else None
     else:
-        sel_user = User.objects.get(username=username)
-        user_id = sel_user.id if sel_user else None
+        try:
+            sel_user = User.objects.get(username=username)
+        except:
+            sel_user = None
+        user_id = sel_user.id if sel_user else -1
 
     if user_id:
         outerfilters["user"][1] = True

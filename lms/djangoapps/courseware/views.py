@@ -828,8 +828,7 @@ def purchase_authenticate(request, course_id):
     if not (user is None or isinstance(user, AnonymousUser)):
         xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
         try:
-            # TODO read url from settings
-            url = "http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl"
+            url = "{}/services/OssWebService?wsdl".format(settings.OPER_SYS_DOMAIN)
             client = Client(url)
             aresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
             redict = xmltodict.parse(aresult)
@@ -842,9 +841,9 @@ def purchase_authenticate(request, course_id):
 
                 # DES encode data
                 pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
-                des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_format.encode('utf-8'))))
-                bs_host = "http://192.168.1.78:8081/xiaodun"
-                push_url = bs_host + "/service/course/add?data=" + des_enxml_str
+                des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
+                bs_host = settings.XIAODUN_BACK_HOST        # test dev "http://192.168.1.78:8081/xiaodun"
+                push_url = "{}/service/course/add?data={}".format(bs_host, des_enxml_str)
 
                 socket.setdefaulttimeout(2)
                 req = urllib2.Request(push_url)
@@ -901,7 +900,8 @@ def course_about(request, course_id):
 
     # load wsdl client 
     # TODO setting operation system url to common setting which load when sys boot
-    url = "http://192.168.1.82:8090/cetvossFront/services/OssWebService?wsdl"
+    oper_sys_domain = settings.OPER_SYS_DOMAIN
+    url = "{}/services/OssWebService?wsdl".format(oper_sys_domain)
     client = Client(url)
     # push course info to operating system and get purchase info
     push_update, course_purchased = True, False
@@ -937,7 +937,7 @@ def course_about(request, course_id):
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
                                'is_course_full': is_course_full,
-                               'purchase_link': 'http://operation.guoshi.com/cetvossFront/account/buy.action?uuid=' + str(course.course_uuid),
+                               'purchase_link': '{}/account/buy.action?uuid={}'.format(oper_sys_domain, str(course.course_uuid)),
                                'push_update': push_update,
                                'purchased': course_purchased})
 
