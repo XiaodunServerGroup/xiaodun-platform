@@ -906,6 +906,13 @@ PIPELINE_CSS = {
             'css/vendor/fullcalendar/fullcalendar_s.css',
         ],
         'output_filename': 'css/lms-style-fullcalendar-vendor.css',
+    },
+    'style-annotator': {
+        'source_filenames': [
+            'js/vendor/ova/skins/skin.min.css',
+            'js/vendor/ova/skins/content.min.css'
+        ],
+        'output_filename': 'css/lms-style-annotator-vender.css'
     }
 }
 
@@ -1547,3 +1554,15 @@ else:
 
 ############## SSO KEY ################
 SSO_KEY = "SSOFOUNDER"
+
+############## Operation System Domain############
+OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
+
+############## SSO Domain ############
+SSO_DOMAIN = 'http://passport.guoshi.com/mp'
+
+############## BUSINESS SYSTEM #################
+XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
+
+############## video mettings ##################
+VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"

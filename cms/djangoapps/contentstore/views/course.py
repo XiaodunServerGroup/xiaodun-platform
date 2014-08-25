@@ -111,7 +111,8 @@ def _get_course_org_from_bs(user):
     course_org = ""
     try:
         request_host = settings.XIAODUN_BACK_HOST
-        request_url = request_host + "/teacher/teacher!branch.do?teacherid=" + str(user.id)
+        # request_url = request_host + "/teacher/teacher!branch.do?teacherid=" + str(user.id)
+        request_url = "{}/teacher/teacher!branch.do?teacherid={}".format(request_host, str(user.id))
 
         timeout = 5
         socket.setdefaulttimeout(timeout)
@@ -134,7 +135,7 @@ def sync_class_appointment(request):
     user = request.user
 
     # load settings viedio meeting domain
-    video_meeting_domain = "http://192.168.1.6:8091"  # settings.VEDIO_MEETING_DOMAIN
+    video_meeting_domain = settings.VEDIO_MEETING_DOMAIN  # "http://192.168.1.6:8091"
 
     # des encrypt user info for login into video meetting sys
     '''
@@ -150,10 +151,10 @@ def sync_class_appointment(request):
     des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
 
     tabs = [
-        ["我的小屋", "{}/mp/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
-        ["查找小屋", "{}/mp/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
-        ["添加小屋", "{}/mp/sns/meeting/edx_add_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
-        ["信息通知", "{}/mp/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["我的小屋", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
+        ["查找小屋", "{}/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["添加小屋", "{}/sns/meeting/edx_add_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["信息通知", "{}/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
     ]
 
     return render_to_response("sync_class_appointment.html", {"user": user, 'ftabs': tabs})
@@ -357,19 +358,19 @@ def course_listing(request):
         pkeys = params_hash.keys()
         pkeys.sort()
 
-        demd5_str = hashlib.md5("".join([params_hash[k] for k in pkeys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
+        demd5_str = hashlib.md5("".join([params_hash[k] for k in pkeys]) + settings.WENJUAN_SECKEY).hexdigest()
 
         return ("&".join(["".join([k, '=', v]) for k, v in params_hash.iteritems()]), demd5_str)
 
 
     # demd5_qparams_str = hashlib.md5("".join([qparams[k] for k in qparams_keys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
-    # wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000","&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str)
-    wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams))
+    wenjuan_domain = settings.WENJUAN_DOMAIN
+    wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format(wenjuan_domain, *sorted_url(qparams))
 
     # get questionnaire list
     qlist = []
     try:
-        list_url = "{}/openapi/proj_list?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams))
+        list_url = "{}/openapi/proj_list?{}&md5={}".format(wenjuan_domain, *sorted_url(qparams))
         timeout = 10
         socket.setdefaulttimeout(timeout)
         req = urllib2.Request(list_url.replace(' ', '%20'))
@@ -391,8 +392,8 @@ def course_listing(request):
                 WENJUAN_STATUS[str(wj.get('status', 4))],
                 wj.get('respondent_count', 0),
                 wj.get('ctime', ''),
-                "{}/s/{}".format("http://apitest.wenjuan.com:8000", wj.get('proj_id', '')),
-                "{}/openapi/basic_chart/?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url({"site": '99999', "user": request.user.username,"proj_id": wj.get("proj_id", "")}))
+                "{}/s/{}".format(wenjuan_domain, wj.get('proj_id', '')),
+                "{}/openapi/basic_chart/?{}&md5={}".format(wenjuan_domain, *sorted_url({"site": '99999', "user": request.user.username,"proj_id": wj.get("proj_id", "")}))
             ])
     except:
         print "=====error===== " * 5
