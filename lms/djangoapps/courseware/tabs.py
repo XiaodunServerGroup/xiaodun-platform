@@ -345,7 +345,6 @@ def get_course_tabs(user, course, active_page, request):
     """
     if not hasattr(course, 'tabs') or not course.tabs:
         return get_default_tabs(user, course, active_page, request)
-    print "----===="
     # TODO (vshnayder): There needs to be a place to call this right after course
     # load, but not from inside xmodule, since that doesn't (and probably
     # shouldn't) know about the details of what tabs are supported, etc.
@@ -358,8 +357,6 @@ def get_course_tabs(user, course, active_page, request):
     else:
         course_tabs = course.tabs
 
-    print course_tabs
-    print "----===="
     for tab in course_tabs:
         # expect handlers to return lists--handles things that are turned off
         # via feature flags, and things like 'textbook' which might generate
@@ -367,21 +364,13 @@ def get_course_tabs(user, course, active_page, request):
 
         # Temporary Modified
         tab_keys = tab.keys()
-        print tab_keys
         if "name" in tab_keys and (tab['name'] == "Wiki" or tab['name'] == "资料"):
             continue
-        print tab['type']
         gen = VALID_TAB_TYPES[tab['type']].generator
-        print gen
-        print tabs.extend(gen(tab, user, course, active_page, request))
-    print tabs
-    print "----===="
     # Instructor tab is special--automatically added if user is staff for the course
     if has_access(user, course, 'staff'):
         tabs.append(_instructor(course, active_page))
 
-    print tabs
-    print "----===="
     return tabs
 
 

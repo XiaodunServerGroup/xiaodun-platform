@@ -424,7 +424,7 @@ VIRTUAL_UNIVERSITIES = []
 
 ############################### XModule Store ##################################
 MODULESTORE = {
-    'default2': {
+    'default': {
         'ENGINE': 'xmodule.modulestore.xml.XMLModuleStore',
         'OPTIONS': {
             'data_dir': DATA_DIR,

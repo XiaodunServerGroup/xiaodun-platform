@@ -17,7 +17,7 @@
         },
         "ENGINE": "xmodule.contentstore.mongo.MongoContentStore",
         "OPTIONS": {
-            "db": "edxapp1",
+            "db": "edxapp",
             "host": [
                 "localhost"
             ],
