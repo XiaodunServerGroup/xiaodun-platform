@@ -328,6 +328,11 @@ if settings.COURSEWARE_ENABLED:
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/progress/(?P<student_id>[^/]*)/$',
             'courseware.views.progress', name="student_progress"),
 
+        url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/calendar$',
+            'courseware.views.calendar', name="calendar"),
+        url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/calendar/get-events',
+            'courseware.views.cal_getevents', name="cal_getevents"),
+
         # For the instructor
         url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/instructor$',
             'instructor.views.legacy.instructor_dashboard', name="instructor_dashboard"),

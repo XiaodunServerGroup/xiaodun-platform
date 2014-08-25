@@ -109,7 +109,6 @@ def modulestore(name=None):
         # If caller did not specify name then we should
         # determine what should be the default
         name = get_default_store_name_for_current_request()
-
     if name not in _MODULESTORES:
         _MODULESTORES[name] = create_modulestore_instance(
             settings.MODULESTORE[name]['ENGINE'],

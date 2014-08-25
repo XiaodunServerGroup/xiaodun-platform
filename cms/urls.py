@@ -97,6 +97,13 @@ urlpatterns += patterns(
     url(r'(?ix)^settings/details/{}$'.format(parsers.URL_RE_SOURCE), 'settings_handler'),
     url(r'(?ix)^settings/grading/{}(/)?(?P<grader_index>\d+)?$'.format(parsers.URL_RE_SOURCE), 'grading_handler'),
     url(r'(?ix)^settings/advanced/{}$'.format(parsers.URL_RE_SOURCE), 'advanced_settings_handler'),
+    url(r'(?ix)^settings/calendar/{}$'.format(parsers.URL_RE_SOURCE), 'calendar_settings_handler'),
+    url(r'(?ix)^settings/calendar/(?P<course_id>[\w\-~.:]+)/get-events'.format(parsers.URL_RE_SOURCE), 'calendar_settings_getevents'),
+    url(r'(?ix)^common/calendar/(?P<course_id>[\w\-~.:]+)$'.format(parsers.URL_RE_SOURCE), 'calendar_common'),
+    url(r'(?ix)^common/calendar/(?P<course_id>[\w\-~.:]+)/get-events'.format(parsers.URL_RE_SOURCE), 'calendar_settings_getevents'),
+    url(r'(?ix)^common/calendar/(?P<course_id>[\w\-~.:]+)/addEvent'.format(parsers.URL_RE_SOURCE), 'calendar_common_addevent'),
+    url(r'(?ix)^common/calendar/(?P<course_id>[\w\-~.:]+)/deleteEvent'.format(parsers.URL_RE_SOURCE), 'calendar_common_deleteevent'),
+    url(r'(?ix)^common/calendar/(?P<course_id>[\w\-~.:]+)/updateEvent'.format(parsers.URL_RE_SOURCE), 'calendar_common_updateevent'),
     url(r'(?ix)^textbooks/{}$'.format(parsers.URL_RE_SOURCE), 'textbooks_list_handler'),
     url(r'(?ix)^textbooks/{}/(?P<tid>\d[^/]*)$'.format(parsers.URL_RE_SOURCE), 'textbooks_detail_handler'),
 

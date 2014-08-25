@@ -1,0 +1,173 @@
+
+<%namespace name='static' file='static_content.html'/>
+<%!
+  from django.utils.translation import ugettext as _
+  from contentstore import utils
+  from xmodule.modulestore.django import loc_mapper
+%>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js" charset="utf-8"></script>
+<style>
+h1,h2,h3,h4,h5,h6{padding:0; margin:0;}
+ul,ol{padding:0; margin:0;}
+.m_board_bg{width:620px; height:400px; left: 50%; position: absolute; top: 50%; z-index:9}
+.m_board{float:left; position:absolute; left:-50%; top:-50%; width:300px;background:#fff; box-shadow: 0 4px 16px #666;}
+	.m_board .close{position:absolute;right:10px;top:10px; background: url(delete.png) no-repeat; width:16px; height:16px;}
+	.m_board .m_wrap{padding:20px;}
+		.m_board .m_wrap h1{float:left;font-size:18px; font-weight:bold; width:100%; line-height:48px;}
+		.m_board .m_wrap h1 .icon{float:left;width:48px; height:48px; display:block;}
+		.m_board .m_wrap h1 .icon img{width:48px; height:48px;}
+		.m_board .m_wrap .content{float:left; background:#f1f1f1;width:100%; height:100%;}
+		.m_board .m_wrap .content .content_t{width:100%; height:100px;}
+
+		.m_board .m_wrap .btn{float:right; background:#19a741; padding:5px 20px; color:#fff; margin-top:10px; cursor:pointer; margin-bottom:20px;}
+		.m_board .m_wrap .btn:hover{float:right; background:#26c553; padding:5px 20px; color:#fff; margin-top:10px; margin-bottom:20px;}
+		.m_board .m_wrap .btn1{float:left; background:#19a741; padding:5px 20px; color:#fff; margin-top:10px; cursor:pointer; margin-bottom:20px;}
+		.m_board .m_wrap .btn1:hover{float:left; background:#26c553; padding:5px 20px; color:#fff; margin-top:10px; margin-bottom:20px;}
+        .m_board .m_wrap .btn2{float:right; background:#19a741; padding:5px 20px; color:#fff; margin-top:10px; cursor:pointer; margin-bottom:20px;}
+		.m_board .m_wrap .btn2:hover{float:right; background:#26c553; padding:5px 20px; color:#fff; margin-top:10px; margin-bottom:20px;}
+</style>
+
+<%static:css group='style-calendar-vendor'/>
+<%static:js group='calendar_vendor'/>
+<script type="text/javascript">
+	$(document).ready(function() {
+		function renderCalendar() {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                lang: 'zh-cn',
+                draggable: false,
+                buttonIcons: false, // show the prev/next text
+                weekNumbers: true,
+                selectable: true,
+                selectHelper: false,
+                select: function(start, end) {
+                    var title = prompt('Event Title:');
+                    var start = start.format();
+                            var end = end.format();
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+
+                        var url = window.location+"/addEvent";
+                        $.ajax({
+                            url: url,
+                            data: {"title": eventData.title, "start": eventData.start, "end": eventData.end},
+                            type: "GET",
+                            dataType: "jsonp",
+                            jsonp: false,
+                            'cache': true
+                        })
+                    }
+                    $('#calendar').fullCalendar('unselect');
+                },
+
+                editable: true,
+                events: {
+                    url: window.location+'/get-events',
+                    cache: true,
+                    error: function() {
+                        $('#script-warning').show();
+                    }
+                },
+                loading: function(bool) {
+                    $('#loading').toggle(bool);
+                },
+                eventClick: function(calEvent, element) {
+                    tops(calEvent);
+                    var determine = document.getElementById('btn');
+                    determine.onclick = function determine(){
+                        var title = document.getElementById('title').value;
+                        var start = calEvent.start.format();
+                        var end = calEvent.end.format();
+                        calEvent.title = title;
+                        if(title){
+                            $('#calendar').fullCalendar('updateEvent', calEvent);
+                            var url = window.location+"/updateEvent";
+				            $.ajax({
+				                url: url,
+				                data: {"id": calEvent._id, "title": title, "start": start, "end": end},
+                                type: "GET",
+                                dataType: "jsonp",
+                                jsonp: false,
+                                'cache': true,
+                                events: event
+				            });
+				            document.getElementById("replayModel").style.display = "none";
+		                }
+	                }
+
+	                var del = document.getElementById('btn1');
+	                del.onclick = function del(){
+	                    if(confirm("确定要删除吗?")){
+	                        $('#calendar').fullCalendar("removeEvents", calEvent._id);
+	                        var url = window.location+"/deleteEvent";
+				            $.ajax({
+				                url: url,
+				                data: {"delete_id": calEvent._id},
+                                type: "GET",
+                                dataType: "jsonp",
+                                jsonp: false,
+                                'cache': true
+				            });
+	                        document.getElementById("replayModel").style.display = "none";
+	                    }
+	                }
+
+	                var cancel = document.getElementById('btn2');
+	                cancel.onclick = function cancel(){
+	                    document.getElementById("replayModel").style.display = "none";
+	                }
+                }
+
+            });
+		}
+		function tops(event){
+            $("#replayModel").css({
+            "position": "fixed",
+            //"top": "250px",
+            "left": "50%" ,
+            "height": "250px",
+            "width": "150px",
+            "margin-left": "-75px"
+            });
+            $("#tea").html("");
+            $("#tea").append(" <input id='title' value=\'"+event.title+"\' class='content_c'></input> ");
+            $("#replayModel").fadeIn();
+        }
+
+		renderCalendar();
+	});
+
+</script>
+<div id='script-warning'>
+    <code>/get-events</code> must be running.
+</div>
+
+<div id='loading'>loading...</div>
+
+<div id="replayModel" class="m_board_bg" style="display:none; ">
+<div class="m_board">
+<div class="close" id="closes"></div>
+<div class="m_wrap">
+<h4>修改日程</h4>
+<input id="event" type="hidden" />
+<div class="content" id= "tea">
+
+</div>
+<div class="btn1" id="btn1" >删除</div>
+<div class="btn" id="btn">确定</div>
+<div class="btn" id="btn2">取消</div>
+</div>
+</div>
+</div>
+
+<div id='calendar' style=" width:100%"></div>

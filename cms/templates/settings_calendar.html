@@ -1,0 +1,77 @@
+<%inherit file="base.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+  from django.utils.translation import ugettext as _
+  from contentstore import utils
+  from xmodule.modulestore.django import loc_mapper
+%>
+<%block name="title">日历</%block>
+<%block name="bodyclass">is-signedin course advanced view-settings</%block>
+
+<%block name="header_extras">
+</%block>
+
+
+<%block name="jsextra">
+% for template_name in ["advanced_entry"]:
+  <script type="text/template" id="${template_name}-tpl">
+    <%static:include path="js/${template_name}.underscore" />
+  </script>
+% endfor
+
+<script type="text/javascript">
+
+</script>
+</%block>
+
+<%block name="content">
+
+<div class="wrapper-mast wrapper">
+  <header class="mast has-subtitle">
+    <h1 class="page-header">
+      <!--
+      <small class="subtitle">${_("Settings")}</small>
+      -->
+      <span class="sr">&gt; </span>日历
+    </h1>
+  </header>
+</div>
+<div class="wrapper-content wrapper">
+  <section class="content">
+    <article class="content-primary" role="main">
+         <iframe src="/common/calendar/${package_id}" frameborder="0" id="calendar-common" style="overflow:hidden;min-height: 900px;width:100%;" height="100%" width="100%"> </iframe>
+    </article>
+
+    <aside class="content-supplementary" role="complimentary">
+      <div class="bit">
+        <h3 class="title-3">${_("What do advanced settings do?")}</h3>
+        <p>${_("Advanced settings control specific course functionality. On this page, you can edit manual policies, which are JSON-based key and value pairs that control specific course settings.")}</p>
+
+        <p>${_("Any policies you modify here override all other information you've defined elsewhere in Studio. Do not edit policies unless you are familiar with both their purpose and syntax.")}</p>
+
+        <p>${_("{em_start}Note:{em_end} When you enter strings as policy values, ensure that you use double quotation marks (&quot;) around the string. Do not use single quotation marks (&apos;).").format(em_start='<strong>', em_end="</strong>")}</p>
+      </div>
+
+      <div class="bit">
+      % if context_course:
+        <%
+          ctx_loc = context_course.location
+          location = loc_mapper().translate_location(ctx_loc.course_id, ctx_loc, False, True)
+          details_url = location.url_reverse('settings/details/')
+          grading_url = location.url_reverse('settings/grading/')
+          course_team_url = location.url_reverse('course_team/', '')
+        %>
+      <h3 class="title-3">${_("Other Course Settings")}</h3>
+        <nav class="nav-related">
+          <ul>
+            <li class="nav-item"><a href="${details_url}">${_("Details &amp; Schedule")}</a></li>
+            <li class="nav-item"><a href="${grading_url}">${_("Grading")}</a></li>
+            <li class="nav-item"><a href="${course_team_url}">${_("Course Team")}</a></li>
+          </ul>
+        </nav>
+      % endif
+      </div>
+    </aside>
+  </section>
+</div>
+</%block>

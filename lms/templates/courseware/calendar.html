@@ -1,0 +1,88 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="/main.html" />
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="headextra">
+<%static:css group='style-course-vendor'/>
+<%static:css group='style-course'/>
+<%static:css group='style-calendar-vendor'/>
+<%static:js group='calendar_vendor'/>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		function renderCalendar() {
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                lang: 'zh-cn',
+                //defaultDate: '2014-06-12',
+                editable: true,
+                events: {
+                    url: 'calendar/get-events',
+                    cache: true,
+                    error: function() {
+                        $('#script-warning').show();
+                    }
+                },
+                loading: function(bool) {
+                    $('#loading').toggle(bool);
+                },
+                eventClick: function(calEvent, element) {
+                    alert(calEvent.title);
+                }
+
+            });
+        }
+        renderCalendar()
+	});
+
+
+</script>
+</%block>
+
+
+<%block name="pagetitle">${_("{course_number} Progress").format(course_number=course.display_number_with_default) | h}</%block>
+<%block name="nav_skip">#course-info-progress</%block>
+
+<%!
+    from django.core.urlresolvers import reverse
+%>
+
+<%!
+from util.date_utils import get_time_display
+from django.conf import settings
+%>
+
+<%block name="js_extra">
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.stack.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.symbol.js')}"></script>
+
+</%block>
+
+<%include file="/dashboard/_dashboard_prompt_midcourse_reverify.html" />
+<%include file="/courseware/course_navigation.html" args="active_page='calendar'" />
+
+<div class="container">
+  <div class="profile-wrapper">
+
+
+
+    <div class="course-info" id="course-info-calendar" aria-label="${_('Course Calendar')}">
+
+        <div id='script-warning'>
+            <code>/get-events</code> must be running.
+        </div>
+
+        <div id='loading'>loading...</div>
+
+	    <div id='calendar'></div>
+    </div>
+
+    </div>
+  </div>
+</div>

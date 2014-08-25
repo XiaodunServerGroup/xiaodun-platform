@@ -424,7 +424,14 @@ VIRTUAL_UNIVERSITIES = []
 
 ############################### XModule Store ##################################
 MODULESTORE = {
-    'default': {
+    'default2': {
+        'ENGINE': 'xmodule.modulestore.xml.XMLModuleStore',
+        'OPTIONS': {
+            'data_dir': DATA_DIR,
+            'default_class': 'xmodule.hidden_module.HiddenDescriptor',
+        }
+    },
+    'default1': {
         'ENGINE': 'xmodule.modulestore.xml.XMLModuleStore',
         'OPTIONS': {
             'data_dir': DATA_DIR,
@@ -771,6 +778,12 @@ courseware_js = (
     ] +
     sorted(rooted_glob(PROJECT_ROOT / 'static', 'coffee/src/modules/**/*.js'))
 )
+fullcalendar_vendor_js = [
+    'js/vendor/fullcalendar/moment.min.js',
+    'js/vendor/fullcalendar/fullcalendar.min.js',
+    'js/vendor/fullcalendar/fullcalendar.js',
+    'js/vendor/fullcalendar/lang-all.js',
+]
 
 main_vendor_js = [
     'js/vendor/require.js',
@@ -886,6 +899,13 @@ PIPELINE_CSS = {
             'xmodule/modules.css',
         ],
         'output_filename': 'css/lms-style-course.css',
+    },
+    'style-calendar-vendor': {
+        'source_filenames': [
+            'css/vendor/fullcalendar/fullcalendar.css',
+            'css/vendor/fullcalendar/fullcalendar_s.css',
+        ],
+        'output_filename': 'css/lms-style-fullcalendar-vendor.css',
     }
 }
 
@@ -920,6 +940,11 @@ PIPELINE_JS = {
     'main_vendor': {
         'source_filenames': main_vendor_js,
         'output_filename': 'js/lms-main_vendor.js',
+        'test_order': 0,
+    },
+    'calendar_vendor': {
+        'source_filenames': fullcalendar_vendor_js,
+        'output_filename': 'js/lms-fullcalendar_vendor.js',
         'test_order': 0,
     },
     'wechat_main_vendor': {

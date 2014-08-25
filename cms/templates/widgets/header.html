@@ -28,6 +28,7 @@
             settings_url = location.url_reverse('settings/details/')
             grading_url = location.url_reverse('settings/grading/')
             advanced_settings_url = location.url_reverse('settings/advanced/')
+            calendar_settings_url = location.url_reverse('settings/calendar/')
             tabs_url = location.url_reverse('tabs')
       %>
       <h2 class="info-course">
@@ -88,6 +89,9 @@
                   </li>
                   <li class="nav-item nav-course-settings-team">
                     <a href="${course_team_url}">${_("Course Team")}</a>
+                  </li>
+                  <li class="nav-item nav-course-settings-calendar">
+                    <a href="${calendar_settings_url}">日历</a>
                   </li>
                   <!--
                   <li class="nav-item nav-course-settings-advanced">

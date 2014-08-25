@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+#coding=utf-8
+import sys,os
+reload(sys)
+sys.setdefaultencoding('utf8')
 """
 Views related to operations on course objects
 """
@@ -73,7 +77,13 @@ __all__ = ['course_info_handler', 'course_handler', 'course_info_update_handler'
            'settings_handler',
            'grading_handler',
            'advanced_settings_handler',
-           'textbooks_list_handler', 
+           'calendar_settings_handler',
+           'calendar_common',
+           'calendar_common_addevent',
+           'calendar_common_deleteevent',
+           'calendar_common_updateevent',
+           'calendar_settings_getevents',
+           'textbooks_list_handler',
            'textbooks_detail_handler', 'course_audit_api', 'sync_class_appointment']
 
 WENJUAN_STATUS = {
@@ -102,7 +112,7 @@ def _get_course_org_from_bs(user):
     try:
         request_host = settings.XIAODUN_BACK_HOST
         request_url = request_host + "/teacher/teacher!branch.do?teacherid=" + str(user.id)
-        
+
         timeout = 5
         socket.setdefaulttimeout(timeout)
         req = urllib2.Request(request_url)
@@ -353,10 +363,10 @@ def course_listing(request):
 
 
     # demd5_qparams_str = hashlib.md5("".join([qparams[k] for k in qparams_keys]) + "9d15a674a6e621058f1ea9171413b7c0").hexdigest()
-    # wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000","&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str) 
-    wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams)) 
+    # wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000","&".join(["".join([k, '=', v]) for k, v in qparams.iteritems()]), demd5_qparams_str)
+    wenjuan_loginapi = "{}/openapi/login?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams))
 
-    # get questionnaire list   
+    # get questionnaire list
     qlist = []
     try:
         list_url = "{}/openapi/proj_list?{}&md5={}".format("http://apitest.wenjuan.com:8000", *sorted_url(qparams))
@@ -375,7 +385,7 @@ def course_listing(request):
                 q url
                 result url
             ]
-            """ 
+            """
             qlist.append([
                 wj.get('title', "未知"),
                 WENJUAN_STATUS[str(wj.get('status', 4))],
@@ -804,6 +814,113 @@ def _config_course_advanced_components(request, course_module):
                     filter_tabs = False
 
     return filter_tabs
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_common(request, course_id):
+    """
+    Course settings configuration
+    GET
+        html: get the page
+        json: get the model
+    PUT, POST
+        json: update the Course's settings. The payload is a json rep of the
+            metadata dicts. The dict can include a "unsetKeys" entry which is a list
+            of keys whose values to unset: i.e., revert to default
+    """
+    return render_to_response('calendar_common.html', {    })
+
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_settings_handler(request, package_id=None, branch=None, version_guid=None, block=None, tag=None):
+    locator, course_module = _get_locator_and_course(
+        package_id, branch, version_guid, block, request.user
+    )
+    if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+
+        return render_to_response('settings_calendar.html', {
+            'package_id': package_id,
+            'context_course': course_module,
+            'advanced_dict': json.dumps(CourseMetadata.fetch(course_module)),
+            'advanced_settings_url': locator.url_reverse('settings/calendar')
+        })
+    elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
+        if request.method == 'GET':
+            return JsonResponse(CourseMetadata.fetch(course_module))
+        else:
+            # Whether or not to filter the tabs key out of the settings metadata
+            filter_tabs = _config_course_advanced_components(request, course_module)
+            try:
+                return JsonResponse(CourseMetadata.update_from_json(
+                    course_module,
+                    request.json,
+                    filter_tabs=filter_tabs,
+                    user=request.user,
+                ))
+            except (TypeError, ValueError) as err:
+                return HttpResponseBadRequest(
+                    "Incorrect setting format. {}".format(err),
+                    content_type="text/plain"
+                )
+
+
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_common_addevent(request,course_id):
+    return JsonResponse(modulestore("course_calendar").save_event(course_id,{"title":request.GET.get("title"),"start":request.GET.get("start"),"end":request.GET.get("end")}))
+
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_common_delevent(request,course_id):
+    print request.GET.get("title")
+    print request.GET.get("start")
+    print request.GET.get("end")
+    return modulestore("course_calendar")._get_cals()
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_common_updateevent(request,course_id):
+    event_id = request.GET.get("id")
+    start = request.GET.get("start")
+    end = request.GET.get("end")
+    title = request.GET.get("title")
+    modulestore("course_calendar").update_event(course_id,event_id,{"title":title, "start": start, "end": end})
+    return JsonResponse({"success":1})
+
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_settings_getevents(request, course_id):
+    events_json = []
+    for event in  modulestore("course_calendar").range_events(course_id,request.GET.get("start"),request.GET.get("end")):
+        events_json.append({"id":event["id"],"title":event["calendar"]["title"],"start":event["calendar"]["start"],"end":event["calendar"]["end"]})
+
+    return JsonResponse(events_json)
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def calendar_common_deleteevent(request, course_id):
+    events_json = []
+    modulestore("course_calendar").delete_event(request.GET.get("delete_id"))
+    return JsonResponse({"success":1})
+
 
 
 @login_required

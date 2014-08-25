@@ -983,6 +983,75 @@ def mktg_course_about(request, course_id):
         }
     )
 
+@login_required
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@transaction.commit_manually
+def calendar(request, course_id, student_id=None):
+    """
+    Wraps "_progress" with the manual_transaction context manager just in case
+    there are unanticipated errors.
+    """
+    with grades.manual_transaction():
+        return _calendar(request, course_id, student_id)
+
+def cal_getevents(request, course_id):
+    course_id = course_id.replace(".","/")
+    events_json = []
+    for event in  modulestore("course_calendar").range_events(course_id,request.GET.get("start"),request.GET.get("end")):
+        events_json.append({"id":event["id"],"title":event["calendar"]["title"],"start":event["calendar"]["start"],"end":event["calendar"]["end"]})
+
+    return JsonResponse(events_json)
+
+
+def _calendar(request, course_id, student_id):
+    """
+    Unwrapped version of "progress".
+
+    User progress. We show the grade bar and every problem score.
+
+    Course staff are allowed to see the progress of students in their class.
+    """
+    course = get_course_with_access(request.user, course_id, 'load', depth=None)
+    staff_access = has_access(request.user, course, 'staff')
+
+    if student_id is None or student_id == request.user.id:
+        # always allowed to see your own profile
+        student = request.user
+    else:
+        # Requesting access to a different student's profile
+        if not staff_access:
+            raise Http404
+        student = User.objects.get(id=int(student_id))
+
+    # NOTE: To make sure impersonation by instructor works, use
+    # student instead of request.user in the rest of the function.
+
+    # The pre-fetching of groups is done to make auth checks not require an
+    # additional DB lookup (this kills the Progress page in particular).
+    student = User.objects.prefetch_related("groups").get(id=student.id)
+
+    courseware_summary = grades.progress_summary(student, request, course)
+
+    grade_summary = grades.grade(student, request, course)
+
+    if courseware_summary is None:
+        #This means the student didn't have access to the course (which the instructor requested)
+        raise Http404
+
+    context = {
+        'course': course,
+        'courseware_summary': courseware_summary,
+        'grade_summary': grade_summary,
+        'staff_access': staff_access,
+        'student': student,
+        'reverifications': fetch_reverify_banner_info(request, course_id)
+    }
+
+    with grades.manual_transaction():
+        response = render_to_response('courseware/calendar.html', context)
+
+    return response
+
 
 @login_required
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)

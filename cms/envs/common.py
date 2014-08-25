@@ -335,8 +335,22 @@ PIPELINE_CSS = {
         ],
         'output_filename': 'css/cms-style-xmodule.css',
     },
+    'style-calendar-vendor': {
+        'source_filenames': [
+            'css/vendor/fullcalendar/fullcalendar.css',
+            'css/vendor/fullcalendar/fullcalendar_s.css',
+            'css/vendor/fullcalendar/fullcalendar.print.css',
+        ],
+        'output_filename': 'css/lms-style-fullcalendar-vendor.css',
+    }
 }
 
+fullcalendar_vendor_js = [
+    'js/vendor/fullcalendar/moment.min.js',
+    'js/vendor/fullcalendar/fullcalendar.min.js',
+    'js/vendor/fullcalendar/jquery-ui.custom.min.js',
+    'js/vendor/fullcalendar/lang-all.js',
+]
 # test_order: Determines the position of this chunk of javascript on
 # the jasmine test page
 PIPELINE_JS = {
@@ -348,6 +362,11 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js/cms-modules.js',
         'test_order': 1
+    },
+    'calendar_vendor': {
+        'source_filenames': fullcalendar_vendor_js,
+        'output_filename': 'js/lms-fullcalendar_vendor.js',
+        'test_order': 0,
     },
 }
 

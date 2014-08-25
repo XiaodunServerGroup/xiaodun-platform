@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>
-        <%block name="title"></%block> |
+        <%block name="title">日历</%block> |
         % if context_course:
         <% ctx_loc = context_course.location %>
         ${context_course.display_name_with_default} |
@@ -247,7 +247,7 @@
       <%static:include path="js/system-feedback.underscore" />
     </script>
 
-    ## jquery resize content height and goto top 
+    ## jquery resize content height and goto top
     <script type="text/javascript">
         require(['jquery', 'jquery.gotoTop'], function($){
             // set default min height of content
@@ -257,13 +257,13 @@
                 console.log(obj);
                 balance_height -= $(obj).outerHeight(true);
 
-                balance_height -= parseInt($(obj).css('margin-top')); 
+                balance_height -= parseInt($(obj).css('margin-top'));
                 balance_height -= parseInt($(obj).css('margin-bottom'));
 
                 balance_height -= parseInt($(obj).css('padding-top'));
                 balance_height -= parseInt($(obj).css('padding-bottom'));
             });
-            
+
             if (balance_height < min_height) balance_height = min_height;
 
             $('div#content').css('min-height', (balance_height + 'px'));
