@@ -298,6 +298,24 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
               </ol>
             </section>
           % endif
+
+          % if about_page_editable:
+                <hr class="divide" />
+
+                <section class="group-settings requirements">
+                  <header>
+                    <h2 class="title-2">价格</h2>
+                  </header>
+
+                  <ol class="list-input">
+                    <li class="field text" id="field-course-price">
+                      <label for="course-price">该课程的价格</label>
+                      <input type="text" class="short time" id="course-price" placeholder="" />
+                      <span class="tip tip-inline">该课程的价格</span>
+                    </li>
+                  </ol>
+                </section>
+            % endif
       </form>
     </article>
     <aside class="content-supplementary" role="complimentary">

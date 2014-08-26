@@ -60,6 +60,7 @@ var DetailsView = ValidatingView.extend({
         else this.$el.find('.remove-course-introduction-video').hide();
 
         this.$el.find('#' + this.fieldToSelectorMap['effort']).val(this.model.get('effort'));
+        this.$el.find('#' + this.fieldToSelectorMap['course_price']).val(this.model.get('course_price'));
 
         var imageURL = this.model.get('course_image_asset_path');
         this.$el.find('#course-image-url').val(imageURL);
@@ -76,7 +77,8 @@ var DetailsView = ValidatingView.extend({
         'short_description' : 'course-short-description',
         'intro_video' : 'course-introduction-video',
         'effort' : "course-effort",
-        'course_image_asset_path': 'course-image-url'
+        'course_image_asset_path': 'course-image-url',
+        'course_price': "course-price"
     },
 
     updateTime : function(e) {
@@ -149,6 +151,9 @@ var DetailsView = ValidatingView.extend({
             }, 1000);
             break;
         case 'course-effort':
+            this.setField(event);
+            break;
+        case 'course-price':
             this.setField(event);
             break;
         case 'course-short-description':

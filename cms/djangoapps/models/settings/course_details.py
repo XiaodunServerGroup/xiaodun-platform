@@ -29,6 +29,7 @@ class CourseDetails(object):
         self.effort = None  # int hours/week
         self.course_image_name = ""
         self.course_image_asset_path = ""  # URL of the course image
+        self.course_price = ""  # update_price of course
 
     @classmethod
     def fetch(cls, course_locator):
@@ -45,6 +46,7 @@ class CourseDetails(object):
         course.enrollment_end = descriptor.enrollment_end
         course.course_image_name = descriptor.course_image
         course.course_image_asset_path = course_image_url(descriptor)
+        course.course_price = descriptor.course_price
 
         temploc = course_old_location.replace(category='about', name='syllabus')
         try:
@@ -75,6 +77,12 @@ class CourseDetails(object):
             raw_video = get_modulestore(temploc).get_item(temploc).data
             course.intro_video = CourseDetails.parse_video_tag(raw_video)
             # course.intro_video = get_modulestore(temploc).get_item(temploc).data
+        except ItemNotFoundError:
+            pass
+
+        temploc = temploc.replace(name='course_price')
+        try:
+            course.course_price = get_modulestore(temploc).get_item(temploc).data
         except ItemNotFoundError:
             pass
 
@@ -153,12 +161,16 @@ class CourseDetails(object):
             descriptor.course_image = jsondict['course_image_name']
             dirty = True
 
+        if 'course_price' in jsondict and jsondict['course_price'] != descriptor.course_price:
+            descriptor.course_price = jsondict['course_price']
+            dirty = True
+
         if dirty:
             get_modulestore(course_old_location).update_item(descriptor, user.id)
 
         # NOTE: below auto writes to the db w/o verifying that any of the fields actually changed
         # to make faster, could compare against db or could have client send over a list of which fields changed.
-        for about_type in ['syllabus', 'overview', 'effort', 'short_description']:
+        for about_type in ['syllabus', 'overview', 'effort', 'short_description', 'course_price']:
             cls.update_about_item(course_old_location, about_type, jsondict[about_type], descriptor, user)
 
         # recomposed_video_tag = CourseDetails.recompose_video_tag(jsondict['intro_video'])
