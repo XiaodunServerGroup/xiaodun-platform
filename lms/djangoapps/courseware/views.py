@@ -995,7 +995,7 @@ def calendar(request, course_id, student_id=None):
         return _calendar(request, course_id, student_id)
 
 def cal_getevents(request, course_id):
-    course_id = course_id.replace(".","/")
+    course_id = course_id.replace("/",".")
     events_json = []
     for event in  modulestore("course_calendar").range_events(course_id,request.GET.get("start"),request.GET.get("end")):
         events_json.append({"id":event["id"],"title":event["calendar"]["title"],"start":event["calendar"]["start"],"end":event["calendar"]["end"]})
