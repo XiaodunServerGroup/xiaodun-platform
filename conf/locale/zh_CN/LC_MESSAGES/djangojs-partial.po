@@ -225,7 +225,7 @@ msgstr "开始"
 
 #: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:266
 msgid "Fill browser"
-msgstr "填写浏览器"
+msgstr "填充浏览器"
 
 #: common/lib/xmodule/xmodule/js/src/video/04_video_control.js:273
 msgid "Exit full browser"

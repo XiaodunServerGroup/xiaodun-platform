@@ -1974,7 +1974,7 @@ msgstr "音量"
 
 #: lms/templates/video.html:86
 msgid "Fill browser"
-msgstr "填写浏览器"
+msgstr "填充浏览器"
 
 #: lms/templates/video.html:87
 msgid "HD off"

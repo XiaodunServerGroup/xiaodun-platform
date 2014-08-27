@@ -372,7 +372,6 @@ def get_course_tabs(user, course, active_page, request):
     # Instructor tab is special--automatically added if user is staff for the course
     if has_access(user, course, 'staff'):
         tabs.append(_instructor(course, active_page))
-    print tabs
     return tabs
 
 

@@ -5390,7 +5390,7 @@ msgstr "音量"
 
 #: lms/templates/video.html
 msgid "Fill browser"
-msgstr "填写浏览器"
+msgstr "填充浏览器"
 
 #: lms/templates/video.html
 msgid "HD off"
