@@ -2307,8 +2307,7 @@ def change_email_settings(request):
 
 @csrf_exempt
 def bs_sync_accounts(request):
-    init_keys = ['name', 'passwd', 'email', 'gender', 'originPlace', 'address', 'education', 'birthday']
-
+    init_keys = ['name', 'passwd', 'email', 'gender', 'originPlace', 'address', 'education', 'birthday', 'profile_role']
     succ_add_ids = []
     try:
         sync_user_params = eval(request.body)['staff']
@@ -2337,6 +2336,9 @@ def bs_sync_accounts(request):
             if key == 'birthday':
                 ret_json['year_of_birth'] = val
 
+            if key == 'profile_role':
+                ret_json['profile_role'] = val
+
         return ret_json
 
     def create_actived_user(user_params):
@@ -2358,6 +2360,7 @@ def bs_sync_accounts(request):
         profile.mailing_address = user_params.get('mailing_address')
 
         profile_role = user_params.get("profile_role")
+
         if profile_role and profile_role in ["th", "st"]:
             profile.profile_role = profile_role
 
@@ -2378,6 +2381,7 @@ def bs_sync_accounts(request):
         init_hash = {"index": idx, "success": False,}
         if all(k in staff for k in ('name', 'passwd', 'email')):
             # create a activated user account
+
             params = filter_and_init_keys(staff)
             try:
                 # validate_email(params['email'])
