@@ -147,6 +147,8 @@ if not settings.FEATURES["USE_CUSTOM_THEME"]:
 
         # Favicon
         (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
+        # annotator.po
+        (r'^annotator\.po$', 'django.views.generic.simple.redirect_to', {'url': '/static/js/vendor/ova/locale/zh_CN/annotator.po'}),
 
         url(r'^submit_feedback$', 'util.views.submit_feedback'),
 
