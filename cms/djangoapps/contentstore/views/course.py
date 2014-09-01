@@ -148,7 +148,7 @@ def sync_class_appointment(request):
     des_user_info = des_encrypt(user.username + "#" + user.password)
     '''
 
-    des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
+    des_user_info = 'gwRz4rZHXMtbbPORcrVTgjnoi4oaEnkd/wIMDjUGklRqQfIlN7gypcbbstLUWdxg'
 
     tabs = [
         ["我的小屋", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
@@ -884,6 +884,9 @@ def calendar_common_addevent(request,course_id):
 @require_http_methods(("GET", "POST", "PUT"))
 @expect_json
 def calendar_common_delevent(request,course_id):
+    print request.GET.get("title")
+    print request.GET.get("start")
+    print request.GET.get("end")
     return modulestore("course_calendar")._get_cals()
 
 @login_required
