@@ -1,4 +1,11 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
+#coding=utf-8
+import sys,os
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
+
 import logging
 import urllib
 import hashlib
@@ -833,7 +840,8 @@ def purchase_authenticate(request, course_id):
             aresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
             redict = xmltodict.parse(aresult)
 
-            if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+            # if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+            if int(redict['EVENTRETURN']['RESULT']) in [1]:
                 re_jsondict['authenticated'] = True
 
                 # push course trade data to business system
@@ -902,31 +910,36 @@ def course_about(request, course_id):
     # TODO setting operation system url to common setting which load when sys boot
     oper_sys_domain = settings.OPER_SYS_DOMAIN
     url = "{}/services/OssWebService?wsdl".format(oper_sys_domain)
+    # url = "http://192.168.1.6:8090/cetvossFront/services/OssWebService?wsdl"
     client = Client(url)
     # push course info to operating system and get purchase info
     push_update, course_purchased = True, False
     if not isinstance(request.user, AnonymousUser) and not registered:
         xml_course_info = render_to_string('xmls/pcourse_xml.xml', {'course': course, 'user': request.user})
+        print xml_course_info
         try:
-            p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5(xml_course_info + "VTEC_#^)&*("))
+            p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5_webservicestr(xml_course_info + "VTEC_#^)&*("))
             # parse xml to dict
-            docdict = xmltodict.parse(p_xml)
+            docdict = xmltodict.parse(p_xml.encode('utf-8'))
             # TODO: course table add a column mark is-push-data or not; when modify price column reset the column as false
             if int(docdict['UPDATECOMMODITIESRESPONSE']['RESULT']) != 0:
                 push_update = False
         except:
             print "Fail to push course information to "
+            raise
             push_update = False
 
         xml_purchase = render_to_string('xmls/auth_purchase.xml', {'username': request.user.username, 'course_uuid': course.course_uuid})
         try:
             aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
-            redict = xmltodict.parse(aresult)
-
-            if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
+            redict = xmltodict.parse(aresult.encode('utf-8'))
+            # if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
+            if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
                 course_purchased = True
         except:
             print "Fail to get trade info about the course"
+            raise
+    print course_purchased
 
     return render_to_response('courseware/course_about.html',
                               {'course': course,
