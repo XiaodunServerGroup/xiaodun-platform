@@ -109,8 +109,6 @@ def _get_locator_and_course(package_id, branch, version_guid, block_id, user, de
 
 def _get_course_org_from_bs(user):
     course_org = ""
-    print "---------------"
-    print user.id
     try:
         request_host = settings.XIAODUN_BACK_HOST
         # request_url = request_host + "/teacher/teacher!branch.do?teacherid=" + str(user.id)
@@ -886,9 +884,6 @@ def calendar_common_addevent(request,course_id):
 @require_http_methods(("GET", "POST", "PUT"))
 @expect_json
 def calendar_common_delevent(request,course_id):
-    print request.GET.get("title")
-    print request.GET.get("start")
-    print request.GET.get("end")
     return modulestore("course_calendar")._get_cals()
 
 @login_required
