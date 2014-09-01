@@ -109,6 +109,8 @@ def _get_locator_and_course(package_id, branch, version_guid, block_id, user, de
 
 def _get_course_org_from_bs(user):
     course_org = ""
+    print "---------------"
+    print user.id
     try:
         request_host = settings.XIAODUN_BACK_HOST
         # request_url = request_host + "/teacher/teacher!branch.do?teacherid=" + str(user.id)
