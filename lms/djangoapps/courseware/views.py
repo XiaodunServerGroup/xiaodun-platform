@@ -832,7 +832,7 @@ def purchase_authenticate(request, course_id):
     user = request.user
     course = get_course_with_access(request.user, course_id, 'see_exists')
     print '-==================='
-    print course_id
+    print course_id.encode('utf-8')
     print '-==================='
     print str(course.course_uuid)[-12:]
     print '-==================='
@@ -890,7 +890,7 @@ def course_about(request, course_id):
 
     course = get_course_with_access(request.user, course_id, 'see_exists')
     print '-==================='
-    print course_id
+    print course_id.encode('utf-8')
     print '-==================='
     print str(course.course_uuid)[-12:]
     print '-==================='

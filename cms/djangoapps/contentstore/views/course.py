@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 #coding=utf-8
 import Queue
-from email.mime.text import MIMEText
-import smtplib
 import sys,os
-import threading
-from cms.envs.common import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, EMAIL_HOST, EMAIL_HOST_PASSWORD
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -22,6 +18,8 @@ import urllib2
 from Crypto.Cipher import DES
 import base64
 import hashlib
+
+import analytics.basic
 
 from datetime import *
 from django.utils import timezone
@@ -49,10 +47,11 @@ from xmodule.modulestore.exceptions import (
 from xmodule.modulestore import Location
 from xmodule.fields import Date
 
-from contentstore.course_info_model import get_course_updates, update_course_updates, delete_course_update
+from contentstore.course_info_model import get_course_updates, update_course_updates, delete_course_update, get_course_update_items
 from contentstore.utils import (
     get_lms_link_for_item, add_extra_panel_tab, remove_extra_panel_tab,
     get_modulestore)
+from contentstore.utils import send_mail
 from models.settings.course_details import CourseDetails, CourseSettingsEncoder
 
 from models.settings.course_grading import CourseGradingModel
@@ -633,6 +632,8 @@ def course_info_update_handler(request, tag=None, package_id=None, branch=None, 
         CourseLocator(package_id=package_id), get_course=True
     )
     updates_location = course_location.replace(category='course_info', name=block)
+    print course_location
+    print updates_location
     if provided_id == '':
         provided_id = None
 
@@ -656,7 +657,7 @@ def course_info_update_handler(request, tag=None, package_id=None, branch=None, 
             )
     # can be either and sometimes django is rewriting one to the other:
     elif request.method in ('POST', 'PUT'):
-
+        notice_course_update_to_student(request.json,course_location, package_id)
         try:
             return JsonResponse(update_course_updates(updates_location, request.json, provided_id, request.user))
         except:
@@ -665,37 +666,28 @@ def course_info_update_handler(request, tag=None, package_id=None, branch=None, 
                 content_type="text/plain"
             )
 
+def notice_course_update_to_student(json,course_location,package_id):
+    # 发送邮件给所有的注册学生
+    queue = Queue.Queue()
+    course_module = modulestore().get_item(course_location, depth=0)
+    sub = "校盾课程  [" + course_module.display_name_with_default.encode("utf-8") + ']  更新提醒'
+    try:
+        update_content = json['content']
+        student_email_list = analytics.basic.enrolled_students_features(package_id.replace(".", "/"), ['email'])
+        print student_email_list
+        student_data_email_list = []
+        for i in student_email_list:
+            queue.put(i.values()[0])
 
-queue = Queue.Queue()
-class send_mail(threading.Thread):
-    def __init__(self, threadname, queue, content, sub):
-        threading.Thread.__init__(self)
-        self.threadname = threadname
-        self.queue = queue
-        self.content = content
-        self.sub = sub
-        self.start()
-    def run(self):
-        while True:
-            if self.queue.empty():break
-            to_list = self.queue.get()
-            me = DEFAULT_FROM_EMAIL
-            msg = MIMEText(self.content, _charset="utf-8")
-            msg['Subject'] = self.sub
-            msg['From'] = me
-            msg['To'] = to_list
-            msg["Accept-Language"] = "zh-CN"
-            msg["Accept-Charset"] = "ISO-8859-1,utf-8"
-            try:
-                server = smtplib.SMTP()
-                server.connect(EMAIL_HOST)
-                server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-                server.sendmail(me, to_list, msg.as_string())
-                server.close()
-                print 'sucssssss:'+to_list
-                self.queue.task_done()
-            except Exception, e:
-                print str(e)
+        for k in range(2):
+            threadname = 'Thread' + str(k)
+            send_mail(threadname, queue, update_content, sub)
+            print 'success'
+        # queue.join()
+    except:
+        raise
+        print 'failure'
+
 
 @login_required
 @ensure_csrf_cookie

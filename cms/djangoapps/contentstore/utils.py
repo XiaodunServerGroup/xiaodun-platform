@@ -1,11 +1,15 @@
 #pylint: disable=E1103, E1101
+import Queue
 
 import copy
+from email.mime.text import MIMEText
 import logging
 import re
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
+import smtplib
+import threading
 
 from xmodule.contentstore.content import StaticContent
 from xmodule.contentstore.django import contentstore
@@ -17,6 +21,7 @@ from xmodule.modulestore.store_utilities import delete_course
 from xmodule.course_module import CourseDescriptor
 from xmodule.modulestore.draft import DIRECT_ONLY_CATEGORIES
 from student.roles import CourseInstructorRole, CourseStaffRole
+from cms.envs.common import DEFAULT_FROM_EMAIL, EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 
 
 log = logging.getLogger(__name__)
@@ -258,3 +263,34 @@ def remove_extra_panel_tab(tab_type, course):
         course_tabs = [ct for ct in course_tabs if ct != tab_panel]
         changed = True
     return changed, course_tabs
+
+
+
+class send_mail(threading.Thread):
+    def __init__(self, threadname, queue, content, sub):
+        threading.Thread.__init__(self)
+        self.threadname = threadname
+        self.queue = queue
+        self.content = content
+        self.sub = sub
+        self.start()
+    def run(self):
+        while True:
+            if self.queue.empty():break
+            to_list = self.queue.get()
+            me = DEFAULT_FROM_EMAIL
+            msg = MIMEText(self.content, _charset="utf-8")
+            msg['Subject'] = self.sub
+            msg['From'] = me
+            msg['To'] = to_list
+            msg["Accept-Language"] = "zh-CN"
+            msg["Accept-Charset"] = "ISO-8859-1,utf-8"
+            try:
+                server = smtplib.SMTP()
+                server.connect(EMAIL_HOST)
+                server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+                server.sendmail(me, to_list, msg.as_string())
+                server.close()
+                self.queue.task_done()
+            except Exception, e:
+                print str(e)

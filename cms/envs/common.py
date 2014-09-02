@@ -250,15 +250,15 @@ IGNORABLE_404_ENDS = ('favicon.ico')
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.guoshi.com'
+EMAIL_HOST = 'smtp.126.com'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False
-EMAIL_HOST_USER = 'xiaodun'
-EMAIL_HOST_PASSWORD = '123456'
+EMAIL_HOST_USER = 'xiaodunxin'
+EMAIL_HOST_PASSWORD = '123456qr'
 
-DEFAULT_FROM_EMAIL = 'xiaodun@guoshi.com'
-DEFAULT_FEEDBACK_EMAIL = 'xiaodun@guoshi.com'
-SERVER_EMAIL = 'xiaodun@guoshi.com'
+DEFAULT_FROM_EMAIL = 'xiaodunxin@126.com'
+DEFAULT_FEEDBACK_EMAIL = 'xiaodunxin@126.com'
+SERVER_EMAIL = 'xiaodunxin@126.com'
 ADMINS = ()
 MANAGERS = ADMINS
 
