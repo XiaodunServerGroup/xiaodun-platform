@@ -1114,9 +1114,9 @@ def sync_class_appointment(request):
     # des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
 
     tabs = [
-        ["我的小屋", "{}/mp/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
-        ["查找小屋", "{}/mp/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
-        ["信息通知", "{}/mp/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["我的小屋", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
+        ["查找小屋", "{}/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["信息通知", "{}/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
     ]
 
     return render_to_response("sync_class_appointment.html", {"user": user, 'ftabs': tabs})
