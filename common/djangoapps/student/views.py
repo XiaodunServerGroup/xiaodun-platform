@@ -1112,6 +1112,7 @@ def sync_class_appointment(request):
 
     # Test
     # des_user_info = 'HdZGyS7Rp0n0k3w8/xAabLZCTejAT27KApJr2YGyQAgVE7LWpU5JoA=='
+    des_user_info = 'gwRz4rZHXMtbbPORcrVTgjnoi4oaEnkd/wIMDjUGklRqQfIlN7gypcbbstLUWdxg'
 
     tabs = [
         ["我的小屋", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
