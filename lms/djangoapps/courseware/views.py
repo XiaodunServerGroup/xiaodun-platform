@@ -831,32 +831,42 @@ def demd5_webservicestr(srstr):
 def purchase_authenticate(request, course_id):
     user = request.user
     course = get_course_with_access(request.user, course_id, 'see_exists')
+    print '-==================='
+    print course_id
+    print '-==================='
+    print str(course.course_uuid)[-12:]
+    print '-==================='
+    course.course_uid= str(course.course_uuid)[-12:]
     re_jsondict = {'authenticated': False}
     if not (user is None or isinstance(user, AnonymousUser)):
-        xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+        xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uid})
         try:
             url = "{}/services/OssWebService?wsdl".format(settings.OPER_SYS_DOMAIN)
             client = Client(url)
             aresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
-            redict = xmltodict.parse(aresult)
+            print aresult.encode('utf-8')
+            redict = xmltodict.parse(aresult.encode('utf-8'))
 
-            # if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
-            if int(redict['EVENTRETURN']['RESULT']) in [1]:
+            if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+            # if int(redict['EVENTRETURN']['RESULT']) in [1]:
                 re_jsondict['authenticated'] = True
 
-                # push course trade data to business system
-                xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user})
-
-                # DES encode data
-                pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
-                des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
-                bs_host = settings.XIAODUN_BACK_HOST        # test dev "http://192.168.1.78:8081/xiaodun"
-                push_url = "{}/service/course/add?data={}".format(bs_host, des_enxml_str)
-
-                socket.setdefaulttimeout(2)
-                req = urllib2.Request(push_url)
-                # TODO: setting a column mark result, if failure, package it and send with scheduler in backend
-                urllib2.urlopen(req)
+                # # push course trade data to business system
+                # xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user})
+                # print xml_data_str
+                #
+                # # DES encode data
+                # pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
+                # print pad
+                # des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
+                #
+                # bs_host = settings.XIAODUN_BACK_HOST        # test dev "http://192.168.1.78:8081/xiaodun"
+                # push_url = "{}/service/course/add?data={}".format(bs_host, des_enxml_str)
+                #
+                # socket.setdefaulttimeout(2)
+                # req = urllib2.Request(push_url)
+                # # TODO: setting a column mark result, if failure, package it and send with scheduler in backend
+                # urllib2.urlopen(req)
             else:
                 errmsg = redict['EVENTRETURN']['DESCRIPTION']['DESC'].strip()
                 re_jsondict['errmsg'] = errmsg if errmsg else ""
@@ -871,6 +881,7 @@ def purchase_authenticate(request, course_id):
 @cache_if_anonymous
 def course_about(request, course_id):
 
+    print '--------------------------------'
     if microsite.get_value(
         'ENABLE_MKTG_SITE',
         settings.FEATURES.get('ENABLE_MKTG_SITE', False)
@@ -878,6 +889,12 @@ def course_about(request, course_id):
         raise Http404
 
     course = get_course_with_access(request.user, course_id, 'see_exists')
+    print '-==================='
+    print course_id
+    print '-==================='
+    print str(course.course_uuid)[-12:]
+    print '-==================='
+    course.course_uid = str(course.course_uuid)[-12:]
     registered = registered_for_course(course, request.user)
 
     if has_access(request.user, course, 'load'):
@@ -919,6 +936,8 @@ def course_about(request, course_id):
         print xml_course_info
         try:
             p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5_webservicestr(xml_course_info + "VTEC_#^)&*("))
+            print p_xml.encode('utf-8')
+
             # parse xml to dict
             docdict = xmltodict.parse(p_xml.encode('utf-8'))
             # TODO: course table add a column mark is-push-data or not; when modify price column reset the column as false
@@ -929,12 +948,14 @@ def course_about(request, course_id):
             raise
             push_update = False
 
-        xml_purchase = render_to_string('xmls/auth_purchase.xml', {'username': request.user.username, 'course_uuid': course.course_uuid})
+        xml_purchase = render_to_string('xmls/auth_purchase.xml', {'username': request.user.username, 'course_uuid': course.course_uid})
+        print xml_purchase
         try:
             aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
+            print aresult.encode('utf-8')
             redict = xmltodict.parse(aresult.encode('utf-8'))
-            # if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
-            if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
+            if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
+            # if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
                 course_purchased = True
         except:
             print "Fail to get trade info about the course"
@@ -950,7 +971,7 @@ def course_about(request, course_id):
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
                                'is_course_full': is_course_full,
-                               'purchase_link': '{}/account/buy.action?uuid={}'.format(oper_sys_domain, str(course.course_uuid)),
+                               'purchase_link': '{}/account/buy.action?uuid={}'.format(oper_sys_domain, str(course.course_uid)),
                                'push_update': push_update,
                                'purchased': course_purchased})
 

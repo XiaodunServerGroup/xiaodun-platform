@@ -868,7 +868,9 @@ def change_enrollment(request):
             try:
                 url = '{}/services/OssWebService?wsdl'.format(settings.OPER_SYS_DOMAIN)
                 client = Client(url)
-                xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+                course.course_uid = str(course.course_uuid)[-12:]
+                # xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+                xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uid})
                 xresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
                 rdict = xmltodict.parse(xresult)
                 if int(rdict['EVENTRETURN']['RESULT']) not in [0, 1]:

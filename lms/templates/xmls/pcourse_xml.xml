@@ -2,10 +2,11 @@
 	<AP_ID>4</AP_ID>
 	<COMMODITIES>
 		<COMMODITY>
-			<COMMODITY_NO>${ course.course_uuid }</COMMODITY_NO>
-			<COMMODITY_GUID>${ course.course_uuid }</COMMODITY_GUID>
+			<COMMODITY_NO>${ course.course_uid }</COMMODITY_NO>
+			<COMMODITY_GUID>${ course.course_uid }</COMMODITY_GUID>
 			<COMMODITY_VERTIFY>2</COMMODITY_VERTIFY>
-			<NAME>${ user.username }</NAME>
+			<!--<NAME>${ user.username }</NAME>-->
+			<NAME>liuliuliuliu</NAME>
 			<SERVICE_SPAN_TYPE>2</SERVICE_SPAN_TYPE>
 			<SERVICE_SPAN>3650</SERVICE_SPAN>
 			<MARKET_PRICE>${ course.course_price }</MARKET_PRICE>
@@ -19,7 +20,8 @@
 			<ICON_URL>http://data2.video.guoshi.com/img/image/topic/6d118387-686e-59ad-f51c-5c36ebc0d3c9_t_w120.jpg</ICON_URL>
 			<COMMODITY_URL>http://xuexi.guoshi.com/mp/play/?guid=6d118387-686e-59ad-f51c-5c36ebc0d3c9</COMMODITY_URL>
 			<QUOTE_ID></QUOTE_ID>
-			<USER_LOGIN>${ user.username }</USER_LOGIN>
+			<!--<USER_LOGIN>${ user.username }</USER_LOGIN>-->
+			<USER_LOGIN>liuliuliuliu</USER_LOGIN>
 			<OWNER_ID>2855484</OWNER_ID>
 			<DESCRIPTION><![CDATA[09]]></DESCRIPTION>
 			<CHANNEL_NO>20226</CHANNEL_NO>

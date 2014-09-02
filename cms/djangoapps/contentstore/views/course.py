@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 #coding=utf-8
+import Queue
+from email.mime.text import MIMEText
+import smtplib
 import sys,os
+import threading
+from cms.envs.common import DEFAULT_FROM_EMAIL, EMAIL_HOST_USER, EMAIL_HOST, EMAIL_HOST_PASSWORD
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 """
@@ -650,6 +656,7 @@ def course_info_update_handler(request, tag=None, package_id=None, branch=None, 
             )
     # can be either and sometimes django is rewriting one to the other:
     elif request.method in ('POST', 'PUT'):
+
         try:
             return JsonResponse(update_course_updates(updates_location, request.json, provided_id, request.user))
         except:
@@ -658,6 +665,37 @@ def course_info_update_handler(request, tag=None, package_id=None, branch=None, 
                 content_type="text/plain"
             )
 
+
+queue = Queue.Queue()
+class send_mail(threading.Thread):
+    def __init__(self, threadname, queue, content, sub):
+        threading.Thread.__init__(self)
+        self.threadname = threadname
+        self.queue = queue
+        self.content = content
+        self.sub = sub
+        self.start()
+    def run(self):
+        while True:
+            if self.queue.empty():break
+            to_list = self.queue.get()
+            me = DEFAULT_FROM_EMAIL
+            msg = MIMEText(self.content, _charset="utf-8")
+            msg['Subject'] = self.sub
+            msg['From'] = me
+            msg['To'] = to_list
+            msg["Accept-Language"] = "zh-CN"
+            msg["Accept-Charset"] = "ISO-8859-1,utf-8"
+            try:
+                server = smtplib.SMTP()
+                server.connect(EMAIL_HOST)
+                server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+                server.sendmail(me, to_list, msg.as_string())
+                server.close()
+                print 'sucssssss:'+to_list
+                self.queue.task_done()
+            except Exception, e:
+                print str(e)
 
 @login_required
 @ensure_csrf_cookie

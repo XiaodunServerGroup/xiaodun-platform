@@ -1558,6 +1558,7 @@ SSO_KEY = "SSOFOUNDER"
 
 ############## Operation System Domain############
 OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
+# OPER_SYS_DOMAIN = 'http://192.168.1.82:8090/cetvossFront'
 
 ############## SSO Domain ############
 SSO_DOMAIN = 'http://passport.guoshi.com/mp'
