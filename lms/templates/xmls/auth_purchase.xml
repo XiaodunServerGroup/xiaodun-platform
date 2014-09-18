@@ -1,6 +1,6 @@
 <EVENTREQUEST>
-	<!--<LOGIN>${username}</LOGIN>-->
-    <LOGIN>sun100</LOGIN>
+	<LOGIN>${username}</LOGIN>
+    <!--<LOGIN>sun100</LOGIN>-->
 	<PARTNER_ID>0</PARTNER_ID>
 	<COMMODITY_GUID>${course_uuid}</COMMODITY_GUID>
 </EVENTREQUEST>

@@ -736,6 +736,8 @@ def jump_to(request, course_id, location):
     else:
         return redirect('courseware_position', course_id=course_id, chapter=chapter, section=section, position=position)
 
+def prn_obj(obj):
+    print ', '.join(['%s:%s' % item for item in obj.__dict__.items()])
 
 @ensure_csrf_cookie
 def course_info(request, course_id):
@@ -749,6 +751,14 @@ def course_info(request, course_id):
     masq = setup_masquerade(request, staff_access)    # allow staff to toggle masquerade on info page
     reverifications = fetch_reverify_banner_info(request, course_id)
 
+    print '-------------------------------- q--'
+    prn_obj(course)
+    print course_id
+    print course
+    print staff_access
+    print masq
+    print reverifications
+    print '----------------------------------'
     context = {
         'request': request,
         'course_id': course_id,
@@ -851,22 +861,22 @@ def purchase_authenticate(request, course_id):
             # if int(redict['EVENTRETURN']['RESULT']) in [1]:
                 re_jsondict['authenticated'] = True
 
-                # # push course trade data to business system
-                # xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user})
-                # print xml_data_str
-                #
-                # # DES encode data
-                # pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
-                # print pad
-                # des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
-                #
-                # bs_host = settings.XIAODUN_BACK_HOST        # test dev "http://192.168.1.78:8081/xiaodun"
-                # push_url = "{}/service/course/add?data={}".format(bs_host, des_enxml_str)
-                #
-                # socket.setdefaulttimeout(2)
-                # req = urllib2.Request(push_url)
-                # # TODO: setting a column mark result, if failure, package it and send with scheduler in backend
-                # urllib2.urlopen(req)
+                # push course trade data to business system
+                xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user})
+                print xml_data_str
+
+                # DES encode data
+                pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
+                print pad
+                des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
+
+                bs_host = settings.XIAODUN_BACK_HOST        # test dev "http://192.168.1.78:8081/xiaodun"
+                push_url = "{}/service/course/add?data={}".format(bs_host, des_enxml_str)
+
+                socket.setdefaulttimeout(2)
+                req = urllib2.Request(push_url)
+                # TODO: setting a column mark result, if failure, package it and send with scheduler in backend
+                urllib2.urlopen(req)
             else:
                 errmsg = redict['EVENTRETURN']['DESCRIPTION']['DESC'].strip()
                 re_jsondict['errmsg'] = errmsg if errmsg else ""

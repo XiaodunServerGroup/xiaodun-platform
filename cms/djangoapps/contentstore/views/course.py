@@ -143,17 +143,18 @@ def sync_class_appointment(request):
     video_meeting_domain = settings.VEDIO_MEETING_DOMAIN  # "http://192.168.1.6:8091"
 
     # des encrypt user info for login into video meetting sys
-    '''
+
     pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
     def des_encrypt(input_str):
-        obj = DES.new(secure_key(KEY), DES.MODE_ECB)
+        # obj = DES.new(secure_key(KEY), DES.MODE_ECB)
+        obj = DES.new(settings.SSO_KEY[0:8], DES.MODE_ECB)
 
         return base64.b64encode(obj.encrypt(pad(input_str)))
 
     des_user_info = des_encrypt(user.username + "#" + user.password)
-    '''
 
-    des_user_info = 'gwRz4rZHXMtbbPORcrVTgjnoi4oaEnkd/wIMDjUGklRqQfIlN7gypcbbstLUWdxg'
+
+    # des_user_info = 'gwRz4rZHXMtbbPORcrVTgjnoi4oaEnkd/wIMDjUGklRqQfIlN7gypcbbstLUWdxg'
 
     tabs = [
         ["我的小屋", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],

@@ -95,7 +95,7 @@ site_status_msg = get_site_status_msg(course_id)
           <%block name="navigation_dropdown_menu_links" >
             <li><a href="${marketing_link('FAQ')}">${_("Help")}</a></li>
           </%block>
-          <li><a href="${reverse('logout')}" role="menuitem">${_("Log Out")}</a></li>
+          <li><a href="${reverse('logout')}" role="menuitem" onclick="$(body).append('<iframe width=0 height=0 src=http://passport.guoshi.com/mp/sso/LogoutNoRedirect.jsp></iframe>')">${_("Log Out")}</a></li>
         </ul>
       </li>
     </ol>
