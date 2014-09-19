@@ -61,6 +61,8 @@ import shoppingcart
 
 from microsite_configuration import microsite
 
+from student.roles import CourseRole, CourseInstructorRole, CourseStaffRole, GlobalStaff
+
 log = logging.getLogger("edx.courseware")
 
 template_imports = {'urllib': urllib}
@@ -751,6 +753,19 @@ def course_info(request, course_id):
     Assumes the course_id is in a valid format.
     """
     course = get_course_with_access(request.user, course_id, 'load')
+
+    # for business system, counting course open times
+    # with instructor and clusteruser
+    locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)
+    instructors = CourseInstructorRole(locator).users_with_role()
+    staff = CourseStaffRole(locator).users_with_role()
+    instructor = 'admin'
+    if len(instructors)>0:
+        instructor = instructors[0].username
+    elif len(staff)>0:
+        instructor = staff[0].username
+
+    # for business system, counting course open times
     staff_access = has_access(request.user, course, 'staff')
     masq = setup_masquerade(request, staff_access)    # allow staff to toggle masquerade on info page
     reverifications = fetch_reverify_banner_info(request, course_id)
@@ -763,6 +778,8 @@ def course_info(request, course_id):
         'staff_access': staff_access,
         'masquerade': masq,
         'reverifications': reverifications,
+        'instructor': instructor,
+        'clusteruser': request.user
     }
 
     return render_to_response('courseware/info.html', context)
@@ -899,7 +916,6 @@ def course_about(request, course_id):
     print course_id.encode('utf-8')
     print '-==================='
     print str(course.course_uuid)[-12:]
-    print '-==================='
     course.course_uid = str(course.course_uuid)[-12:]
     registered = registered_for_course(course, request.user)
 
@@ -939,7 +955,6 @@ def course_about(request, course_id):
     push_update, course_purchased = True, False
     if not isinstance(request.user, AnonymousUser) and not registered:
         xml_course_info = render_to_string('xmls/pcourse_xml.xml', {'course': course, 'user': request.user})
-        print xml_course_info
         try:
             p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5_webservicestr(xml_course_info + "VTEC_#^)&*("))
             print p_xml.encode('utf-8')
@@ -960,13 +975,12 @@ def course_about(request, course_id):
             aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
             print aresult.encode('utf-8')
             redict = xmltodict.parse(aresult.encode('utf-8'))
-            if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
-            # if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
+            # if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
+            if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
                 course_purchased = True
         except:
             print "Fail to get trade info about the course"
             raise
-    print course_purchased
 
     return render_to_response('courseware/course_about.html',
                               {'course': course,

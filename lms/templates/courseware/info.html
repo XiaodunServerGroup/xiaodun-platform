@@ -16,14 +16,14 @@
 <%include file="/courseware/course_navigation.html" args="active_page='info'" />
 
 
-  <!--  <input type="hidden" name="courseId" id="courseId" value="${course.id}" />
-    <input type="hidden" name="createuser" id="createuser" value="${course.id}" />
-    <input type="hidden" name="cluster" id="cluster" value="" /> -->
+    <input type="hidden" name="courseId" id="courseId" value="${course.id.replace('/','.')}" />
+    <input type="hidden" name="createuser" id="createuser" value="${instructor}" />
+    <input type="hidden" name="cluster" id="cluster" value="${clusteruser}" />
 
 
 <%block name="js_extra">
   <script type="text/javascript" src="${static.url('js/jquery.treeview.js')}"></script>
-  <!--<script type="text/javascript" src="http://busi.xiaodun.cn/app/js/statisticPlay.js"></script>-->
+  <script type="text/javascript" src="http://busi.xiaodun.cn/app/js/statisticPlay.js"></script>
 
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){

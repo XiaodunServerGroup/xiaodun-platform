@@ -263,7 +263,9 @@ class XModuleMixin(XBlockMixin):
         course_price = self.course_price
 
         if course_price is None:
-            course_price = 0.0    
+            course_price = 0.0
+        elif type(course_price) != int:
+            course_price = int(course_price)
 
         return course_price
 
