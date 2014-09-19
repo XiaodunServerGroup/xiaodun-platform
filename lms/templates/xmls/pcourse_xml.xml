@@ -5,7 +5,7 @@
 			<COMMODITY_NO>${ course.course_uid }</COMMODITY_NO>
 			<COMMODITY_GUID>${ course.course_uid }</COMMODITY_GUID>
 			<COMMODITY_VERTIFY>2</COMMODITY_VERTIFY>
-			<NAME>${ course.id  }</NAME>
+			<NAME>${ course.display_name  }</NAME>
 			<!--<NAME>liuliuliuliu</NAME>-->
 			<SERVICE_SPAN_TYPE>2</SERVICE_SPAN_TYPE>
 			<SERVICE_SPAN>3650</SERVICE_SPAN>
