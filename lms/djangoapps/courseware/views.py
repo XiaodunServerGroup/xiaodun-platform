@@ -847,8 +847,16 @@ def demd5_webservicestr(srstr):
         return ""
     md5obj = hashlib.md5()
     md5obj.update(srstr)
-
     return md5obj.hexdigest()
+
+def md5_str(srstr):
+    print '-----------------------md55555555555'
+    md5obj = hashlib.md5()
+    md5obj.update(srstr)
+    print md5obj.hexdigest()
+    print '-----------------------md55555555555'
+    return md5obj.hexdigest()
+
 
 
 def purchase_authenticate(request, course_id):
@@ -859,7 +867,8 @@ def purchase_authenticate(request, course_id):
     print '-==================='
     print str(course.course_uuid)[-12:]
     print '-==================='
-    course.course_uid= str(course.course_uuid)[-12:]
+    # course.course_uid= str(course.course_uuid).replace('-','')
+    course.course_uid= md5_str(course_id)
     re_jsondict = {'authenticated': False}
     if not (user is None or isinstance(user, AnonymousUser)):
         xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uid})
@@ -914,9 +923,11 @@ def course_about(request, course_id):
     course = get_course_with_access(request.user, course_id, 'see_exists')
     print '-==================='
     print course_id.encode('utf-8')
-    print '-==================='
-    print str(course.course_uuid)[-12:]
-    course.course_uid = str(course.course_uuid)[-12:]
+    # course.course_uid = str(course.course_uuid)[-12:]
+    # course.course_uid = str(course.course_uuid).replace('-','')
+
+    course.course_uid = md5_str(course_id)
+    print course.course_uid
     registered = registered_for_course(course, request.user)
 
     if has_access(request.user, course, 'load'):
@@ -954,10 +965,21 @@ def course_about(request, course_id):
     # push course info to operating system and get purchase info
     push_update, course_purchased = True, False
     if not isinstance(request.user, AnonymousUser) and not registered:
-        xml_course_info = render_to_string('xmls/pcourse_xml.xml', {'course': course, 'user': request.user})
+        print '---------------push xcourse'
+        print course_id.encode('utf-8')
+        locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)
+        print locator
+
+        instructors = CourseInstructorRole(locator).users_with_role()
+        xml_course_info = render_to_string('xmls/pcourse_xml.xml', {'course': course, 'user': instructors[0]})
+        print '---------------push xcourse'
+
+        print xml_course_info.encode('utf-8')
         try:
             p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5_webservicestr(xml_course_info + "VTEC_#^)&*("))
+            print '---------------push xcourse'
             print p_xml.encode('utf-8')
+            print '---------------push xcourse'
 
             # parse xml to dict
             docdict = xmltodict.parse(p_xml.encode('utf-8'))
@@ -968,15 +990,15 @@ def course_about(request, course_id):
             print "Fail to push course information to "
             raise
             push_update = False
-
+        print '---------------push xcourse'
         xml_purchase = render_to_string('xmls/auth_purchase.xml', {'username': request.user.username, 'course_uuid': course.course_uid})
         print xml_purchase
         try:
             aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
             print aresult.encode('utf-8')
             redict = xmltodict.parse(aresult.encode('utf-8'))
-            # if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
-            if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
+            if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
+            # if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
                 course_purchased = True
         except:
             print "Fail to get trade info about the course"
