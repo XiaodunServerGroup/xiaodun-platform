@@ -119,7 +119,12 @@ def return_fixed_courses(request, courses, action=None):
         course_id = course_id.replace(".", '/')
 
     try:
-        index_course = get_course_by_id(course_id)
+        # index_course = get_course_by_id(course_id)
+        index_course = 0
+        for i in courses:
+            if i.id == course_id:
+                index_course = i
+                break
         course_index = (courses.index(index_course) + 1)
     except:
         course_index = 0
@@ -136,7 +141,6 @@ def return_fixed_courses(request, courses, action=None):
             course_list.append(course_json)
         except:
             continue
-
     return JsonResponse({"count": len(courses), "course-list": course_list})
 
 
@@ -751,14 +755,6 @@ def course_info(request, course_id):
     masq = setup_masquerade(request, staff_access)    # allow staff to toggle masquerade on info page
     reverifications = fetch_reverify_banner_info(request, course_id)
 
-    print '-------------------------------- q--'
-    prn_obj(course)
-    print course_id
-    print course
-    print staff_access
-    print masq
-    print reverifications
-    print '----------------------------------'
     context = {
         'request': request,
         'course_id': course_id,
