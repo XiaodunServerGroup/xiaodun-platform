@@ -56,6 +56,8 @@ urlpatterns = ('',  # nopep8
 
     # class appointment
     url(r'^sync/class/appointment$', 'student.views.sync_class_appointment', name='sync_class_appointment'),
+    # certificate
+    url(r'^sync/bs_cert$', 'student.views.bs_cert', name='bs_cert'),
 
     url(r'^password_reset/$', 'student.views.password_reset', name='password_reset'),
     ## Obsolete Django views for password resets

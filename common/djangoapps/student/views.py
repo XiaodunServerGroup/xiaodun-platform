@@ -1123,6 +1123,17 @@ def sync_class_appointment(request):
     return render_to_response("sync_class_appointment.html", {"user": user, 'ftabs': tabs})
 
 
+@login_required
+def bs_cert(request):
+    """
+    business system certificate looking
+    """
+    user = request.user
+
+
+    return render_to_response("bs_cert.html")
+
+
 def login_failure_count(request):
 
     return JsonResponse({'failure_time': failure_time(request)})
