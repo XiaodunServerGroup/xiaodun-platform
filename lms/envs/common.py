@@ -172,7 +172,7 @@ FEATURES = {
     'INDIVIDUAL_DUE_DATES': False,
 
     # Enable instructor dash beta version link
-    'ENABLE_INSTRUCTOR_BETA_DASHBOARD': True,
+    'ENABLE_INSTRUCTOR_BETA_DASHBOARD': False,
 
     # Allow use of the hint managment instructor view.
     'ENABLE_HINTER_INSTRUCTOR_VIEW': False,
