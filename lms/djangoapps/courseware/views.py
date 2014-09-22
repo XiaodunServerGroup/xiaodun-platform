@@ -14,10 +14,12 @@ import urllib2
 from suds.client import Client
 import xmltodict
 
+from datetime import datetime
 from collections import defaultdict
 
 from lxml import html
-
+import base64
+from Crypto.Cipher import DES
 from django.conf import settings
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
@@ -850,23 +852,14 @@ def demd5_webservicestr(srstr):
     return md5obj.hexdigest()
 
 def md5_str(srstr):
-    print '-----------------------md55555555555'
     md5obj = hashlib.md5()
     md5obj.update(srstr)
-    print md5obj.hexdigest()
-    print '-----------------------md55555555555'
     return md5obj.hexdigest()
-
 
 
 def purchase_authenticate(request, course_id):
     user = request.user
     course = get_course_with_access(request.user, course_id, 'see_exists')
-    print '-==================='
-    print course_id.encode('utf-8')
-    print '-==================='
-    print str(course.course_uuid)[-12:]
-    print '-==================='
     # course.course_uid= str(course.course_uuid).replace('-','')
     course.course_uid= md5_str(course_id)
     re_jsondict = {'authenticated': False}
@@ -879,19 +872,19 @@ def purchase_authenticate(request, course_id):
             print aresult.encode('utf-8')
             redict = xmltodict.parse(aresult.encode('utf-8'))
 
-            if int(redict['EVENTRETURN']['RESULT']) in [0, 1]:
+            if int(redict['EVENTRETURN']['RESULT']) in [0, 1,11]:
             # if int(redict['EVENTRETURN']['RESULT']) in [1]:
                 re_jsondict['authenticated'] = True
 
+                pdate = datetime.now().strftime("%Y-%m-%d")
                 # push course trade data to business system
-                xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user})
-                print xml_data_str
+                xml_data_str = render_to_string('xmls/pushed_course_data.xml', {'course': course, 'user': user, 'pdate': pdate})
 
                 # DES encode data
                 pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
-                print pad
-                des_enxml_str = base64.b64encode(DES.new(setting.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
-
+                # print '=-=-=-=-=-=-=-=-3'
+                # print pad
+                des_enxml_str = base64.b64encode(DES.new(settings.SSO_KEY[0:8], DES.MODE_ECB).encrypt(pad(xml_data_str.encode('utf-8'))))
                 bs_host = settings.XIAODUN_BACK_HOST        # test dev "http://192.168.1.78:8081/xiaodun"
                 push_url = "{}/service/course/add?data={}".format(bs_host, des_enxml_str)
 
@@ -902,7 +895,8 @@ def purchase_authenticate(request, course_id):
             else:
                 errmsg = redict['EVENTRETURN']['DESCRIPTION']['DESC'].strip()
                 re_jsondict['errmsg'] = errmsg if errmsg else ""
-        except:
+        except Exception,e:
+            print e
             re_jsondict['errmsg'] = '服务器错误，稍后再试！'
 
 
