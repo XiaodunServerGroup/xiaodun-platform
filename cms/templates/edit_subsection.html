@@ -54,6 +54,8 @@
             <p class="notice">${_("The date above differs from the release date of {name}, which is unset.").format(name=parent_item.display_name_with_default)}
             % else:
       <p class="notice">${_("The date above differs from the release date of {name} - {start_time}").format(name=parent_item.display_name_with_default, start_time=get_default_time_display(parent_item.start))}.
+      <p class="notice"><!--${_("The date above differs from the release date of {name} - {start__time}").format(name=parent_item.display_name_with_default, start__time=get_default_time_display(parent_item.start))}.-->
+        ${"上述日期与{name}-{start_time}的发布日期不同".format(name=parent_item.display_name_with_default, start_time=get_default_time_display(parent_item.start))}.
             % endif
       <a href="#" class="sync-date no-spinner">${_("Sync to {name}.").format(name=parent_item.display_name_with_default)}</a></p>
         % endif
