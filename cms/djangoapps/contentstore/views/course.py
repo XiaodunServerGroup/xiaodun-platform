@@ -1226,7 +1226,7 @@ def course_audit_api(request, course_id, operation):
     # get course location and module infomation
     try:
         course_location_info = course_id.split('.')
-        locator = BlockUsageLocator(package_id=course_id, branch='draft', version_guid=None, block_id=course_location_info[-1])
+        locator = BlockUsageLocator(package_id=course_id, branch='draft', version_guid=None, block_id='.'.join(course_location_info[2:]))
         course_location = loc_mapper().translate_locator_to_location(locator)
         course_module = get_modulestore(course_location).get_item(course_location)
 
