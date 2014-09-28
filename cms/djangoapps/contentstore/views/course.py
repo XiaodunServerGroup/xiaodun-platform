@@ -1247,5 +1247,6 @@ def course_audit_api(request, course_id, operation):
         re_json["success"] = True
         CourseMetadata.update_from_json(course_module, meta_json, True, user)
         return JsonResponse(re_json)
-    except:
+    except Exception, e:
+        print e
         return JsonResponse(re_json)
