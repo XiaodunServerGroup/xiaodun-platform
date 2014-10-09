@@ -157,9 +157,9 @@ def sync_class_appointment(request):
     # des_user_info = 'gwRz4rZHXMtbbPORcrVTgjnoi4oaEnkd/wIMDjUGklRqQfIlN7gypcbbstLUWdxg'
 
     tabs = [
-        ["我的小屋", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
-        ["查找小屋", "{}/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
-        ["添加小屋", "{}/sns/meeting/edx_add_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["我的课堂", "{}/sns/meeting/edx_list_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), True],
+        ["查找课堂", "{}/sns/meeting/edx_find_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
+        ["添加课堂", "{}/sns/meeting/edx_add_class_room.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
         ["信息通知", "{}/sns/pm/edx_pm.jsp?userInfo={}".format(video_meeting_domain, des_user_info), False],
     ]
 
