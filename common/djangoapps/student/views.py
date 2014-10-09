@@ -1133,6 +1133,16 @@ def bs_cert(request):
 
     return render_to_response("bs_cert.html")
 
+@login_required
+def class_bbs(request):
+    """
+    business system certificate looking
+    """
+    user = request.user
+
+
+    return render_to_response("class_bbs.html")
+
 
 def login_failure_count(request):
 

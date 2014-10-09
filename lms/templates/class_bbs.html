@@ -1,0 +1,63 @@
+<% from datetime import datetime %>
+<%! from django.utils.translation import ugettext as _ %>
+<%! from django.template import RequestContext %>
+<%! from courseware import grades %>
+<%! from instructor.access import get_one_instructor_name %>
+
+
+<%!
+  from django.core.urlresolvers import reverse
+  import waffle
+%>
+
+<%inherit file="main.html" />
+
+<%namespace name='static' file='static_content.html'/>
+
+<%block name="pagetitle">课堂BBS</%block>
+
+<%block name="js_extra">
+</%block>
+
+<section class="container">
+  <style>
+    div.wrapper-mast {
+      margin: 30px 0 0 0;
+      padding: 0 20px;
+      position: relative;
+      width: 100%;
+    }
+
+    .wrapper-mast .mast {
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 10px;
+      position: relative;
+      max-width: 1280px;
+      min-width: 900px;
+      width: 100%;
+      margin: 0 auto 20px auto;
+      color: #4c4c4c;
+    }
+
+    .mast h3 {
+      font-size: 2.6rem;
+      line-height: 3.328rem;
+      display: block;
+      font-weight: 600;
+      color: #323232;
+    }
+  </style>
+  <div class="wrapper-mast wrapper">
+    <header class="mast has-actions">
+      <h3 class='page-header'>证书申请</h3>
+    </header>
+    <div>
+  </div>
+
+  <div class="wrapper-content wrapper">
+    <section class="content">
+      <iframe src="http://114.255.110.145/space.jsp?do=mtag" frameborder="0" id="class_bbs" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+      </iframe>
+    </section>
+  </div>
+</section>
