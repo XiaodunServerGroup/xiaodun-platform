@@ -120,7 +120,8 @@ def return_fixed_courses(request, courses, action=None):
 
     course_id = request.GET.get("course_id")
     if course_id:
-        course_id = course_id.replace(".", '/')
+        course_id = course_id.replace(".", '/',2)
+
 
     try:
         # index_course = get_course_by_id(course_id)
