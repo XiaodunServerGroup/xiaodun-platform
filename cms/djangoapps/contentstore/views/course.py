@@ -561,6 +561,19 @@ def create_new_course(request):
     CourseEnrollment.enroll(request.user, new_course.location.course_id)
     _users_assign_default_role(new_course.location)
 
+    # begin add notes when add course 
+    # it can also add other parameter on Advanced settings
+    course_location = loc_mapper().translate_locator_to_location(new_location)
+    course_module = get_modulestore(course_location).get_item(course_location) 
+    
+    key_val = "/courses/" + org +"/"+ number +"/"+ run + "/notes/api"   
+    data_json = {
+      "advanced_modules": ["notes"],
+      "annotation_storage_url": key_val
+    }
+    CourseMetadata.update_from_json(course_module, data_json, True, request.user)
+    # end 
+
     return JsonResponse({'url': new_location.url_reverse("course/", "")})
 
 
