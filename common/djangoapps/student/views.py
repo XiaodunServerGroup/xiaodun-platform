@@ -206,7 +206,7 @@ def lead_courses(request):
     sel_items = {
         "subject": [
                        ["XSecure", "信息安全基础理论"],
-                       ["CTec", "通用那全技术"],
+                       ["CTec", "通用安全技术"],
                        ["CManage", "安全管理"],
                        ["SPTec", "专项安全技术"],
                 ],
