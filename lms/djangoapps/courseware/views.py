@@ -122,7 +122,6 @@ def return_fixed_courses(request, courses, action=None):
     if course_id:
         course_id = course_id.replace(".", '/',2)
 
-
     try:
         # index_course = get_course_by_id(course_id)
         index_course = 0
@@ -219,6 +218,8 @@ def courses_list_handler(request, action):
         return courses_list
 
     courses = get_courses(user, request.META.get('HTTP_HOST'))
+    courses = sort_by_announcement(courses)
+
     if action != "sync":
         courses = get_courses_depend_action(courses)
 
