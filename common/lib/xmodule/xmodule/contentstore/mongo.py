@@ -114,7 +114,7 @@ class MongoContentStore(ContentStore):
 
         disk_fs = OSFS(output_directory)
 
-        with disk_fs.open(content.name, 'wb') as asset_file:
+        with disk_fs.open(content.name.encode('ascii', 'ignore'), 'wb') as asset_file:
             asset_file.write(content.data)
 
     def export_all_for_course(self, course_location, output_directory, assets_policy_file):
