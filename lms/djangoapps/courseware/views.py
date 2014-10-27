@@ -126,9 +126,10 @@ def return_fixed_courses(request, courses, action=None):
         # index_course = get_course_by_id(course_id)
         index_course = 0
         for i in courses:
-            if i.id == course_id:
-                index_course = i
-                break
+            if i.id != None:
+                if i.id == course_id:
+                    index_course = i
+                    break
         course_index = (courses.index(index_course) + 1)
     except:
         course_index = 0
