@@ -283,7 +283,8 @@ if settings.COURSEWARE_ENABLED:
         url(r'^mobi/courses-list/(?P<action>(homefalls|hot|latest|all|my|rolling|search|sync))',
             'courseware.views.courses_list_handler', name="courses_list_handler"),
 
-        url(r'^mobi/courses-list/category/(?P<course_category>[\w\-]+)($|/level/(?P<course_level>[\w\-]+)$)',
+#        url(r'^mobi/courses-list/category/(?P<course_category>[\w\-]+)($|/level/(?P<course_level>[\w\-]+)$)',
+        url(r'^mobi/courses-list/level/(?P<course_level>[\w\-]+)',
             'courseware.views.course_attr_list_handler', name="course_attr_list_handler"),
 
         #Inside the course

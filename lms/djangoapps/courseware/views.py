@@ -149,7 +149,24 @@ def return_fixed_courses(request, courses, action=None):
     return JsonResponse({"count": len(courses), "course-list": course_list})
 
 
-def course_attr_list_handler(request, course_category, course_level=None):
+#def course_attr_list_handler(request, course_category, course_level=None):
+#
+#    courses = get_courses(request.user, request.META.get('HTTP_HOST'))
+#    courses = sort_and_audited_items(courses)
+#    courses_list = []
+#
+#    for course in courses:
+#        if course_level:
+#            if course.course_level == course_level and course.course_category == course_category:
+#                courses_list.append(course)
+#        elif course.course_category == course_category:
+#            courses_list.append(course)
+#        else:
+#            continue
+#
+#    return return_fixed_courses(request, courses_list, None)
+
+def course_attr_list_handler(request, course_level=None):
 
     courses = get_courses(request.user, request.META.get('HTTP_HOST'))
     courses = sort_and_audited_items(courses)
@@ -157,10 +174,8 @@ def course_attr_list_handler(request, course_category, course_level=None):
 
     for course in courses:
         if course_level:
-            if course.course_level == course_level and course.course_category == course_category:
+            if course.course_level == course_level :
                 courses_list.append(course)
-        elif course.course_category == course_category:
-            courses_list.append(course)
         else:
             continue
 
