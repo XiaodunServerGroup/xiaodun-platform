@@ -1,3 +1,4 @@
+
 """
 This is the default template for our main set of AWS servers. This does NOT
 cover the content machines, which use content.py
@@ -144,7 +145,7 @@ PLATFORM_NAME = ENV_TOKENS.get('PLATFORM_NAME', PLATFORM_NAME)
 CC_MERCHANT_NAME = ENV_TOKENS.get('CC_MERCHANT_NAME', PLATFORM_NAME)
 EMAIL_BACKEND = ENV_TOKENS.get('EMAIL_BACKEND', EMAIL_BACKEND)
 EMAIL_FILE_PATH = ENV_TOKENS.get('EMAIL_FILE_PATH', None)
-EMAIL_HOST = ENV_TOKENS.get('EMAIL_HOST', 'mail.guoshi.com')  # django default is localhost
+EMAIL_HOST = ENV_TOKENS.get('EMAIL_HOST', 'smtp.126.com')  # django default is localhost
 EMAIL_PORT = ENV_TOKENS.get('EMAIL_PORT', 25)  # django default is 25
 EMAIL_USE_TLS = ENV_TOKENS.get('EMAIL_USE_TLS', False)  # django default is False
 SITE_NAME = ENV_TOKENS['SITE_NAME']
@@ -313,8 +314,8 @@ MONGODB_LOG = AUTH_TOKENS.get('MONGODB_LOG', {})
 OPEN_ENDED_GRADING_INTERFACE = AUTH_TOKENS.get('OPEN_ENDED_GRADING_INTERFACE',
                                                OPEN_ENDED_GRADING_INTERFACE)
 
-EMAIL_HOST_USER = AUTH_TOKENS.get('EMAIL_HOST_USER', 'xiaodun')  # django default is ''
-EMAIL_HOST_PASSWORD = AUTH_TOKENS.get('EMAIL_HOST_PASSWORD', '123456')  # django default is ''
+EMAIL_HOST_USER = AUTH_TOKENS.get('EMAIL_HOST_USER', 'xiaodunxin')  # django default is ''
+EMAIL_HOST_PASSWORD = AUTH_TOKENS.get('EMAIL_HOST_PASSWORD', '123456qr')  # django default is ''
 
 # Datadog for events!
 DATADOG = AUTH_TOKENS.get("DATADOG", {})
