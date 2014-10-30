@@ -166,7 +166,7 @@ def return_fixed_courses(request, courses, action=None):
 #
 #    return return_fixed_courses(request, courses_list, None)
 
-def course_attr_list_handler(request, course_level=None):
+def course_attr_list_handler(request,course_category, course_level=None):
 
     courses = get_courses(request.user, request.META.get('HTTP_HOST'))
     courses = sort_and_audited_items(courses)
@@ -285,6 +285,12 @@ def mobi_course_info(request, course, action=None):
     except:
         user = AnonymousUser()
 
+    cp = 0
+    if not hasattr(course,"display_course_price_with_default"):
+        cp = 0
+    else:
+        cp = course.display_course_price_with_default
+
     result = {
         "id": course.id.replace('/', '.'),
         "name": course.display_name_with_default,
@@ -297,7 +303,7 @@ def mobi_course_info(request, course, action=None):
         "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
-        "course_price": course.display_course_price_with_default
+        "course_price": cp
     }
 
     def compute_action_imgurl(imgname):
