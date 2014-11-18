@@ -1702,7 +1702,7 @@ def create_account(request, post_override=None):
             error_str = {
                 'username': _('Username must be minimum of two characters long'),
                 'email': _('A properly formatted e-mail is required'),
-                'name': _('Your legal name must be a minimum of two characters long'),
+                'name': _('Username must be minimum of two characters long'),
                 'password': _('A valid password is required'),
                 'terms_of_service': _('Accepting Terms of Service is required'),
                 'honor_code': _('Agreeing to the Honor Code is required'),
