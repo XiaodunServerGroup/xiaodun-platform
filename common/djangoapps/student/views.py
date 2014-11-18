@@ -278,7 +278,7 @@ def lead_courses(request):
         except:
             course_index = 0
 
-        courses_list = crucourses[course_index: course_index + 3]
+        courses_list = crucourses[course_index: course_index + 6]
 
         return courses_list
 
