@@ -80,7 +80,7 @@ from collections import namedtuple
 
 from instructor.offline_gradecalc import student_grades
 
-from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url, get_course_by_id
+from courseware.courses import get_courses, sort_by_announcement, filter_audited_items, get_course_about_section, course_image_url, get_course_by_id,get_courses_by_search
 from courseware.access import has_access
 
 from django_comment_common.models import Role
@@ -166,23 +166,43 @@ def index(request, extra_context={}, user=AnonymousUser()):
     return render_to_response('index.html', context)
 
 
+# need condition filter
+def uniq_filter_org(courses):
+    org_arr = []
+
+    for course in courses:
+        course_org = course.display_org_with_default.strip()
+        if [course_org, course_org] not in org_arr:
+            org_arr.append([course_org, course_org])
+
+    return org_arr
+
 def lead_courses(request):
     """
     conditional filter courses
     """
     user = request.user or AnonymousUser()
     crude_courses = audit_courses(request, user)
+    org = uniq_filter_org(crude_courses)
 
-    # need condition filter
-    def uniq_filter_org(courses):
-        org_arr = []
-        
-        for course in courses:
-            course_org = course.display_org_with_default.strip()
-            if [course_org, course_org] not in org_arr:
-                org_arr.append([course_org, course_org])
+    #search
+    q = request.GET.get('query', '')
+    courses_aa = get_courses_by_search(request.META.get('HTTP_HOST'))
+    courses_list = []
+    if q != "":
+        for course in courses_aa:
+            if  q in course.org or q in course.id or q in course.display_name_with_default:
+                print course.id.decode('utf-8').encode('gbk')
+                courses_list.append(course)
+            else:
+                continue
+        crude_courses =courses_list
 
-        return org_arr
+
+#    courses = sort_by_announcement(courses_list)
+
+
+
 
     # format string
     def format_course(course):
@@ -215,7 +235,7 @@ def lead_courses(request):
                    ["M", "中级"],
                    ["S", "高级"],
                 ],
-        "org": uniq_filter_org(crude_courses)
+        "org": org
     }
 
     con_col = {}
@@ -286,7 +306,7 @@ def lead_courses(request):
     con_col.update({'course_id': id_con})
     con_courses = course_dep(con_courses, id_con)
 
-    context = {"courses": con_courses}
+    context = {"courses": filter_audited_items(con_courses), "queryStr":q}
     context.update(sel_items)
     context.update(con_col)
 
@@ -294,7 +314,7 @@ def lead_courses(request):
         context["courses"] = map(format_course, context["courses"])
         return JsonResponse(context)
 
-    return render_to_response('lead_courses.html', context)
+    return render_to_response('lead_courses.html',context)
 
 
 def course_from_id(course_id):
