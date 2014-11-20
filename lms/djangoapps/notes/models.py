@@ -41,13 +41,13 @@ class Note(models.Model):
         self.media = strip_tags(body.get('media', 'text'))
 
         ranges = body.get('ranges')
-        if ranges is None or len(ranges) != 1:
-            raise ValidationError('Note must contain exactly one range.')
-
-        self.range_start = ranges[0]['start']
-        self.range_start_offset = ranges[0]['startOffset']
-        self.range_end = ranges[0]['end']
-        self.range_end_offset = ranges[0]['endOffset']
+#        if ranges is None or len(ranges) != 1:
+#            raise ValidationError('Note must contain exactly one range.')
+        if ranges:
+            self.range_start = ranges[0]['start']
+            self.range_start_offset = ranges[0]['startOffset']
+            self.range_end = ranges[0]['end']
+            self.range_end_offset = ranges[0]['endOffset']
 
         self.tags = ""
         tags = [strip_tags(tag) for tag in body.get('tags', [])]
