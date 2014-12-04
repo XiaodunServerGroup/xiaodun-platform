@@ -1439,6 +1439,23 @@ def change_setting(request):
         "location": up.location,
     })
 
+def  _push_info_to_bs_synchronous(uid,username):
+    rejson = {'success': False}
+    try:
+        request_host = settings.XIAODUN_BACK_HOST            # Test DEV "http://192.168.1.78:8081/xiaodun"
+#        request_host ="http://192.168.1.2:8080"
+        request_url = '{}/student/student!getStuid.do?username={}&stuid={}'.format(request_host, username,uid)
+
+        socket.setdefaulttimeout(10)
+        req = urllib2.Request(request_url)
+        request_json = json.load(urllib2.urlopen(req))
+        if not request_json.get('status', ''):
+            rejson["errmsg"] = request_json["errmessage"]
+        else:
+            rejson["success"] = True
+    except:
+        rejson['errmsg'] = "服务器错误，请稍后再试!"
+    return rejson
 
 def _push_info_to_bs(post_vars):
     """
@@ -1474,13 +1491,13 @@ def _push_info_to_bs(post_vars):
     pad = lambda s: s + (8 - len(s) % 8) * chr(8 - len(s) % 8)
     secure_key = settings.SSO_KEY[0:8]
     des_enxml_str = base64.b64encode(DES.new(secure_key, DES.MODE_ECB).encrypt(pad(xml_format.encode('utf-8')))).replace('+', '$')
-    
+
     # goon request
     rejson = {'success': False}
     try:
         request_host = settings.XIAODUN_BACK_HOST            # Test DEV "http://192.168.1.78:8081/xiaodun"
+#        request_host ="http://192.168.1.2:8080"
         request_url = '{}/student/student!regist.do?input={}'.format(request_host, des_enxml_str)
-
         socket.setdefaulttimeout(10)
         req = urllib2.Request(request_url)
         request_json = json.load(urllib2.urlopen(req))
@@ -1489,7 +1506,8 @@ def _push_info_to_bs(post_vars):
             rejson["errmsg"] = request_json["errmessage"]
         else:
             rejson["success"] = True
-    except:
+    except Exception, e:
+        print e
         rejson['errmsg'] = "服务器错误，请稍后再试!"
 
     return rejson
@@ -1611,9 +1629,9 @@ def mobi_create_account(request, post_override=None):
     if not presult['success']:
         js['value'] = presult['errmsg']
         return JsonResponse(js, status=400)
-
-    # Ok, looks like everything is legit.  Create the account.
-    ret = _do_create_account(post_vars)
+    else:
+        # Ok, looks like everything is legit.  Create the account.
+        ret = _do_create_account(post_vars)
     if isinstance(ret, HttpResponse):  # if there was an error then return that
         return ret
     (user, profile, registration) = ret
@@ -1778,10 +1796,14 @@ def create_account(request, post_override=None):
             js['field'] = 'password'
             return JsonResponse(js, status=400)
 
+    print '-------------debug---------------------------'
     # sync student infomation to bs
     presult = _push_info_to_bs(post_vars)
+    print presult
     if not presult['success']:
+        print 'pppppppppppppppppppppppppp'
         js['value'] = presult['errmsg']
+        print  js['value'].encode('utf-8')
         return JsonResponse(js, status=400)
 
     # Ok, looks like everything is legit.  Create the account.
@@ -1789,6 +1811,16 @@ def create_account(request, post_override=None):
     if isinstance(ret, HttpResponse):  # if there was an error then return that
         return ret
     (user, profile, registration) = ret
+    print "++++++++++++++++++++++"
+    print user.id
+    print user.username
+    print "+++++++++++++++++++++++++++"
+    synchronous=_push_info_to_bs_synchronous(user.id,user.username)
+    print  synchronous
+    if not synchronous['success']:
+        js['value'] = synchronous['errmsg']
+        return JsonResponse(js, status=400)
+
 
     context = {
         'name': post_vars['name'],
