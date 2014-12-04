@@ -1506,8 +1506,7 @@ def _push_info_to_bs(post_vars):
             rejson["errmsg"] = request_json["errmessage"]
         else:
             rejson["success"] = True
-    except Exception, e:
-        print e
+    except:
         rejson['errmsg'] = "服务器错误，请稍后再试!"
 
     return rejson
@@ -1629,12 +1628,17 @@ def mobi_create_account(request, post_override=None):
     if not presult['success']:
         js['value'] = presult['errmsg']
         return JsonResponse(js, status=400)
-    else:
-        # Ok, looks like everything is legit.  Create the account.
-        ret = _do_create_account(post_vars)
+
+    # Ok, looks like everything is legit.  Create the account.
+    ret = _do_create_account(post_vars)
     if isinstance(ret, HttpResponse):  # if there was an error then return that
         return ret
     (user, profile, registration) = ret
+
+    synchronous=_push_info_to_bs_synchronous(user.id,user.username)
+    if not synchronous['success']:
+        js['value'] = synchronous['errmsg']
+        return JsonResponse(js, status=400)
 
     context = {
         'name': post_vars['name'],
@@ -1796,14 +1800,10 @@ def create_account(request, post_override=None):
             js['field'] = 'password'
             return JsonResponse(js, status=400)
 
-    print '-------------debug---------------------------'
     # sync student infomation to bs
     presult = _push_info_to_bs(post_vars)
-    print presult
     if not presult['success']:
-        print 'pppppppppppppppppppppppppp'
         js['value'] = presult['errmsg']
-        print  js['value'].encode('utf-8')
         return JsonResponse(js, status=400)
 
     # Ok, looks like everything is legit.  Create the account.
@@ -1811,12 +1811,7 @@ def create_account(request, post_override=None):
     if isinstance(ret, HttpResponse):  # if there was an error then return that
         return ret
     (user, profile, registration) = ret
-    print "++++++++++++++++++++++"
-    print user.id
-    print user.username
-    print "+++++++++++++++++++++++++++"
     synchronous=_push_info_to_bs_synchronous(user.id,user.username)
-    print  synchronous
     if not synchronous['success']:
         js['value'] = synchronous['errmsg']
         return JsonResponse(js, status=400)
