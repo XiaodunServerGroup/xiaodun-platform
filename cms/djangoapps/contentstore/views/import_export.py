@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+#coding=utf-8
+
+import sys,os
+reload(sys)
+sys.setdefaultencoding('utf-8')
 """
 These views handle all actions in Studio related to import and exporting of
 courses
@@ -72,7 +78,7 @@ def import_handler(request, tag=None, package_id=None, branch=None, version_guid
             raise NotImplementedError('coming soon')
         else:
             data_root = path(settings.GITHUB_REPO_ROOT)
-            course_subdir = "{0}-{1}-{2}".format(old_location.org, old_location.course, old_location.name)
+            course_subdir = "{0}-{1}-{2}".format(old_location.org.encode('utf-8'), old_location.course, old_location.name)
             course_dir = data_root / course_subdir
 
             filename = request.FILES['course-data'].name

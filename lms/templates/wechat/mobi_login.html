@@ -103,6 +103,7 @@
 
   <section class="content">
     <form role="form" id="login-form" method="post" data-remote="true" action="login_ajax" novalidate>
+      <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" id="prompt_box">
       <p class="message submission-error">
         <span class="message-copy"></span>
       </p>
