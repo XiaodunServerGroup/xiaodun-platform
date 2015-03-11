@@ -289,6 +289,7 @@ class VideoModule(VideoFields, XModule):
             'youtube_streams': create_youtube_string(self),
             # TODO: Later on the value 1500 should be taken from some global
             # configuration setting field.
+            'video_url':sources.get("mp4", ''),
             'yt_test_timeout': 1500,
             'yt_test_url': settings.YOUTUBE_TEST_URL,
             'transcript_language': transcript_language,

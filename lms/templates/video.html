@@ -1,5 +1,5 @@
 <%! from django.utils.translation import ugettext as _ %>
-
+<%namespace name='static' file='static_content.html'/>
 % if display_name is not UNDEFINED and display_name is not None:
     <h2>${display_name}</h2>
 % endif
@@ -7,7 +7,7 @@
 <div
     id="video_${id}"
     class="video closed"
-
+	style="position:relative;" 
     data-streams="${youtube_streams}"
 
     ${'data-sub="{}"'.format(sub) if sub else ''}
@@ -116,4 +116,25 @@
         </li>
     % endif
   </ul>
+  
+  <a target="_self" class="mtouping"  data-url="${video_url}" href="javascript:void(0)" style="display:none;position:absolute;width:50px;height:50px;left:0;top:0;">
+  	<img style="position: relative; z-index: 2; left: 20px; top: 20px; width: 50%; height: 50%;" id="show_context" src="${static.url('images/remote_play_button.png')}">
+  </a>
 </div>
+
+
+	 
+<script type="text/javascript">
+if(window.location.href.indexOf("/m/")>-1){
+	$(document).ready(function(){
+		$(".mtouping").css("display", "block");
+		
+		$(".mtouping").click(function(){
+			var u = "/m/show_video/?showurl="+$(this).data("url")+"&course_id=&tourl="+window.location.href;
+			window.location.href=u;
+		});
+	});
+}
+
+
+</script>

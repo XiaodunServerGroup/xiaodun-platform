@@ -979,10 +979,13 @@ def course_about(request, course_id):
     oper_sys_domain = settings.OPER_SYS_DOMAIN
     url = "{}/services/OssWebService?wsdl".format(oper_sys_domain)
     # url = "http://192.168.1.6:8090/cetvossFront/services/OssWebService?wsdl"
-    client = Client(url)
+    try:
+        client = Client(url)
+    except:
+        client = None
     # push course info to operating system and get purchase info
     push_update, course_purchased = True, False
-    if not isinstance(request.user, AnonymousUser) and not registered:
+    if client and not isinstance(request.user, AnonymousUser) and not registered:
         print '---------------push xcourse'
         print course_id.encode('utf-8')
         locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)

@@ -30,6 +30,7 @@
 </div>
 </body>
         <script type="text/javascript">
+        	var tourl = "${tourl}";
             function send_address(obj){
                 var message=document.getElementById('message').value;
                 var showurl=document.getElementById('showurl').value;
@@ -47,7 +48,11 @@
                     jsonp: false,
                     'cache':true,
                     complete: function(){
-                        window.location.href="/m/courses/"+course_id+"/courseware";
+                    	if(tourl.length>0){
+                    		window.location.href=tourl;
+                    	}else{
+                    		window.location.href="/m/courses/"+course_id+"/courseware";
+                    	}
                     }
                 });
             }
@@ -59,7 +64,11 @@
                 var course_id=document.getElementById('course_id').value;
                 $.ajax({
                     complete: function(data){
-                        window.location.href="/m/courses/"+course_id+"/courseware";
+                    	if(tourl.length>0){
+                    		window.location.href=tourl;
+                    	}else{
+                    		window.location.href="/m/courses/"+course_id+"/courseware";
+                    	}
                     },
                 });
             }
