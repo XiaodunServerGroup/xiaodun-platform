@@ -42,6 +42,10 @@
             </a>
                <div class="chapter">
                     <ul>
+                    	<%
+                    	from urllib import quote
+                        course_id1 = quote(course_id.encode('utf-8'))
+                    	%>
                       % for unit in section['units']:
                           <%
 
@@ -51,11 +55,12 @@
                                 show_img = 'unit_radio.png'
                             else:
                                 show_img = 'unit_other.png'
+                             
                           %>
 
                           <li class="${'active' if 'active' in section and section['active'] else ''} ${'graded'  if 'graded' in section and section['graded'] else ''}">
                            <!--<a href="${reverse('courseware_section', args=[course_id, chapter['url_name'], section['url_name']])}">-->
-                            <a href="${reverse('courseware_unit', args=[course_id, chapter['url_name'], section['url_name'], unit['location']])}/">
+                            <a href="${reverse('courseware_unit', args=[course_id1, chapter['url_name'], section['url_name'], unit['location']])}/">
                                   <p>
                                       <img src="${static.url('images/'+ show_img)}" alt="pic">
                                       ${unit['display_name']} ${'<span class="sr">, current unit</span>' if 'active' in section and section['active'] else ''}</p>
