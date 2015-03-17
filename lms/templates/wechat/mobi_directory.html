@@ -74,7 +74,9 @@ ${page_title_breadcrumbs(course_name())}
 </%block>
 
 <!-- <script type="text/javascript" src="${static.url('js/jwplayer/jwplayer.js')}"></script> -->
- <script type="text/javascript" src="/static/js/jwplayer/jwplayer.js"></script>
+ <script type="text/javascript" src="${static.url('/static/js/jwplayer/jwplayer6.6/jwplayer.flash.swf')}"></script>
+ <script type="text/javascript" src="${static.url('/static/js/jwplayer/jwplayer6.6/jwplayer.js')}"></script>
+<script type="text/javascript" src="${static.url('/static/js/jwplayer/jwplayer6.6/jwplayer.html5.js')}"></script>
  <script type="text/javascript">
        $(document).ready(function(){
            $( window ).scroll(function() {
@@ -95,7 +97,7 @@ ${page_title_breadcrumbs(course_name())}
 					aspectratio: '16:6'
                 });
             </script>
-  <a href="/m/show_video/?showurl=${show_url}&course_id=${course.id}" style="position: absolute;left: 0px;top: 20px;" target='_self'><img src="${static.url('images/remote_play_button.png')}" id="show_context" style="position:relative;z-index:2;left: 0px;top: 0px;width: 50%; height: 50%" /></a>
+  <a href="/m/show_video/?showurl=${show_url}&course_id=${course.id}" style="position: absolute;left: 0px;top: 20px;display:block;width:40px;height:40px;" target='_self'><img src="${static.url('images/remote_play_button.png')}" id="show_context" style="position:relative;z-index:2;left: 0px;top: 0px;" /></a>
   <div class="course-wrapper">
 
 % if accordion:

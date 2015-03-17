@@ -775,7 +775,8 @@ def mobi_directory(request, course_id):
     motoc = mobi_toc_for_course(user, request, course)
     show_list = list()
     for toc in motoc:
-        videolist = toc['show_url'][0]
+        videolist = toc['show_url'] and toc['show_url'][0] or ''
+        
         show_list.append(videolist)
     if not registered:
         # TODO (vshnayder): do course instructors need to be registered to see course?
@@ -1202,8 +1203,9 @@ def submission_history(request, course_id, student_username, location):
 
 def show_video(request):
     showurl = request.GET.get("showurl","")
-    course_id = request.GET.get("course_id")    
-    return render_to_response('wechat/mobi_video.html',{"showurl":showurl, "course_id": course_id})
+    course_id = request.GET.get("course_id")
+    tourl = request.GET.get("tourl",'')     
+    return render_to_response('wechat/mobi_video.html',{"showurl":showurl, "course_id": course_id, 'tourl':tourl})
 
 
 @ensure_csrf_cookie
