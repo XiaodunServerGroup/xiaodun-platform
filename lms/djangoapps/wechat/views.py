@@ -772,19 +772,70 @@ def mobi_directory(request, course_id):
     staff_access = has_access(user, course, 'staff')
     registered = registered_for_course(course, user)
 
+    '''
     motoc = mobi_toc_for_course(user, request, course)
     show_list = list()
     for toc in motoc:
         videolist = toc['show_url'] and toc['show_url'][0] or ''
         
         show_list.append(videolist)
+    '''
+        
+    
+    def get_first_video_url_course(user, request, course, active_chapter=None, active_section=None, field_data_cache=None):
+        first_video_url = ''
+        course_module = get_module_for_descriptor(user, request, course, field_data_cache, course.id)
+        if course_module is None:
+            return ''
+        show_url = list()
+        chapters = list()
+        for chapter in course_module.get_display_items():
+            chapter_descriptor = course.get_child_by(lambda m: m.url_name == chapter.url_name)
+            chapter_module = course_module.get_child_by(lambda m: m.url_name == chapter.url_name)
+            sections = list()
+            for section in chapter_module.get_display_items():
+                i = 0
+                section_descriptor = chapter_descriptor.get_child_by(lambda m: m.url_name == section.url_name)
+    
+                section_descriptor = modulestore().get_instance(course.id, section_descriptor.location, depth=None)
+    
+                section_field_data_cache = FieldDataCache.cache_for_descriptor_descendents(
+                    course.id, user, section_descriptor, depth=None)
+    
+                section_module = get_module_for_descriptor(request.user,
+                    request,
+                    section_descriptor,
+                    section_field_data_cache,
+                    course.id,
+                    i
+                )
+    
+                units = list()
+                for unit in section_module.get_display_items():
+                    for child in unit.get_display_items():
+                        if child.get_icon_class()=='video':
+                            if hasattr(child, 'video_cc_id') and len(str(child.video_cc_id).strip())>0:
+                                first_video_url = ''
+                            elif child.html5_sources:
+                                first_video_url = child.html5_sources[0]
+                            elif child.source:
+                                first_video_url = child.source
+                            
+                            if  first_video_url:
+                                return first_video_url
+                   
+        return first_video_url
+    show_url = get_first_video_url_course(user, request, course)
+        
+        
+        
     if not registered:
         # TODO (vshnayder): do course instructors need to be registered to see course?
         log.debug(u'User %s tried to view course %s but is not enrolled', user, course.location.url())
         return redirect(reverse('about_course', args=[course.id]))
 
     masq = setup_masquerade(request, staff_access)
-
+    from django.utils.http import urlquote
     try:
         field_data_cache = FieldDataCache.cache_for_descriptor_descendents(
             course.id, user, course, depth=2)
@@ -805,7 +856,8 @@ def mobi_directory(request, course_id):
             'masquerade': masq,
             'xqa_server': settings.FEATURES.get('USE_XQA_SERVER', 'http://xqa:server@content-qa.mitx.mit.edu/xqa'),
             'reverifications': fetch_reverify_banner_info(request, course_id),
-            'show_url': show_list[0],
+            'show_url': urlquote(show_url),
+            'show_url2': show_url,
             }
         result = render_to_response('wechat/mobi_directory.html', context)
     except Exception as e:

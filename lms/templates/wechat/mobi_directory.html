@@ -92,7 +92,7 @@ ${page_title_breadcrumbs(course_name())}
           <div id="myElement" style="position: absolute;z-index: 1;">Loading the player...</div>
             <script type="text/javascript">
                 jwplayer("myElement").setup({
-                    file: strJson.value,
+                    file: "${show_url2}",
                     width: '100%',
 					aspectratio: '16:6'
                 });
