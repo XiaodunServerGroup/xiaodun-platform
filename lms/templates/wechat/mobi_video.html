@@ -35,8 +35,12 @@
                 var message=document.getElementById('message').value;
                 var showurl=document.getElementById('showurl').value;
                 var course_id=document.getElementById('course_id').value;
-                var url="http://119.90.15.152:8081/zmqott/OTT?message="+ message + "~1*" + showurl;
-
+               // var url="http://119.90.15.152:8081/zmqott/OTT?message="+ message + "~1*" + showurl;
+				
+ 				var url="http://119.90.15.152:8081/zmqott/OTT?message=";
+                var param = message + "~1*" + showurl;
+                url = url + encodeURIComponent(encodeURIComponent(param));
+                
                 if (message == "") {
                    alert('输入内容不能为空');
                    return false;
