@@ -1019,7 +1019,7 @@ def login_user_with_guoshi_account(request):
     import xml.etree.ElementTree as ET
     from django.utils.crypto import constant_time_compare
     
-    key_sso = settings.SSO_KEY
+    key_sso = settings.XIAODUN_KEY
     def secure_key(key_str):
         return key_str[0:8]
     

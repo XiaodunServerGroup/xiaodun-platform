@@ -577,6 +577,7 @@ else:
 
 ############## SSO KEY ################
 SSO_KEY = "SSOFOUNDER"
+XIAODUN_KEY = "SSOXIAODUN"
 
 
 ############## user auth ##############

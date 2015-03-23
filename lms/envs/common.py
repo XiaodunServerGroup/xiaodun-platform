@@ -1555,6 +1555,7 @@ else:
 
 ############## SSO KEY ################
 SSO_KEY = "SSOFOUNDER"
+XIAODUN_KEY = "SSOXIAODUN"
 
 ############## Operation System Domain############
 OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
