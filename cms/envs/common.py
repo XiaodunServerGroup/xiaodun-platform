@@ -574,12 +574,6 @@ except ImportError:
 else:
     INSTALLED_APPS += ('edx_jsdraw',)
 
-
-############## SSO KEY ################
-SSO_KEY = "SSOFOUNDER"
-XIAODUN_KEY = "SSOXIAODUN"
-
-
 ############## user auth ##############
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
@@ -592,9 +586,6 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.CryptPasswordHasher'
 )
 
-############## SSO KEY ################
-SSO_KEY = "SSOFOUNDER"
-
 ############## BUSINESS SYSTEM #################
 XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
 
@@ -603,5 +594,3 @@ VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"
 
 ############## wenjuan domain ##################
 WENJUAN_DOMAIN = "http://apitest.wenjuan.com:8000"
-####### wenjuan secret_key #######
-WENJUAN_SECKEY = "9d15a674a6e621058f1ea9171413b7c0"
