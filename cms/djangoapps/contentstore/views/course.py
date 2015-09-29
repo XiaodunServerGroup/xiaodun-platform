@@ -404,7 +404,8 @@ def course_listing(request):
     except:
         print "=====error===== " * 5
 
-    course_org = _get_course_org_from_bs(request.user)
+    #course_org = _get_course_org_from_bs(request.user)
+    course_org = u'校盾计划'
     return render_to_response('index.html', {
         'courses': [format_course_for_view(c) for c in courses if not isinstance(c, ErrorDescriptor)],
         'user': request.user,
