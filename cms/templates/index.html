@@ -393,7 +393,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
         </ol>
       </div>
 
-      <div class="bit">
+      <!--div class="bit">
         <h3 class="title title-3">课程问卷调查</h3>
         <p>课程问卷调查介绍</p>
 
@@ -404,7 +404,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
             <a href="#wenjuan-list-modal" title="已有问卷列表" id="show-wenjuan-list-modal">已有问卷列表</a>
           </li>
         </ol>
-      </div>
+      </div-->
 
       % if course_creator_status=='disallowed_for_this_site' and settings.FEATURES.get('STUDIO_REQUEST_EMAIL',''):
       <div class="bit">
@@ -606,7 +606,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
     background-color: #EEE;
   }
 </style>
-<section id="wenjuan-list-modal" class="modal wenjuan-data" aria-hidden="true">
+<!--section id="wenjuan-list-modal" class="modal wenjuan-data" aria-hidden="true">
   <div class="inner-wrapper" role='alertdialog' aria-labelledy="wenjuan-modal-title">
     <button class="close-modal">&#10005;
       <span class="sr">
@@ -661,5 +661,5 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
       % endif
     <div>
   </div>
-</section>
+</section-->
 </%block>

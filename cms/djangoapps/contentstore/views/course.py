@@ -1266,7 +1266,10 @@ def course_audit_api(request, course_id, operation):
         print e
         return JsonResponse(re_json)
 
+
 def delete_course(request,course_id,ct):
     course_id=course_id.replace(".",'/')
     delete_course_and_groups(course_id, ct)
     return HttpResponseRedirect('/course')        
+
+

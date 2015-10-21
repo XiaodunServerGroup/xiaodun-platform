@@ -1799,22 +1799,22 @@ def create_account(request, post_override=None):
             js['value'] = _('Password: ') + '; '.join(err.messages)
             js['field'] = 'password'
             return JsonResponse(js, status=400)
-
-    # sync student infomation to bs
-    presult = _push_info_to_bs(post_vars)
-    if not presult['success']:
-        js['value'] = presult['errmsg']
-        return JsonResponse(js, status=400)
+   # sync student infomation to bs
+   # presult = _push_info_to_bs(post_vars)
+   # if not presult['success']:
+   #     js['value'] = presult['errmsg']
+   #     return JsonResponse(js, status=400)
 
     # Ok, looks like everything is legit.  Create the account.
     ret = _do_create_account(post_vars)
     if isinstance(ret, HttpResponse):  # if there was an error then return that
         return ret
     (user, profile, registration) = ret
-    synchronous=_push_info_to_bs_synchronous(user.id,user.username)
-    if not synchronous['success']:
-        js['value'] = synchronous['errmsg']
-        return JsonResponse(js, status=400)
+    
+    #synchronous=_push_info_to_bs_synchronous(user.id,user.username)
+    #if not synchronous['success']:
+    #    js['value'] = synchronous['errmsg']
+    #    return JsonResponse(js, status=400)
 
 
     context = {
@@ -1827,7 +1827,7 @@ def create_account(request, post_override=None):
     # Email subject *must not* contain newlines
     subject = ''.join(subject.splitlines())
     message = render_to_string('emails/activation_email.txt', context)
-
+    print "singup send email"
     # don't send email if we are doing load testing or random user generation for some reason
     if not (settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING')):
         from_address = microsite.get_value(
