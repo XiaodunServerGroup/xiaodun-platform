@@ -78,6 +78,16 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
     });
 });
 </script>
+<script type=text/javascript>
+    function delete_confirm(org,num,run){
+        if(confirm('您确定要删除这门课程吗？'))
+            {
+                window.location.href="/delete_course/"+org+'.'+num+'.'+run+"/commit/";
+            }
+
+    }
+
+</script>
 </%block>
 
 <%block name="content">
@@ -152,17 +162,16 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                   <span class="tip tip-er ror is-hiding"></span>
                 </li>
                 <li class="field text required" id="field-course-category">
+                  <!--
                   <label for="new-course-category">课程分类</label>
                   <select class="new-course-category" id="new-course-category" name='new-course-category' aria-required='false'>
                   </select>
+                  -->
                   <span class="tip tip-error is-hiding"></span>
-                  <!--
                   <label for="new-course-category">课程分类</label>
                   <select class="new-course-category" id="new-course-category" name="new-course-category" aria-required="false" placeholder="课程分类">
-                      <option value="T">技术</option>
-                      <option value="M">管理</option>
+                      <option value="T">网络安全</option>
                   </select>
-                  -->
                 </li>
                 <li class="field text required" id="field-course-level">
                     <!--
@@ -195,7 +204,7 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
                 <li class="field text required" id="field-course-run">
                   <label for="new-course-run">${_("Course Run")}</label>
-                  <input class="new-course-run" id="new-course-run" type="text" name="new-course-run" aria-required="true"placeholder="${_('e.g. 2014_T1')}" />
+                  <input class="new-course-run" id="new-course-run" type="text" name="new-course-run" aria-required="true" value="2015_9" placeholder="${_('e.g. 2014_T1')}" />
                   <span class="tip">${_("The term in which your course will run.")} <strong>${_("Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.")}</strong></span>
                   <span class="tip tip-error is-hiding"></span>
                 </li>
@@ -236,7 +245,8 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
 
             <ul  class="item-actions course-actions">
               <li class="action">
-                <a href="${lms_link}" rel="external" class="button view-button view-live-button">${_("View Live")}</a>
+                <p><a href="#"  onClick="delete_confirm('${org}','${num}', '${run}')" class="button view-button view-live-button">${_("Delete")}</a>
+                <a href="${lms_link}" rel="external" class="button view-button view-live-button">${_("View Live")}</a></p>
               </li>
             </ul>
           </li>

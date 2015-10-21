@@ -34,7 +34,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseBadRequest, HttpResponseNotFound
+from django.http import HttpResponseBadRequest, HttpResponseNotFound, HttpResponseRedirect
 from util.json_request import JsonResponse
 from edxmako.shortcuts import render_to_response
 
@@ -68,6 +68,7 @@ from django_comment_common.models import assign_default_role
 from django_comment_common.utils import seed_permissions_roles
 
 from student.models import CourseEnrollment
+from contentstore.utils import delete_course_and_groups
 
 from xmodule.html_module import AboutDescriptor
 from xmodule.modulestore.locator import BlockUsageLocator, CourseLocator
@@ -404,7 +405,8 @@ def course_listing(request):
     except:
         print "=====error===== " * 5
 
-    course_org = _get_course_org_from_bs(request.user)
+    #course_org = _get_course_org_from_bs(request.user)
+    course_org = u'校盾计划'
     return render_to_response('index.html', {
         'courses': [format_course_for_view(c) for c in courses if not isinstance(c, ErrorDescriptor)],
         'user': request.user,
@@ -1263,3 +1265,8 @@ def course_audit_api(request, course_id, operation):
     except Exception, e:
         print e
         return JsonResponse(re_json)
+
+def delete_course(request,course_id,ct):
+    course_id=course_id.replace(".",'/')
+    delete_course_and_groups(course_id, ct)
+    return HttpResponseRedirect('/course')        

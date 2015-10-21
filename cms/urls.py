@@ -49,6 +49,11 @@ urlpatterns += (
     url(r'^captcha/', include('captcha.urls')),
 )
 
+#delete course
+urlpatterns += (
+    url(r'^delete_course/(?P<course_id>[^/]+)/(?P<ct>\w+)/$', 'contentstore.views.course.delete_course', name='delete_course'),
+    )
+
 # User creation and updating views
 urlpatterns += patterns(
     '',

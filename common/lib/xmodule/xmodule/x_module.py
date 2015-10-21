@@ -173,7 +173,7 @@ class XModuleMixin(XBlockMixin):
         display_name="审核与否",
         help="与业务系统相关字段",
         scope=Scope.settings,
-        default=0
+        default=1
     )
 
     @property
