@@ -1553,9 +1553,6 @@ except ImportError:
 else:
     INSTALLED_APPS += ('edx_jsdraw',)
 
-############## SSO KEY ################
-SSO_KEY = "SSOFOUNDER"
-
 ############## Operation System Domain############
 OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
 # OPER_SYS_DOMAIN = 'http://192.168.1.82:8090/cetvossFront'

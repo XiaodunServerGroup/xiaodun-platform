@@ -262,3 +262,12 @@ SESSION_INACTIVITY_TIMEOUT_IN_SECONDS = AUTH_TOKENS.get("SESSION_INACTIVITY_TIME
 
 ##### X-Frame-Options response header settings #####
 X_FRAME_OPTIONS = ENV_TOKENS.get('X_FRAME_OPTIONS', X_FRAME_OPTIONS)
+
+
+############## SSO KEY ################
+SSO_KEY = AUTH_TOKENS.get("SSO_KEY")
+XIAODUN_KEY = AUTH_TOKENS.get("XIAODUN_KEY")
+
+####### wenjuan secret_key #######
+WENJUAN_SECKEY = AUTH_TOKENS.get("WENJUAN_SECKEY")
+

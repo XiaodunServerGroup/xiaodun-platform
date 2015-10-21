@@ -393,3 +393,8 @@ if not os.path.exists(load_thesaurus_path):
     open(str(load_thesaurus_path), 'a').close()
 
 THESAURUS_PATH = load_thesaurus_path
+
+
+############## SSO KEY ################
+SSO_KEY = AUTH_TOKENS.get("SSO_KEY")
+XIAODUN_KEY = AUTH_TOKENS.get("XIAODUN_KEY")
