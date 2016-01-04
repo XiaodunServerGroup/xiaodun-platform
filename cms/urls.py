@@ -118,6 +118,9 @@ urlpatterns += patterns(
 
     # course check api
     url(r'(?ix)^bs/course/(?P<course_id>[\w\-~.:]+)/audit/(?P<operation>(pass|offline))$', 'course_audit_api'),
+
+    #bs_change_price api
+    url(r'(?ix)^bs/course/price$', 'course_change_price'),
     # mobile restfull api
     url(r'(?ix)^mobi/course-list/search/(?P<keyword>[^/]+)$', 'mobi_search'),
     url(r'(?ix)^mobi/course-list/(?P<datatype>(homefalls|hot|latest|all|my))($|/version$)', 'mobi_course_handler'),

@@ -285,11 +285,14 @@ def mobi_course_info(request, course, action=None):
     except:
         user = AnonymousUser()
 
-    cp = 0
+    cp = 0.0
     if not hasattr(course,"display_course_price_with_default"):
-        cp = 0
+        cp = 0.0
     else:
-        cp = course.display_course_price_with_default
+        if not course.display_course_price_with_default:
+            cp = 0.0
+        else:
+            cp = course.display_course_price_with_default
 
     result = {
         "id": course.id.replace('/', '.'),
@@ -303,7 +306,7 @@ def mobi_course_info(request, course, action=None):
         "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
-        "course_price": cp
+        "course_price": float('%0.2f' % int(cp))
     }
 
     def compute_action_imgurl(imgname):
