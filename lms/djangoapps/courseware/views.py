@@ -47,7 +47,7 @@ from .module_render import toc_for_course, get_module_for_descriptor, get_module
 from courseware.models import StudentModule, StudentModuleHistory
 from course_modes.models import CourseMode
 
-from student.models import UserTestGroup, CourseEnrollment
+from student.models import UserTestGroup, CourseEnrollment,UserProfile
 from student.views import course_from_id, single_course_reverification_info
 from util.cache import cache, cache_if_anonymous
 from util.json_request import JsonResponse
@@ -64,6 +64,7 @@ import shoppingcart
 from microsite_configuration import microsite
 
 from student.roles import CourseRole, CourseInstructorRole, CourseStaffRole, GlobalStaff
+import simplejson
 
 log = logging.getLogger("edx.courseware")
 
@@ -130,12 +131,16 @@ def return_fixed_courses(request, courses, action=None):
                 if i.id == course_id:
                     index_course = i
                     break
+        print '============index_course==============='
+        print index_course.id
         course_index = (courses.index(index_course) + 1)
     except:
         course_index = 0
 
-    current_list = courses[course_index:]
 
+    current_list = courses[course_index:]
+    print '============current_list======================'
+    print current_list
     if len(current_list) > default_length:
         current_list = current_list[0:default_length]
 
@@ -930,6 +935,15 @@ def purchase_authenticate(request, course_id):
     return JsonResponse(re_jsondict)
 
 
+def course_is_enroll(request, course_id):
+    re_jsondict = {'authenticated': False}
+    user = request.user
+    course = get_course_with_access(user, course_id, 'see_exists')
+    registered = registered_for_course(course, user)
+    if registered:
+        re_jsondict = {'authenticated': True}
+    return JsonResponse(re_jsondict)
+
 @ensure_csrf_cookie
 @cache_if_anonymous
 def course_about(request, course_id):
@@ -941,6 +955,7 @@ def course_about(request, course_id):
     ):
         raise Http404
 
+    bs_course_id = course_id.replace('/','.')
     course = get_course_with_access(request.user, course_id, 'see_exists')
     print '-==================='
     print course_id.encode('utf-8')
@@ -979,54 +994,17 @@ def course_about(request, course_id):
 
     # load wsdl client 
     # TODO setting operation system url to common setting which load when sys boot
-    oper_sys_domain = settings.OPER_SYS_DOMAIN
-    url = "{}/services/OssWebService?wsdl".format(oper_sys_domain)
-    # url = "http://192.168.1.6:8090/cetvossFront/services/OssWebService?wsdl"
-    try:
-        client = Client(url)
-    except:
-        client = None
-    # push course info to operating system and get purchase info
-    push_update, course_purchased = True, False
-    if client and not isinstance(request.user, AnonymousUser) and not registered:
-        print '---------------push xcourse'
-        print course_id.encode('utf-8')
-        locator = loc_mapper().translate_location(course_id, course.location, published=False, add_entry_if_missing=True)
-        print locator
 
-        instructors = CourseInstructorRole(locator).users_with_role()
-        xml_course_info = render_to_string('xmls/pcourse_xml.xml', {'course': course, 'user': instructors[0]})
-        print '---------------push xcourse'
-
-        print xml_course_info.encode('utf-8')
-        try:
-            p_xml = client.service.addorUpdateCommodities(xml_course_info, demd5_webservicestr(xml_course_info + "VTEC_#^)&*("))
-            print '---------------push xcourse'
-            print p_xml.encode('utf-8')
-            print '---------------push xcourse'
-
-            # parse xml to dict
-            docdict = xmltodict.parse(p_xml.encode('utf-8'))
-            # TODO: course table add a column mark is-push-data or not; when modify price column reset the column as false
-            if int(docdict['UPDATECOMMODITIESRESPONSE']['RESULT']) != 0:
-                push_update = False
-        except:
-            print "Fail to push course information to "
-            raise
-            push_update = False
-        print '---------------push xcourse'
-        xml_purchase = render_to_string('xmls/auth_purchase.xml', {'username': request.user.username, 'course_uuid': course.course_uid})
-        print xml_purchase
-        try:
-            aresult = client.service.confirmBillEvent(xml_purchase, demd5_webservicestr(xml_purchase + "VTEC_#^)&*("))
-            print aresult.encode('utf-8')
-            redict = xmltodict.parse(aresult.encode('utf-8'))
-            if redict['EVENTRETURN']['RESULT'].strip() in ['0', '1']:
-            # if redict['EVENTRETURN']['RESULT'].strip() in ['1']:
-                course_purchased = True
-        except:
-            print "Fail to get trade info about the course"
-            raise
+    print '=============course_about======================='
+    print  registered
+    print course_target
+    print registration_price
+    print in_cart
+    print reg_then_add_to_cart_link
+    print show_courseware_link
+    print is_course_full
+    print '{}/order/order!pay.do?username={}&courseid={}'.format(settings.XIAODUN_BACK_HOST, request.user.username,bs_course_id)
+    print '*********************'
 
     return render_to_response('courseware/course_about.html',
                               {'course': course,
@@ -1037,9 +1015,8 @@ def course_about(request, course_id):
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
                                'is_course_full': is_course_full,
-                               'purchase_link': '{}/account/buy.action?uuid={}'.format(oper_sys_domain, str(course.course_uid)),
-                               'push_update': push_update,
-                               'purchased': course_purchased})
+                               'purchase_link': '{}/order/order!pay.do?username={}&courseid={}'.format(settings.XIAODUN_BACK_HOST, request.user.username,bs_course_id),
+                               'purchased': registered})
 
 
 @ensure_csrf_cookie
@@ -1276,3 +1253,56 @@ def submission_history(request, course_id, student_username, location):
     }
 
     return render_to_response('courseware/submission_history.html', context)
+
+
+def get_courses_id(request):
+    """
+    Return courses based on request params
+    """
+    try:
+        user = request.user
+    except:
+        user = AnonymousUser()
+    courses = get_courses(user, request.META.get('HTTP_HOST'))
+    courses = sort_by_announcement(courses)
+    print len(courses)
+    all_course_id = [c.id.replace('/','.') for c in courses]
+    return JsonResponse(all_course_id)
+
+def get_course_info(request):
+    course_id = request.GET.get("course_id")
+    print '===============course_id==============='
+    print course_id.encode('utf-8')
+    course_id = course_id.replace('.','/')
+    course = get_course_by_id(course_id)
+    course_list = []
+
+    try:
+        course_json = mobi_course_info(request, course, 'sync')
+        course_list.append(course_json)
+    except:
+        pass
+    return JsonResponse({"course-list": course_list})
+
+
+
+def record_login_info(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    re_json = {"success": False}
+    role = 2
+    if user_profile.profile_role == "th":
+        role = 1
+    request_host = settings.XIAODUN_BACK_HOST
+    request_url = '{}/check/check!check.do?username={}&role={}'.format(request_host, user.username,role)
+    socket.setdefaulttimeout(10)
+    try:
+        req = urllib2.Request(request_url)
+        resp = urllib2.urlopen(req)
+        content = resp.read()
+        request_json = simplejson.loads(content)
+        if request_json.get('success', ''):
+            re_json = {"success": True}
+    except:
+        pass
+    return JsonResponse(re_json)

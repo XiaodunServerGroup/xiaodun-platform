@@ -587,10 +587,13 @@ PASSWORD_HASHERS = (
 )
 
 ############## BUSINESS SYSTEM #################
-XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
+XIAODUN_BACK_HOST = 'http://192.168.1.33:100'
 
 ############## video mettings ##################
 VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"
 
 ############## wenjuan domain ##################
 WENJUAN_DOMAIN = "http://apitest.wenjuan.com:8000"
+
+####### wenjuan secret_key #######
+WENJUAN_SECKEY = "9d15a674a6e621058f1ea9171413b7c0"

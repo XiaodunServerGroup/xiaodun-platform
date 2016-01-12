@@ -201,7 +201,7 @@ FEATURES = {
 
     # Disable instructor dash buttons for downloading course data
     # when enrollment exceeds this number
-    'MAX_ENROLLMENT_INSTR_BUTTONS': 200,
+    'MAX_ENROLLMENT_INSTR_BUTTONS': 2000,
 
     # Grade calculation started from the new instructor dashboard will write
     # grades CSV files to S3 and give links for downloads.
@@ -1561,7 +1561,7 @@ OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
 SSO_DOMAIN = 'http://passport.guoshi.com/mp'
 
 ############## BUSINESS SYSTEM #################
-XIAODUN_BACK_HOST = 'http://busi.xiaodun.cn/app'
+XIAODUN_BACK_HOST = 'http://192.168.1.33:100'
 
 ############## video mettings ##################
 VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"

@@ -140,6 +140,24 @@
        return false;
     });
 
+
+    $("#bs_login_info").click(function(){
+        $.ajax({
+            url:"/bs/record/logininfo",
+            type:"POST",
+            dataType: "json",
+            success: function(data){
+                if(data['success'] == true){
+                    $("#bs_login_info").text("已签到")
+                }
+            },
+            error:function(data){
+                window.location.reload();
+            }
+        });
+
+
+    });
     $("#email_settings_form").submit(function(){
       $.ajax({
         type: "POST",
@@ -183,6 +201,8 @@
       accessible_modal(trigger, "#unenroll-modal .close-modal", "#unenroll-modal", "#dashboard-main");
     });
   });
+
+
   </script>
 </%block>
 
@@ -251,6 +271,30 @@
           </span>
         </li>
 
+        <li class="control--message">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='/sync/bs_message' id="bs_message">站内消息</a>
+          </span>
+         </li>
+
+          <li class="control--course">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='/sync/bs_course' id="bs_message">排课</a>
+          </span>
+          </li>
+
+          <li class="control--logininfo">
+          <span class="title">
+              <div class='icon'></div>
+              %if is_record == 1:
+                <a href='javascript:void(0)' id="bs_login_info" style="color: red">已签到</a>
+              %else:
+                <a href='javascript:void(0)' id="bs_login_info" style="color: red">签到</a>
+              %endif
+          </span>
+          </li>
         <!--li class="info--bbs">
           <!--span class="title">
               <div class='icon course-info-icon'></div>
