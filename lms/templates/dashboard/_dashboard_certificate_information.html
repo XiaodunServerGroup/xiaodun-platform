@@ -60,16 +60,18 @@ else:
       ${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}
     </span>
 
-    <span>
-            %if course.cert_status == 0:
-                <a id="${course.cert_index}" href="javascript:void(0)">证书申请</a>
-            %elif course.cert_status == 2:
-                <a href="${course.cert_url}" target="_blank">查看证书</a>
-            %else:
-                <a id="${course.cert_index}" href="javascript:void(0)">正在申请中</a>
-            %endif
+        <span>
+              %if role== 2:
+                %if course.cert_status == 0:
+                    <a id="${course.cert_index}" href="javascript:void(0)">证书申请</a>
+                %elif course.cert_status == 2:
+                    <a href="${course.cert_url}" target="_blank">查看证书</a>
+                %else:
+                    <a id="${course.cert_index}" href="javascript:void(0)">正在申请中</a>
+                %endif
+              %endif
+        </span>
 
-    </span>
 <!--
 % if cert_status['status'] == 'processing':
       <p class="message-copy">${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}</p>

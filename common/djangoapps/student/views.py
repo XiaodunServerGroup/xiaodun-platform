@@ -712,6 +712,7 @@ def dashboard(request):
     socket.setdefaulttimeout(10)
 
     print '=================request_url=11111======================='
+    print role
     is_record = 0
     try:
         req = urllib2.Request(request_url)
@@ -727,15 +728,19 @@ def dashboard(request):
     cert_status = 0
     cert_url = '#'
     cert_index = 1
-    for course, enrollment in course_enrollment_pairs:
-        data = check_cert_bs(user,course.id)
 
-        if data['finish']:
-            cert_status = data['status']
-            if data['url'] != '':
-                course.cert_url = settings.XIAODUN_BACK_HOST+data['url']
-            else:
-                course.cert_url = cert_url
+    for course, enrollment in course_enrollment_pairs:
+        if role ==2:
+            data = check_cert_bs(user,course.id)
+
+            if data['finish']:
+                cert_status = data['status']
+                if data['url'] != '':
+                    course.cert_url = settings.XIAODUN_BACK_HOST+data['url']
+                else:
+                    course.cert_url = cert_url
+        else:
+            cert_url = '#'
 
         course.cert_status =  cert_status
         course.cert_index =  'cert_'+str(cert_index)
@@ -762,6 +767,7 @@ def dashboard(request):
         'current_language': current_language,
         'current_language_code': cur_lang_code,
         'is_record':is_record,
+        'role':role,
     }
 
     return render_to_response('dashboard.html', context)
