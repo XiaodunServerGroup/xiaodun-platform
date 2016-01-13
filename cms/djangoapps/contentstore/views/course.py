@@ -90,7 +90,11 @@ __all__ = ['course_info_handler', 'course_handler', 'course_info_update_handler'
            'calendar_common_updateevent',
            'calendar_settings_getevents',
            'textbooks_list_handler',
-           'textbooks_detail_handler', 'course_audit_api', 'sync_class_appointment']
+           'textbooks_detail_handler',
+           'course_audit_api',
+           'sync_class_appointment',
+           'course_change_price'
+        ]
 
 WENJUAN_STATUS = {
     "0": "未发布",
@@ -118,8 +122,9 @@ def _get_course_org_from_bs(user):
     try:
         request_host = settings.XIAODUN_BACK_HOST
         # request_url = request_host + "/teacher/teacher!branch.do?teacherid=" + str(user.id)
-        request_url = "{}/teacher/teacher!branch.do?teacherid={}".format(request_host, str(user.id))
-
+        request_url = "{}/teacher/teacher!branch.do?username={}".format(request_host, user.username)
+        print  '==================request_url==================='
+        print  request_url
         timeout = 5
         socket.setdefaulttimeout(timeout)
         req = urllib2.Request(request_url)
@@ -129,7 +134,8 @@ def _get_course_org_from_bs(user):
             course_org = request_json['name']
     except:
         print "some errors occur!"
-
+    print '=========course_org==============='
+    print course_org.encode('utf-8')
     return course_org
 
 
@@ -405,8 +411,11 @@ def course_listing(request):
     except:
         print "=====error===== " * 5
 
-    #course_org = _get_course_org_from_bs(request.user)
-    course_org = u'校盾计划'
+    course_org = _get_course_org_from_bs(request.user)
+
+    print '===================course_org==================='
+    print course_org.encode('utf-8')
+#    course_org = u'校盾计划'
     return render_to_response('index.html', {
         'courses': [format_course_for_view(c) for c in courses if not isinstance(c, ErrorDescriptor)],
         'user': request.user,
@@ -574,7 +583,8 @@ def create_new_course(request):
     key_val = "/courses/" + org +"/"+ number +"/"+ run + "/notes/api"   
     data_json = {
       "advanced_modules": ["notes"],
-      "annotation_storage_url": key_val
+      "annotation_storage_url": key_val,
+      'course_audit': 0
     }
     CourseMetadata.update_from_json(course_module, data_json, True, request.user)
     # end 
@@ -1247,13 +1257,11 @@ def course_audit_api(request, course_id, operation):
         locator = BlockUsageLocator(package_id=course_id, branch='draft', version_guid=None, block_id='.'.join(course_location_info[2:]))
         course_location = loc_mapper().translate_locator_to_location(locator)
         course_module = get_modulestore(course_location).get_item(course_location)
-
         instructors = CourseInstructorRole(locator).users_with_role()
         if len(instructors) <= 0:
             return JsonResponse(re_json)
 
         user = instructors[0]
-
         meta_json = {}
         if operation == "pass":
             meta_json["course_audit"] = 1
@@ -1261,7 +1269,6 @@ def course_audit_api(request, course_id, operation):
             meta_json["course_audit"] = 0
         else:
             return JsonResponse(re_json)
-
         re_json["success"] = True
         CourseMetadata.update_from_json(course_module, meta_json, True, user)
         return JsonResponse(re_json)
@@ -1273,6 +1280,39 @@ def course_audit_api(request, course_id, operation):
 def delete_course(request,course_id,ct):
     course_id=course_id.replace(".",'/')
     delete_course_and_groups(course_id, ct)
-    return HttpResponseRedirect('/course')        
+    return HttpResponseRedirect('/course')
+
+#业务系统修改课程价格
+@csrf_exempt
+def course_change_price(request):
+    re_json = {"success": False}
+    try:
+        course_id = request.GET.get('course_id')
+        price = request.GET.get('price')
+    except :
+        return JsonResponse(re_json)
+
+    request_method = request.method
+    if request_method != "GET":
+        return JsonResponse(re_json)
+        # get course location and module infomation
+    try:
+        course_location_info = course_id.split('.')
+        locator = BlockUsageLocator(package_id=course_id, branch='draft', version_guid=None, block_id='.'.join(course_location_info[2:]))
+        course_location = loc_mapper().translate_locator_to_location(locator)
+        course_module = get_modulestore(course_location).get_item(course_location)
+
+        instructors = CourseInstructorRole(locator).users_with_role()
+        if len(instructors) <= 0:
+            return JsonResponse(re_json)
+        user = instructors[0]
+        meta_json = {}
+        meta_json["course_price"] = price
+        re_json["success"] = True
+        CourseMetadata.update_from_json(course_module, meta_json, True, user)
+        return JsonResponse(re_json)
+    except Exception, e:
+        print e
+        return JsonResponse(re_json)
 
 

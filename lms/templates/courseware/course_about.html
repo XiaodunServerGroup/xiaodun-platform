@@ -76,8 +76,9 @@
       // ajax request get course purchase infomation
       var loc_hf = location.href.split('/');
       var course_id = loc_hf[4] + '/' + loc_hf[5] + '/' + loc_hf[6]
+
       $.ajax({
-        url: '/courses/' + course_id + '/purchase/auth',
+        url: '/courses/' + course_id + '/course/isenroll',
         type: 'GET',
         dataType: 'json',
         success: function(json){
@@ -85,6 +86,7 @@
             $('#class_enroll_form').submit();
           } else{
             $('.close-modal').click();
+              alert(json.authenticated)
             $("#register_error").html("${_('An error occurred. Please try again later.')}").css('display', 'block');
           }
         }
@@ -210,8 +212,13 @@
               </a>
             %endif
           %else:
+
               %if course.display_course_price_with_default > 0:
-                <a href="#purchase-modal" class="register ${'auth' if user.is_authenticated else ''} ${'purchased' if purchased else ''}" rel='leanModal'>购买课程</a>
+                %if user.is_authenticated():
+                    <a href="#purchase-modal" class="register ${'auth' if user.is_authenticated else ''} ${'purchased' if purchased else ''}" rel='leanModal'>购买课程</a>
+                %else:
+                    <a href="/register" class="register" rel='leanModal'>注册帐号</a>
+                %endif
               %else:
                 <a class="register free ${'auth' if user.is_authenticated else ''}">免费注册课程</a>
               %endif

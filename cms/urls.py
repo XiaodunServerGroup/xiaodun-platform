@@ -66,6 +66,9 @@ urlpatterns += patterns(
     url(r'^login_failure_count$', 'student.views.login_failure_count', name='login_failure_count'),
     url(r'^logout$', 'student.views.logout_user', name='logout'),
     url(r'^embargo$', 'student.views.embargo', name="embargo"),
+
+    #edx_messages_bs
+    url(r'^sync/bs/message$', 'student.views.bs_message', name='bs_message'),
 )
 
 # restful api
@@ -74,7 +77,7 @@ urlpatterns += patterns(
 
     url(r'^$', 'howitworks', name='homepage'),
     url(r'^howitworks$', 'howitworks'),
-    url(r'^signup$', 'signup', name='signup'),
+        url(r'^signup$', 'signup', name='signup'),
     url(r'^signin$', 'login_page', name='login'),
     url(r'^request_course_creator$', 'request_course_creator'),
     url(r'^sync/class/appointment$', 'sync_class_appointment'),
@@ -118,6 +121,9 @@ urlpatterns += patterns(
 
     # course check api
     url(r'(?ix)^bs/course/(?P<course_id>[\w\-~.:]+)/audit/(?P<operation>(pass|offline))$', 'course_audit_api'),
+
+    #bs_change_price api
+    url(r'(?ix)^bs/course/price$', 'course_change_price'),
     # mobile restfull api
     url(r'(?ix)^mobi/course-list/search/(?P<keyword>[^/]+)$', 'mobi_search'),
     url(r'(?ix)^mobi/course-list/(?P<datatype>(homefalls|hot|latest|all|my))($|/version$)', 'mobi_course_handler'),

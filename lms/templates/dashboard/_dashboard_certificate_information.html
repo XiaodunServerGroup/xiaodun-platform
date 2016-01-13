@@ -22,9 +22,53 @@ elif cert_status['status'] == 'notpassing':
 else:
     status_css_class = 'course-status-processing'
 %>
+
+<script type="text/javascript">
+    $(function(){
+        $("#"+"${course.cert_index}").click(function(){
+            var current = "#"+"${course.cert_index}"
+            $.ajax({
+                url:"/bs/cert",
+                type:"POST",
+                data:{"course_id": '${course.id}'},
+                dataType: "json",
+                success: function(data){
+                    if(data['finish'] == true){
+                        if(data['status'] == 1){
+                            $(current).text('正在申请中')
+                        }else{
+                            window.location.reload();
+                        }
+
+                    }else{
+                        alert('申请失败')
+
+                    }
+
+                },
+                error:function(data){
+                    window.location.reload();
+                }
+            });
+        });
+    });
+
+</script>
+
 <div class="message message-status ${status_css_class} is-shown">
     <span>
       ${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}
+    </span>
+
+    <span>
+            %if course.cert_status == 0:
+                <a id="${course.cert_index}" href="javascript:void(0)">证书申请</a>
+            %elif course.cert_status == 2:
+                <a href="${course.cert_url}" target="_blank">查看证书</a>
+            %else:
+                <a id="${course.cert_index}" href="javascript:void(0)">正在申请中</a>
+            %endif
+
     </span>
 <!--
 % if cert_status['status'] == 'processing':

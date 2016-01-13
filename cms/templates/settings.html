@@ -338,7 +338,10 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
                     <li class="field text" id="field-course-price">
                       <label for="course-price">该课程的价格</label>
                       <input type="text" class="short time" id="course-price" placeholder="" />
+
                       <span class="tip tip-inline">该课程的价格</span>
+                      <input type="hidden" id="new_course_price" value="${context_course.course_price}"/>
+
                     </li>
                   </ol>
                 </section>

@@ -265,7 +265,7 @@ class XModuleMixin(XBlockMixin):
         if course_price is None:
             course_price = 0.0
         elif type(course_price) != int:
-            course_price = int(course_price)
+            course_price = float(course_price)
 
         return course_price
 

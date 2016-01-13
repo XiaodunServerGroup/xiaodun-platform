@@ -107,6 +107,8 @@ from util.password_policy_validators import (
     validate_password_dictionary
 )
 
+import simplejson
+
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
 
@@ -700,6 +702,45 @@ def dashboard(request):
         # if the user doesn't have a preference, use the default language
         current_language = settings.LANGUAGE_DICT[settings.LANGUAGE_CODE]
 
+
+    user_profile = UserProfile.objects.get(user=user)
+    role = 2
+    if user_profile.profile_role == "th":
+        role = 1
+    request_host = settings.XIAODUN_BACK_HOST
+    request_url = '{}/check/check!pool.do?username={}&role={}'.format(request_host, user.username,role)
+    socket.setdefaulttimeout(10)
+
+    print '=================request_url=11111======================='
+    is_record = 0
+    try:
+        req = urllib2.Request(request_url)
+        resp = urllib2.urlopen(req)
+        content = resp.read()
+        request_json = simplejson.loads(content)
+        if request_json.get('success', ''):
+            is_record = 1
+    except:
+        pass
+
+
+    cert_status = 0
+    cert_url = '#'
+    cert_index = 1
+    for course, enrollment in course_enrollment_pairs:
+        data = check_cert_bs(user,course.id)
+
+        if data['finish']:
+            cert_status = data['status']
+            if data['url'] != '':
+                course.cert_url = settings.XIAODUN_BACK_HOST+data['url']
+            else:
+                course.cert_url = cert_url
+
+        course.cert_status =  cert_status
+        course.cert_index =  'cert_'+str(cert_index)
+        cert_index = cert_index +1
+
     context = {
         'course_enrollment_pairs': course_enrollment_pairs,
         'course_optouts': course_optouts,
@@ -720,6 +761,7 @@ def dashboard(request):
         'language_options': language_options,
         'current_language': current_language,
         'current_language_code': cur_lang_code,
+        'is_record':is_record,
     }
 
     return render_to_response('dashboard.html', context)
@@ -876,27 +918,27 @@ def change_enrollment(request):
         if not has_access(user, course, 'enroll'):
             return HttpResponseBadRequest(_("Enrollment is closed"))
 
-        if course.display_course_price_with_default > 0:
-            def demd5_webservicestr(srstr):
-                if not isinstance(srstr, str):
-                    return ""
-                md5obj = hashlib.md5()
-                md5obj.update(srstr)
-
-                return md5obj.hexdigest()
-
-            try:
-                url = '{}/services/OssWebService?wsdl'.format(settings.OPER_SYS_DOMAIN)
-                client = Client(url)
-                course.course_uid = str(course.course_uuid)[-12:]
-                # xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
-                xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uid})
-                xresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
-                rdict = xmltodict.parse(xresult)
-                if int(rdict['EVENTRETURN']['RESULT']) not in [0, 1]:
-                    return HttpResponseBadRequest("课程内容收费，请先购买，再注册此课程！")
-            except:
-                return HttpResponseBadRequest("系统出错，请稍后再试！")
+#        if course.display_course_price_with_default > 0:
+#            def demd5_webservicestr(srstr):
+#                if not isinstance(srstr, str):
+#                    return ""
+#                md5obj = hashlib.md5()
+#                md5obj.update(srstr)
+#
+#                return md5obj.hexdigest()
+#
+#            try:
+#                url = '{}/services/OssWebService?wsdl'.format(settings.OPER_SYS_DOMAIN)
+#                client = Client(url)
+#                course.course_uid = str(course.course_uuid)[-12:]
+#                # xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uuid})
+#                xml_params = render_to_string('xmls/auth_purchase.xml', {'username': user.username, 'course_uuid': course.course_uid})
+#                xresult = client.service.confirmBillEvent(xml_params, demd5_webservicestr(xml_params + "VTEC_#^)&*("))
+#                rdict = xmltodict.parse(xresult)
+#                if int(rdict['EVENTRETURN']['RESULT']) not in [0, 1]:
+#                    return HttpResponseBadRequest("课程内容收费，请先购买，再注册此课程！")
+#            except:
+#                return HttpResponseBadRequest("系统出错，请稍后再试！")
 
 
         # see if we have already filled up all allowed enrollments
@@ -1154,6 +1196,33 @@ def bs_cert(request):
     return render_to_response("bs_cert.html")
 
 @login_required
+def bs_message(request):
+    """
+    business system certificate looking
+    """
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    request_host = settings.XIAODUN_BACK_HOST
+    request_url = '{}/news/news!view.do?type=st'.format(request_host)
+    if user_profile.profile_role == "th":
+        request_url = '{}/news/news!view.do?type=th'.format(request_host)
+        return render_to_response("bs_message.html",{"request_url":request_url})
+
+    return render_to_response("bs_message.html",{"request_url":request_url})
+
+
+@login_required
+def bs_course(request):
+    """
+    business system certificate looking
+    """
+    user = request.user
+    request_host = settings.XIAODUN_BACK_HOST
+    request_url = '{}/calendar/calendar!view.do'.format(request_host)
+
+    return render_to_response("bs_course.html",{"request_url":request_url})
+
+@login_required
 def class_bbs(request):
     """
     business system certificate looking
@@ -1284,6 +1353,8 @@ def login_user(request, error=""):
             log.critical("Login failed - Could not create session. Is memcached running?")
             log.exception(e)
             raise
+
+
 
         redirect_url = try_change_enrollment(request)
 
@@ -1521,6 +1592,7 @@ def _do_create_account(post_vars):
 
     Note: this function is also used for creating test users.
     """
+    bs_profile={}
     user = User(username=post_vars['username'],
                 email=post_vars['email'],
                 is_active=False)
@@ -1547,6 +1619,7 @@ def _do_create_account(post_vars):
 
     registration.register(user)
 
+
     profile = UserProfile(user=user)
     profile.name = post_vars['name']
     profile.level_of_education = post_vars.get('level_of_education')
@@ -1556,16 +1629,49 @@ def _do_create_account(post_vars):
     profile.country = post_vars.get('country')
     profile.goals = post_vars.get('goals')
 
+    is_anonymous = 0
+    if post_vars['name'] == '':
+        is_anonymous = 1
+    bs_profile['username'] = post_vars['username']
+    bs_profile['password'] = post_vars['password']
+    bs_profile['is_anonymous'] = is_anonymous
+    bs_profile['name'] = post_vars['name']
+    bs_profile['level_of_education'] = post_vars.get('level_of_education')
+    bs_profile['gender'] = post_vars.get('gender')
+    bs_profile['mailing_address'] = post_vars.get('mailing_address')
+    bs_profile['city'] = post_vars.get('city','')
+    bs_profile['country'] = post_vars.get('country','')
+    bs_profile['goals'] = post_vars.get('goals')
+
     try:
         profile.year_of_birth = int(post_vars['year_of_birth'])
+        bs_profile['year_of_birth'] = post_vars['year_of_birth']
     except (ValueError, KeyError):
         # If they give us garbage, just ignore it instead
         # of asking them to put an integer.
         profile.year_of_birth = None
+        bs_profile['year_of_birth'] = ''
     try:
         profile.save()
     except Exception:
         log.exception("UserProfile creation failed for user {id}.".format(id=user.id))
+
+
+    #edx_requset_bs 匿名登录
+    request_host = settings.XIAODUN_BACK_HOST
+    request_url = '{}/student/student!add.do'.format(request_host)
+    jdata = json.dumps(bs_profile)
+    try:
+
+        request = urllib2.Request(url = request_url,data =jdata)
+        request.add_header('Content-Type', 'application/json')
+        resp = urllib2.urlopen(request)
+        content = resp.read()
+        request_json = simplejson.loads(content)
+        if not request_json.get('success', ''):
+            log.exception("bs UserProfile creation failed for user {id}.".format(id=user.id))
+    except:
+        log.exception("bs UserProfile creation failed for user {id}.".format(id=user.id))
     return (user, profile, registration)
 
 
@@ -1739,6 +1845,10 @@ def create_account(request, post_override=None):
             min_length = 1
         else:
             min_length = 2
+        if field_name == 'name':
+            min_length = 0
+        print '===========field_name=========='
+        print field_name,min_length,len(post_vars[field_name])
 
         if len(post_vars[field_name]) < min_length:
             error_str = {
@@ -2376,41 +2486,13 @@ def change_email_settings(request):
     return JsonResponse({"success": True})
 
 
+
 @csrf_exempt
 def bs_sync_accounts(request):
-    init_keys = ['name', 'passwd', 'email', 'gender', 'originPlace', 'address', 'education', 'birthday', 'profile_role']
+    print '===========request=============='
+    print request.POST
     succ_add_ids = []
-    try:
-        sync_user_params = eval(request.body)['staff']
-    except:
-        sync_user_params = request.POST['staff']
 
-    def filter_and_init_keys(user_json):
-        filter_keys_json = {key: user_json[key] for key in user_json if key in init_keys}
-        ret_json = {}
-        for key, val in filter_keys_json.items():
-            if key == 'name':
-                ret_json['username'] = val.decode('utf-8').encode('utf-8')
-
-            if key == 'passwd':
-                ret_json['password'] = val
-
-            if key == 'email' or key == 'gender':
-                ret_json[key] = val
-
-            if key in ('originPlace', 'address') and not ret_json.get('mailing_address'):
-                ret_json['mailing_address'] = filter_keys_json.get(key).decode('utf-8').encode('utf-8')
-
-            if key == 'education':
-                ret_json['level_of_education'] = val
-
-            if key == 'birthday':
-                ret_json['year_of_birth'] = val
-
-            if key == 'profile_role':
-                ret_json['profile_role'] = val
-
-        return ret_json
 
     def create_actived_user(user_params):
         user = User(username=user_params['username'],
@@ -2448,34 +2530,35 @@ def bs_sync_accounts(request):
         return user
 
     email_re = re.compile(r'^[\w\d]+[\d\w\_\.]+@([\w\d-]+)\.([\d\w]+)(?:\.[\d\w]+)?$')
-    for idx, staff in enumerate(sync_user_params):
-        init_hash = {"index": idx, "success": False,}
-        if all(k in staff for k in ('name', 'passwd', 'email')):
-            # create a activated user account
+    for user_json_list in request.POST.keys():
+        for user_json in json.loads(user_json_list):
+            print '================user_json================='
+            init_hash = {"username": user_json['username'], "success": False,}
+            if all(k in user_json for k in ('username', 'password', 'email')):
+                # create a activated user account
+                try:
+                    # validate_email(params['email'])
+                    # validate_slug(params['username'])
+                    email_re.match(user_json['email']).group()
+                except:
+                    init_hash.update({"errmsg": "该邮箱格式不正确！"})
+                    succ_add_ids.append(init_hash)
+                    continue
 
-            params = filter_and_init_keys(staff)
-            try:
-                # validate_email(params['email'])
-                # validate_slug(params['username'])
-                email_re.match(params['email']).group()
-            except:
-                init_hash.update({"errmsg": "该邮箱格式不正确！"})
+                # create a user
+                try:
+                    created_user = create_actived_user(user_json)
+                    init_hash.update({'success': True, "userid": created_user.id})
+                    succ_add_ids.append(init_hash)
+                except:
+                    init_hash.update({"errmsg": "用户名或邮箱已存在！"})
+                    succ_add_ids.append(init_hash)
+                    continue
+            else:
+                init_hash.update({"errmsg": "给定的参数不全！必须存在'name'、'passwd'、'email'字段"})
                 succ_add_ids.append(init_hash)
-                continue
-
-            # create a user
-            try:
-                created_user = create_actived_user(params)
-                init_hash.update({'success': True, "userid": created_user.id})
-                succ_add_ids.append(init_hash)
-            except:
-                init_hash.update({"errmsg": "用户名或邮箱已存在！"})
-                succ_add_ids.append(init_hash)
-                continue
-        else:
-            init_hash.update({"errmsg": "给定的参数不全！必须存在'name'、'passwd'、'email'字段"})
-            succ_add_ids.append(init_hash)
-
+    print '============succ_add_ids====================='
+    print succ_add_ids
     return JsonResponse({"staff": succ_add_ids})
 
 
@@ -2504,46 +2587,50 @@ def bs_change_profle_role(request, user_id=None, profile_role=None):
 
 
 @csrf_exempt
-def bs_ban_account(request, user_id):
+def bs_ban_account(request, user_name):
+    print '==================requst========================'
+    print request.POST
     uniform_re = {"success": False}
     request_method = request.method
     if request_method != 'POST':
         uniform_re['errmsg'] = 'Only POST request support!'
 
     try:
-        active_status = eval(request.body).get('is_active').lower()
+        for key in request.POST.keys():
+            re_json = json.loads(key)
+            break
+        active_status = re_json.get('is_active').lower()
     except:
-        active_status = request.POST.get('is_active').lower()
+        active_status = 'yes'
 
     if active_status is None:
         uniform_re['errmsg'] = 'params error!'
         return JsonResponse(uniform_re)
 
-    oper_active_user = User.objects.get(id=int(user_id))
+    oper_active_user = User.objects.get(username=user_name)
 
     if oper_active_user is None:
-        uniform_re['errmsg'] = 'can not find the user with id ' + user_id
+        uniform_re['errmsg'] = 'can not find the user with username ' + user_name
         return JsonResponse(uniform_re)
 
     if active_status == 'yes':
-        active_status = True
+        active_status = 1
     elif active_status == 'no':
-        active_status = False
+        active_status = 0
     else:
         uniform_re['errmsg'] = 'can not realize operation!'
         return JsonResponse(uniform_re)
-
     if active_status == oper_active_user.is_active:
         uniform_re['errmsg'] = 'user has activated!' if oper_active_user.is_active else "user has been disabled!"
         return JsonResponse(uniform_re)
 
     oper_active_user.is_active = active_status
-
     try:
         oper_active_user.save()
     except:
         uniform_re['errmsg'] = 'Operation failed'
         return JsonResponse({'success': False, 'errmsg': 'Operation failed'})
+
 
     uniform_re['success'] = True
     return JsonResponse(uniform_re)
@@ -2778,6 +2865,97 @@ def mobi_token_logout(request):
     return JsonResponse({
         "success": True
     })
+
+
+#业务系统支付完成返回结果
+def bs_payresult_edx(request):
+    re_json = {"success": False}
+    try:
+        course_id = request.GET.get('course_id')
+        course_id =course_id.replace('.','/')
+        username = request.GET.get('username')
+        result = int(request.GET.get('result'))
+    except:
+        return JsonResponse(re_json)
+
+    try:
+        user = User.objects.get(username=username)
+
+        if result == 1:
+            re_json = {"success": True}
+            cea = CourseEnrollmentAllowed.objects.filter(email=user.email, course_id=course_id)
+            print '************'
+            print cea
+            if cea:
+                cea[0].auto_enroll = 1
+                cea[0].save()
+            else:
+                cea = CourseEnrollmentAllowed(email=user.email, course_id=course_id, auto_enroll=1)
+                cea.save()
+
+            if CourseEnrollment.is_enrolled(user, course_id):
+                return JsonResponse(re_json)
+            ce = CourseEnrollment.enroll(user, course_id)
+        print re_json
+        return JsonResponse(re_json)
+
+    except Exception, e:
+        print e
+        return JsonResponse(re_json)
+
+
+#查看证书状态
+
+def check_cert_bs(user,course_id):
+    re_json ={'finish':False}
+    if course_id != '':
+        course_id = course_id.replace('/','.')
+        request_host = settings.XIAODUN_BACK_HOST
+        check_cert_url = '{}/cert/certapply!pool.do?course_id={}&username={}'.format(request_host,course_id, user.username)
+        print check_cert_url
+        try:
+            req = urllib2.Request(check_cert_url)
+            resp = urllib2.urlopen(req)
+            content = resp.read()
+            request_json = simplejson.loads(content)
+            if request_json.get('success'):
+                re_json['finish'] = True
+                re_json['status'] = request_json.get('stauts')
+                re_json['url'] = request_json['message']
+                return re_json
+            else:
+                return re_json
+        except :
+            return re_json
+
+    return re_json
+
+
+#ajax证书申请
+def edx_cert_bs(request):
+    user = request.user
+    re_json ={'finish':False}
+    course_id = request.POST.get('course_id','')
+    if course_id != '':
+        course_id = course_id.replace('/','.')
+        request_host = settings.XIAODUN_BACK_HOST
+        check_cert_url = '{}/cert/certapply!pool.do?course_id={}&username={}&add=1'.format(request_host,course_id, user.username)
+        try:
+            req = urllib2.Request(check_cert_url)
+            resp = urllib2.urlopen(req)
+            content = resp.read()
+            request_json = simplejson.loads(content)
+            if request_json.get('success'):
+                re_json['finish'] = True
+                re_json['status'] = request_json.get('stauts')
+                re_json['url'] = request_json['message']
+                return JsonResponse(re_json)
+            else:
+                return JsonResponse(re_json)
+        except :
+            return JsonResponse(re_json)
+
+    return JsonResponse(re_json)
 
 
 

@@ -25,7 +25,9 @@ var DetailsView = ValidatingView.extend({
         this.$el.find("#course-number").val(this.model.get('course_id'));
         this.$el.find("#course-name").val(this.model.get('run'));
         this.$el.find('.set-date').datepicker({ 'dateFormat': 'yy年mm月dd日' });
-
+        this.model.set('course_price', $("#new_course_price").val());
+        this.model.isValid();
+//        this.model.get('course_price')
         // Avoid showing broken image on mistyped/nonexistent image
         this.$el.find('img.course-image').error(function() {
             $(this).hide();
@@ -42,6 +44,7 @@ var DetailsView = ValidatingView.extend({
     },
 
     render: function() {
+
         this.setupDatePicker('start_date');
         this.setupDatePicker('end_date');
         this.setupDatePicker('enrollment_start');

@@ -44,10 +44,20 @@ urlpatterns = ('',  # nopep8
     url(r'^create_account$', 'student.views.create_account', name='create_account'),
     url(r'^activate/(?P<key>[^/]*)$', 'student.views.activate_account', name="activate"),
 
+    #edx_messages_bs
+    url(r'^sync/bs_message$', 'student.views.bs_message', name='bs_message'),
+    url(r'^sync/bs_course$', 'student.views.bs_course', name='bs_course'),
+    #edx_cert_bs
+    url(r'^bs/cert$', 'student.views.edx_cert_bs', name='edx_cert_bs'),
+    url(r'^bs/record/logininfo$', 'courseware.views.record_login_info', name='record_login_info'),
     # sync account from BS
+    url(r'^pay/payresult$', 'student.views.bs_payresult_edx', name='bs_payresult_edx'),
+    # puchase authenticate ?
+    url(r'^courses/(?P<course_id>[^/]+/[^/]+/[^/]+)/course/isenroll$',
+        'courseware.views.course_is_enroll', name="course_is_enroll"),
     url(r'^bs/sync/accounts$', 'student.views.bs_sync_accounts', name='bs_sync_accounts'),
     url(r'^bs/user/(?P<user_id>\d+)/role/(?P<profile_role>(st|th))/changed$', 'student.views.bs_change_profle_role', name='bs_change_profle_role'),
-    url(r'^bs/sync/ban/account/(?P<user_id>[^/]*)$', 'student.views.bs_ban_account', name='bs_sync_accounts'),
+    url(r'^bs/sync/ban/account/(?P<user_name>[^/]*)$', 'student.views.bs_ban_account', name='bs_sync_accounts'),
     url(r'^bs/recv/student/(?P<student_id>\d+)/courses/gradebook/(?P<ptype>(all|pass|fail))', 'student.views.bs_recv_grade', name='bs_recv_grade'),
 
     # login user with sso, user from guoshi
@@ -279,6 +289,9 @@ if settings.COURSEWARE_ENABLED:
         url(r'^mktg/(?P<course_id>.*)$',
             'courseware.views.mktg_course_about', name="mktg_about_course"),
 
+        #new edx sync courseinfo to bs
+        url(r'^mobi/courses-list/all_id','courseware.views.get_courses_id', name="get_courses_id"),
+        url(r'^mobi/courses-list/course','courseware.views.get_course_info', name="get_course_info"),
         # mobile course info url
         url(r'^mobi/courses-list/(?P<action>(homefalls|hot|latest|all|my|rolling|search|sync))',
             'courseware.views.courses_list_handler', name="courses_list_handler"),
