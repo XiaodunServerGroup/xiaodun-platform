@@ -48,7 +48,10 @@ var DetailsView = ValidatingView.extend({
         this.setupDatePicker('enrollment_end');
 
         this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
-        this.codeMirrorize(null, $('#course-overview')[0]);
+        this.$el.find('#introedittool').val(this.model.get('overview'));
+        //tinymce.activeEditor.setContent(this.model.get('overview')); 
+        UE.getEditor('introedittool').setContent(this.model.get('overview'));
+        // this.codeMirrorize(null, $('#introedittool')[0]);
 
         this.$el.find('#' + this.fieldToSelectorMap['short_description']).val(this.model.get('short_description'));
 
@@ -156,6 +159,9 @@ var DetailsView = ValidatingView.extend({
         case 'course-price':
             this.setField(event);
             break;
+        case 'course-overview':
+            this.setField(event);
+            break;            
         case 'course-short-description':
             this.setField(event);
             break;
@@ -288,3 +294,4 @@ var DetailsView = ValidatingView.extend({
 return DetailsView;
 
 }); // end define()
+

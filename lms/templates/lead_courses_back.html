@@ -1,0 +1,452 @@
+<%! from django.utils.translation import ugettext as _ %>
+
+<%! from django.core.urlresolvers import reverse %>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+
+<%! from microsite_configuration import microsite %>
+
+<%
+  homepage_overlay_html = microsite.get_value('homepage_overlay_html')
+
+  show_homepage_promo_video = microsite.get_value('show_homepage_promo_video', True)
+  homepage_promo_video_youtube_id = microsite.get_value('homepage_promo_video_youtube_id', "XNaiOGxWeto")
+
+  show_partners = microsite.get_value('show_partners', True)
+
+%>
+<script language="text/javascript">
+function chkform(){
+    var addform= document.queryform;
+    if (addform.query.placeholder=="请输入关键字..."){
+        addform.query.value=""
+        return true;
+    }
+}
+</script>
+<section>
+  <link rel="stylesheet" href="/static/css/header/header.css"/>
+  <%include file="xiaodun_navigator.html" />
+
+  <section class='filter_courses'>
+    <link rel="stylesheet" href="/static/css/header/filter_section.css">
+    <div class="course-content">
+      <div class="content-body">
+        <div class="selection-panel">
+          <div class="filter fl">
+            <div class="filter-title fl"><span>课程-筛选:</span></div>
+            <div class="filter-ul fl">
+              <ul id="searbar">
+                      <li id="subjectsearbar" class="tab1"><div><strong>科目：</strong><span></span></div></li>
+                      <li id="basesearbar" class="tab1"><div><strong>机构：</strong><span></span></div></li>
+                      <li id="levelsearbar" class="tab1"><div><strong>级别：</strong><span></span></div></li>
+              </ul>
+            </div>
+          </div>
+          <div class="select-menu">
+            <div class="select-subject">
+              <div class="subject">
+                <div class="subject-left">科目：</div>
+                <div class="subject-right">
+                  <ul id="subject">
+                      <li class="tab1" name="all"><span>全部</span></li>
+                      % if subject:
+                        % for sj in subject:
+                          % if subCon and (sj[0] in subCon or "all" in subCon):
+                            <li class='live' name="${sj[0]}"><span>${sj[1]}</span></li>
+                          % else:
+                            <li class='tab1' name="${sj[0]}"><span>${sj[1]}</span></li>
+                          % endif
+                        % endfor
+                      % endif
+                      <!--
+                      <li class="tab1" name="信息安全基础理论"><span>信息安全基础理论</span></li>
+                      <li class="tab1" name="通用安全技术"><span>通用安全技术</span></li>
+                      <li class="tab1" name="安全管理"><span>安全管理</span></li>
+                      <li class="tab1" name="专项安全技术"><span>专项安全技术</span></li>
+                      -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="select-agency">
+              <div class="agency">
+                <div class="agency-left">机构：</div>
+                <div class="agency-right">
+                  <ul id="base">
+                    <li name="all"><span>全部</span></li>
+                    % if org:
+                      % for o in org:
+                        % if orgCon and (o[0] in orgCon or "all" in orgCon):
+                          <li class="live" name="${o[1]}"><span>${o[0]}</span></li>
+                        % else:
+                          <li name="${o[1]}"><span>${o[0]}</span></li>
+                        % endif
+                      % endfor
+                    % endif
+                    <!--
+                    <li name="北邮信息安全中心"><span>北邮信息安全中心</span></li>
+                    <li name="启明星辰"><span>启明星辰</span></li>
+                    <li name="戴威尔"><span>戴威尔</span></li>
+                    <li name="亭长郎然"><span>亭长郎然</span></li>
+                    -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="select-level">
+              <div class="level">
+              <div class="level-left">级别：</div>
+                <div class="level-right">
+                  <ul id="level">
+                      <li class="tab1" name="all"><span>全部</span></li>
+                      % if level:
+                        % for l in level:
+                          % if levelCon and (l[0] in levelCon or "all" in levelCon):
+                            <li class='live' name="${l[0]}"><span>${l[1]}</span></li>
+                          % else:
+                            <li class='tab1' name="${l[0]}"><span>${l[1]}</span></li>
+                          % endif
+                        % endfor
+                      % endif
+                      <!--
+                      <li class="tab1" name="初级"><span>初级</span></li>
+                      <li class="tab1" name="中级"><span>中级</span></li>
+                      <li class="tab1" name="高级"><span>高级</span></li>
+                      -->
+                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <section class="highlighted-courses">
+
+      % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+        <section class="courses">
+            <ul class="courses-listing">
+            %for course in courses:
+              <li class="courses-listing-item">
+                <%include file="course.html" args="course=course" />
+              </li>
+            %endfor
+            </ul>
+        </section>
+      % endif
+
+    </section>
+  </section>
+</section>
+
+<!--
+<section id="video-modal" class="modal home-page-video-modal video-modal">
+  <div class="inner-wrapper">
+    <%
+      youtube_video_id = homepage_promo_video_youtube_id
+      if self.stanford_theme_enabled():
+        youtube_video_id = "2gmreZObCY4"
+    %>
+    <iframe width="640" height="360" src="//www.youtube.com/embed/${youtube_video_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+  </div>
+</section>
+-->
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+
+      $(function(){
+        bindAll();
+        $.each(["base", "subject", "level"], function(idx, i){checkClickedObj(i);});
+        INITCOURSESTR = '<li class="courses-listing-item"><article id="course_id" class="course"><a href=""><div class="inner-wrapper"><header class="course-preview"><hgroup><h2><span class="course-number"></span></h2></hgroup><div class="info-link">&#x2794;</div></header><section class="info"><div class="cover-image"><img src="#" alt="Cover Image" /></div><div class="desc"><p></p></div><div class="bottom"><span class="university">Org</span></div></section></div><div class="meta-info"><p class="university">Org</p></div></a></article></li>';
+        INITSTR = computeRefreshStr();
+      
+    
+        /* fall */
+        window.conUrl = window.location.href.split("?")[0];
+        console.log(window.conUrl);
+
+
+
+
+
+
+function _reachBottom() {
+ var scrollTop = 0, clientHeight = 0, scrollHeight = 0;
+ if (document.documentElement && document.documentElement.scrollTop) { scrollTop = document.documentElement.scrollTop;
+ }else if (document.body){ scrollTop = document.body.scrollTop; }
+ if (document.body.clientHeight && document.documentElement.clientHeight) { clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight;
+ }else{ clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight; }
+ scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+ return (scrollTop + clientHeight + 10 >= scrollHeight);
+};
+function doScoll(){
+ console.log("doScoll");
+ if(_reachBottom()){
+   window.onscroll = null;
+   console.log("_reachBottom");
+  // window.bh += 100;
+   //document.getElementsByTagName('body')[0].style.height = window.bh + 'px';
+   var courseId = $('.courses .courses-listing .courses-listing-item').last().find('article').eq(0).attr('id');
+   ajaxGetConCourse(window.conUrl, courseId);
+   setTimeout(function(){
+    window.onscroll = function(){doScoll();}
+   }, 1000);
+ }
+}
+ window.onscroll = function(){doScoll();}
+
+
+
+
+     
+      });
+
+      function computeRefreshStr(){
+        var strCon = []
+        var baseStr = $("li#basesearbar>div>span").html();
+        if (baseStr != "") strCon.push(baseStr);
+
+        var subjectStr = $("li#subjectsearbar>div>span").html();
+        if (subjectStr != "") strCon.push(subjectStr);
+
+        var levelStr = $("li#levelsearbar>div>span").html();
+        if (levelStr != "") strCon.push(levelStr);
+
+        return strCon.join(", ")
+      }
+
+      function bindAll(){
+        var base = $('ul#base').children();
+        var level = $('ul#level').children();
+        var subject = $('ul#subject').children();
+
+        $.each(base, function(idx, i){
+          $(i).click(function(){
+            allSet(base, idx, i);
+          });
+        });
+
+        $.each(level, function(idx1, i1){
+          $(i1).click(function(){
+            allSet(level, idx1, i1);
+          });
+        });
+
+        $.each(subject, function(idx2, i2){
+          $(i2).click(function(){
+            allSet(subject, idx2, i2);
+          });
+        });
+      }
+
+      function allSet(col, idx, item){
+        var class_name = $(item).attr('class');
+        if (parseInt(idx) == 0) {
+          if (class_name == "live") {
+            $.each(col, function(dx, it){
+              $(it).attr('class', 'death');
+            });
+          } else {
+            $.each(col, function(dx, it){
+              $(it).attr('class', 'live');
+            });
+          }
+        } else {
+          if (class_name == "live") {
+            $(col[0]).attr("class", "death")
+            $(item).attr('class', 'death');
+          } else {
+            $(item).attr('class', 'live');            
+          }
+        }
+
+        checkClickedObj($(item).parent().attr("id"));
+
+        refreshConditionPage();
+      }
+
+      function checkClickedObj(ulClass){
+        var childLen = $('ul#' + ulClass).children().length
+        var clObj = $('ul#'+ ulClass + ">li.live")
+        if (clObj.length == (childLen - 1)) {
+          $($('ul#' + ulClass).children()[0]).attr("class", "live");
+          clObj = $('ul#'+ ulClass + ">li.live");
+        }
+
+        var barid = "#" + ulClass + "searbar";
+
+        if (clObj.length == 0) {
+          $($(barid + ">div").children('span')).html("");
+          $(barid).hide()
+        } else if ($('ul#'+ ulClass + ">li.live").length == childLen) {
+          $($(barid + ">div").children('span')[0]).html('全部');
+          $(barid).show();
+        } else {
+          var strArr = []
+          $.each(clObj, function(idx, i){strArr.push($($(i).children('span')[0]).html())});
+          $($(barid + ">div").children('span')).html(strArr.join(', '));
+          $(barid).show();
+        }
+
+        return false;
+      }
+
+      function refreshConditionPage(){
+        var baseHref = window.location.href.split("?")[0];
+        var conStrArr = [];
+        var nameArr = [];
+
+        // base condition
+        var allBaseLen = $('ul#base').children().length
+        var selBase = $('ul#base>li.live')
+        if (selBase.length > 0){
+          nameArr = [];
+          if (allBaseLen != selBase.length){
+            $.each(selBase, function(idx, i){nameArr.push($(i).attr("name"))});
+            conStrArr.push("org=" + nameArr)
+          }
+          else {
+            conStrArr.push("org=all")
+          }  
+        }
+
+        // subject condition
+        var allSubjLen = $('ul#subject').children().length;
+        var selSubj = $('ul#subject>li.live');
+        if (selSubj.length > 0) {
+          nameArr = [];
+          if (allSubjLen != selSubj.length){
+            $.each(selSubj, function(idx, i){nameArr.push($(i).attr("name"))});
+            conStrArr.push("subject=" + nameArr);
+          }
+          else {
+            conStrArr.push("subject=all");
+          }
+        }
+
+        // level condition
+        var allLevelLen = $('ul#level').children().length
+        var selLevel = $('ul#level>li.live')
+        if (selLevel.length > 0) {
+          nameArr = []
+          if (allLevelLen != selLevel.length){
+            $.each(selLevel, function(idx, i){nameArr.push($(i).attr("name"))});
+            conStrArr.push("level=" + nameArr);
+          }
+          else {
+            conStrArr.push("level=all");
+          }
+        }
+
+        var curStr = computeRefreshStr();
+        if (conStrArr.length > 0 && INITSTR != curStr) {
+          var requestCon = conStrArr.join("&");
+          window.conUrl = baseHref + "?" + requestCon;console.log(window.conUrl);
+          $('ul.courses-listing').eq(0).empty();
+          ajaxGetConCourse(window.conUrl);     
+        }
+      }
+
+      // TODO finish ajax load courses
+      function ajaxGetConCourse(conUrl, courseId){
+        var courseUnit = $(INITCOURSESTR);
+        var insertCourseHtml = '';
+        if (conUrl.indexOf('?') > -1) {
+          conUrl = conUrl + "&course_id=" + courseId;
+        } else {
+          conUrl = conUrl + "?course_id=" + courseId; 
+        }
+        $.ajax({
+          url: conUrl,
+          type: 'GET',
+          dataType: 'json',
+          success: function(json){
+            var coursesObjs = json.courses;
+      // write courses html
+      
+      if(json.courses.length<1){
+        //window.onscroll=null;
+        console.log("case1");
+        //addHtml()
+      }else if(json==null){
+        //window.onscroll=null;
+        console.log("case2");
+      }else{
+        addHtml();
+        console.log("case3");      
+        
+      }
+      
+      
+      function addHtml(){
+        console.log("addHtml"+coursesObjs);
+        $.each(coursesObjs, function(idx, c){
+          var articleObj = courseUnit.find('article.course');
+
+          articleObj.attr('id', c.id);
+          articleObj.children('a').attr('href', c.course_about_url);
+
+          if (c.is_new) {
+            //console.log(c.is_new);
+            articleObj.children('a').before($('<span class="status">新</span>'))
+          }
+
+          var hgroupHtml = '<span class="course-number">' + c.course_number + '</span>' + c.title;
+          if (articleObj.find('hgroup>h2')) {
+            //console.log(articleObj.find('hgroup>h2'));
+            articleObj.find('hgroup>h2').html(hgroupHtml);
+          }
+
+          var imgAltStr = c.course_number + ' ' + c.title + " Cover Image";
+          if (articleObj.find('div.cover-image>img')) {
+            //console.log(articleObj.find('div.cover-image>img'));
+            articleObj.find('div.cover-image>img').attr('src', c.img_src);
+            articleObj.find('div.cover-image>img').attr('alt', imgAltStr);        
+          }
+
+          if (articleObj.find("div.desc>p")) {
+            //console.log(articleObj.find("div.desc>p"));
+            articleObj.find("div.desc>p").html(c.short_description);
+          }
+
+          if (articleObj.find("div.bottom>span")) {
+            //console.log(articleObj.find("div.bottom>span"));
+            articleObj.find("div.bottom>span").html(c.university);
+          }
+
+          if (articleObj.find("div.meta-info>p")) {
+            //console.log(articleObj.find("div.meta-info>p"));
+            articleObj.find("div.meta-info>p").html(c.university);
+          }
+
+          insertCourseHtml += courseUnit[0].outerHTML;
+          courseUnit = $(INITCOURSESTR);
+        });
+        
+        // clear course list replace with insertCourseHtml
+        $('ul.courses-listing').eq(0).append(insertCourseHtml);
+      }
+      
+          }
+        });
+      }
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

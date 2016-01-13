@@ -10,18 +10,20 @@
 
 <%block name="jsextra">
   <link rel="stylesheet" type="text/css" href="${static.url('js/vendor/timepicker/jquery.timepicker.css')}" />
+  <script type="text/javascript" src="/static//js/ueditor142/ueditor.config.js"></script>
+  <script type="text/javascript" src="/static//js/ueditor142/ueditor.all.min.js"></script>
 
   <script type="text/template" id="upload-dialog-tpl">
     <%static:include path="js/upload-dialog.underscore" />
   </script>
 
-  <script type="text/javascript">
+<script type="text/javascript">
 window.CMS = window.CMS || {};
 CMS.URL = CMS.URL || {};
 CMS.URL.UPLOAD_ASSET = '${upload_asset_url}';
 
 require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/settings/main"],
-  function(doc, $, CourseDetailsModel, MainView) {
+  function(doc, $, CourseDetailsModel, MainView, ZeroClipboard) {
     // highlighting labels when fields are focused in
     $("form :input").focus(function() {
       $("label[for='" + this.id + "']").addClass("is-focused");
@@ -41,7 +43,24 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
       reset: true
     });
 });
-  </script>
+</script>
+
+<script>
+  var ue = UE.getEditor('introedittool', {
+    autoHeightEnabled : false,
+    initialFrameHeight:500,
+    minFrameHeight:500,
+    enableAutoSave :false,
+    autoSyncData :false,
+    elementPathEnabled :false,
+    csrf_token:"${csrf_token}"
+  });
+  ue.addListener('contentchange', function( editor ) {
+    $("#course-overview").val(UE.getEditor('introedittool').getContent()).trigger("change");
+  });
+</script>
+
+
 </%block>
 
 <%block name="content">
@@ -206,16 +225,24 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
                 -->
               </header>
               <ol class="list-input">
+
                 % if short_description_editable:
                 <li class="field text" id="field-course-short-description">
                   <label for="course-overview">${_("Course Short Description")}</label>
-                  <textarea class="text" id="course-short-description"></textarea>
+                  <textarea class="text" id="course-short-description" style="height:120px"></textarea>
                   <span class="tip tip-stacked">${_("Appears on the course catalog page when students roll over the course name. Limit to ~150 characters")}</span>
                 </li>
                 % endif
 
+                % if short_description_editable:
+                <li class="field text" id="field-course-short-edittool">
+                  <label for="course-overview">${_("Course Overview")}</label>
+                  <textarea class="text" id="introedittool"></textarea>
+                </li>
+                % endif
+
                 % if about_page_editable:
-                <li class="field text" id="field-course-overview">
+                <li class="field text" id="field-course-overview" style="display:none;">
                   <label for="course-overview">${_("Course Overview")}</label>
                   <textarea class="tinymce text-editor" id="course-overview"></textarea>
                   <%def name='overview_text()'><%
@@ -347,3 +374,4 @@ require(["domReady!", "jquery", "js/models/settings/course_details", "js/views/s
   </section>
 </div>
 </%block>
+

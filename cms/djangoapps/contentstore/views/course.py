@@ -464,6 +464,9 @@ def create_new_course(request):
     course_price = request.json.get('course_price')
     run = request.json.get('run')
 
+    if course_price == "" or course_price == None:
+        course_price = "0"
+
     try:
         dest_location = Location(u'i4x', org, number, u'course', run)
     except InvalidLocationError as error:

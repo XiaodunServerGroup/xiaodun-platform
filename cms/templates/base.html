@@ -19,7 +19,7 @@
         校盾工作平台
     </title>
 
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="path_prefix" content="${EDX_ROOT_URL}">
     <link rel="icon" type="image/x-icon" href="${static.url('img/favicon.ico')}" />
     <%static:css group='style-vendor'/>
@@ -80,9 +80,10 @@
                 "accessibility": "js/src/accessibility_tools",
                 "draggabilly": "js/vendor/draggabilly.pkgd",
                 "URI": "js/vendor/URI.min",
+                "ZeroClipboard": "js/ueditor142/third-party/zeroclipboard/ZeroClipboard",
 
                 // externally hosted files
-                "tender": "//edxedge.tenderapp.com/tender_widget",
+                "tender": "",
                 "mathjax": "/static//js/vendor/mathjax-MathJax-c9db6ac/MathJax.js?config=TeX-MML-AM_HTMLorMML-full&delayStartupUntil=configured",
                 "youtube": [
                     // youtube URL does not end in ".js". We add "?noext" to the path so
@@ -276,6 +277,9 @@
                 });
             });
         });
+        require(['ZeroClipboard'], function(ZeroClipboard) {
+            window.ZeroClipboard = ZeroClipboard
+          });
     </script>
 
     % if context_course:
@@ -323,3 +327,4 @@
 
   <%include file="widgets/qualaroo.html" />
 </html>
+
