@@ -11,7 +11,6 @@ import json
 import logging
 import re
 import urllib
-import httplib
 import uuid
 import time
 import base64
@@ -1659,33 +1658,20 @@ def _do_create_account(post_vars):
 
 
     #edx_requset_bs 匿名登录
-    print '==============匿名登录============================='
     request_host = settings.XIAODUN_BACK_HOST
     request_url = '{}/student/student!add.do'.format(request_host)
     jdata = json.dumps(bs_profile)
-    print request_url
-    print '**********bs_profile*********'
-    print bs_profile
     try:
 
         request = urllib2.Request(url = request_url,data =jdata)
         request.add_header('Content-Type', 'application/json')
         resp = urllib2.urlopen(request)
         content = resp.read()
-        print '================content================'
-        print content
         request_json = simplejson.loads(content)
-        print '================request_json================'
-        print request_json
         if not request_json.get('success', ''):
-            print 11111111111111111
             log.exception("bs UserProfile creation failed for user {id}.".format(id=user.id))
     except:
-        print 22222222222222222
         log.exception("bs UserProfile creation failed for user {id}.".format(id=user.id))
-    finally:
-        if httpClient:
-            httpClient.close()
     return (user, profile, registration)
 
 
