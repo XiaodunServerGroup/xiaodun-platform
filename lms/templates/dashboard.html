@@ -141,7 +141,34 @@
     });
 
 
-    $("#bs_login_info").click(function(){
+      $('#bs_course').click(function(e) {
+          $('.my-courses').removeClass('show')
+          $('#bs_course_show').addClass('show')
+      });
+
+      $('#wenjuan_hf').click(function(e) {
+          $('.my-courses').removeClass('show')
+          $('#wenjuan_hf_show').addClass('show')
+      });
+
+      $('#wenjuan_gh').click(function(e) {
+          $('.my-courses').removeClass('show')
+          $('#wenjuan_gh_show').addClass('show')
+      });
+
+      $('#wenjuan_pj').click(function(e) {
+          $('.my-courses').removeClass('show')
+          $('#wenjuan_pj_show').addClass('show')
+      });
+
+      $('#wenjuan_ts').click(function(e) {
+          $('.my-courses').removeClass('show')
+          $('#wenjuan_ts_show').addClass('show')
+      });
+
+
+
+      $("#bs_login_info").click(function(){
         $.ajax({
             url:"/bs/record/logininfo",
             type:"POST",
@@ -203,9 +230,19 @@
   });
 
 
+
+
   </script>
 </%block>
+<style>
+    .my-courses{
+        display: none;
+    }
+    .show{
+        display: block;
+    }
 
+</style>
 % if reverifications["must_reverify"] or reverifications["denied"]:
   <section class="dashboard-banner">
     <%include file='dashboard/_dashboard_prompt_midcourse_reverify.html' />
@@ -274,14 +311,44 @@
         <li class="control--message">
           <span class="title">
               <div class='icon'></div>
-              <a href='/sync/bs_message' id="bs_message">站内消息</a>
+              <a href='/sync/bs_message' target="_blank" >站内消息</a>
           </span>
          </li>
+
+          <li class="control--wenjuan_hf">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='javascript:void(0)'  id="wenjuan_hf">学员回访调查</a>
+          </span>
+          </li>
+
+          <li class="control--wenjuan_gh">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='javascript:void(0)'  id="wenjuan_gh">学员关怀调查</a>
+          </span>
+          </li>
+
+
+          <li class="control--wenjuan_ts">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='javascript:void(0)'  id="wenjuan_ts">投诉反馈</a>
+          </span>
+          </li>
+
+          <li class="control--wenjuan_pj">
+          <span class="title">
+              <div class='icon'></div>
+              <a href='javascript:void(0)'  id="wenjuan_pj">合作机构评价调查</a>
+          </span>
+          </li>
+
 
           <li class="control--course">
           <span class="title">
               <div class='icon'></div>
-              <a href='/sync/bs_course' id="bs_message">排课</a>
+              <a href='javascript:void(0)'  id="bs_course">排课</a>
           </span>
           </li>
 
@@ -311,7 +378,7 @@
 
   </section>
 
-  <section class="my-courses" id="my-courses">
+  <section class="my-courses show" id="my-courses">
     <header>
       <h2>${_("Current Courses")}</h2>
     </header>
@@ -366,6 +433,88 @@
       % endfor
     % endif
   </section>
+
+      <section class="my-courses" id="wenjuan_hf_show">
+
+          <div class="wrapper-mast wrapper">
+              <header class="mast has-actions">
+                  <h3 class='page-header'></h3>
+              </header>
+
+
+              <div class="wrapper-content wrapper">
+                  <section class="content">
+                      <iframe src="https://www.wenjuan.com/s/aEbi2y/" frameborder="0" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+                      </iframe>
+                  </section>
+              </div>
+      </section>
+      <section class="my-courses" id="wenjuan_gh_show">
+
+          <div class="wrapper-mast wrapper">
+              <header class="mast has-actions">
+                  <h3 class='page-header'></h3>
+              </header>
+
+
+              <div class="wrapper-content wrapper">
+                  <section class="content">
+                      <iframe src="https://www.wenjuan.com/s/YZnmMr/" frameborder="0" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+                      </iframe>
+                  </section>
+              </div>
+      </section>
+
+      <section class="my-courses" id="wenjuan_ts_show">
+
+          <div class="wrapper-mast wrapper">
+              <header class="mast has-actions">
+                  <h3 class='page-header'></h3>
+              </header>
+
+
+              <div class="wrapper-content wrapper">
+                  <section class="content">
+                      <iframe src="https://www.wenjuan.com/s/VnM36b/" frameborder="0" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+                      </iframe>
+                  </section>
+              </div>
+      </section>
+
+      <section class="my-courses" id="wenjuan_pj_show">
+
+          <div class="wrapper-mast wrapper">
+              <header class="mast has-actions">
+                  <h3 class='page-header'></h3>
+              </header>
+
+
+              <div class="wrapper-content wrapper">
+                  <section class="content">
+                      <iframe src="https://www.wenjuan.com/s/uymauez/" frameborder="0" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+                      </iframe>
+                  </section>
+              </div>
+        </section>
+
+
+        <section class="my-courses" id="bs_course_show">
+
+            <div class="wrapper-mast wrapper">
+                <header class="mast has-actions">
+                    <h3 class='page-header'></h3>
+                </header>
+
+
+                <div class="wrapper-content wrapper">
+                    <section class="content">
+                        <iframe src="${settings.XIAODUN_BACK_HOST+'/calendar/calendar!view.do'}" frameborder="0" style="overflow:hidden;min-height: 680px;width:100%" height="100%" width="100%">
+                        </iframe>
+                    </section>
+                </div>
+        </section>
+
+
 </section>
 
 <section id="email-settings-modal" class="modal" aria-hidden="true">

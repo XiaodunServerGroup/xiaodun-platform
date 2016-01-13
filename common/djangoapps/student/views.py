@@ -1203,9 +1203,9 @@ def bs_message(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
     request_host = settings.XIAODUN_BACK_HOST
-    request_url = '{}/news/stud.do'.format(request_host)
+    request_url = '{}/news/news!view.do?type=st'.format(request_host)
     if user_profile.profile_role == "th":
-        request_url = '{}/news/teac.do'.format(request_host)
+        request_url = '{}/news/news!view.do?type=th'.format(request_host)
         return render_to_response("bs_message.html",{"request_url":request_url})
 
     return render_to_response("bs_message.html",{"request_url":request_url})
