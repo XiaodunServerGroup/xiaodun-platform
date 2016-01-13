@@ -1561,7 +1561,7 @@ OPER_SYS_DOMAIN = 'http://operation.guoshi.com/cetvossFront'
 SSO_DOMAIN = 'http://passport.guoshi.com/mp'
 
 ############## BUSINESS SYSTEM #################
-XIAODUN_BACK_HOST = 'http://192.168.1.33:100'
+XIAODUN_BACK_HOST = 'http://192.168.1.50:8091'
 
 ############## video mettings ##################
 VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"
