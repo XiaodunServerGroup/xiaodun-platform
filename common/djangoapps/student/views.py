@@ -704,25 +704,30 @@ def dashboard(request):
 
 
     user_profile = UserProfile.objects.get(user=user)
-    role = 2
-    if user_profile.profile_role == "th":
-        role = 1
-    request_host = settings.XIAODUN_BACK_HOST
-    request_url = '{}/check/check!pool.do?username={}&role={}'.format(request_host, user.username,role)
-    socket.setdefaulttimeout(10)
+    role = 1
+    if user_profile.profile_role == "st":
+        role = 2
+    if user_profile.profile_role == "in":
+        role = 3
 
-    print '=================request_url=11111======================='
-    print role
     is_record = 0
-    try:
-        req = urllib2.Request(request_url)
-        resp = urllib2.urlopen(req)
-        content = resp.read()
-        request_json = simplejson.loads(content)
-        if request_json.get('success', ''):
-            is_record = 1
-    except:
-        pass
+    if role !=3:
+        request_host = settings.XIAODUN_BACK_HOST
+        request_url = '{}/check/check!pool.do?username={}&role={}'.format(request_host, user.username,role)
+        socket.setdefaulttimeout(10)
+
+        print '=================request_url=11111======================='
+        print role
+
+        try:
+            req = urllib2.Request(request_url)
+            resp = urllib2.urlopen(req)
+            content = resp.read()
+            request_json = simplejson.loads(content)
+            if request_json.get('success', ''):
+                is_record = 1
+        except:
+            pass
 
 
     cert_status = 0

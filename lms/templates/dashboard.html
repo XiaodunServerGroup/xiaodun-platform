@@ -352,16 +352,18 @@
           </span>
           </li>
 
-          <li class="control--logininfo">
-          <span class="title">
-              <div class='icon'></div>
-              %if is_record == 1:
-                <a href='javascript:void(0)' id="bs_login_info" style="color: red">已签到</a>
-              %else:
-                <a href='javascript:void(0)' id="bs_login_info" style="color: red">签到</a>
-              %endif
-          </span>
-          </li>
+          %if role != 3:
+              <li class="control--logininfo" >
+              <span class="title">
+                  <div class='icon'></div>
+                  %if is_record == 1:
+                    <a href='javascript:void(0)' id="bs_login_info" style="color: red">已签到</a>
+                  %else:
+                    <a href='javascript:void(0)' id="bs_login_info" style="color: red">签到</a>
+                  %endif
+              </span>
+            </li>
+          %endif
         <!--li class="info--bbs">
           <!--span class="title">
               <div class='icon course-info-icon'></div>
