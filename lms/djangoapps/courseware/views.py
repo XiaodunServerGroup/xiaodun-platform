@@ -360,7 +360,8 @@ def bs_mobi_course_info(request, course, action=None):
         "registered": registered_for_course(course, user),
         "about": get_course_about_section(course, 'short_description'),
         "category": course.category,
-        "course_price": float('%0.2f' % int(cp))
+        "course_price": float('%0.2f' % int(cp)),
+        "course_audit":course.course_audit
     }
 
     def compute_action_imgurl(imgname):
