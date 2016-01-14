@@ -587,7 +587,7 @@ PASSWORD_HASHERS = (
 )
 
 ############## BUSINESS SYSTEM #################
-XIAODUN_BACK_HOST = 'http://119.90.15.153/app'
+XIAODUN_BACK_HOST = 'http://172.30.2.6/app'
 
 ############## video mettings ##################
 VEDIO_MEETING_DOMAIN = "http://passport.guoshi.com/mp"
