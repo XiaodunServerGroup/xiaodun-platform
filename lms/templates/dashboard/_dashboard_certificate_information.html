@@ -54,14 +54,14 @@ else:
     });
 
 </script>
-
+%if role== 2:
 <div class="message message-status ${status_css_class} is-shown">
-    <span>
+    <span style="display: none;">
       ${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}
     </span>
 
         <span>
-              %if role== 2:
+
                 %if course.cert_status == 0:
                     <a id="${course.cert_index}" href="javascript:void(0)">证书申请</a>
                 %elif course.cert_status == 2:
@@ -69,7 +69,7 @@ else:
                 %else:
                     <a id="${course.cert_index}" href="javascript:void(0)">正在申请中</a>
                 %endif
-              %endif
+
         </span>
 
 <!--
@@ -124,4 +124,5 @@ else:
 % endif
 -->
 </div>
+%endif
 
