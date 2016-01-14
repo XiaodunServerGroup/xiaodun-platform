@@ -185,9 +185,9 @@ require(["domReady!", "jquery", "jquery.form", "js/index"], function(doc, $) {
                     <!--<script src="${settings.XIAODUN_BACK_HOST}/dictionaryRs.jsp?divid=field-course-level&code=course_level&selectname=new-course-level&id=new-course-level&class=new-course-level"></script>-->
                 </li>
 
-                <li class="field text required" id="field-course-price">
+                <li class="field text required" id="field-course-price"  style="display: none;">
                   <label for="new-course-price">课程价格</label>                  
-                  <input class="new-course-price" id="new-course-price" type="text" name="new-course-price" aria-required="false" placeholder="课程价格" />
+                  <input class="new-course-price" id="new-course-price" type="hidden" name="new-course-price"   value="0"/>
                   <span class='tip'>请填写课程价格，不填默认为0</span>
                 </li>
                 <li class="field text required" id="field-organization">
