@@ -1349,7 +1349,7 @@ def login_user(request, error=""):
                 "value": '验证码错误',
             })
 
-    if user is not None and user.is_active:
+    if user is not None and user.is_active ==1:
         try:
             # We do not log here, because we have a handler registered
             # to perform logging on successful logins.
@@ -1399,9 +1399,12 @@ def login_user(request, error=""):
         AUDIT_LOG.warning(u"Login failed - Account not active for user.id: {0}, resending activation".format(user.id))
     else:
         AUDIT_LOG.warning(u"Login failed - Account not active for user {0}, resending activation".format(username))
+    if user.is_active == 0:
+        reactivation_email_for_user(user)
 
-    reactivation_email_for_user(user)
-    not_activated_msg = _("This account has not been activated. We have sent another activation message. Please check your e-mail for the activation instructions.")
+        not_activated_msg = _("This account has not been activated. We have sent another activation message. Please check your e-mail for the activation instructions.")
+    else:
+        not_activated_msg ="您的帐号已经停用"
     return JsonResponse({
         "success": False,
         "value": not_activated_msg,
@@ -2627,7 +2630,7 @@ def bs_ban_account(request, user_name):
     if active_status == 'yes':
         active_status = 1
     elif active_status == 'no':
-        active_status = 0
+        active_status = 2
     else:
         uniform_re['errmsg'] = 'can not realize operation!'
         return JsonResponse(uniform_re)
