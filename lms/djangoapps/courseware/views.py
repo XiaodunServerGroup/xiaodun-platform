@@ -330,6 +330,55 @@ def mobi_course_info(request, course, action=None):
     return result
 
 
+def bs_mobi_course_info(request, course, action=None):
+    course_logo = course_image_url(course)
+    host = 'http://mooc.xiaodun.cn'
+
+    try:
+        user = request.user
+    except:
+        user = AnonymousUser()
+
+    cp = 0.0
+    if not hasattr(course,"display_course_price_with_default"):
+        cp = 0.0
+    else:
+        if not course.display_course_price_with_default:
+            cp = 0.0
+        else:
+            cp = course.display_course_price_with_default
+
+    result = {
+        "id": course.id.replace('/', '.'),
+        "name": course.display_name_with_default,
+        "logo": host + course_logo,
+        "org": course.display_org_with_default,
+        "course_number": course.display_number_with_default,
+        "start_date": course.start.strftime("%Y-%m-%d"),
+        "course_category": course.course_category,
+        "course_level": course.course_level,
+        "registered": registered_for_course(course, user),
+        "about": get_course_about_section(course, 'short_description'),
+        "category": course.category,
+        "course_price": float('%0.2f' % int(cp))
+    }
+
+    def compute_action_imgurl(imgname):
+        course_mini_info = course.id.split('/')
+        asset_location = StaticContent.compute_location(course_mini_info[0], course_mini_info[1], imgname)
+
+        return host + StaticContent.get_url_path_from_location(asset_location)
+
+
+    for imgname in ['mobi', 'mobi_r', 'ott_r']:
+        try:
+            result[imgname] = compute_action_imgurl(imgname + '_logo.jpg')
+        except:
+            result[imgname] = host + course_logo
+
+    return result
+
+
 def _course_info_content(html_parsed):
     """
     Constructs the HTML for the course info update, not including the header.
@@ -1278,7 +1327,7 @@ def get_course_info(request):
     course_list = []
 
     try:
-        course_json = mobi_course_info(request, course, 'sync')
+        course_json = bs_mobi_course_info(request, course, 'sync')
         course_list.append(course_json)
     except:
         pass
