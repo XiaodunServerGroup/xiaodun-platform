@@ -741,7 +741,7 @@ def dashboard(request):
             if data['finish']:
                 cert_status = data['status']
                 if data['url'] != '':
-                    course.cert_url = settings.XIAODUN_BACK_HOST+data['url']
+                    course.cert_url = settings.XIAODUN_BACK_HOST_EXTERNAL+data['url']
                 else:
                     course.cert_url = cert_url
         else:
@@ -1213,7 +1213,7 @@ def bs_message(request):
     """
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
-    request_host = settings.XIAODUN_BACK_HOST
+    request_host = settings.XIAODUN_BACK_HOST_EXTERNAL
     request_url = '{}/news/news!view.do?type=st'.format(request_host)
     if user_profile.profile_role == "th":
         request_url = '{}/news/news!view.do?type=th'.format(request_host)
@@ -1228,7 +1228,7 @@ def bs_course(request):
     business system certificate looking
     """
     user = request.user
-    request_host = settings.XIAODUN_BACK_HOST
+    request_host = settings.XIAODUN_BACK_HOST_EXTERNAL
     request_url = '{}/calendar/calendar!view.do'.format(request_host)
 
     return render_to_response("bs_course.html",{"request_url":request_url})

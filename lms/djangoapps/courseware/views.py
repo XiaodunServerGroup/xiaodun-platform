@@ -1003,7 +1003,7 @@ def course_about(request, course_id):
     print reg_then_add_to_cart_link
     print show_courseware_link
     print is_course_full
-    print '{}/order/order!pay.do?username={}&courseid={}'.format(settings.XIAODUN_BACK_HOST, request.user.username,bs_course_id)
+    print '{}/order/order!pay.do?username={}&courseid={}'.format(settings.XIAODUN_BACK_HOST_EXTERNAL, request.user.username,bs_course_id)
     print '*********************'
 
     return render_to_response('courseware/course_about.html',
@@ -1015,7 +1015,7 @@ def course_about(request, course_id):
                                'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
                                'show_courseware_link': show_courseware_link,
                                'is_course_full': is_course_full,
-                               'purchase_link': '{}/order/order!pay.do?username={}&courseid={}'.format(settings.XIAODUN_BACK_HOST, request.user.username,bs_course_id),
+                               'purchase_link': '{}/order/order!pay.do?username={}&courseid={}'.format(settings.XIAODUN_BACK_HOST_EXTERNAL, request.user.username,bs_course_id),
                                'purchased': registered})
 
 
