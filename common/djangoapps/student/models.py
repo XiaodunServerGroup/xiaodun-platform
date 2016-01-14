@@ -224,6 +224,8 @@ class UserProfile(models.Model):
     country = CountryField(blank=True, null=True)
     goals = models.TextField(blank=True, null=True)
     allow_certificate = models.BooleanField(default=1)
+    stop = models.IntegerField(default=0)
+
 
     def get_meta(self):
         js_str = self.meta

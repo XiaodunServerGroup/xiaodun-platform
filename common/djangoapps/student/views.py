@@ -1349,7 +1349,7 @@ def login_user(request, error=""):
                 "value": '验证码错误',
             })
 
-    if user is not None and user.is_active ==1:
+    if user is not None and user.is_active and user_profile.stop == 0:
         try:
             # We do not log here, because we have a handler registered
             # to perform logging on successful logins.
@@ -1399,7 +1399,7 @@ def login_user(request, error=""):
         AUDIT_LOG.warning(u"Login failed - Account not active for user.id: {0}, resending activation".format(user.id))
     else:
         AUDIT_LOG.warning(u"Login failed - Account not active for user {0}, resending activation".format(username))
-    if user.is_active == 0:
+    if user_profile.stop == 0:
         reactivation_email_for_user(user)
 
         not_activated_msg = _("This account has not been activated. We have sent another activation message. Please check your e-mail for the activation instructions.")
@@ -2608,37 +2608,41 @@ def bs_ban_account(request, user_name):
     request_method = request.method
     if request_method != 'POST':
         uniform_re['errmsg'] = 'Only POST request support!'
-
     try:
         for key in request.POST.keys():
             re_json = json.loads(key)
             break
+        print '================re_json============='
+        print re_json
         active_status = re_json.get('is_active').lower()
+        print '==============re_json====================='
+        print active_status
     except:
-        active_status = 'yes'
+        active_status = ''
 
     if active_status is None:
         uniform_re['errmsg'] = 'params error!'
         return JsonResponse(uniform_re)
 
-    oper_active_user = User.objects.get(username=user_name)
+    active_user = User.objects.get(username=user_name)
+    oper_active_user = UserProfile.objects.get(user=active_user)
 
     if oper_active_user is None:
         uniform_re['errmsg'] = 'can not find the user with username ' + user_name
         return JsonResponse(uniform_re)
 
     if active_status == 'yes':
-        active_status = 1
+        active_status = 0
     elif active_status == 'no':
-        active_status = 2
+        active_status = 1
     else:
         uniform_re['errmsg'] = 'can not realize operation!'
         return JsonResponse(uniform_re)
-    if active_status == oper_active_user.is_active:
+    if active_status == oper_active_user.stop:
         uniform_re['errmsg'] = 'user has activated!' if oper_active_user.is_active else "user has been disabled!"
         return JsonResponse(uniform_re)
 
-    oper_active_user.is_active = active_status
+    oper_active_user.stop = active_status
     try:
         oper_active_user.save()
     except:
