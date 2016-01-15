@@ -1276,6 +1276,7 @@ def login_user(request, error=""):
     # check user role rejetc login when student login cms
     if user is not None:
         studio_name = settings.ROOT_URLCONF.split(".")[0]
+
         user_profile = UserProfile.objects.get(user=user)
         if studio_name == "cms" and user_profile.profile_role != "th":
             user = None;
@@ -1340,6 +1341,14 @@ def login_user(request, error=""):
     if LoginFailures.is_feature_enabled():
         LoginFailures.clear_lockout_counter(user)
 
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+    except:
+        return JsonResponse({
+            "success": False,
+            "value": _('Email or password is incorrect.'),
+            "failure_auth_count": failure_auth_count,})
+
     if failure_auth_count > 3: 
         form_captcha = CaptchaLoginForm(request.POST)
         if form_captcha.is_valid():
@@ -1349,6 +1358,7 @@ def login_user(request, error=""):
                 "success": False,
                 "value": '验证码错误',
             })
+
 
     if user is not None and user.is_active and user_profile.stop == 0:
         try:
