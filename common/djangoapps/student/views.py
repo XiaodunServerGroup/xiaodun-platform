@@ -704,9 +704,9 @@ def dashboard(request):
 
 
     user_profile = UserProfile.objects.get(user=user)
-    role = 1
+    role = 2
     if user_profile.profile_role == "st":
-        role = 2
+        role = 1
     if user_profile.profile_role == "in":
         role = 3
 
@@ -717,7 +717,7 @@ def dashboard(request):
         socket.setdefaulttimeout(10)
 
         print '=================request_url=11111======================='
-        print role
+        print request_url,role
 
         try:
             req = urllib2.Request(request_url)
@@ -726,6 +726,7 @@ def dashboard(request):
             request_json = simplejson.loads(content)
             if request_json.get('success', ''):
                 is_record = 1
+
         except:
             pass
 

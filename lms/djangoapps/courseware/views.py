@@ -1340,9 +1340,9 @@ def record_login_info(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
     re_json = {"success": False}
-    role = 2
+    role = 1
     if user_profile.profile_role == "th":
-        role = 1
+        role = 2
     request_host = settings.XIAODUN_BACK_HOST
     request_url = '{}/check/check!check.do?username={}&role={}'.format(request_host, user.username,role)
     socket.setdefaulttimeout(10)
