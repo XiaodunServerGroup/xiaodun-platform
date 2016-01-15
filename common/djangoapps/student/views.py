@@ -2612,20 +2612,20 @@ def bs_ban_account(request, user_name):
         for key in request.POST.keys():
             re_json = json.loads(key)
             break
-        print '================re_json============='
-        print re_json
         active_status = re_json.get('is_active').lower()
-        print '==============re_json====================='
-        print active_status
     except:
-        active_status = ''
+        active_status = None
 
     if active_status is None:
         uniform_re['errmsg'] = 'params error!'
         return JsonResponse(uniform_re)
 
-    active_user = User.objects.get(username=user_name)
-    oper_active_user = UserProfile.objects.get(user=active_user)
+    try:
+        active_user = User.objects.get(username=user_name)
+        oper_active_user = UserProfile.objects.get(user=active_user)
+    except:
+        uniform_re['errmsg'] = 'can not find the user with username ' + user_name
+        return JsonResponse(uniform_re)
 
     if oper_active_user is None:
         uniform_re['errmsg'] = 'can not find the user with username ' + user_name
