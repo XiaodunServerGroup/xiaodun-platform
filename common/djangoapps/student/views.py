@@ -2615,7 +2615,6 @@ def bs_ban_account(request, user_name):
         active_status = re_json.get('is_active').lower()
     except:
         active_status = None
-
     if active_status is None:
         uniform_re['errmsg'] = 'params error!'
         return JsonResponse(uniform_re)
@@ -2639,7 +2638,7 @@ def bs_ban_account(request, user_name):
         uniform_re['errmsg'] = 'can not realize operation!'
         return JsonResponse(uniform_re)
     if active_status == oper_active_user.stop:
-        uniform_re['errmsg'] = 'user has activated!' if oper_active_user.is_active else "user has been disabled!"
+        uniform_re['errmsg'] = 'user has activated!' if oper_active_user.stop == 0 else "user has been disabled!"
         return JsonResponse(uniform_re)
 
     oper_active_user.stop = active_status
