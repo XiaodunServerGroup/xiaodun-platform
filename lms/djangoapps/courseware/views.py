@@ -1316,6 +1316,8 @@ def get_courses_id(request):
     courses = get_courses(user, request.META.get('HTTP_HOST'))
     courses = sort_by_announcement(courses)
     print len(courses)
+
+    courses = sorted(courses,key=lambda course: course.start)
     all_course_id = [c.id.replace('/','.') for c in courses]
     return JsonResponse(all_course_id)
 
