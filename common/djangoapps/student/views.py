@@ -736,7 +736,7 @@ def dashboard(request):
     cert_index = 1
 
     for course, enrollment in course_enrollment_pairs:
-        if role ==2:
+        if role ==1:
             data = check_cert_bs(user,course.id)
 
             if data['finish']:
