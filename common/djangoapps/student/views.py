@@ -704,9 +704,9 @@ def dashboard(request):
 
 
     user_profile = UserProfile.objects.get(user=user)
-    role = 2
-    if user_profile.profile_role == "st":
-        role = 1
+    role = 1
+    if user_profile.profile_role == "th":
+        role = 2
     if user_profile.profile_role == "in":
         role = 3
 
