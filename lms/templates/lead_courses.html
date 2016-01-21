@@ -57,13 +57,41 @@ function chkform(){
             <div class="filter-title fl"><span>课程-筛选:</span></div>
             <div class="filter-ul fl">
               <ul id="searbar">
+                        <li id="basesearbar" class="tab1"><div><strong>机构：</strong><span></span></div></li>
                       <li id="subjectsearbar" class="tab1"><div><strong>科目：</strong><span></span></div></li>
-                      <li id="basesearbar" class="tab1"><div><strong>机构：</strong><span></span></div></li>
+
                       <li id="levelsearbar" class="tab1"><div><strong>级别：</strong><span></span></div></li>
               </ul>
             </div>
           </div>
           <div class="select-menu">
+              <div class="select-agency">
+                  <div class="agency">
+                      <div class="agency-left">机构：</div>
+                      <div class="agency-right">
+                          <ul id="base">
+                              <li name="all"><span>全部</span></li>
+                              % if org:
+                              % for o in org:
+                              % if orgCon and (o[0] in orgCon or "all" in orgCon):
+                              <li class="live" name="${o[1]}"><span>${o[0]}</span></li>
+                              % else:
+                              <li name="${o[1]}"><span>${o[0]}</span></li>
+                              % endif
+                              % endfor
+                              % endif
+                              <!--
+                              <li name="北邮信息安全中心"><span>北邮信息安全中心</span></li>
+                              <li name="启明星辰"><span>启明星辰</span></li>
+                              <li name="戴威尔"><span>戴威尔</span></li>
+                              <li name="亭长郎然"><span>亭长郎然</span></li>
+                              -->
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+
+
             <div class="select-subject">
               <div class="subject">
                 <div class="subject-left">科目：</div>
@@ -89,31 +117,7 @@ function chkform(){
                 </div>
               </div>
             </div>
-            <div class="select-agency">
-              <div class="agency">
-                <div class="agency-left">机构：</div>
-                <div class="agency-right">
-                  <ul id="base">
-                    <li name="all"><span>全部</span></li>
-                    % if org:
-                      % for o in org:
-                        % if orgCon and (o[0] in orgCon or "all" in orgCon):
-                          <li class="live" name="${o[1]}"><span>${o[0]}</span></li>
-                        % else:
-                          <li name="${o[1]}"><span>${o[0]}</span></li>
-                        % endif
-                      % endfor
-                    % endif
-                    <!--
-                    <li name="北邮信息安全中心"><span>北邮信息安全中心</span></li>
-                    <li name="启明星辰"><span>启明星辰</span></li>
-                    <li name="戴威尔"><span>戴威尔</span></li>
-                    <li name="亭长郎然"><span>亭长郎然</span></li>
-                    -->
-                  </ul>
-                </div>
-              </div>
-            </div>
+
             <div class="select-level">
               <div class="level">
               <div class="level-left">级别：</div>
